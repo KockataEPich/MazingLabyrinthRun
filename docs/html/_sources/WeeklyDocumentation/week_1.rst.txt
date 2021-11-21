@@ -1,0 +1,11 @@
+.. _week_1_doc:
+Week 1 22 Nov 2021
+==============================================
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
