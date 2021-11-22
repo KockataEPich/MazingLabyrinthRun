@@ -5,14 +5,15 @@ Weekly Progress Documentation for MazingLabyrinthRun
 
 The weekly progress documentation is structured in the following way:
 	
-	* Bullet1
-	* Bullet2
-	* Bullet3
+	* Retrospect - Retrospection to the research points and challenges faced in previous week
+	* Week Plan - The plan for the next week including what tickets are being worked on currently
+	* Research Points - Decisions which can't be taken right now because of lack of information
 
 
+Week List:
+-----------
 .. toctree::
    :maxdepth: 1
-   :caption: Weeks:
    
    Week1
 ..   Week2
