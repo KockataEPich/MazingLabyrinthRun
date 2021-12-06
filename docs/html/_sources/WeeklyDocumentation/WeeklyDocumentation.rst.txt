@@ -17,7 +17,7 @@ Week List:
    
    Week1
    Week2
-..   Week3
+   Week3
 ..   Week4
 ..   Week5
 ..   Week6
