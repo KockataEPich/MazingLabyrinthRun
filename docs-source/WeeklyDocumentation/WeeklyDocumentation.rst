@@ -21,3 +21,4 @@ Week List:
    Week4
    Week5
    Week6
+   Week7
