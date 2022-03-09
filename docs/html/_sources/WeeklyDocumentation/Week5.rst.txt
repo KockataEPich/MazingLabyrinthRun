@@ -3,11 +3,11 @@
 Week 5
 ==============================================
 
-Date: 20/December/2021
+Date: 21/December/2021
 
 Retrospect
 ------------------------
-- First Diagram of project is done
+- First diagram of project is done
 
 .. image:: week5/first_diagram.png
   :width: 400
