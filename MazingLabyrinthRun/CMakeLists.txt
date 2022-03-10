@@ -6,8 +6,19 @@ project(MazingLabyrinthRun
 
 add_subdirectory(dependencies)
 
-add_executable(MazingLabyrinthRun code/include/main.h code/src/main.cpp)
-target_link_libraries(MazingLabyrinthRun PRIVATE ImGui-SFML::ImGui-SFML)
+add_library(MazingLabyrinthRunLib 
+				STATIC 
+				code/include/mazingLabyrinthRun.h
+                code/include/game.h 
+                code/include/tile.h
+				code/src/mazingLabyrinthRun.cpp
+                code/src/game.cpp
+                code/src/tile.cpp)
+
+target_link_libraries(MazingLabyrinthRunLib PRIVATE ImGui-SFML::ImGui-SFML)
+
+add_executable(MazingLabyrinthRun code/src/main.cpp)
+target_link_libraries(MazingLabyrinthRun PUBLIC MazingLabyrinthRunLib)
 
 # Copy DLLs needed for runtime on Windows
 if(WIN32)
@@ -22,3 +33,4 @@ if(WIN32)
   endif()
 endif()
 
+add_subdirectory(code/test)

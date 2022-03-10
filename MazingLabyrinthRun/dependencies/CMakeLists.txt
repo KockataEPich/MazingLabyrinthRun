@@ -24,3 +24,13 @@ FetchContent_Declare(
   GIT_TAG 82dc2033e51b8323857c3ae1cf1f458b3a933c35 # 2.3
 )
 add_subdirectory(imgui-sfml)
+
+Include(FetchContent)
+
+FetchContent_Declare(
+  Catch2
+  GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+  GIT_TAG        v3.0.0-preview3
+)
+
+FetchContent_MakeAvailable(Catch2)
