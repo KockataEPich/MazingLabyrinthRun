@@ -1,25 +1,27 @@
-#include "../include/tile.h"
+#include "../include/tile/iTile.h"
+#include "../include/tile/path.h"
+#include "../include/tile/wall.h"
+#include "../include/tile/tileEnum.h"
+#include "../include/tile/tileFactory.h"
 
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <vector>
+#include <memory>
 
 class Game {
 public:
 	Game();
-
-	std::vector<sf::Drawable*> drawable_components() {
-		return m_drawable_components;
-	}
-
-	std::vector<std::vector<Tile>> display_matrix() {
-		return m_display_matrix;
-	}
-
 	void update();
+	std::vector<std::unique_ptr<ITile>> m_tiles;
+	void fill_map();
 
 private:
-	sf::RectangleShape m_square;
-	std::vector<sf::Drawable*> m_drawable_components;
-	std::vector<std::vector<Tile>> m_display_matrix;
+	TileFactory tileFactory;
+
+	
+	void process_tile(const TileType& type);
+
+	
+
 };

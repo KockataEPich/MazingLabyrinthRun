@@ -10,11 +10,18 @@ add_library(MazingLabyrinthRunLib
 				STATIC 
 				code/include/mazingLabyrinthRun.h
                 code/include/game.h 
-                code/include/tile.h
+                code/include/tile/iTile.h
+				code/include/tile/wall.h
+				code/include/tile/path.h
+                code/include/tile/tileEnum.h
+                code/include/tile/tileFactory.h
 				code/src/mazingLabyrinthRun.cpp
                 code/src/game.cpp
-                code/src/tile.cpp)
+                code/src/tile/wall.cpp
+				code/src/tile/path.cpp
+                code/src/tile/tileFactory.cpp)
 
+target_include_directories(MazingLabyrinthRunLib PRIVATE code/src PUBLIC code/include)
 target_link_libraries(MazingLabyrinthRunLib PRIVATE ImGui-SFML::ImGui-SFML)
 
 add_executable(MazingLabyrinthRun code/src/main.cpp)
