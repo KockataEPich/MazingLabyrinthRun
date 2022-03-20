@@ -1,13 +1,14 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Texture.hpp>
-#include <SFML/Graphics/Transformable.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
-class TreeTile : public sf::Drawable, public sf::Transformable {
+class TreeTile : public sf::Sprite{
 public:
 	TreeTile(const sf::Vector2f& position) {
 		m_texture.loadFromFile(
-			"C:/Personal/MazingLabyrinthRun/MazingLabyrinthRun/build/Debug/tree_tile.png");
+			"tree.png");
 
+		this->setTexture(m_texture);
 		this->setPosition(position);
 	}
 

@@ -1,6 +1,7 @@
 #include "../include/mazingLabyrinthRun.h"
 #include "../include/game.h"
 #include "../include/tile/tileMap.h"
+#include "../include/tile/tree.h"
 
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -23,7 +24,7 @@ void MazingLabyrinthRun::start_game() {
 
 	// create the tilemap from the level definition
 	TileMap map;
-	if(!map.load("C:/Personal/MazingLabyrinthRun/MazingLabyrinthRun/build/Debug/tileset.png",
+	if(!map.load("tileset.png",
 				 sf::Vector2u(32, 32),
 				 level,
 				 16,
@@ -39,9 +40,11 @@ void MazingLabyrinthRun::start_game() {
 				window.close();
 		}
 
+		TreeTile tile(sf::Vector2f(100.0f, 100.0f));
 		// draw the map
 		window.clear();
-		window.draw(map);
+		window.draw(tile);
+		//window.draw(map);
 		window.display();
 	}
 
