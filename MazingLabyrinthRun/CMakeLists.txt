@@ -6,25 +6,25 @@ project(MazingLabyrinthRun
 
 add_subdirectory(dependencies)
 
+set(_src_root_path "${CMAKE_CURRENT_SOURCE_DIR}/code")
+
+file(
+    GLOB_RECURSE _source_list 
+    LIST_DIRECTORIES false
+    "${_src_root_path}/src/*.c*"
+    "${_src_root_path}/include/*.h*"
+)
+
 add_library(MazingLabyrinthRunLib 
 				STATIC 
-				code/include/mazingLabyrinthRun.h
-                code/include/game.h 
-                code/include/tile/iTile.h
-				code/include/tile/wall.h
-				code/include/tile/path.h
-                code/include/tile/tileEnum.h
-                code/include/tile/tileFactory.h
-				code/include/tile/tileMap.h
-				code/include/tile/tree.h
-				code/src/mazingLabyrinthRun.cpp
-                code/src/game.cpp
-                code/src/tile/wall.cpp
-				code/src/tile/path.cpp
-                code/src/tile/tileFactory.cpp
-				code/src/tile/tileMap.cpp
-				code/src/tile/tree.cpp)
+				${_source_list})
 				
+foreach(_source IN ITEMS ${_source_list})
+    get_filename_component(_source_path "${_source}" PATH)
+    file(RELATIVE_PATH _source_path_rel "${_src_root_path}" "${_source_path}")
+    string(REPLACE "/" "\\" _group_path "${_source_path_rel}")
+    source_group("${_group_path}" FILES "${_source}")
+endforeach()	
 
 target_include_directories(MazingLabyrinthRunLib PRIVATE code/src PUBLIC code/include)
 target_link_libraries(MazingLabyrinthRunLib PRIVATE ImGui-SFML::ImGui-SFML)
