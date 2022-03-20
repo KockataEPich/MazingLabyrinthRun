@@ -13,14 +13,14 @@ std::unique_ptr<ITile> TileFactory::create(const TileType& type,
 	switch(type) {
 	case TileType::path: {
 		auto path_tile = std::make_unique<PathTile>();
-		path_tile.get()->setPosition(static_cast<float>(coordinates.first * 36),
-									 static_cast<float>(coordinates.second * 36));
+		path_tile.get()->setPosition(static_cast<float>(coordinates.first * tileSize.x),
+									 static_cast<float>(coordinates.second * tileSize.y));
 		return path_tile;
 	}
 	case TileType::wall: {
 		auto wall_tile = std::make_unique<WallTile>();
-		wall_tile.get()->setPosition(static_cast<float>(coordinates.first * 36),
-									 static_cast<float>(coordinates.second * 36));
+		wall_tile.get()->setPosition(static_cast<float>(coordinates.first * tileSize.x),
+									 static_cast<float>(coordinates.second * tileSize.y));
 		return wall_tile;
 	}
 	}
