@@ -6,6 +6,8 @@ project(MazingLabyrinthRun
 
 add_subdirectory(dependencies)
 
+
+
 set(_src_root_path "${CMAKE_CURRENT_SOURCE_DIR}/code")
 
 file(
@@ -19,6 +21,8 @@ add_library(MazingLabyrinthRunLib
 				STATIC 
 				${_source_list})
 				
+target_include_directories(MazingLabyrinthRunLib PRIVATE code/src PUBLIC code/include PUBLIC build/_deps/sfml-src/include)
+
 foreach(_source IN ITEMS ${_source_list})
     get_filename_component(_source_path "${_source}" PATH)
     file(RELATIVE_PATH _source_path_rel "${_src_root_path}" "${_source_path}")
@@ -26,7 +30,7 @@ foreach(_source IN ITEMS ${_source_list})
     source_group("${_group_path}" FILES "${_source}")
 endforeach()	
 
-target_include_directories(MazingLabyrinthRunLib PRIVATE code/src PUBLIC code/include)
+
 target_link_libraries(MazingLabyrinthRunLib PRIVATE ImGui-SFML::ImGui-SFML)
 
 add_executable(MazingLabyrinthRun code/src/main.cpp)

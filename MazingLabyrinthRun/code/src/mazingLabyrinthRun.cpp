@@ -20,7 +20,7 @@ void MazingLabyrinthRun::update() {
 void MazingLabyrinthRun::render() {
 	TreeTile tile(sf::Vector2f(100.0f, 100.0f));
 	m_window.beginDraw();
-	m_window.draw(tile);
+	//m_window.draw(tile);
 	m_window.endDraw();
 }
 
