@@ -1,4 +1,6 @@
 #include "window/gameWindow.h"
+#include "tile/tileFactory.h"
+
 
 class MazingLabyrinthRun {
 public:
@@ -14,4 +16,6 @@ public:
 private:
 	void moveBall();
 	GameWindow m_window;
+	TextureManager m_textureManager;
+	TileFactory m_tileFactory{m_textureManager};
 };

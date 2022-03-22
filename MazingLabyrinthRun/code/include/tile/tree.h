@@ -1,17 +1,17 @@
+#ifndef TREE_TILE_HEADER
+#define TREE_TILE_HEADER
+
 #include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 
-class TreeTile : public sf::Sprite{
+class TreeTile : public ITile {
 public:
-	TreeTile(const sf::Vector2f& position) {
-		m_texture.loadFromFile(
-			"tree.png");
+	TreeTile() { m_tileTexture = Textures::tree; }
 
-		this->setTexture(m_texture);
-		this->setPosition(position);
-	}
-
-private:
-	sf::Texture m_texture;
+	bool isWalkable() const override { return false; }
 };
+
+#endif // !TREE_TILE_HEADER
+
+
