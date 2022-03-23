@@ -1,11 +1,5 @@
-#include "../include/tile/iTile.h"
-#include "../include/tile/tileEnum.h"
-#include "../include/tile/tileFactory.h"
-
-#include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/RectangleShape.hpp>
-#include <vector>
-#include <memory>
+#ifndef GAME_HEADER_H
+#define GAME_HEADER_H
 
 class Game {
 public:
@@ -14,3 +8,5 @@ public:
 private:
 
 };
+
+#endif
