@@ -9,6 +9,8 @@ sf::Texture& TextureManager::getTexture(const Textures& texture) {
 		return m_treeTexture;
 	case Textures::rock:
 		return m_rockTexture;
+	case Textures::grass:
+		return m_grassTexture;
 	default:
 		throw std::runtime_error("A member function for texture is not defined");
 	}
@@ -20,6 +22,8 @@ std::string TextureManager::getFileOfTexture(const Textures& texture) {
 		return "tree.png";
 	case Textures::rock:
 		return "rock.png";
+	case Textures::grass:
+		return "grass.png";
 	default:
 		throw std::runtime_error("A file is not defined for texture");
 	}

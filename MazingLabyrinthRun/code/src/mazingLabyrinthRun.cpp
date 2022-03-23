@@ -22,12 +22,12 @@ void MazingLabyrinthRun::render() {
 	auto rock_tile = m_tileFactory.create(TileType::rock, sf::Vector2f(150.0f, 150.0f));
 	auto rock2_tile = m_tileFactory.create(TileType::rock, sf::Vector2f(299.0f, 200.0f));
 	auto tree2_tile = m_tileFactory.create(TileType::tree, sf::Vector2f(299.0f, 200.0f));
-
+	auto grass_tile = m_tileFactory.create(TileType::grass, sf::Vector2f(400.0f, 200.0f));
 	m_window.beginDraw();
 	m_window.draw(tree_tile.get()->getSprite());
 	m_window.draw(rock_tile.get()->getSprite());
 	m_window.draw(rock2_tile.get()->getSprite());
-	m_window.draw(tree2_tile.get()->getSprite());
+	m_window.draw(grass_tile.get()->getSprite());
 	m_window.endDraw();
 }
 

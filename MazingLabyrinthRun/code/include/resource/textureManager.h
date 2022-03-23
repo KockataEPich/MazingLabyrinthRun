@@ -13,6 +13,7 @@ public:
 private:
 	sf::Texture m_treeTexture;
 	sf::Texture m_rockTexture;
+	sf::Texture m_grassTexture;
 
 	void loadTextures();
 	std::string getFileOfTexture(const Textures& texture);
