@@ -1,16 +1,28 @@
 #ifndef I_TILE_HEADER
 #define I_TILE_HEADER
 
-#include <SFML/Graphics/RectangleShape.hpp>
-#include <string>
-const sf::Vector2f tileSize{36.0f, 36.0f};
+#include "../resource/textureEnum.h"
 
-class ITile : public sf::RectangleShape {
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
+
+#include <string>
+
+const sf::Vector2f tileSize{1.0f, 1.0f};
+
+class ITile {
 public:
-	ITile() { setSize(tileSize); };
+	ITile() { m_sprite.setScale(tileSize); };
+
 	virtual bool isWalkable() const = 0;
 
-private:
+	Textures getTextureOfTile() { return m_tileTexture; };
+
+	sf::Sprite& getSprite() { return m_sprite; }
+
+protected:
+	Textures m_tileTexture;
+	sf::Sprite m_sprite;
 };
 
 #endif
