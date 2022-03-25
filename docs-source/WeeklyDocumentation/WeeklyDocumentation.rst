@@ -9,9 +9,6 @@ The weekly progress documentation is structured in the following way:
 	* Week Plan - The plan for the next week including what tickets are being worked on currently
 	* Research Points - Decisions which can't be taken right now because of lack of information
 
-
-Week List:
------------
 .. toctree::
    :maxdepth: 1
    

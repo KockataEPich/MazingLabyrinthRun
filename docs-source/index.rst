@@ -6,7 +6,6 @@ Welcome to MazingLabyrinthRun's documentation!
    :caption: Contents:
    
    WeeklyDocumentation/WeeklyDocumentation
+   Blog/Blog
 		
 
-
-Code Documentation
