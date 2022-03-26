@@ -3,7 +3,8 @@
 
 #include "tile/tileFactory.h"
 #include "window/gameWindow.h"
-#include "world/spriteHolder.h"
+#include "world/worldObjectHolder.h"
+#include "player/player.h"
 
 #include <SFML/Graphics/Texture.hpp>
 
@@ -19,14 +20,14 @@ public:
 	GameWindow& getWindow() { return m_window; };
 
 private:
-	void moveBall();
 	GameWindow m_window;
 	TextureManager m_textureManager;
 	TileFactory m_tileFactory{m_textureManager};
-	SpriteHolder m_spriteHolder;
+	WorldObjectHolder m_worldObjectHolder;
+	Player m_player;
 
-	sf::Sprite m_player;
-	sf::Texture m_player_texture;
+	void moveBall();
+	void initialize_game();
 };
 
 #endif // !MAZING_LABYRINTH_RUN_HEADER_H

@@ -1,11 +1,11 @@
 #ifndef I_TILE_HEADER
 #define I_TILE_HEADER
 
-#include "../resource/textureEnum.h"
-#include "../world/iWorldObject.h"
-
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
+
+#include "../resource/textureEnum.h"
+#include "../world/iWorldObject.h"
 
 #include <string>
 

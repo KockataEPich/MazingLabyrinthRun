@@ -2,6 +2,9 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 
+#include "../world/iWorldObject.h"
+#include "../world/worldObjectHolder.h"
+
 class GameWindow {
 public:
 	GameWindow();
@@ -17,6 +20,8 @@ public:
 
 	void toggleFullscreen();
 	void draw(sf::Drawable& drawable);
+	void draw(IWorldObject& worldObject);
+	void draw(WorldObjectHolder& worldObjectHolder);
 
 private:
 	sf::RenderWindow m_gameWindow;

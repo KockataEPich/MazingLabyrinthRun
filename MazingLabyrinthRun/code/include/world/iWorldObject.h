@@ -1,5 +1,5 @@
 #ifndef WORLD_OBJECT_HEADER_H
-#	define WORLD_OBJECT_HEADER_H
+#define WORLD_OBJECT_HEADER_H
 
 #include <SFML/Graphics/Sprite.hpp>
 /*
@@ -14,6 +14,5 @@ public:
 protected:
 	sf::Sprite m_sprite;
 };
-
 
 #endif
