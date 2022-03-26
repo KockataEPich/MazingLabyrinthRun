@@ -25,6 +25,7 @@ void GameWindow::destroy() { m_gameWindow.close(); }
 bool GameWindow::isDone() { return m_isDone; }
 bool GameWindow::isFullscreen() { return m_isFullscreen; }
 sf::Vector2u GameWindow::getWindowSize() { return m_windowSize; }
+void GameWindow::setView(sf::View& view) { return m_gameWindow.setView(view); }
 
 void GameWindow::update() {
 	sf::Event event;

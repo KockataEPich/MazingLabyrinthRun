@@ -7,6 +7,7 @@
 #include "player/player.h"
 
 #include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/View.hpp>
 
 class MazingLabyrinthRun {
 public:
@@ -25,6 +26,8 @@ private:
 	TileFactory m_tileFactory{m_textureManager};
 	WorldObjectHolder m_worldObjectHolder;
 	Player m_player;
+
+	sf::View m_camera;
 
 	void moveBall();
 	void initialize_game();

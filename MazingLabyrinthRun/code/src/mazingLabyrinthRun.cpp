@@ -12,6 +12,8 @@ MazingLabyrinthRun::MazingLabyrinthRun()
 };
 
 void MazingLabyrinthRun::initialize_game() {
+	m_camera = sf::View(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(m_window.getWindowSize().x, m_window.getWindowSize().y));
+
 	//populate the world with grass
 	int tiles_x = m_window.getWindowSize().x / 32;
 	int tiles_y = m_window.getWindowSize().y / 32;
@@ -22,9 +24,23 @@ void MazingLabyrinthRun::initialize_game() {
 				*m_tileFactory.create(TileType::grass, sf::Vector2f(i, j)));
 }
 
-void MazingLabyrinthRun::handleInput() { }
+void MazingLabyrinthRun::handleInput() { 
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		m_player.moveRight();
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		m_player.moveLeft();
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		m_player.moveDown();
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		m_player.moveUp();
 
-void MazingLabyrinthRun::update() { m_window.update(); }
+}
+
+void MazingLabyrinthRun::update() { m_window.update();
+	handleInput();
+	m_camera.setCenter(m_player.getPosition());
+	m_window.setView(m_camera);
+}
 
 void MazingLabyrinthRun::render() {
 	m_window.beginDraw();
