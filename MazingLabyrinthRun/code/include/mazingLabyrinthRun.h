@@ -1,6 +1,12 @@
-#include "window/gameWindow.h"
-#include "tile/tileFactory.h"
+#ifndef MAZING_LABYRINTH_RUN_HEADER_H
+#define MAZING_LABYRINTH_RUN_HEADER_H
 
+#include "tile/tileFactory.h"
+#include "window/gameWindow.h"
+#include "world/worldObjectHolder.h"
+#include "player/player.h"
+
+#include <SFML/Graphics/Texture.hpp>
 
 class MazingLabyrinthRun {
 public:
@@ -14,8 +20,14 @@ public:
 	GameWindow& getWindow() { return m_window; };
 
 private:
-	void moveBall();
 	GameWindow m_window;
 	TextureManager m_textureManager;
 	TileFactory m_tileFactory{m_textureManager};
+	WorldObjectHolder m_worldObjectHolder;
+	Player m_player;
+
+	void moveBall();
+	void initialize_game();
 };
+
+#endif // !MAZING_LABYRINTH_RUN_HEADER_H
