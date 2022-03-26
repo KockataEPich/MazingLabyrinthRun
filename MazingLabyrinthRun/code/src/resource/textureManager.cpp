@@ -19,11 +19,11 @@ sf::Texture& TextureManager::getTexture(const Textures& texture) {
 std::string TextureManager::getFileOfTexture(const Textures& texture) {
 	switch(texture) {
 	case Textures::tree:
-		return "tree.png";
+		return "resources/tile/tree.png";
 	case Textures::rock:
-		return "rock.png";
+		return "resources/tile/rock.png";
 	case Textures::grass:
-		return "grass.png";
+		return "resources/tile/grass.png";
 	default:
 		throw std::runtime_error("A file is not defined for texture");
 	}
