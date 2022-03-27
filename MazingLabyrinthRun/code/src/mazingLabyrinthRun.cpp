@@ -7,36 +7,21 @@
 #include <SFML/Window/Event.hpp>
 
 MazingLabyrinthRun::MazingLabyrinthRun()
-	: m_window("MazingLabyrinthRun", sf::Vector2u(1280, 720)) {
+	: m_window("MazingLabyrinthRun", sf::Vector2u(1920, 1080)) {
 	initialize_game();
 };
 
 void MazingLabyrinthRun::initialize_game() {
-	m_camera = sf::View(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(m_window.getWindowSize().x, m_window.getWindowSize().y));
+	m_camera = sf::View(sf::Vector2f(0.0f, 0.0f),
+						sf::Vector2f(m_window.getWindowSize().x, m_window.getWindowSize().y));
 
-	//populate the world with grass
-	int tiles_x = m_window.getWindowSize().x / 32;
-	int tiles_y = m_window.getWindowSize().y / 32;
-
-	for(int i = 0; i < m_window.getWindowSize().x; i = i + 32)
-		for(int j = 0; j < m_window.getWindowSize().y; j = j + 32)
-			m_worldObjectHolder.add_to_world_objects(
-				*m_tileFactory.create(TileType::grass, sf::Vector2f(i, j)));
+	m_worldObjectHolder.initializeWorld(m_window.getWindowSize());
 }
 
-void MazingLabyrinthRun::handleInput() { 
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		m_player.moveRight();
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		m_player.moveLeft();
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		m_player.moveDown();
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-		m_player.moveUp();
+void MazingLabyrinthRun::handleInput() { m_player.move(); }
 
-}
-
-void MazingLabyrinthRun::update() { m_window.update();
+void MazingLabyrinthRun::update() {
+	m_window.update();
 	handleInput();
 	m_camera.setCenter(m_player.getPosition());
 	m_window.setView(m_camera);

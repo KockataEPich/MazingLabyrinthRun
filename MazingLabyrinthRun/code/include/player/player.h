@@ -11,14 +11,18 @@ public:
 
 	sf::Vector2f getPosition() { return m_sprite.getPosition(); }
 
+	void move();
+
+private:
+	sf::Texture m_playerTexture;
+
+	float m_playerMovementSpeed = 0.5f;
+	void initialize_player();
+
 	void moveRight();
 	void moveLeft();
 	void moveUp();
 	void moveDown();
-
-private:
-	sf::Texture m_playerTexture;
-	void initialize_player();
 };
 
 #endif

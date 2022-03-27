@@ -1,7 +1,6 @@
 #ifndef MAZING_LABYRINTH_RUN_HEADER_H
 #define MAZING_LABYRINTH_RUN_HEADER_H
 
-#include "tile/tileFactory.h"
 #include "window/gameWindow.h"
 #include "world/worldObjectHolder.h"
 #include "player/player.h"
@@ -22,14 +21,10 @@ public:
 
 private:
 	GameWindow m_window;
-	TextureManager m_textureManager;
-	TileFactory m_tileFactory{m_textureManager};
 	WorldObjectHolder m_worldObjectHolder;
 	Player m_player;
 
 	sf::View m_camera;
-
-	void moveBall();
 	void initialize_game();
 };
 

@@ -16,8 +16,9 @@ void GameWindow::setup(const std::string& title, const sf::Vector2u& size) {
 }
 
 void GameWindow::create() {
-	auto style = m_isFullscreen ? sf::Style::Fullscreen : sf::Style::Default;
-	m_gameWindow.create({m_windowSize.x, m_windowSize.y, 32}, m_windowTitle, style);
+	auto style = m_isFullscreen ? sf::Style::Fullscreen : sf::Style::Close;
+	m_gameWindow.create({m_windowSize.x, m_windowSize.y, 32},
+						m_windowTitle, style);
 }
 
 void GameWindow::destroy() { m_gameWindow.close(); }
