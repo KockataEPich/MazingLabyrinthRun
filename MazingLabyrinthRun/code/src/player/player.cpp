@@ -15,30 +15,30 @@ void Player::initialize_player() {
 	m_sprite.setScale(sf::Vector2f(3, 3));
 }
 
-void Player::move() {
+void Player::move(const float deltaTime) {
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		moveRight();
+		moveRight(deltaTime);
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		moveLeft();
+		moveLeft(deltaTime);
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		moveDown();
+		moveDown(deltaTime);
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-		moveUp();
+		moveUp(deltaTime);
 }
 
-void Player::moveRight() {
-	m_sprite.setPosition(m_sprite.getPosition().x + m_playerMovementSpeed,
+void Player::moveRight(const float deltaTime) {
+	m_sprite.setPosition(m_sprite.getPosition().x + (m_playerMovementSpeed * deltaTime),
 						 m_sprite.getPosition().y);
 }
-void Player::moveLeft() {
-	m_sprite.setPosition(m_sprite.getPosition().x - m_playerMovementSpeed,
+void Player::moveLeft(const float deltaTime) {
+	m_sprite.setPosition(m_sprite.getPosition().x - (m_playerMovementSpeed * deltaTime),
 						 m_sprite.getPosition().y);
 }
-void Player::moveUp() {
+void Player::moveUp(const float deltaTime) {
 	m_sprite.setPosition(m_sprite.getPosition().x,
-						 m_sprite.getPosition().y - m_playerMovementSpeed);
+						 m_sprite.getPosition().y - (m_playerMovementSpeed * deltaTime));
 }
-void Player::moveDown() {
+void Player::moveDown(const float deltaTime) {
 	m_sprite.setPosition(m_sprite.getPosition().x,
-						 m_sprite.getPosition().y + m_playerMovementSpeed);
+						 m_sprite.getPosition().y + (m_playerMovementSpeed * deltaTime));
 }

@@ -11,20 +11,24 @@
 class MazingLabyrinthRun {
 public:
 	MazingLabyrinthRun();
-
 	void start_game();
-
-	void handleInput();
-	void update();
-	void render();
-	GameWindow& getWindow() { return m_window; };
 
 private:
 	GameWindow m_window;
 	WorldObjectHolder m_worldObjectHolder;
 	Player m_player;
-
 	sf::View m_camera;
+	sf::Clock m_clock;
+	sf::Time m_elapsed;
+
+	float m_deltaTime;
+
+	void handleInput();
+	void update();
+	void render();
+	GameWindow& getWindow() { return m_window; };
+	sf::Time MazingLabyrinthRun::getElapsed() { return m_elapsed; }
+	void MazingLabyrinthRun::restartClock() { m_elapsed = m_clock.restart(); }
 	void initialize_game();
 };
 

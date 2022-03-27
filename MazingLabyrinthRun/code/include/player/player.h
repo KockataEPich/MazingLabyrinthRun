@@ -11,18 +11,18 @@ public:
 
 	sf::Vector2f getPosition() { return m_sprite.getPosition(); }
 
-	void move();
+	void move(const float deltaTime);
 
 private:
 	sf::Texture m_playerTexture;
 
-	float m_playerMovementSpeed = 0.5f;
+	float m_playerMovementSpeed = 100.0f;
 	void initialize_player();
 
-	void moveRight();
-	void moveLeft();
-	void moveUp();
-	void moveDown();
+	void moveRight(const float deltaTime);
+	void moveLeft(const float deltaTime);
+	void moveUp(const float deltaTime);
+	void moveDown(const float deltaTime);
 };
 
 #endif
