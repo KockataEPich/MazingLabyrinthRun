@@ -35,7 +35,7 @@ void MazingLabyrinthRun::render() {
 
 void MazingLabyrinthRun::start_game() {
 	while(!m_window.isDone()) {
-		m_deltaTime = m_elapsed.asSeconds();
+		m_deltaTime = getElapsed().asSeconds();
 		handleInput();
 		update();
 		render();
