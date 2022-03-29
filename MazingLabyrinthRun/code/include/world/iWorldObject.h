@@ -10,6 +10,7 @@
 class IWorldObject {
 public:
 	sf::Sprite& getSprite() { return m_sprite; }
+	//TODO virtual bool is_solid() const = 0;
 
 protected:
 	sf::Sprite m_sprite;
