@@ -9,7 +9,7 @@ public:
 	virtual void move(const float delta) = 0;
 
 protected:
-	float m_movementSpeed;
+	float m_speed;
 };
 
 #endif

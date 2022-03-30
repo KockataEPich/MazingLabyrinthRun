@@ -1,11 +1,11 @@
 #ifndef PLAYER_HEADER_H
 #define PLAYER_HEADER_H
 
-#include "../world/iWorldObject.h"
+#include "../world/iMovingObject.h"
 
 #include <SFML/Graphics/Texture.hpp>
 
-class Player : public IWorldObject {
+class Player : public IMovingObject {
 public:
 	Player();
 
