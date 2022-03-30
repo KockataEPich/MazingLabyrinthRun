@@ -11,12 +11,10 @@ public:
 
 	sf::Vector2f getPosition() { return m_sprite.getPosition(); }
 
-	void move(const float deltaTime);
+	void move(const float deltaTime) override;
 
 private:
 	sf::Texture m_playerTexture;
-
-	float m_playerMovementSpeed = 100.0f;
 	void initialize_player();
 
 	void moveRight(const float deltaTime);

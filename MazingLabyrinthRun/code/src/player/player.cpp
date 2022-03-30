@@ -4,6 +4,8 @@
 Player::Player() { initialize_player(); }
 
 void Player::initialize_player() {
+	m_speed = 100.0f;
+
 	if(!m_playerTexture.loadFromFile("resources/character/knight.png"))
 		throw "Player texture couldn't be loaded";
 
@@ -27,18 +29,18 @@ void Player::move(const float deltaTime) {
 }
 
 void Player::moveRight(const float deltaTime) {
-	m_sprite.setPosition(m_sprite.getPosition().x + (m_playerMovementSpeed * deltaTime),
+	m_sprite.setPosition(m_sprite.getPosition().x + (m_speed * deltaTime),
 						 m_sprite.getPosition().y);
 }
 void Player::moveLeft(const float deltaTime) {
-	m_sprite.setPosition(m_sprite.getPosition().x - (m_playerMovementSpeed * deltaTime),
+	m_sprite.setPosition(m_sprite.getPosition().x - (m_speed * deltaTime),
 						 m_sprite.getPosition().y);
 }
 void Player::moveUp(const float deltaTime) {
 	m_sprite.setPosition(m_sprite.getPosition().x,
-						 m_sprite.getPosition().y - (m_playerMovementSpeed * deltaTime));
+						 m_sprite.getPosition().y - (m_speed * deltaTime));
 }
 void Player::moveDown(const float deltaTime) {
 	m_sprite.setPosition(m_sprite.getPosition().x,
-						 m_sprite.getPosition().y + (m_playerMovementSpeed * deltaTime));
+						 m_sprite.getPosition().y + (m_speed * deltaTime));
 }
