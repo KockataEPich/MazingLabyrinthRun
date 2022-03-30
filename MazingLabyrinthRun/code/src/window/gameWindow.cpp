@@ -19,6 +19,8 @@ void GameWindow::create() {
 	auto style = m_isFullscreen ? sf::Style::Fullscreen : sf::Style::Close;
 	m_gameWindow.create({m_windowSize.x, m_windowSize.y, 32},
 						m_windowTitle, style);
+
+	m_gameWindow.setFramerateLimit(60);
 }
 
 void GameWindow::destroy() { m_gameWindow.close(); }

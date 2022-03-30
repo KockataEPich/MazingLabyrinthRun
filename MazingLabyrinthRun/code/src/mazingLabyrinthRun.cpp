@@ -18,11 +18,10 @@ void MazingLabyrinthRun::initialize_game() {
 	m_worldObjectHolder.initializeWorld(m_window.getWindowSize());
 }
 
-void MazingLabyrinthRun::handleInput() { m_player.move(); }
+void MazingLabyrinthRun::handleInput() { m_player.move(m_deltaTime); }
 
 void MazingLabyrinthRun::update() {
 	m_window.update();
-	handleInput();
 	m_camera.setCenter(m_player.getPosition());
 	m_window.setView(m_camera);
 }
@@ -36,7 +35,10 @@ void MazingLabyrinthRun::render() {
 
 void MazingLabyrinthRun::start_game() {
 	while(!m_window.isDone()) {
+		m_deltaTime = getElapsed().asSeconds();
+		handleInput();
 		update();
 		render();
+		restartClock();
 	}
 }
