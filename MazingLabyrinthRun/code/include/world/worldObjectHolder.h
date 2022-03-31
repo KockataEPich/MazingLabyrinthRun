@@ -21,8 +21,8 @@ public:
 private:
 	std::vector<std::unique_ptr<IWorldObject>> m_allWorldObjects;
 
-	TextureManager m_textureManager;
-	TileFactory m_tileFactory{m_textureManager};
+	//TextureManager m_textureManager;
+	//TileFactory m_tileFactory{m_textureManager};
 };
 
 #endif

@@ -6,11 +6,11 @@ sf::Texture& PlayerTextureHolder::getTexture(const PlayerTextures& texture) {
 }
 
 void PlayerTextureHolder::load_textures() {
-	for(auto& texture : all_textures_player) {
-		sf::Texture textureLoad;
-		if(!textureLoad.loadFromFile(getFileOfTexture(texture)))
-			throw std::runtime_error("A file couldn't be loaded");
+	//for(auto& texture : all_textures_player) {
+	//	sf::Texture textureLoad;
+	//	if(!textureLoad.loadFromFile(getFileOfTexture(texture)))
+	//		throw std::runtime_error("A file couldn't be loaded");
 
-		m_textures[texture] = textureLoad;
-	}
+	//	m_textures[texture] = textureLoad;
+	//}
 }

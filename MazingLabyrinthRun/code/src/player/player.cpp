@@ -1,7 +1,7 @@
 #include "../include/player/player.h"
 #include "../include/player/playerTextureEnum.h"
 #include <SFML/Window/Keyboard.hpp>
-Player::Player(PlayerTextureHolder& textureHolder)
+Player::Player(TextureHolder<PlayerTextures>& textureHolder)
 	: m_textureHolder{textureHolder} {
 	initialize_player();
 }

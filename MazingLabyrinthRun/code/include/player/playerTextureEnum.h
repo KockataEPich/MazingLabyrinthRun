@@ -3,9 +3,9 @@
 
 enum class PlayerTextures { up, down, left, right };
 
-#include <array>
+#include <vector>
 #include <stdexcept>
-static std::array<PlayerTextures, 4> all_textures_player{
+static std::vector<PlayerTextures> allPlayerTextures{
 	PlayerTextures::up, PlayerTextures::down, PlayerTextures::left, PlayerTextures::right};
 
 static std::string getFileOfTexture(const PlayerTextures& texture) {

@@ -2,7 +2,8 @@
 #define MAZING_LABYRINTH_RUN_HEADER_H
 
 #include "window/gameWindow.h"
-#include "world/worldObjectHolder.h"
+//#include "world/worldObjectHolder.h"
+#include "resource/textureHolder.h"
 #include "player/player.h"
 
 #include <SFML/Graphics/Texture.hpp>
@@ -15,8 +16,9 @@ public:
 
 private:
 	GameWindow m_window;
-	WorldObjectHolder m_worldObjectHolder;
-	PlayerTextureHolder holder;
+	//WorldObjectHolder m_worldObjectHolder;
+	TextureHolder<PlayerTextures> holder{allPlayerTextures};
+
 	Player m_player{holder};
 	sf::View m_camera;
 	sf::Clock m_clock;
