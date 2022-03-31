@@ -2,19 +2,20 @@
 #define PLAYER_HEADER_H
 
 #include "../world/iMovingObject.h"
+#include "playerTextureHolder.h"
 
 #include <SFML/Graphics/Texture.hpp>
 
 class Player : public IMovingObject {
 public:
-	Player();
+	Player(PlayerTextureHolder& textureHolder);
 
 	sf::Vector2f getPosition() { return m_sprite.getPosition(); }
 
 	void move(const float deltaTime) override;
 
 private:
-	sf::Texture m_playerTexture;
+	PlayerTextureHolder& m_textureHolder;
 	void initialize_player();
 
 	void moveRight(const float deltaTime);

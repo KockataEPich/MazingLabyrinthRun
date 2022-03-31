@@ -1,15 +1,15 @@
 #include "../include/player/player.h"
-
+#include "../include/player/playerTextureEnum.h"
 #include <SFML/Window/Keyboard.hpp>
-Player::Player() { initialize_player(); }
+Player::Player(PlayerTextureHolder& textureHolder)
+	: m_textureHolder{textureHolder} {
+	initialize_player();
+}
 
 void Player::initialize_player() {
 	m_speed = 100.0f;
 
-	if(!m_playerTexture.loadFromFile("resources/character/knight.png"))
-		throw "Player texture couldn't be loaded";
-
-	m_sprite.setTexture(m_playerTexture);
+	m_sprite.setTexture(m_textureHolder.getTexture(PlayerTextures::right));
 	m_sprite.setPosition(sf::Vector2f(100.0f, 100.0f));
 	m_sprite.setOrigin(
 		sf::Vector2f(m_sprite.getTexture()->getSize().x * m_sprite.getScale().x / 2.0f,
@@ -31,16 +31,20 @@ void Player::move(const float deltaTime) {
 void Player::moveRight(const float deltaTime) {
 	m_sprite.setPosition(m_sprite.getPosition().x + (m_speed * deltaTime),
 						 m_sprite.getPosition().y);
+	m_sprite.setTexture(m_textureHolder.getTexture(PlayerTextures::right));
 }
 void Player::moveLeft(const float deltaTime) {
 	m_sprite.setPosition(m_sprite.getPosition().x - (m_speed * deltaTime),
 						 m_sprite.getPosition().y);
+	m_sprite.setTexture(m_textureHolder.getTexture(PlayerTextures::left));
 }
 void Player::moveUp(const float deltaTime) {
 	m_sprite.setPosition(m_sprite.getPosition().x,
 						 m_sprite.getPosition().y - (m_speed * deltaTime));
+	m_sprite.setTexture(m_textureHolder.getTexture(PlayerTextures::up));
 }
 void Player::moveDown(const float deltaTime) {
 	m_sprite.setPosition(m_sprite.getPosition().x,
 						 m_sprite.getPosition().y + (m_speed * deltaTime));
+	m_sprite.setTexture(m_textureHolder.getTexture(PlayerTextures::down));
 }

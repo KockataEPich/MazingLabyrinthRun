@@ -1,5 +1,5 @@
-#ifndef TEXTURE_MANAGER_HEADER
-#define TEXTURE_MANAGER_HEADER
+#ifndef TEXTURE_MANAGER_HEADER_H
+#define TEXTURE_MANAGER_HEADER_H
 
 #include "textureEnum.h"
 

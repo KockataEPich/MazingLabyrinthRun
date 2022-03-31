@@ -16,7 +16,8 @@ public:
 private:
 	GameWindow m_window;
 	WorldObjectHolder m_worldObjectHolder;
-	Player m_player;
+	PlayerTextureHolder holder;
+	Player m_player{holder};
 	sf::View m_camera;
 	sf::Clock m_clock;
 	sf::Time m_elapsed;
