@@ -3,8 +3,9 @@
 
 #include "window/gameWindow.h"
 //#include "world/worldObjectHolder.h"
-#include "resource/textureHolder.h"
 #include "player/player.h"
+#include "resource/animation.h"
+#include "resource/textureHolder.h"
 
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/View.hpp>
@@ -18,8 +19,8 @@ private:
 	GameWindow m_window;
 	//WorldObjectHolder m_worldObjectHolder;
 	TextureHolder<PlayerTextures> holder{allPlayerTextures};
-
-	Player m_player{holder};
+	Animation<PlayerTextures> animation{holder, PlayerTextures::down};
+	Player m_player{animation};
 	sf::View m_camera;
 	sf::Clock m_clock;
 	sf::Time m_elapsed;

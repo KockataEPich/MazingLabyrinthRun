@@ -9,6 +9,7 @@
 */
 class IWorldObject {
 public:
+	//IWorldObject()
 	sf::Sprite& getSprite() { return m_sprite; }
 	//TODO virtual bool is_solid() const = 0;
 
