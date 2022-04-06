@@ -3,6 +3,7 @@
 
 #include "iWorldObject.h"
 
+enum class FacingSide {left, right, up, down};
 class IMovingObject : public IWorldObject {
 
 public:
@@ -10,6 +11,7 @@ public:
 
 protected:
 	float m_speed;
+	FacingSide m_facingSide;
 };
 
 #endif

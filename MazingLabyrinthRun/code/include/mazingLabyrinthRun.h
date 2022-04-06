@@ -4,7 +4,6 @@
 #include "window/gameWindow.h"
 //#include "world/worldObjectHolder.h"
 #include "player/player.h"
-#include "resource/animation.h"
 #include "resource/textureHolder.h"
 
 #include <SFML/Graphics/Texture.hpp>
@@ -18,9 +17,9 @@ public:
 private:
 	GameWindow m_window;
 	//WorldObjectHolder m_worldObjectHolder;
-	TextureHolder<PlayerTextures> holder{allPlayerTextures};
-	Animation<PlayerTextures> animation{holder, PlayerTextures::down};
-	Player m_player{animation};
+	std::unordered_map<PlayerTextures, sf::Texture> playerTextures;
+	std::unique_ptr<Player> m_player;
+
 	sf::View m_camera;
 	sf::Clock m_clock;
 	sf::Time m_elapsed;

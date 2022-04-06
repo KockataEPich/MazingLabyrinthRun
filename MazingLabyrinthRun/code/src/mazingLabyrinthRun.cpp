@@ -7,6 +7,8 @@
 MazingLabyrinthRun::MazingLabyrinthRun()
 	: m_window("MazingLabyrinthRun", sf::Vector2u(1920, 1080)) {
 	initialize_game();
+	load_textures(playerTextures, allPlayerTextures);
+	m_player = std::make_unique<Player>(Player(playerTextures));
 };
 
 void MazingLabyrinthRun::initialize_game() {
@@ -16,18 +18,18 @@ void MazingLabyrinthRun::initialize_game() {
 	//m_worldObjectHolder.initializeWorld(m_window.getWindowSize());
 }
 
-void MazingLabyrinthRun::handleInput() { m_player.move(m_deltaTime); }
+void MazingLabyrinthRun::handleInput() { m_player->move(m_deltaTime); }
 
 void MazingLabyrinthRun::update() {
 	m_window.update();
-	m_camera.setCenter(m_player.getPosition());
+	m_camera.setCenter(m_player->getPosition());
 	m_window.setView(m_camera);
 }
 
 void MazingLabyrinthRun::render() {
 	m_window.beginDraw();
 	//m_window.draw(m_worldObjectHolder);
-	m_window.draw(m_player);
+	m_window.draw(*m_player);
 	m_window.endDraw();
 }
 

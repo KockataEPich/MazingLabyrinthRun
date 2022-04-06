@@ -4,7 +4,7 @@
 #include <SFML/Graphics/Texture.hpp>
 
 #include "playerTextureEnum.h"
-#include <map>
+#include <unordered_map>
 
 class PlayerTextureHolder {
 public:
@@ -12,7 +12,7 @@ public:
 	sf::Texture& getTexture(const PlayerTextures&);
 
 private:
-	std::map<PlayerTextures, sf::Texture> m_textures;
+	std::unordered_map<PlayerTextures, sf::Texture> m_textures;
 	void load_textures();
 };
 #endif
