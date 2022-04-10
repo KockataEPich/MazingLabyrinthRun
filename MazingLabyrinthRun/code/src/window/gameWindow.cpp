@@ -50,8 +50,8 @@ void GameWindow::toggleFullscreen() {
 void GameWindow::beginDraw() { m_gameWindow.clear(sf::Color::Black); }
 void GameWindow::draw(sf::Drawable& drawable) { m_gameWindow.draw(drawable); }
 void GameWindow::draw(IWorldObject& worldObject) { m_gameWindow.draw(worldObject.getSprite()); }
-void GameWindow::draw(WorldObjectHolder& worldObjectHolder) {
-	for(auto& worldObject : worldObjectHolder.getAllWorldObjects())
-		draw(*worldObject);
-}
+//void GameWindow::draw(WorldObjectHolder& worldObjectHolder) {
+//	for(auto& worldObject : worldObjectHolder.getAllWorldObjects())
+//		draw(*worldObject);
+//}
 void GameWindow::endDraw() { m_gameWindow.display(); }

@@ -1,23 +1,17 @@
 #include "../include/player/player.h"
 
+#include "../include/player/playerTextureEnum.h"
 #include "../include/resource/animation.h"
 
-Animation<PlayerTextures>
-    dRightAnimation("Default Right Animation", defaultRightAnimation, Repeat{-1}, AnimationSpeed{0.3f});
-Animation<PlayerTextures>
-    dLeftAnimation("Default Left Animation", defaultLeftAnimation, Repeat{-1}, AnimationSpeed{0.3f});
-Animation<PlayerTextures> dUpAnimation("Default Up Animation", defaultUpAnimation, Repeat{-1}, AnimationSpeed{0.3f});
-Animation<PlayerTextures>
-    dDownAnimation("Default Down Animation", defaultDownAnimation, Repeat{-1}, AnimationSpeed{0.3f});
+Animation dRightAnimation("Default Right Animation", defaultRightAnimation, Repeat{-1}, AnimationSpeed{0.3f});
+Animation dLeftAnimation("Default Left Animation", defaultLeftAnimation, Repeat{-1}, AnimationSpeed{0.3f});
+Animation dUpAnimation("Default Up Animation", defaultUpAnimation, Repeat{-1}, AnimationSpeed{0.3f});
+Animation dDownAnimation("Default Down Animation", defaultDownAnimation, Repeat{-1}, AnimationSpeed{0.3f});
 
 #include <SFML/Window/Keyboard.hpp>
-Player::Player(std::unordered_map<PlayerTextures, sf::Texture>& textures)
-    : m_animate{AnimationPlayer<PlayerTextures>(
-          textures,
-          AnimationPlayer<PlayerTextures>::DefaultAnimations<PlayerTextures>{dRightAnimation,
-                                                                             dLeftAnimation,
-                                                                             dUpAnimation,
-                                                                             dDownAnimation})} {
+Player::Player()
+    : m_animate{AnimationPlayer(
+          AnimationPlayer::DefaultAnimations{dRightAnimation, dLeftAnimation, dUpAnimation, dDownAnimation})} {
 	initialize_player();
 }
 
@@ -51,23 +45,23 @@ void Player::moveRight(const float deltaTime) {
 	m_sprite.setPosition(m_sprite.getPosition().x + (m_speed * deltaTime), m_sprite.getPosition().y);
 	m_facingSide = FacingSide::right;
 	m_animate.playAnimation(
-	    Animation<PlayerTextures>("Run Right Animation", runRightAnimation, Repeat{-1}, AnimationSpeed{0.2f}));
+	    Animation("Run Right Animation", runRightAnimation, Repeat{-1}, AnimationSpeed{0.2f}));
 }
 void Player::moveLeft(const float deltaTime) {
 	m_sprite.setPosition(m_sprite.getPosition().x - (m_speed * deltaTime), m_sprite.getPosition().y);
 	m_facingSide = FacingSide::left;
 	m_animate.playAnimation(
-	    Animation<PlayerTextures>("Run Left Animation", runLeftAnimation, Repeat{-1}, AnimationSpeed{0.2f}));
+	    Animation("Run Left Animation", runLeftAnimation, Repeat{-1}, AnimationSpeed{0.2f}));
 }
 void Player::moveUp(const float deltaTime) {
 	m_sprite.setPosition(m_sprite.getPosition().x, m_sprite.getPosition().y - (m_speed * deltaTime));
 	m_facingSide = FacingSide::up;
 	m_animate.playAnimation(
-	    Animation<PlayerTextures>("Run Up Animation", runUpAnimation, Repeat{-1}, AnimationSpeed{0.2f}));
+	    Animation("Run Up Animation", runUpAnimation, Repeat{-1}, AnimationSpeed{0.2f}));
 }
 void Player::moveDown(const float deltaTime) {
 	m_facingSide = FacingSide::down;
 	m_sprite.setPosition(m_sprite.getPosition().x, m_sprite.getPosition().y + (m_speed * deltaTime));
 	m_animate.playAnimation(
-	    Animation<PlayerTextures>("Run Down Animation", runDownAnimation, Repeat{-1}, AnimationSpeed{0.2f}));
+	    Animation("Run Down Animation", runDownAnimation, Repeat{-1}, AnimationSpeed{0.2f}));
 }

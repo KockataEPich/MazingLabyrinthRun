@@ -1,64 +1,136 @@
 #ifndef PLAYER_TEXTURE_ENUM_H
 #define PLAYER_TEXTURE_ENUM_H
 
-enum class PlayerTextures {
-	up,
-	up2,
-	up3,
-	down,
-	down2,
-	down3,
-	left,
-	left2,
-	left3,
-	right,
-	right2,
-	right3
-};
+#include "../resource/textureEnum.h"
 
-#include <stdexcept>
-#include <vector>
-static std::vector<PlayerTextures> allPlayerTextures{PlayerTextures::up,
-													 PlayerTextures::up2,
-													 PlayerTextures::up3,
-													 PlayerTextures::down,
-													 PlayerTextures::down2,
-													 PlayerTextures::down3,
-													 PlayerTextures::left,
-													 PlayerTextures::left2,
-													 PlayerTextures::left3,
-													 PlayerTextures::right,
-													 PlayerTextures::right2,
-													 PlayerTextures::right3};
+static std::vector<Textures::ID> runRightAnimation{Textures::ID::NORRIS_NAKED_WALK_RIGHT_1,
+                                                   Textures::ID::NORRIS_NAKED_WALK_RIGHT_2,
+                                                   Textures::ID::NORRIS_NAKED_WALK_RIGHT_1,
+                                                   Textures::ID::NORRIS_NAKED_WALK_RIGHT_3};
+static std::vector<Textures::ID> runLeftAnimation{Textures::ID::NORRIS_NAKED_WALK_LEFT_1,
+                                                  Textures::ID::NORRIS_NAKED_WALK_LEFT_2,
+                                                  Textures::ID::NORRIS_NAKED_WALK_LEFT_1,
+                                                  Textures::ID::NORRIS_NAKED_WALK_LEFT_3};
+static std::vector<Textures::ID> runUpAnimation{Textures::ID::NORRIS_NAKED_WALK_UP_1,
+                                                Textures::ID::NORRIS_NAKED_WALK_UP_2,
+                                                Textures::ID::NORRIS_NAKED_WALK_UP_1,
+                                                Textures::ID::NORRIS_NAKED_WALK_UP_3};
+static std::vector<Textures::ID> runDownAnimation{Textures::ID::NORRIS_NAKED_WALK_DOWN_1,
+                                                  Textures::ID::NORRIS_NAKED_WALK_DOWN_2,
+                                                  Textures::ID::NORRIS_NAKED_WALK_DOWN_1,
+                                                  Textures::ID::NORRIS_NAKED_WALK_DOWN_3};
 
-static std::string getFileOfTexture(const PlayerTextures& texture) {
-	switch(texture) {
-	case PlayerTextures::up: return "resources/character/up.png";
-	case PlayerTextures::up2: return "resources/character/up2.png";
-	case PlayerTextures::up3: return "resources/character/up3.png";
-	case PlayerTextures::down: return "resources/character/down.png";
-	case PlayerTextures::down2: return "resources/character/down2.png";
-	case PlayerTextures::down3: return "resources/character/down3.png";
-	case PlayerTextures::left: return "resources/character/left.png";
-	case PlayerTextures::left2: return "resources/character/left2.png";
-	case PlayerTextures::left3: return "resources/character/left3.png";
-	case PlayerTextures::right: return "resources/character/right.png";
-	case PlayerTextures::right2: return "resources/character/rightRunBetween.png";
-	case PlayerTextures::right3: return "resources/character/rightRunEnd.png";
-	default: throw std::runtime_error("A file is not defined for texture");
-	}
+static std::vector<Textures::ID> defaultDownAnimation{Textures::ID::NORRIS_NAKED_WALK_DOWN_1};
+static std::vector<Textures::ID> defaultUpAnimation{Textures::ID::NORRIS_NAKED_WALK_UP_1};
+static std::vector<Textures::ID> defaultLeftAnimation{Textures::ID::NORRIS_NAKED_WALK_LEFT_1};
+static std::vector<Textures::ID> defaultRightAnimation{Textures::ID::NORRIS_NAKED_WALK_RIGHT_1};
+
+#endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// std::tuple<sf::Vector2f, PlayerComponentsSprites>
+//  WorldObject{
+// std::map<T, sprite>
+//}
+
+// template <typename T, typename U>
+// class ComponentsToAnimate {
+// public:
+// ComponentsToAnimate(std::map<T, sprite>)
+// std::map<T, > getObjectComponents();
+// enum class PlayerBareStationaryAnimations {1, 2, 3, 4};
+//};
+
+// AnimationPlayer(Looks)
+//  m_looks = looks;
+//
+//
+// playAnimation(Animation){
+//  for( frame : animation.getAllFrames())
+//		looks.
+// }
+
+// UpdateTexturesOnLooks
+
+/*
+left,right, up, down
+
+Animation(){
+    Looks;
+    Looks(FacePosition, std::map<T, IWorldObject>){
+        for(object : objectsInPLayer)
+
+
+    }
+    {
+
+    }
 }
 
-static std::vector<PlayerTextures> runRightAnimation{
-	PlayerTextures::right, PlayerTextures::right2, PlayerTextures::right, PlayerTextures::right3};
-static std::vector<PlayerTextures> runLeftAnimation{
-	PlayerTextures::left, PlayerTextures::left2, PlayerTextures::left, PlayerTextures::left3};
-static std::vector<PlayerTextures> runUpAnimation{
-	PlayerTextures::up, PlayerTextures::up2, PlayerTextures::up, PlayerTextures::up3};
-static std::vector<PlayerTextures> runDownAnimation{
-	PlayerTextures::down, PlayerTextures::down2, PlayerTextures::down, PlayerTextures::down3};
-static std::vector<PlayerTextures> defaultDownAnimation{PlayerTextures::down};
-static std::vector<PlayerTextures> defaultUpAnimation{PlayerTextures::up};
-static std::vector<PlayerTextures> defaultLeftAnimation{PlayerTextures::left};
-static std::vector<PlayerTextures> defaultRightAnimation{PlayerTextures::right};
-#endif
+State{
+FacingSide
+Animation
+}
+
+
+animationName = running;
+FacingSide = right;
+
+
+fronetendWorldObject(state){
+    AnimationEnum exactAnimation = getProperAnimation(state) //runRightAnimation
+
+
+}
+
+getProperAnimation(){
+switch(state.animationName)
+    case:running
+        properRunningAnimation(state.Side)
+}
+
+properRunningAnimation(side){
+    switch(side)
+        case: right
+
+}
+static std::vector<std::vector<PlayerTextures>> swordSlash{PlayerTextures::right, PlayerTeextures::right2};
+
+// WorldObject{
+public:
+    update(){
+        IState* state = backendWorldObject.updateBehavior();
+        fronetendWorldObject.update(state);
+    }
+
+private:
+    backendWorldObject;
+    frontendWorldObject(textures);
+
+    unique_ptr<sprite> mainBody
+    std::vector<<unique_ptrs<sprites>> components;
+*/

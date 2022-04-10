@@ -4,6 +4,9 @@ project(MazingLabyrinthRun
   VERSION 1.0
 )
 
+set(CMAKE_CXX_STANDARD 17) 
+set(CMAKE_CXX_STANDARD_REQUIRED ON) 
+
 add_subdirectory(dependencies)
 
 
@@ -21,7 +24,7 @@ add_library(MazingLabyrinthRunLib
 				STATIC 
 				${_source_list})
 				
-target_include_directories(MazingLabyrinthRunLib PRIVATE code/src PUBLIC code/include PUBLIC build/_deps/sfml-src/include)
+target_include_directories(MazingLabyrinthRunLib PRIVATE code/src PUBLIC code/include PUBLIC build/_deps/sfml-src/include build/_deps/magic_enum-src/include)
 
 foreach(_source IN ITEMS ${_source_list})
     get_filename_component(_source_path "${_source}" PATH)
@@ -31,7 +34,7 @@ foreach(_source IN ITEMS ${_source_list})
 endforeach()	
 
 
-target_link_libraries(MazingLabyrinthRunLib PRIVATE ImGui-SFML::ImGui-SFML)
+target_link_libraries(MazingLabyrinthRunLib PRIVATE ImGui-SFML::ImGui-SFML magic_enum)
 
 add_executable(MazingLabyrinthRun code/src/main.cpp)
 target_link_libraries(MazingLabyrinthRun PUBLIC MazingLabyrinthRunLib)

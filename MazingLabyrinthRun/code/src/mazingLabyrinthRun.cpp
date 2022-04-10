@@ -7,8 +7,7 @@
 MazingLabyrinthRun::MazingLabyrinthRun()
 	: m_window("MazingLabyrinthRun", sf::Vector2u(1920, 1080)) {
 	initialize_game();
-	load_textures(playerTextures, allPlayerTextures);
-	m_player = std::make_unique<Player>(Player(playerTextures));
+	m_player = std::make_unique<Player>(Player());
 };
 
 void MazingLabyrinthRun::initialize_game() {

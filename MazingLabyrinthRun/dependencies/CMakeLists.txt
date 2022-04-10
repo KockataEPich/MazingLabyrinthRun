@@ -23,12 +23,18 @@ FetchContent_Declare(
 )
 add_subdirectory(imgui-sfml)
 
-Include(FetchContent)
-
 FetchContent_Declare(
   Catch2
   GIT_REPOSITORY https://github.com/catchorg/Catch2.git
   GIT_TAG        v3.0.0-preview3
 )
 
-FetchContent_MakeAvailable(Catch2)
+add_subdirectory(catch2)
+
+FetchContent_Declare(
+  magic_enum
+  GIT_REPOSITORY https://github.com/Neargye/magic_enum.git
+  GIT_TAG        v0.7.3
+)
+
+add_subdirectory(magic_enum)

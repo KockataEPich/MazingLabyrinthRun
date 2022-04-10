@@ -5,12 +5,12 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
-class TreeTile : public ITile {
-public:
-	TreeTile() { m_tileTexture = Textures::tree; }
-
-	bool isWalkable() const override { return false; }
-};
+//class TreeTile : public ITile {
+//public:
+//	TreeTile() { m_tileTexture = Textures::tree; }
+//
+//	bool isWalkable() const override { return false; }
+//};
 
 #endif // !TREE_TILE_HEADER
 

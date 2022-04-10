@@ -2,7 +2,7 @@
 #define TILE_FACTORY_HEADER
 
 #include "iTile.h"
-#include "tileEnum.h"
+//#include "tileEnum.h"
 
 //#include "../resource/textureManager.h"
 //#include <memory>

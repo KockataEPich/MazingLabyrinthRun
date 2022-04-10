@@ -1,9 +1,12 @@
-#include <SFML/Graphics.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Graphics/Drawable.hpp>
+#ifndef GAME_WINDOW_HEADER_H
+#define GAME_WINDOW_HEADER_H
 
 #include "../world/iWorldObject.h"
-#include "../world/worldObjectHolder.h"
+
+#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+//#include "../world/worldObjectHolder.h"
 
 class GameWindow {
 public:
@@ -11,8 +14,8 @@ public:
 	GameWindow(const std::string& title, const sf::Vector2u& size);
 	~GameWindow();
 
-	void beginDraw(); 
-	void endDraw(); 
+	void beginDraw();
+	void endDraw();
 	void update();
 	bool isDone();
 	bool isFullscreen();
@@ -22,7 +25,7 @@ public:
 	void toggleFullscreen();
 	void draw(sf::Drawable& drawable);
 	void draw(IWorldObject& worldObject);
-	void draw(WorldObjectHolder& worldObjectHolder);
+	// void draw(WorldObjectHolder& worldObjectHolder);
 
 private:
 	sf::RenderWindow m_gameWindow;
@@ -35,3 +38,5 @@ private:
 	void destroy();
 	void create();
 };
+
+#endif

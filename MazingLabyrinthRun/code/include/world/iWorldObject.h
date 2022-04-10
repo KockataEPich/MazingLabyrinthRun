@@ -15,6 +15,9 @@ public:
 
 protected:
 	sf::Sprite m_sprite;
+	//Animations();
+	//textures;
+	//AnimationPlayer();
+	//std::map<PlayerSprites, IWorldObject> m_playerSprites;
 };
-
 #endif

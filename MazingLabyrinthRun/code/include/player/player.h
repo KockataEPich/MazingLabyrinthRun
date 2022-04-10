@@ -1,7 +1,6 @@
 #ifndef PLAYER_HEADER_H
 #define PLAYER_HEADER_H
 
-#include "../player/playerTextureEnum.h"
 #include "../resource/animationPlayer.h"
 #include "../world/iMovingObject.h"
 
@@ -9,14 +8,14 @@
 
 class Player : public IMovingObject {
 public:
-	Player(std::unordered_map<PlayerTextures, sf::Texture>& textures);
+	Player();
 
 	sf::Vector2f getPosition() { return m_sprite.getPosition(); }
 
 	void move(const float deltaTime) override;
 
 private:
-	AnimationPlayer<PlayerTextures> m_animate;
+	AnimationPlayer m_animate;
 	void initialize_player();
 
 	void moveRight(const float deltaTime);
