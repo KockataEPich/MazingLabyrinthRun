@@ -1,4 +1,4 @@
-#include "../include/resource/animationPlayer.h"
+#include "../include/animation/animationPlayer.h"
 
 AnimationPlayer::AnimationPlayer(DefaultAnimations& defaultAnimations) : m_defaultAnimations{defaultAnimations} {
 	playAnimation(m_defaultAnimations.facingRight);

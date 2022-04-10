@@ -1,7 +1,7 @@
 #ifndef PLAYER_HEADER_H
 #define PLAYER_HEADER_H
 
-#include "../resource/animationPlayer.h"
+#include "../animation/animationPlayer.h"
 #include "../world/iMovingObject.h"
 
 #include <SFML/Graphics/Texture.hpp>

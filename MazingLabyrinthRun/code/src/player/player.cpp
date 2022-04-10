@@ -1,7 +1,7 @@
 #include "../include/player/player.h"
 
 #include "../include/player/playerTextureEnum.h"
-#include "../include/resource/animation.h"
+#include "../include/animation/animation.h"
 
 Animation dRightAnimation("Default Right Animation", defaultRightAnimation, Repeat{-1}, AnimationSpeed{0.3f});
 Animation dLeftAnimation("Default Left Animation", defaultLeftAnimation, Repeat{-1}, AnimationSpeed{0.3f});
