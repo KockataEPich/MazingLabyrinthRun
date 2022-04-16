@@ -17,7 +17,10 @@ void MazingLabyrinthRun::initialize_game() {
 	//m_worldObjectHolder.initializeWorld(m_window.getWindowSize());
 }
 
-void MazingLabyrinthRun::handleInput() { m_player->move(m_deltaTime); }
+void MazingLabyrinthRun::handleInput() { 
+	m_player->play(m_deltaTime); 
+	int kek = 5;
+}
 
 void MazingLabyrinthRun::update() {
 	m_window.update();

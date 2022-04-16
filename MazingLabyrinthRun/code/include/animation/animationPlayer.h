@@ -2,7 +2,7 @@
 #define ANIMATION_PLAYER_HEADER_H
 
 #include "../include/resource/resourceManager.h"
-#include "../world/iMovingObject.h"
+#include "../include/attribute/facingSide.h"
 #include "animation.h"
 
 #include <SFML/Graphics/Texture.hpp>
@@ -21,8 +21,8 @@ public:
 
 	sf::Texture& getCurrentTexture();
 	void playAnimation(Animation& animation);
-	void update(FacingSide side, float deltaTime);
-	void playDefaultAnimation(FacingSide side);
+	void update(const FacingSide& side, float deltaTime);
+	void playDefaultAnimation(const FacingSide& side);
 
 private:
 	float m_totalTime = 0.0f;

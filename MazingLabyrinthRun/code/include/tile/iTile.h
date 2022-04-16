@@ -5,7 +5,7 @@
 #include <SFML/Graphics/Texture.hpp>
 
 #include "../resource/textureEnum.h"
-#include "../world/iWorldObject.h"
+#include "../entityBase/worldObject.h"
 
 #include <string>
 
