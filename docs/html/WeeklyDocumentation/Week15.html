@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Week 14 &mdash; MazingLabyrinthRun 0.0.1 documentation</title>
+  <title>Week 15 &mdash; MazingLabyrinthRun 0.0.1 documentation</title>
   
 
   
@@ -30,8 +30,8 @@
   <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Week 15" href="Week15.html" />
-    <link rel="prev" title="Week 13" href="Week13.html" /> 
+    <link rel="next" title="Blog" href="../Blog/Blog.html" />
+    <link rel="prev" title="Week 14" href="Week14.html" /> 
 
 </head>
 
@@ -72,13 +72,13 @@
         
           <li><a href="WeeklyDocumentation.html">Weekly Progress Documentation for MazingLabyrinthRun</a></li>
         
-      <li>Week 14</li>
+      <li>Week 15</li>
     
     
       <li class="breadcrumbs-aside">
         
             
-            <a href="../_sources/WeeklyDocumentation/Week14.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/WeeklyDocumentation/Week15.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -123,8 +123,8 @@
 <li class="toctree-l2"><a class="reference internal" href="Week11.html">Week 11</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Week12.html">Week 12</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Week13.html">Week 13</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Week 14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Week15.html">Week 15</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Week14.html">Week 14</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Week 15</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../Blog/Blog.html">Blog</a><ul>
@@ -141,50 +141,35 @@
                     <div class="document">
                         
                             
-  <section id="week-14">
-<span id="id1"></span><h1>Week 14<a class="headerlink" href="#week-14" title="Permalink to this headline">¶</a></h1>
-<p>Date: 10/April/2022</p>
+  <section id="week-15">
+<span id="id1"></span><h1>Week 15<a class="headerlink" href="#week-15" title="Permalink to this headline">¶</a></h1>
+<p>Date: 18/May/2022</p>
 <section id="retrospect">
 <h2>Retrospect<a class="headerlink" href="#retrospect" title="Permalink to this headline">¶</a></h2>
-<ul>
-<li><p>It has been very confusing. The challenge of making dynamic animations has been really daunting.</p></li>
-<li><p>The core problem here was that everything should be working perfectly in sync. The challenges I am facing are:</p>
-<blockquote>
-<div><ul>
-<li><p>Textures should be reused and not loaded again for all objects in the world</p></li>
-<li><p>I wanted to have flexible animations in which I make a list in the program rather than a image file with dimensions. The reasons for this are:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>I felt like treating animations as gluing enums one after the other would give me more flexibility than taking everything from an animation sheet</p></li>
-<li><p>In my mind, I would be passing by lists of enums, which would be the textures of the animation.</p></li>
-</ul>
-</div></blockquote>
-</li>
-<li><p>If I want to change the appearce of one part of the character (the weapon for example) I have to create an entirely new set of animations with that weapon.</p></li>
-<li><p>If I keep adding items, this would create an explosion of resource files which will become impossible to manage.</p></li>
-<li><p>I really wanted to have separate enums for each class (player having its own separate set, the mobs, etc…), however this proved very problematic. The dependencies would have been too intertwined, templates were involved. It was just not sustainable.</p></li>
-</ul>
-</div></blockquote>
-</li>
-<li><p>For the single resource problem, I used a combination of the Flyweight and Singleton patterns. This was a very good change and made everything very conveninent.</p></li>
+<ul class="simple">
+<li><p>I have not been very productive on this project recently. Had some personal issues and I have been focusing to be as social as possible for the past month but I am slowly getting back on track again.</p></li>
+<li><p>I tried improving the infrastructure for the animations and how objects can have “sub-objects”. The main character can have a “Hat” for example. The way I decided to do this is to separate the view from the logic and for them to communicate through “state”. Kind of like the MVC pattern but not as grandiose. I also tried making it generic which has worked to some degree but as of now everything is very confusing and not scalable.</p></li>
+<li><p>I am starting to feel like the idea for basing slices onto enums is not as great as I thought. I realised that if I am going to be making composite objects, their frames have to perfectly match and thus creates an overcomplication.</p></li>
+<li><p>My biggest objective right now is to find a workaround this problem.</p></li>
 </ul>
 </section>
 <section id="week-plan">
 <h2>Week Plan<a class="headerlink" href="#week-plan" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Create a component based system on the character in which behavior and view are separated.</p></li>
-<li><p>This means that how the sword is poisitioned to the player sprite is independent than its texture.</p></li>
-<li><p>In essense, changing the way a sword looks from a sword slash should be as simple as just setting a different default texture.</p></li>
+<li><p>Improve generic access/manipulation of compound world entities.</p></li>
 </ul>
 </section>
 <section id="research-points">
 <h2>Research Points<a class="headerlink" href="#research-points" title="Permalink to this headline">¶</a></h2>
-<dl class="simple">
-<dt>I have deleted the past research points. I thought that this project would look different in the begging.</dt><dd><ol class="arabic simple">
-<li><p>Animating different components separately as one object.</p></li>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>React and browser code integrity in general</p></li>
+<li><p>Java Containers</p></li>
+<li><p>Procedural generation</p></li>
+<li><p>Electron (for the client)</p></li>
+<li><p>Tile based system</p></li>
 </ol>
-</dd>
-</dl>
+</div></blockquote>
 </section>
 </section>
 
