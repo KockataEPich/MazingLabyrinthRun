@@ -1,15 +1,18 @@
 #ifndef PLAYER_LOGIC_HEADER_H
 #define PLAYER_LOGIC_HEADER_H
 
-#include "../entityBase/iLogic.h"
-#include "../entityBase/movable.h"
+#include "../include/entityBase/logic/iLogic.h"
+#include "../include/entityBase/logic/movable.h"
+#include "../include/entityBase/component/borrowComponentMapObject.h"
+#include "playerTextureEnum.h"
 #include "playerState.h"
 
 class PlayerLogic
     : public ILogic<PlayerState>
+    , public BorrowComponentSpriteMapObject<PlayerComponents>
     , public Movable {
 public:
-	PlayerLogic();
+	PlayerLogic(ComponentSpriteMap<PlayerComponents>*);
 	PlayerState* doLogic(const float deltaTime) override;
 	void move(const float deltaTime) override;
 

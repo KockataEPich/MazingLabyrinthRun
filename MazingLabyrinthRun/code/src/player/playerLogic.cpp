@@ -4,7 +4,8 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Window/Keyboard.hpp>
 
-PlayerLogic::PlayerLogic() {}
+PlayerLogic::PlayerLogic(ComponentSpriteMap<PlayerComponents>* components)
+    : BorrowComponentSpriteMapObject(components) {}
 
 PlayerState* PlayerLogic::doLogic(const float deltaTime) {
 	move(deltaTime);

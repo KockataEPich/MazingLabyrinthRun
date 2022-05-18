@@ -7,13 +7,12 @@ Animation dLeftAnimation("Default Left Animation", defaultLeftAnimation, Repeat{
 Animation dUpAnimation("Default Up Animation", defaultUpAnimation, Repeat{-1}, AnimationSpeed{0.3f});
 Animation dDownAnimation("Default Down Animation", defaultDownAnimation, Repeat{-1}, AnimationSpeed{0.3f});
 
-PlayerView::PlayerView()
-    : m_animate{AnimationPlayer(
+PlayerView::PlayerView(ComponentSpriteMap<PlayerComponents>* components)
+    : BorrowComponentSpriteMapObject(components)
+    , m_animate{AnimationPlayer(
           AnimationPlayer::DefaultAnimations{dRightAnimation, dLeftAnimation, dUpAnimation, dDownAnimation})} {}
 
-void PlayerView::initialize() { 
-	m_sprite->setTexture(m_animate.getCurrentTexture()); 
-}
+void PlayerView::initialize() { m_sprite->setTexture(m_animate.getCurrentTexture()); }
 
 void PlayerView::update(const PlayerState* state, const float deltaTime) {
 	if (state->currentAnimation == PlayerAnimation::run) {
@@ -25,8 +24,7 @@ void PlayerView::update(const PlayerState* state, const float deltaTime) {
 			    Animation("Run Left Animation", runLeftAnimation, Repeat{-1}, AnimationSpeed{0.2f}));
 		}
 		if (state->side == FacingSide::up)
-			m_animate.playAnimation(
-			    Animation("Run Up Animation", runUpAnimation, Repeat{-1}, AnimationSpeed{0.2f}));
+			m_animate.playAnimation(Animation("Run Up Animation", runUpAnimation, Repeat{-1}, AnimationSpeed{0.2f}));
 		if (state->side == FacingSide::down)
 			m_animate.playAnimation(
 			    Animation("Run down Animation", runDownAnimation, Repeat{-1}, AnimationSpeed{0.2f}));

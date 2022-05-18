@@ -1,14 +1,14 @@
 #ifndef ACTIVE_OBJECT_HEADER_H
 #define ACTIVE_OBJECT_HEADER_H
 
-#include "iLogic.h"
-#include "iView.h"
-#include "worldObject.h"
+#include "../include/entityBase/logic/iLogic.h"
+#include "../include/entityBase/view/iView.h"
+#include "../include/entityBase/worldObject.h"
 
 #include <memory>
 
 template<typename T>
-class ActiveObject : public WorldObject {
+class ActiveObject : public virtual WorldObject {
 public:
 	ActiveObject(std::unique_ptr<ILogic<T>> logic, std::unique_ptr<IView<T>> view)
 	    : WorldObject()

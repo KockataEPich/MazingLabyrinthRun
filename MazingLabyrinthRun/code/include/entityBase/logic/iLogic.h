@@ -2,17 +2,16 @@
 #define I_LOGIC_HEADER_H
 
 #include <SFML/Graphics/Sprite.hpp>
+#include "../include/entityBase/complexWorldObject/borrowSpriteObject.h"
 
 template<typename T>
-class ILogic {
+class ILogic : public BorrowSpriteObject {
 public:
 	virtual T* doLogic(const float deltaTime) = 0;
 	virtual void initialize() = 0;
 
-	void setSprite(sf::Sprite* sprite) { m_sprite = sprite; }
 protected:
 	T m_state;
-	sf::Sprite* m_sprite;
 };
 
 #endif

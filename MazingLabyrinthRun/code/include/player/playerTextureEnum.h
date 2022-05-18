@@ -1,7 +1,7 @@
 #ifndef PLAYER_TEXTURE_ENUM_H
-#define PLAYER_TEXTURE_ENUM_H
+#	define PLAYER_TEXTURE_ENUM_H
 
-#include "../resource/textureEnum.h"
+#	include "../resource/textureEnum.h"
 
 static std::vector<Textures::ID> runRightAnimation{Textures::ID::NORRIS_NAKED_WALK_RIGHT_1,
                                                    Textures::ID::NORRIS_NAKED_WALK_RIGHT_2,
@@ -25,32 +25,9 @@ static std::vector<Textures::ID> defaultUpAnimation{Textures::ID::NORRIS_NAKED_W
 static std::vector<Textures::ID> defaultLeftAnimation{Textures::ID::NORRIS_NAKED_WALK_LEFT_1};
 static std::vector<Textures::ID> defaultRightAnimation{Textures::ID::NORRIS_NAKED_WALK_RIGHT_1};
 
+enum class PlayerComponents { sword };
+
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // std::tuple<sf::Vector2f, PlayerComponentsSprites>
 //  WorldObject{
