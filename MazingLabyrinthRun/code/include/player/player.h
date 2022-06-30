@@ -1,27 +1,23 @@
 #ifndef PLAYER_HEADER_H
 #define PLAYER_HEADER_H
 
-#include "../resource/animationPlayer.h"
-#include "../world/iMovingObject.h"
+#include "../include/entityBase/complexWorldObject/activeObject.h"
+#include "../include/entityBase/complexWorldObject/compoundWorldObject.h"
+#include "playerTextureEnum.h"
+#include "playerLogic.h"
+#include "playerView.h"
 
 #include <SFML/Graphics/Texture.hpp>
 
-class Player : public IMovingObject {
+class Player
+    : public ActiveObject<PlayerState>
+    , public CompoundWorldObject<PlayerComponents> {
 public:
-	Player();
-
-	sf::Vector2f getPosition() { return m_sprite.getPosition(); }
-
-	void move(const float deltaTime) override;
+	Player() : ActiveObject(std::move(std::make_unique<PlayerLogic>(componentsMap())), std::move(std::make_unique<PlayerView>(componentsMap()))){};
 
 private:
-	AnimationPlayer m_animate;
-	void initialize_player();
+	void initializeComponentSpriteMap() override;
 
-	void moveRight(const float deltaTime);
-	void moveLeft(const float deltaTime);
-	void moveUp(const float deltaTime);
-	void moveDown(const float deltaTime);
 };
 
 #endif

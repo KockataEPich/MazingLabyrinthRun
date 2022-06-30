@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "textureEnum.h"
+#include "../resource/textureEnum.h"
 
 class EndAnimationException : public std::exception {
 public:

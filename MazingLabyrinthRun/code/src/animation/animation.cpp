@@ -1,4 +1,4 @@
-#include "../include/resource/animation.h"
+#include "../include/animation/animation.h"
 
 void Animation::nextFrame() {
 	m_frameIndex++;

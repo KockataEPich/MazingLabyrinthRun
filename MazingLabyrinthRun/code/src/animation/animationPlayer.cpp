@@ -1,4 +1,4 @@
-#include "../include/resource/animationPlayer.h"
+#include "../include/animation/animationPlayer.h"
 
 AnimationPlayer::AnimationPlayer(DefaultAnimations& defaultAnimations) : m_defaultAnimations{defaultAnimations} {
 	playAnimation(m_defaultAnimations.facingRight);
@@ -10,7 +10,7 @@ void AnimationPlayer::playAnimation(Animation& animation) {
 	updateCurrentTexture();
 }
 
-void AnimationPlayer::update(FacingSide side, float deltaTime) {
+void AnimationPlayer::update(const FacingSide& side, float deltaTime) {
 	m_totalTime += deltaTime;
 
 	if (m_totalTime >= m_currentAnimation.speed()) {
@@ -30,7 +30,7 @@ void AnimationPlayer::update(FacingSide side, float deltaTime) {
 }
 sf::Texture& AnimationPlayer::getCurrentTexture() { return *m_currentTexture; }
 
-void AnimationPlayer::playDefaultAnimation(FacingSide side) {
+void AnimationPlayer::playDefaultAnimation(const FacingSide& side) {
 	switch (side) {
 		case FacingSide::down: playAnimation(m_defaultAnimations.facingDown); break;
 		case FacingSide::up: playAnimation(m_defaultAnimations.facingUp); break;
