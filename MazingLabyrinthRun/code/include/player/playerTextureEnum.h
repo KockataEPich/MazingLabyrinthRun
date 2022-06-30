@@ -25,7 +25,7 @@ static std::vector<Textures::ID> defaultUpAnimation{Textures::ID::NORRIS_NAKED_W
 static std::vector<Textures::ID> defaultLeftAnimation{Textures::ID::NORRIS_NAKED_WALK_LEFT_1};
 static std::vector<Textures::ID> defaultRightAnimation{Textures::ID::NORRIS_NAKED_WALK_RIGHT_1};
 
-enum class PlayerComponents { sword };
+enum class PlayerComponents { hat };
 
 #endif
 
