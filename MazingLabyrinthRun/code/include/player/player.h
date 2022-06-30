@@ -16,8 +16,7 @@ public:
 	Player() : ActiveObject(std::move(std::make_unique<PlayerLogic>(componentsMap())), std::move(std::make_unique<PlayerView>(componentsMap()))){};
 
 private:
-	void initializeComponentSpriteMap(
-	    std::unordered_map<PlayerComponents, std::optional<std::unique_ptr<ComponentSprite>>>&) override;
+	void initializeComponentSpriteMap() override;
 
 };
 

@@ -10,11 +10,6 @@
 template<typename T>
 class ComponentSpriteMap {
 public:
-	ComponentSpriteMap(std::function<void(std::unordered_map<T, std::optional<std::unique_ptr<ComponentSprite>>>)>
-	                       populateComponentSpriteMap) {
-		populateComponentSpriteMap(m_map);
-	}
-
 	void setComponentSprite(const T component, const std::optional<std::unique_ptr<ComponentSprite>>& componentSprite) {
 		m_map[component] = std::move(componentSprite);
 	}
