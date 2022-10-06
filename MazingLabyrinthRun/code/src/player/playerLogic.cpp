@@ -1,11 +1,9 @@
 #include "../include/player/playerLogic.h"
-#include "../include/animation/animation.h"
 
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Window/Keyboard.hpp>
 
-PlayerLogic::PlayerLogic(ComponentSpriteMap<PlayerComponents>* components)
-    : BorrowComponentSpriteMapObject(components) {}
+PlayerLogic::PlayerLogic(){}
 
 PlayerState* PlayerLogic::doLogic(const float deltaTime) {
 	move(deltaTime);
@@ -30,7 +28,7 @@ void PlayerLogic::move(const float deltaTime) {
 
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::S) &&
 	    !sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		m_state.currentAnimation = PlayerAnimation::default;
+		m_state.currentAnimation = PlayerAnimation::default_animation;
 }
 
 void PlayerLogic::moveRight(const float deltaTime) {

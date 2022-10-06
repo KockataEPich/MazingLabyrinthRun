@@ -13,8 +13,6 @@ MazingLabyrinthRun::MazingLabyrinthRun()
 void MazingLabyrinthRun::initialize_game() {
 	m_camera = sf::View(sf::Vector2f(0.0f, 0.0f),
 						sf::Vector2f(m_window.getWindowSize().x, m_window.getWindowSize().y));
-
-	//m_worldObjectHolder.initializeWorld(m_window.getWindowSize());
 }
 
 void MazingLabyrinthRun::handleInput() { 
@@ -30,7 +28,6 @@ void MazingLabyrinthRun::update() {
 
 void MazingLabyrinthRun::render() {
 	m_window.beginDraw();
-	//m_window.draw(m_worldObjectHolder);
 	m_window.draw(*m_player);
 	m_window.endDraw();
 }

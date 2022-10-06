@@ -2,22 +2,17 @@
 #define PLAYER_HEADER_H
 
 #include "../include/entityBase/complexWorldObject/activeObject.h"
-#include "../include/entityBase/complexWorldObject/compoundWorldObject.h"
-#include "playerTextureEnum.h"
 #include "playerLogic.h"
+#include "playerTextureEnum.h"
 #include "playerView.h"
 
 #include <SFML/Graphics/Texture.hpp>
 
-class Player
-    : public ActiveObject<PlayerState>
-    , public CompoundWorldObject<PlayerComponents> {
+class Player : public ActiveObject<PlayerState> {
 public:
-	Player() : ActiveObject(std::move(std::make_unique<PlayerLogic>(componentsMap())), std::move(std::make_unique<PlayerView>(componentsMap()))){};
+	Player() : ActiveObject(std::move(std::make_unique<PlayerLogic>()), std::move(std::make_unique<PlayerView>())){};
 
 private:
-	void initializeComponentSpriteMap() override;
-
 };
 
 #endif

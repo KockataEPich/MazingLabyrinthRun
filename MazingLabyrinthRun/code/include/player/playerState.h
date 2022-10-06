@@ -3,7 +3,7 @@
 
 #include "../attribute/facingSide.h"
 
-enum class PlayerAnimation {default, run};
+enum class PlayerAnimation {default_animation, run};
 
 struct PlayerState {
 	FacingSide side;

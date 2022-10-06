@@ -2,16 +2,14 @@
 #define PLAYER_VIEW_HEADER_H
 
 #include "../include/animation/animationPlayer.h"
-#include "../include/entityBase/component/borrowComponentMapObject.h"
 #include "../include/entityBase/view/iView.h"
 #include "playerState.h"
 #include "playerTextureEnum.h"
 
 class PlayerView
-    : public IView<PlayerState>
-    , public BorrowComponentSpriteMapObject<PlayerComponents> {
+    : public IView<PlayerState>{
 public:
-	PlayerView(ComponentSpriteMap<PlayerComponents>*);
+	PlayerView();
 	void update(const PlayerState* state, const float deltaTime) override;
 
 private:

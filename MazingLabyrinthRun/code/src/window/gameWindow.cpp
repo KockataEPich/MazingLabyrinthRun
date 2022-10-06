@@ -1,7 +1,5 @@
 #include "../include/window/gameWindow.h"
 
-#include <SFML/Window/Event.hpp>
-
 GameWindow::GameWindow() { setup("MazingLabyrinthRun", sf::Vector2u(1280, 720)); }
 GameWindow::GameWindow(const std::string& title, const sf::Vector2u& size) { setup(title, size); }
 

@@ -7,9 +7,8 @@ Animation dLeftAnimation("Default Left Animation", defaultLeftAnimation, Repeat{
 Animation dUpAnimation("Default Up Animation", defaultUpAnimation, Repeat{-1}, AnimationSpeed{0.3f});
 Animation dDownAnimation("Default Down Animation", defaultDownAnimation, Repeat{-1}, AnimationSpeed{0.3f});
 
-PlayerView::PlayerView(ComponentSpriteMap<PlayerComponents>* components)
-    : BorrowComponentSpriteMapObject(components)
-    , m_animate{AnimationPlayer(
+PlayerView::PlayerView()
+    : m_animate{AnimationPlayer(
           AnimationPlayer::DefaultAnimations{dRightAnimation, dLeftAnimation, dUpAnimation, dDownAnimation})} {}
 
 void PlayerView::initialize() { m_sprite->setTexture(m_animate.getCurrentTexture()); }

@@ -6,7 +6,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
-//#include "../world/worldObjectHolder.h"
 
 class GameWindow {
 public:

@@ -3,16 +3,14 @@
 
 #include "../include/entityBase/logic/iLogic.h"
 #include "../include/entityBase/logic/movable.h"
-#include "../include/entityBase/component/borrowComponentMapObject.h"
 #include "playerTextureEnum.h"
 #include "playerState.h"
 
 class PlayerLogic
     : public ILogic<PlayerState>
-    , public BorrowComponentSpriteMapObject<PlayerComponents>
     , public Movable {
 public:
-	PlayerLogic(ComponentSpriteMap<PlayerComponents>*);
+	PlayerLogic();
 	PlayerState* doLogic(const float deltaTime) override;
 	void move(const float deltaTime) override;
 

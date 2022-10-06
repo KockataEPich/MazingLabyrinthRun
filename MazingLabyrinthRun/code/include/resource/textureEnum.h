@@ -25,6 +25,8 @@ enum class ID {
 	KNIGHT_CP2,
 	SWORD_DEFAULT,
 	SWORD_FANCY,
+	GOLDEN_CROWN,
+	SILVER_CROWN
 };
 
 static std::string toString(const ID& textureID) { return magic_enum::enum_name(textureID).data(); }
@@ -50,6 +52,8 @@ static std::string getFileOfTexture(const ID& textureID) {
 		case ID::KNIGHT_CP2: return "resources/character/knightCP2.png";
 		case ID::SWORD_DEFAULT: return "resources/tile/sword_default.png";
 		case ID::SWORD_FANCY: return "resources/tile/sword_fancy.png";
+		case ID::GOLDEN_CROWN: return "resources/tile/golden_crown.png";
+		case ID::SILVER_CROWN: return "resources/tile/grey_crown.png";
 	}
 
 	throw std::runtime_error("Texture: " + toString(textureID) + " has no resource file associated with it");
