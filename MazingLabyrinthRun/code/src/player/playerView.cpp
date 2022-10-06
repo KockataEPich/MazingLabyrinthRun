@@ -25,7 +25,7 @@ void PlayerView::update(const PlayerState* state, const float deltaTime) {
 		if (state->side == FacingSide::up)
 			m_animate.playAnimation(Animation("Run Up Animation", runUpAnimation, Repeat{-1}, AnimationSpeed{0.2f}));
 		if (state->side == FacingSide::down)
-			m_animate.playAnimation(
+			m_animate.playAnimationWithStyle(
 			    Animation("Run down Animation", runDownAnimation, Repeat{-1}, AnimationSpeed{0.2f}));
 	} else {
 		m_animate.playDefaultAnimation(state->side);

@@ -26,13 +26,15 @@ enum class ID {
 	SWORD_DEFAULT,
 	SWORD_FANCY,
 	GOLDEN_CROWN,
-	SILVER_CROWN
+	SILVER_CROWN,
+	NORRIS_WALK_DOWN
 };
 
 static std::string toString(const ID& textureID) { return magic_enum::enum_name(textureID).data(); }
 
 static std::string getFileOfTexture(const ID& textureID) {
 	switch (textureID) {
+		case ID::NORRIS_WALK_DOWN: return "resources/character/walk_down.png";
 		case ID::NORRIS_NAKED_WALK_UP_1: return "resources/character/up.png";
 		case ID::NORRIS_NAKED_WALK_UP_2: return "resources/character/up2.png";
 		case ID::NORRIS_NAKED_WALK_UP_3: return "resources/character/up3.png";

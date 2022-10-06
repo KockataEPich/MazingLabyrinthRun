@@ -8,24 +8,52 @@ void AnimationPlayer::playAnimation(Animation& animation) {
 	if (m_currentAnimation == animation) return;
 	m_currentAnimation = animation;
 	updateCurrentTexture();
+	with_style = false;
+}
+
+void AnimationPlayer::playAnimationWithStyle(Animation& animation) {
+	if (m_currentAnimation == animation) return;
+	m_currentAnimation = animation;
+	updateCurrentTexture();
+	with_style = true;
 }
 
 void AnimationPlayer::update(const FacingSide& side, float deltaTime) {
-	m_totalTime += deltaTime;
+	if(!with_style) {
+		m_totalTime += deltaTime;
 
-	if (m_totalTime >= m_currentAnimation.speed()) {
-		m_totalTime -= m_currentAnimation.speed();
+		if (m_totalTime >= m_currentAnimation.speed()) {
+			m_totalTime -= m_currentAnimation.speed();
 
-		try {
-			m_currentAnimation.nextFrame();
-		} catch (EndAnimationException& exception) {
-			if (m_currentAnimation.animationCycleFinish())
-				playDefaultAnimation(side);
-			else
-				m_currentAnimation.resetAnimation();
+			try {
+				m_currentAnimation.nextFrame();
+			} catch (EndAnimationException& exception) {
+				if (m_currentAnimation.animationCycleFinish())
+					playDefaultAnimation(side);
+				else
+					m_currentAnimation.resetAnimation();
+			}
+
+			updateCurrentTexture();
 		}
+	}
+	else{
+		m_totalTime += deltaTime;
 
-		updateCurrentTexture();
+		if (m_totalTime >= m_currentAnimation.speed()) {
+			m_totalTime -= m_currentAnimation.speed();
+
+			try {
+				m_currentAnimation.nextFrameWithStyle();
+			} catch (EndAnimationException& exception) {
+				if (m_currentAnimation.animationCycleFinish())
+					playDefaultAnimation(side);
+				else
+					m_currentAnimation.resetAnimationWithStyle();
+			}
+
+			updateCurrentTexture();
+		}
 	}
 }
 sf::Texture& AnimationPlayer::getCurrentTexture() { return *m_currentTexture; }

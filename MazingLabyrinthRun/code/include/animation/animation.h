@@ -30,10 +30,18 @@ public:
 	    , m_repeatNumber{repeat.numberOfTimes}
 	    , m_speed{speed.speed} {};
 
+	Animation(const std::string& name, Textures::ID frames, const Repeat& repeat, const AnimationSpeed& speed)
+	: m_name{name}
+	, m_frame{frames}
+	, m_repeatNumber{repeat.numberOfTimes}
+	, m_speed{speed.speed} {};
+
 	void nextFrame();
+	void nextFrameWithStyle();
 	Textures::ID currentFrame() { return m_frames->at(m_frameIndex); }
 
 	void resetAnimation();
+	void resetAnimationWithStyle();
 	bool animationCycleFinish();
 
 	float speed() { return m_speed; }
@@ -47,6 +55,11 @@ protected:
 	int m_repeatNumber;
 	float m_speed;
 	std::vector<Textures::ID>* m_frames;
+
+
+	Textures::ID m_frame;
+	sf::IntRect rectangleSource{0, 0, 16, 16};
+	int current_left_offset = 0;
 };
 
 #endif

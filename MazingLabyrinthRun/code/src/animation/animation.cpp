@@ -1,11 +1,23 @@
 #include "../include/animation/animation.h"
-
+#include <SFML/Graphics/Rect.hpp>
 void Animation::nextFrame() {
 	m_frameIndex++;
 	if (m_frameIndex == m_frames->size()) throw EndAnimationException("The end of the animation has been reached");
 }
 
+
+void Animation::nextFrameWithStyle() {
+	if (rectangleSource.left == 64) throw EndAnimationException("The end of the animation has been reached");
+	rectangleSource.left + 16;
+	if (m_frameIndex == m_frames->size()) throw EndAnimationException("The end of the animation has been reached");
+}
+
 void Animation::resetAnimation() {
+	m_frameIndex = 0;
+	m_timesPlayed++;
+}
+
+void Animation::resetAnimationWithStyle() {
 	m_frameIndex = 0;
 	m_timesPlayed++;
 }
