@@ -21,7 +21,7 @@ public:
 
 	AnimationPlayer(DefaultAnimations&& defaultAnimations);
 
-	sf::Texture& getCurrentTexture(){ return m_currentAnimation.getTexture(); };
+	sf::Texture& getCurrentTexture(){ return *m_currentAnimation.getTexture(); };
 	void playAnimation(Animation& animation);
 	void update(const FacingSide& side, float deltaTime);
 	void playDefaultAnimation(const FacingSide& side);
@@ -31,7 +31,6 @@ private:
 	float m_totalTime = 0.0f;
 	DefaultAnimations m_defaultAnimations;
 	Animation m_currentAnimation;
-	sf::Texture* m_currentTexture;
 };
 
 #endif

@@ -2,17 +2,17 @@
 
 #include "../include/player/playerTextureEnum.h"
 
-Animation run_right{Textures::ID::NORRIS_RUN_RIGHT, 16, Repeat{-1}, AnimationSpeed{0.2}};
-Animation run_left{Textures::ID::NORRIS_RUN_LEFT, 16, Repeat{-1}, AnimationSpeed{0.2}};
-Animation run_up{Textures::ID::NORRIS_RUN_UP, 16, Repeat{-1}, AnimationSpeed{0.2}};
-Animation run_down{Textures::ID::NORRIS_RUN_DOWN, 16, Repeat{-1}, AnimationSpeed{0.2}};
+Animation run_right{Textures::ID::NORRIS_RUN_RIGHT, Repeat{-1}, AnimationSpeed{0.2}};
+Animation run_left{Textures::ID::NORRIS_RUN_LEFT, Repeat{-1}, AnimationSpeed{0.2}};
+Animation run_up{Textures::ID::NORRIS_RUN_UP, Repeat{-1}, AnimationSpeed{0.2}};
+Animation run_down{Textures::ID::NORRIS_RUN_DOWN, Repeat{-1}, AnimationSpeed{0.2}};
 
 PlayerView::PlayerView()
     : m_animate{
-          {Animation{Textures::ID::NORRIS_NAKED_WALK_RIGHT_1, 16, Repeat{-1}, AnimationSpeed{0.2}},
-           Animation{Textures::ID::NORRIS_NAKED_WALK_LEFT_1, 16, Repeat{-1}, AnimationSpeed{0.2}},
-           Animation{Textures::ID::NORRIS_NAKED_WALK_UP_1, 16, Repeat{-1}, AnimationSpeed{0.2}},
-           Animation{Textures::ID::NORRIS_NAKED_WALK_DOWN_1, 16, Repeat{-1}, AnimationSpeed{0.2}}},
+          {Animation{Textures::ID::NORRIS_NAKED_DEF_RIGHT_1, Repeat{-1}, AnimationSpeed{0.2}},
+           Animation{Textures::ID::NORRIS_NAKED_DEF_LEFT_1, Repeat{-1}, AnimationSpeed{0.2}},
+           Animation{Textures::ID::NORRIS_NAKED_DEF_UP_1, Repeat{-1}, AnimationSpeed{0.2}},
+           Animation{Textures::ID::NORRIS_NAKED_DEF_DOWN_1, Repeat{-1}, AnimationSpeed{0.2}}},
       } {}
 
 void PlayerView::initialize() {

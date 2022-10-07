@@ -2,7 +2,7 @@
 
 bool Animation::nextFrame(){
 	m_current_rectange.left += m_x_axis_offset;
-	if(m_current_rectange.left == m_texture.getSize().x){
+	if(m_current_rectange.left == m_texture->getSize().x){
 		return true;
 	}
 
