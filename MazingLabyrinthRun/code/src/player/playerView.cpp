@@ -15,7 +15,10 @@ void PlayerView::initialize() {
 void PlayerView::update(const PlayerState* state, const float deltaTime) {
 	auto texture_id = get_id_of_rotating_texture(m_skin, state->currentAnimation, state->side);
 	if (texture_id != m_animate.getCurrentAnimation().get_texture_id()) {
-		m_animate.playAnimation(Animation(texture_id, Repeat{-1}, AnimationSpeed{0.2}));
+		if (state->currentAnimation == AnimationType::MAIN_CHARACTER_DEFAULT_JUMP)
+			m_animate.playAnimation(Animation(texture_id, Repeat{1}, AnimationSpeed{0.1}));
+		else
+			m_animate.playAnimation(Animation(texture_id, Repeat{-1}, AnimationSpeed{0.2}));
 		m_sprite->setTexture(m_animate.getCurrentTexture());
 	}
 	m_animate.update(state->side, deltaTime);

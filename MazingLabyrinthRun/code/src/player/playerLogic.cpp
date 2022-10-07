@@ -26,7 +26,9 @@ void PlayerLogic::move(const float deltaTime) {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) moveDown(deltaTime);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) moveUp(deltaTime);
 
-	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::S) &&
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		m_state.currentAnimation = AnimationType::MAIN_CHARACTER_DEFAULT_JUMP;
+	else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::S) &&
 	    !sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		m_state.currentAnimation = AnimationType::MAIN_CHARACTER_DEFAULT_STATIONARY;
 }

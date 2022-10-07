@@ -15,6 +15,8 @@ enum class ID {
 	NORRIS_RUN_UP,
 	NORRIS_RUN_LEFT,
 	NORRIS_RUN_RIGHT,
+
+	MAIN_CHARACTER_DEFAULT_SKIN_JUMP,
 };
 
 static std::string toString(const ID& textureID) { return magic_enum::enum_name(textureID).data(); }
@@ -30,6 +32,8 @@ static std::string getFileOfTexture(const ID& textureID) {
 		case ID::NORRIS_RUN_UP: return "resources/character/run_up.png";
 		case ID::NORRIS_RUN_LEFT: return "resources/character/run_left.png";
 		case ID::NORRIS_RUN_RIGHT: return "resources/character/run_right.png";
+
+		case ID::MAIN_CHARACTER_DEFAULT_SKIN_JUMP: return "resources/character/jump.png";
 	}
 
 	throw std::runtime_error("Texture: " + toString(textureID) + " has no resource file associated with it");
@@ -46,6 +50,8 @@ static int getNumberOfFrames(const ID& textureID) {
 		case ID::NORRIS_RUN_UP: return 4;
 		case ID::NORRIS_RUN_LEFT: return 4;
 		case ID::NORRIS_RUN_RIGHT: return 4;
+
+		case ID::MAIN_CHARACTER_DEFAULT_SKIN_JUMP: return 9;
 	}
 
 	throw std::runtime_error("Texture: " + toString(textureID) + " has no number of frames specified");

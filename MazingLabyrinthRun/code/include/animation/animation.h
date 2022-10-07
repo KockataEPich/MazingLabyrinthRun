@@ -21,6 +21,7 @@ public:
 	    , m_texture_id{texture_id}
 	    , m_texture{ResourceManager::getInstance()->getTexture(texture_id)} {
 		m_x_axis_offset = m_texture->getSize().x / Textures::getNumberOfFrames(m_texture_id);
+		m_current_rectange = {0, 0, m_x_axis_offset, (int) m_texture->getSize().y};
 	};
 
 	bool nextFrame();
@@ -39,13 +40,13 @@ public:
 		m_speed = other.m_speed;
 		m_texture = other.m_texture;
 
-		m_current_rectange = sf::IntRect{0, 0, 16, 16};
+		m_current_rectange = sf::IntRect{0, 0, other.m_x_axis_offset, (int) m_texture->getSize().y};
 	}
 	friend bool operator==(const Animation& lhs, const Animation& rhs);
 
 private:
 	int m_x_axis_offset;
-	sf::IntRect m_current_rectange{0, 0, 16, 16};
+	sf::IntRect m_current_rectange;
 
 	Textures::ID m_texture_id;
 	sf::Texture* m_texture;
