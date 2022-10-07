@@ -3,7 +3,6 @@
 
 #include "../include/entityBase/logic/iLogic.h"
 #include "../include/entityBase/logic/movable.h"
-#include "playerTextureEnum.h"
 #include "playerState.h"
 
 class PlayerLogic

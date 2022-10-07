@@ -30,6 +30,7 @@ public:
 
 	sf::IntRect& get_current_rect() { return m_current_rectange; }
 	sf::Texture* getTexture() { return m_texture; }
+	Textures::ID& get_texture_id() { return m_texture_id; }
 
 	void operator=(Animation& other) noexcept {
 		m_x_axis_offset = other.m_x_axis_offset;

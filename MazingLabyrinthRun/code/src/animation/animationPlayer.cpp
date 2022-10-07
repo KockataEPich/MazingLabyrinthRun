@@ -4,11 +4,8 @@ AnimationPlayer::AnimationPlayer(DefaultAnimations&& defaultAnimations)
     : m_defaultAnimations{defaultAnimations}
     , m_currentAnimation{m_defaultAnimations.facingDown} {}
 
-void AnimationPlayer::playAnimation(Animation& animation) {
-	if(m_currentAnimation == animation)
-		return;
-	m_currentAnimation = animation;
-}
+void AnimationPlayer::playAnimation(Animation&& animation) { m_currentAnimation = animation; }
+void AnimationPlayer::playAnimation(Animation& animation) { m_currentAnimation = animation; }
 
 void AnimationPlayer::update(const FacingSide& side, float deltaTime) {
 	m_totalTime += deltaTime;

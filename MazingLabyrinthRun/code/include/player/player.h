@@ -3,7 +3,6 @@
 
 #include "../include/entityBase/complexWorldObject/activeObject.h"
 #include "playerLogic.h"
-#include "playerTextureEnum.h"
 #include "playerView.h"
 
 #include <SFML/Graphics/Texture.hpp>

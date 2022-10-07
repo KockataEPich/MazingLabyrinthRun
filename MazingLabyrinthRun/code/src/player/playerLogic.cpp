@@ -28,27 +28,27 @@ void PlayerLogic::move(const float deltaTime) {
 
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::S) &&
 	    !sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		m_state.currentAnimation = PlayerAnimation::default_animation;
+		m_state.currentAnimation = AnimationType::MAIN_CHARACTER_DEFAULT_STATIONARY;
 }
 
 void PlayerLogic::moveRight(const float deltaTime) {
 	m_sprite->setPosition(m_sprite->getPosition().x + (m_speed * deltaTime), m_sprite->getPosition().y);
 	m_state.side = FacingSide::right;
-	m_state.currentAnimation = PlayerAnimation::run;
+	m_state.currentAnimation = AnimationType::MAIN_CHARACTER_DEFAULT_RUN;
 }
 void PlayerLogic::moveLeft(const float deltaTime) {
 	m_sprite->setPosition(m_sprite->getPosition().x - (m_speed * deltaTime), m_sprite->getPosition().y);
 	m_state.side = FacingSide::left;
-	m_state.currentAnimation = PlayerAnimation::run;
+	m_state.currentAnimation = AnimationType::MAIN_CHARACTER_DEFAULT_RUN;
 	
 }
 void PlayerLogic::moveUp(const float deltaTime) {
 	m_sprite->setPosition(m_sprite->getPosition().x, m_sprite->getPosition().y - (m_speed * deltaTime));
 	m_state.side = FacingSide::up;
-	m_state.currentAnimation = PlayerAnimation::run;
+	m_state.currentAnimation = AnimationType::MAIN_CHARACTER_DEFAULT_RUN;
 }
 void PlayerLogic::moveDown(const float deltaTime) {
 	m_sprite->setPosition(m_sprite->getPosition().x, m_sprite->getPosition().y + (m_speed * deltaTime));
 	m_state.side = FacingSide::down;
-	m_state.currentAnimation = PlayerAnimation::run;
+	m_state.currentAnimation = AnimationType::MAIN_CHARACTER_DEFAULT_RUN;
 }

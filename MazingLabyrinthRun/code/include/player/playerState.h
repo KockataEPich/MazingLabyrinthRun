@@ -2,12 +2,11 @@
 #define PLAYER_STATE_HEADER_H
 
 #include "../attribute/facingSide.h"
-
-enum class PlayerAnimation {default_animation, run};
+#include "../resource/skins.h"
 
 struct PlayerState {
 	FacingSide side;
-	PlayerAnimation currentAnimation;
+	AnimationType currentAnimation;
 };
 
 #endif

@@ -22,7 +22,11 @@ public:
 	AnimationPlayer(DefaultAnimations&& defaultAnimations);
 
 	sf::Texture& getCurrentTexture(){ return *m_currentAnimation.getTexture(); };
-	void playAnimation(Animation& animation);
+	Animation& getCurrentAnimation(){ return m_currentAnimation; };
+
+	void playAnimation(Animation&& animation);
+	void AnimationPlayer::playAnimation(Animation& animation);
+
 	void update(const FacingSide& side, float deltaTime);
 	void playDefaultAnimation(const FacingSide& side);
 	sf::IntRect& get_current_rect();
