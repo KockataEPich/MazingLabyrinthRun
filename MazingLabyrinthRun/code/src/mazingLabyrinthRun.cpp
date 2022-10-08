@@ -8,6 +8,17 @@ MazingLabyrinthRun::MazingLabyrinthRun()
 	: m_window("MazingLabyrinthRun", sf::Vector2u(1920, 1080)) {
 	initialize_game();
 	m_player = std::make_unique<Player>(Player());
+	tile_texture.loadFromFile("resources/tile/grass.png");
+
+	for(int i = -1600; i <= 1600; i+= 160){
+		for(int j = 1600; j >= -1600; j -= 160 ){
+			sf::Sprite tile;
+			tile.setPosition(sf::Vector2f((float) i, (float)j));
+			tile.setTexture(tile_texture);
+			tile.scale(sf::Vector2f(5.0f, 5.0f));
+			grass_lands.push_back(tile);
+		}
+	}
 };
 
 void MazingLabyrinthRun::initialize_game() {
@@ -28,7 +39,11 @@ void MazingLabyrinthRun::update() {
 
 void MazingLabyrinthRun::render() {
 	m_window.beginDraw();
+	for(auto& grass : grass_lands){
+		m_window.draw(grass);
+	}
 	m_window.draw(*m_player);
+
 	m_window.endDraw();
 }
 

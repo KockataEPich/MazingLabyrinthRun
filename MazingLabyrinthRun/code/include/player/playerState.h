@@ -1,11 +1,10 @@
 #ifndef PLAYER_STATE_HEADER_H
 #define PLAYER_STATE_HEADER_H
 
-#include "../attribute/facingSide.h"
+#include "../entityBase/logic/movable_logic/default_movable_state.h"
 #include "../resource/skins.h"
 
-struct PlayerState {
-	FacingSide side;
+struct PlayerState : public MovableState {
 	AnimationType currentAnimation;
 };
 

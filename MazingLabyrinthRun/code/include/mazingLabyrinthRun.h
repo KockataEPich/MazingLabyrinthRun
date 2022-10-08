@@ -31,6 +31,9 @@ private:
 	sf::Time MazingLabyrinthRun::getElapsed() { return m_elapsed; }
 	void MazingLabyrinthRun::restartClock() { m_elapsed = m_clock.restart(); }
 	void initialize_game();
+
+	sf::Texture tile_texture;
+	std::vector<sf::Sprite> grass_lands;
 };
 
 #endif // !MAZING_LABYRINTH_RUN_HEADER_H
