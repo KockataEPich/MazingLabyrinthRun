@@ -1,8 +1,8 @@
 #ifndef MOVING_SPRITE_EVENT_DECORATOR_HEADER_H
 #define MOVING_SPRITE_EVENT_DECORATOR_HEADER_H
 
-#include "../../sprite_event_base_decorator.h"
-#include "../default_movable_state.h"
+#include "../action.h"
+#include "movable_state.h"
 
 class MoveAction : public Action {
 public:

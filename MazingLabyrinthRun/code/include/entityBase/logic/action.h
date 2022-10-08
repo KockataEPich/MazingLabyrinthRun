@@ -1,6 +1,7 @@
-#ifndef SPRITE_EVENT_DECORATOR_BASE_HEADER
-#define SPRITE_EVENT_DECORATOR_BASE_HEADER
+#ifndef SPRITE_ACTION_HEADER
+#define SPRITE_ACTION_HEADER
 
+#include <SFML/Graphics/Sprite.hpp>
 class Action {
 public:
 	Action(sf::Sprite* sprite) : m_sprite{sprite}{}

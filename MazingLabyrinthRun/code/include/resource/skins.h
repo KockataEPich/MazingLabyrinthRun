@@ -6,6 +6,7 @@
 
 #include <unordered_map>
 enum class Skin { MAIN_CHARACTER_START_SKIN };
+
 enum class AnimationType { MAIN_CHARACTER_DEFAULT_STATIONARY, MAIN_CHARACTER_DEFAULT_RUN, MAIN_CHARACTER_DEFAULT_JUMP };
 
 // clang-format off

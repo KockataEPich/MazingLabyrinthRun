@@ -3,7 +3,7 @@
 
 #include "../include/animation/animationPlayer.h"
 #include "../include/entityBase/view/iView.h"
-#include "playerState.h"
+#include "player_state.h"
 
 class PlayerView : public IView<PlayerState> {
 public:
