@@ -26,6 +26,7 @@ void PlayerLogic::initialize() {
 	m_state.side = FacingSide::down;
 }
 
+
 void PlayerLogic::fill_actions_from_play_input(std::vector<std::unique_ptr<Action>>& actions) {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
 		actions.push_back(std::make_unique<RunRight>(m_sprite, &m_state));

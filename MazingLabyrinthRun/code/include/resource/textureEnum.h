@@ -3,7 +3,7 @@
 
 #include <magic_enum.hpp>
 #include <stdexcept>
-
+#include <unordered_map>
 namespace Textures {
 enum class ID {
 	NORRIS_NAKED_DEF_UP_1,
@@ -19,43 +19,41 @@ enum class ID {
 	MAIN_CHARACTER_DEFAULT_SKIN_JUMP,
 };
 
+struct TextureMetadata{
+	int number_of_frames;
+	int default_repeats;
+	float default_speed;
+};
+
 static std::string toString(const ID& textureID) { return magic_enum::enum_name(textureID).data(); }
 
-static std::string getFileOfTexture(const ID& textureID) {
-	switch (textureID) {
-		case ID::NORRIS_NAKED_DEF_UP_1: return "resources/character/up.png";
-		case ID::NORRIS_NAKED_DEF_DOWN_1: return "resources/character/down.png";
-		case ID::NORRIS_NAKED_DEF_LEFT_1: return "resources/character/left.png";
-		case ID::NORRIS_NAKED_DEF_RIGHT_1: return "resources/character/right.png";
+const static std::unordered_map<ID, std::string> texture_id_to_file_map{
+    {ID::NORRIS_NAKED_DEF_UP_1, "resources/character/up.png"},
+    {ID::NORRIS_NAKED_DEF_DOWN_1, "resources/character/down.png"},
+    {ID::NORRIS_NAKED_DEF_LEFT_1, "resources/character/left.png"},
+    {ID::NORRIS_NAKED_DEF_RIGHT_1, "resources/character/right.png"},
 
-		case ID::NORRIS_RUN_DOWN: return "resources/character/walk_down.png";
-		case ID::NORRIS_RUN_UP: return "resources/character/run_up.png";
-		case ID::NORRIS_RUN_LEFT: return "resources/character/run_left.png";
-		case ID::NORRIS_RUN_RIGHT: return "resources/character/run_right.png";
+    {ID::NORRIS_RUN_DOWN, "resources/character/walk_down.png"},
+    {ID::NORRIS_RUN_UP, "resources/character/run_up.png"},
+    {ID::NORRIS_RUN_LEFT, "resources/character/run_left.png"},
+    {ID::NORRIS_RUN_RIGHT, "resources/character/run_right.png"},
 
-		case ID::MAIN_CHARACTER_DEFAULT_SKIN_JUMP: return "resources/character/jump.png";
-	}
+    {ID::MAIN_CHARACTER_DEFAULT_SKIN_JUMP, "resources/character/jump.png"}
+};
 
-	throw std::runtime_error("Texture: " + toString(textureID) + " has no resource file associated with it");
-}
+const static std::unordered_map<ID, TextureMetadata> texture_id_to_texture_metadata{
+	{ID::NORRIS_NAKED_DEF_UP_1, {1, -1, 0.2f}},
+	{ID::NORRIS_NAKED_DEF_DOWN_1, {4, -1, 0.2f}},
+	{ID::NORRIS_NAKED_DEF_LEFT_1, {1, -1, 0.2f}},
+	{ID::NORRIS_NAKED_DEF_RIGHT_1, {1, -1, 0.2f}},
 
-static int getNumberOfFrames(const ID& textureID) {
-	switch (textureID) {
-		case ID::NORRIS_NAKED_DEF_UP_1: return 1;
-		case ID::NORRIS_NAKED_DEF_DOWN_1: return 4;
-		case ID::NORRIS_NAKED_DEF_LEFT_1: return 1;
-		case ID::NORRIS_NAKED_DEF_RIGHT_1: return 1;
+	{ID::NORRIS_RUN_DOWN, {4, -1, 0.2f}},
+	{ID::NORRIS_RUN_UP, {4, -1, 0.2f}},
+	{ID::NORRIS_RUN_LEFT, {4, -1, 0.2f}},
+	{ID::NORRIS_RUN_RIGHT, {4, -1, 0.2f}},
 
-		case ID::NORRIS_RUN_DOWN: return 4;
-		case ID::NORRIS_RUN_UP: return 4;
-		case ID::NORRIS_RUN_LEFT: return 4;
-		case ID::NORRIS_RUN_RIGHT: return 4;
-
-		case ID::MAIN_CHARACTER_DEFAULT_SKIN_JUMP: return 9;
-	}
-
-	throw std::runtime_error("Texture: " + toString(textureID) + " has no number of frames specified");
-}
+	{ID::MAIN_CHARACTER_DEFAULT_SKIN_JUMP, {9, 1, 0.1f}}
+};
 
 }  // namespace Textures
 

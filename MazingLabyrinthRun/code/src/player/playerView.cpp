@@ -2,10 +2,10 @@
 
 PlayerView::PlayerView()
     : IView<PlayerState>(Skin::MAIN_CHARACTER_START_SKIN)
-    , m_animate{{Animation(Textures::ID::NORRIS_NAKED_DEF_RIGHT_1, Repeat{-1}, AnimationSpeed{0.2}),
-                 Animation(Textures::ID::NORRIS_NAKED_DEF_LEFT_1, Repeat{-1}, AnimationSpeed{0.2}),
-                 Animation(Textures::ID::NORRIS_NAKED_DEF_UP_1, Repeat{-1}, AnimationSpeed{0.2}),
-                 Animation(Textures::ID::NORRIS_NAKED_DEF_DOWN_1, Repeat{-1}, AnimationSpeed{0.2})}} {}
+    , m_animate{{Animation(Textures::ID::NORRIS_NAKED_DEF_RIGHT_1),
+                 Animation(Textures::ID::NORRIS_NAKED_DEF_LEFT_1),
+                 Animation(Textures::ID::NORRIS_NAKED_DEF_UP_1),
+                 Animation(Textures::ID::NORRIS_NAKED_DEF_DOWN_1)}} {}
 
 void PlayerView::initialize() {
 	m_sprite->setTexture(m_animate.getCurrentTexture());
@@ -15,10 +15,7 @@ void PlayerView::initialize() {
 void PlayerView::update(const PlayerState* state, const float deltaTime) {
 	auto texture_id = get_id_of_rotating_texture(m_skin, state->action_type, state->side);
 	if (texture_id != m_animate.getCurrentAnimation().get_texture_id()) {
-		if (state->action_type == ActionType::jump)
-			m_animate.playAnimation(Animation(texture_id, Repeat{1}, AnimationSpeed{0.1}));
-		else
-			m_animate.playAnimation(Animation(texture_id, Repeat{-1}, AnimationSpeed{0.2}));
+		m_animate.playAnimation(Animation(texture_id));
 		m_sprite->setTexture(m_animate.getCurrentTexture());
 	}
 	m_animate.update(state->side, deltaTime);

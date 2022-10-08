@@ -18,7 +18,6 @@ public:
 		Animation facingDown;
 	};
 
-
 	AnimationPlayer(DefaultAnimations&& defaultAnimations);
 
 	sf::Texture& getCurrentTexture(){ return *m_currentAnimation.getTexture(); };

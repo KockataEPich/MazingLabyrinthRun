@@ -1,8 +1,6 @@
 #ifndef PLAYER_ACTIONS_HEADER_H
 #define PLAYER_ACTIONS_HEADER_H
 #include "../include/entityBase/logic/movable_logic/move_actions.h"
-
-#include <SFML/Graphics/Sprite.hpp>
 #include <functional>
 #include <memory>
 

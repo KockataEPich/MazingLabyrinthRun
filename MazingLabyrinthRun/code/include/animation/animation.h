@@ -15,13 +15,14 @@ using AnimationSpeed = struct { float speed; };
 
 class Animation {
 public:
-	Animation(Textures::ID texture_id, Repeat repeat, AnimationSpeed speed)
-	    : m_repeat{repeat}
-	    , m_speed{speed}
+	Animation(const Textures::ID& texture_id)
+	    : m_repeat{Textures::texture_id_to_texture_metadata.at(m_texture_id).default_repeats}
+	    , m_speed{Textures::texture_id_to_texture_metadata.at(m_texture_id).default_speed}
 	    , m_texture_id{texture_id}
 	    , m_texture{ResourceManager::getInstance()->getTexture(texture_id)} {
-		m_x_axis_offset = m_texture->getSize().x / Textures::getNumberOfFrames(m_texture_id);
-		m_current_rectange = {0, 0, m_x_axis_offset, (int) m_texture->getSize().y};
+		m_x_axis_offset =
+		    m_texture->getSize().x / Textures::texture_id_to_texture_metadata.at(m_texture_id).number_of_frames;
+		m_current_rectange = {0, 0, m_x_axis_offset, (int)m_texture->getSize().y};
 	};
 
 	bool nextFrame();
@@ -40,7 +41,7 @@ public:
 		m_speed = other.m_speed;
 		m_texture = other.m_texture;
 
-		m_current_rectange = sf::IntRect{0, 0, other.m_x_axis_offset, (int) m_texture->getSize().y};
+		m_current_rectange = sf::IntRect{0, 0, other.m_x_axis_offset, (int)m_texture->getSize().y};
 	}
 	friend bool operator==(const Animation& lhs, const Animation& rhs);
 
