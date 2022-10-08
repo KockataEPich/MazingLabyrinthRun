@@ -28,19 +28,15 @@ void PlayerLogic::initialize() {
 
 void PlayerLogic::fill_actions_from_play_input(std::vector<std::unique_ptr<Action>>& actions) {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
-		actions.push_back(std::make_unique<MoveRight>(&m_state, m_sprite));
+		actions.push_back(std::make_unique<RunRight>(m_sprite, &m_state));
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
-		actions.push_back(std::make_unique<MoveLeft>(&m_state, m_sprite));
+		actions.push_back(std::make_unique<RunLeft>(m_sprite, &m_state));
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
-		actions.push_back(std::make_unique<MoveUp>(&m_state, m_sprite));
+		actions.push_back(std::make_unique<RunUp>(m_sprite, &m_state));
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
-		actions.push_back(std::make_unique<MoveDown>(&m_state, m_sprite));
+		actions.push_back(std::make_unique<RunDown>(m_sprite, &m_state));
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
-		actions.push_back(std::make_unique<JumpAction>(&m_state, m_sprite));
+		actions.push_back(std::make_unique<JumpAction>(m_sprite, &m_state));
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A) ||
-	    sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
-		actions.push_back(std::make_unique<RunAction>(&m_state, m_sprite));
-
-	if (actions.empty()) actions.push_back(std::make_unique<IdleAction>(&m_state, m_sprite));
+	if (actions.empty()) actions.push_back(std::make_unique<IdleAction>(m_sprite, &m_state));
 }

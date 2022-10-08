@@ -5,7 +5,7 @@
 #include "../resource/skins.h"
 
 struct PlayerState : MovableState{
-	AnimationType current_animation;
+	std::string todo_remove;
 };
 
 #endif
