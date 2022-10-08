@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Week 15 &mdash; MazingLabyrinthRun 0.0.1 documentation</title>
+  <title>09/October/2022 &mdash; MazingLabyrinthRun 0.0.1 documentation</title>
   
 
   
@@ -30,8 +30,8 @@
   <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="09/October/2022" href="09102022.html" />
-    <link rel="prev" title="Week 14" href="Week14.html" /> 
+    <link rel="next" title="Blog" href="../Blog/Blog.html" />
+    <link rel="prev" title="Week 15" href="Week15.html" /> 
 
 </head>
 
@@ -72,13 +72,13 @@
         
           <li><a href="WeeklyDocumentation.html">Weekly Progress Documentation for MazingLabyrinthRun</a></li>
         
-      <li>Week 15</li>
+      <li>09/October/2022</li>
     
     
       <li class="breadcrumbs-aside">
         
             
-            <a href="../_sources/WeeklyDocumentation/Week15.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/WeeklyDocumentation/09102022.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -124,8 +124,8 @@
 <li class="toctree-l2"><a class="reference internal" href="Week12.html">Week 12</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Week13.html">Week 13</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Week14.html">Week 14</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Week 15</a></li>
-<li class="toctree-l2"><a class="reference internal" href="09102022.html">09/October/2022</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Week15.html">Week 15</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">09/October/2022</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../Blog/Blog.html">Blog</a><ul>
@@ -142,35 +142,36 @@
                     <div class="document">
                         
                             
-  <section id="week-15">
-<span id="id1"></span><h1>Week 15<a class="headerlink" href="#week-15" title="Permalink to this headline">¶</a></h1>
-<p>Date: 18/May/2022</p>
+  <section id="october-2022">
+<span id="id1"></span><h1>09/October/2022<a class="headerlink" href="#october-2022" title="Permalink to this headline">¶</a></h1>
 <section id="retrospect">
 <h2>Retrospect<a class="headerlink" href="#retrospect" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>I have not been very productive on this project recently. Had some personal issues and I have been focusing to be as social as possible for the past month but I am slowly getting back on track again.</p></li>
-<li><p>I tried improving the infrastructure for the animations and how objects can have “sub-objects”. The main character can have a “Hat” for example. The way I decided to do this is to separate the view from the logic and for them to communicate through “state”. Kind of like the MVC pattern but not as grandiose. I also tried making it generic which has worked to some degree but as of now everything is very confusing and not scalable.</p></li>
-<li><p>I am starting to feel like the idea for basing slices onto enums is not as great as I thought. I realised that if I am going to be making composite objects, their frames have to perfectly match and thus creates an overcomplication.</p></li>
-<li><p>My biggest objective right now is to find a workaround this problem.</p></li>
+<li><p>Weeee, it has been a very while! Even though I didn’t work on the project recently, I had a great summer!</p></li>
+<li><p>I am weirdly enthusiastic about this project again all of a sudden. I guess pushing it has never been the solution</p></li>
+<li><p>One reason which kept me from getting into it again was that I had forgot what was happening in the codebase and it looked like a mess. I need to find some way of informing my future self</p></li>
+<li><p>Yes, I gave up calling it “Weekly updates” since my last update was 5 months ago and who knows when the next one will be.</p></li>
+<li><p>The code is now much more generic.</p></li>
+<li><p>I have dramatically improved the handling of the animations and actions which are the big highlights of the recent work. Almost all other parts have been improved in some way though.</p></li>
+<li><p>I ditched the sub-objects plan. I found this will skyrocket the complexity of the game. While it seems like it is an amazing feature, it will destroy my motivation to actually have fun. Maybe by continuing system implementation, I might find a good way to do it painlessly.</p></li>
+<li><p>The goal is shifted now to an archer game where the character is controlled by mouse. Basically, if you click on a non-enemy you will go there, if you click on an enemy, you will attack it.</p></li>
+<li><p>The game progression and mechanics will revolve around moves, different arrow types and bow/crossbow/sling/device-you-shoot-with which will have implications on the gameplay</p></li>
+<li><p>Currently not testing anything. The scope of the files changes so fast that testing will be a big hindrance towards my work. Once I have a solid foundation of the game I will properly test it.</p></li>
+<li><p>Removed the research points section. I just don’t do it. Waste of sheet space. I am much more hyped up to do actually do something!</p></li>
 </ul>
 </section>
-<section id="week-plan">
-<h2>Week Plan<a class="headerlink" href="#week-plan" title="Permalink to this headline">¶</a></h2>
+<section id="todos-for-next-update">
+<h2>TODOs For Next Update<a class="headerlink" href="#todos-for-next-update" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Improve generic access/manipulation of compound world entities.</p></li>
+<li><p>For the love of God, comment the code or explain it somewhere so I can understand it if I forget what was I doing!!!</p></li>
+<li><p>Log my work better on GitHub with issues</p></li>
+<li><p>Separate Action from States</p></li>
+<li><p>Create path finding system (Probably A*). Test it with a mod as well</p></li>
+<li><p>Create blocking and sequential animations (animations which must be performed before you can move, have to be done in a specific sequence)</p></li>
+<li><p>Use linked list instead of a vector for applying actions ( This is super trivia but I think it will improve performance. I am not sure how it will work with the point above)</p></li>
+<li><p>?? Make world the executor of actions rather than action objects themselves ?? (This is difficult to access. I can foresee that interactions between objects will be very difficult if every object interacts with another this way. It is possible it might not be a problem but needs to be investigated for sure)</p></li>
+<li><p>Make the main character go where the mouse clicks.</p></li>
 </ul>
-</section>
-<section id="research-points">
-<h2>Research Points<a class="headerlink" href="#research-points" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<div><ol class="arabic simple">
-<li><p>React and browser code integrity in general</p></li>
-<li><p>Java Containers</p></li>
-<li><p>Procedural generation</p></li>
-<li><p>Electron (for the client)</p></li>
-<li><p>Tile based system</p></li>
-</ol>
-</div></blockquote>
 </section>
 </section>
 
