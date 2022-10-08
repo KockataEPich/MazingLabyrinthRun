@@ -5,19 +5,13 @@
 #include "../include/attribute/facingSide.h"
 #include <SFML/Graphics/Sprite.hpp>
 #include "animation.h"
+#include "default_animations.h"
 
 #include <SFML/Graphics/Texture.hpp>
 #include <unordered_map>
 
 class AnimationPlayer {
 public:
-	struct DefaultAnimations {
-		Animation facingRight;
-		Animation facingLeft;
-		Animation facingUp;
-		Animation facingDown;
-	};
-
 	AnimationPlayer(DefaultAnimations&& defaultAnimations);
 
 	sf::Texture& getCurrentTexture(){ return *m_currentAnimation.getTexture(); };

@@ -1,6 +1,7 @@
 #ifndef I_VIEW_HEADER_H
 #define I_VIEW_HEADER_H
 
+#include "../complexWorldObject/active_object_state.h"
 #include "../include/entityBase/complexWorldObject/borrowSpriteObject.h"
 #include "../include/resource/skins.h"
 
