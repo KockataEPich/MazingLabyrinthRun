@@ -37,4 +37,12 @@ Still, most of the work I do here is to better my experience, so it can never be
 so long to actually start the development but it was worth it. I may not be using the latest technologies, but I wanted to have fun while doing it. There is a long journey ahead of me.
 
 
- 
+ 09/10/2022:
+------------
+
+Right now I need to take the first big decision of my game which will define a big aspect of it. I really was thinking
+of making a diablo style game where the buttons *Q* *W* *E* *R* ..etc are abilities/attacks/actions the player takes, while the targets are chosen with the mouse.
+So hovering the mouse on an enemy, will make the enemy glow with red circle (to say this is who you are targeting) and then pull. However, I would really like
+the player to control their character using keyboard and use the mouse only to aim. The problem I see with this is that animations could get weird. For example,
+running left while shooting right might create very fuzzy animation which are difficult to scale. This could not be a problem if, for example, the player has to stop for a second
+to shoot but I have to think about how this will impact gameplay. I would really like the game to be fluid. I think I will experiment first with the pause on shooting.
