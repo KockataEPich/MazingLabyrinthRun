@@ -4,6 +4,7 @@
 #include "window/gameWindow.h"
 //#include "world/worldObjectHolder.h"
 #include "player/player.h"
+#include "mobs/zombie/zombie.h"
 
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/View.hpp>
@@ -17,6 +18,7 @@ private:
 	GameWindow m_window;
 	//WorldObjectHolder m_worldObjectHolder;
 	std::unique_ptr<Player> m_player;
+	std::unique_ptr<Zombie> m_zombie;
 
 	sf::View m_camera;
 	sf::Clock m_clock;

@@ -6,7 +6,7 @@
 #include "textureEnum.h"
 
 #include <unordered_map>
-enum class Skin { MAIN_CHARACTER_START_SKIN };
+enum class Skin { MAIN_CHARACTER_START_SKIN, ZOMBIE_DEFAULT_SKIN };
 
 // clang-format off
 const static std::unordered_map<Skin, std::unordered_map<ActionType, std::unordered_map<FacingSide, Textures::ID>>>
@@ -26,7 +26,22 @@ const static std::unordered_map<Skin, std::unordered_map<ActionType, std::unorde
                             {FacingSide::right, Textures::ID::MAIN_CHARACTER_DEFAULT_SKIN_JUMP},
 							{FacingSide::left, Textures::ID::MAIN_CHARACTER_DEFAULT_SKIN_JUMP},
                             {FacingSide::up, Textures::ID::MAIN_CHARACTER_DEFAULT_SKIN_JUMP},
-                            {FacingSide::down, Textures::ID::MAIN_CHARACTER_DEFAULT_SKIN_JUMP}}}}}};
+                            {FacingSide::down, Textures::ID::MAIN_CHARACTER_DEFAULT_SKIN_JUMP}}}}
+		},
+		{Skin::ZOMBIE_DEFAULT_SKIN, {
+		 		{ActionType::idle, {
+		 				{FacingSide::right, Textures::ID::ZOMBIE_IDLE_LEFT},
+		 				{FacingSide::left, Textures::ID::ZOMBIE_IDLE_LEFT},
+		 				{FacingSide::up, Textures::ID::ZOMBIE_IDLE_LEFT},
+		 				{FacingSide::down, Textures::ID::ZOMBIE_IDLE_LEFT}}},
+
+				{ActionType::attack, {
+						{FacingSide::right, Textures::ID::ZOMBIE_ATTACK_LEFT},
+		 				{FacingSide::left, Textures::ID::ZOMBIE_ATTACK_LEFT},
+		 				{FacingSide::up, Textures::ID::ZOMBIE_ATTACK_LEFT},
+		 				{FacingSide::down, Textures::ID::ZOMBIE_ATTACK_LEFT}}}}
+		}
+};
 // clang-format on
 
 const static Textures::ID get_id_of_rotating_texture(Skin skin, ActionType animation, FacingSide side) {

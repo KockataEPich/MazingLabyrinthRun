@@ -17,9 +17,12 @@ enum class ID {
 	NORRIS_RUN_RIGHT,
 
 	MAIN_CHARACTER_DEFAULT_SKIN_JUMP,
+
+	ZOMBIE_IDLE_LEFT,
+	ZOMBIE_ATTACK_LEFT,
 };
 
-struct TextureMetadata{
+struct TextureMetadata {
 	int number_of_frames;
 	int default_repeats;
 	float default_speed;
@@ -38,23 +41,28 @@ const static std::unordered_map<ID, std::string> texture_id_to_file_map{
     {ID::NORRIS_RUN_LEFT, "resources/character/run_left.png"},
     {ID::NORRIS_RUN_RIGHT, "resources/character/run_right.png"},
 
-    {ID::MAIN_CHARACTER_DEFAULT_SKIN_JUMP, "resources/character/jump.png"}
+    {ID::MAIN_CHARACTER_DEFAULT_SKIN_JUMP, "resources/character/jump.png"},
+
+    {ID::ZOMBIE_IDLE_LEFT, "resources/character/zombie_left_idle.png"},
+    {ID::ZOMBIE_ATTACK_LEFT, "resources/character/zombie_left_attack.png"},
 };
 
 const static std::unordered_map<ID, TextureMetadata> texture_id_to_texture_metadata{
-	{ID::NORRIS_NAKED_DEF_UP_1, {1, -1, 0.2f}},
-	{ID::NORRIS_NAKED_DEF_DOWN_1, {4, -1, 0.2f}},
-	{ID::NORRIS_NAKED_DEF_LEFT_1, {1, -1, 0.2f}},
-	{ID::NORRIS_NAKED_DEF_RIGHT_1, {1, -1, 0.2f}},
+    {ID::NORRIS_NAKED_DEF_UP_1, {1, -1, 0.2f}},
+    {ID::NORRIS_NAKED_DEF_DOWN_1, {4, -1, 0.2f}},
+    {ID::NORRIS_NAKED_DEF_LEFT_1, {1, -1, 0.2f}},
+    {ID::NORRIS_NAKED_DEF_RIGHT_1, {1, -1, 0.2f}},
 
-	{ID::NORRIS_RUN_DOWN, {4, -1, 0.2f}},
-	{ID::NORRIS_RUN_UP, {4, -1, 0.2f}},
-	{ID::NORRIS_RUN_LEFT, {4, -1, 0.2f}},
-	{ID::NORRIS_RUN_RIGHT, {4, -1, 0.2f}},
+    {ID::NORRIS_RUN_DOWN, {4, -1, 0.2f}},
+    {ID::NORRIS_RUN_UP, {4, -1, 0.2f}},
+    {ID::NORRIS_RUN_LEFT, {4, -1, 0.2f}},
+    {ID::NORRIS_RUN_RIGHT, {4, -1, 0.2f}},
 
-	{ID::MAIN_CHARACTER_DEFAULT_SKIN_JUMP, {9, 1, 0.1f}}
+    {ID::MAIN_CHARACTER_DEFAULT_SKIN_JUMP, {9, 1, 0.1f}},
+
+    {ID::ZOMBIE_IDLE_LEFT, {1, -1, 0.1f}},
+    {ID::ZOMBIE_ATTACK_LEFT, {4, 1, 0.2f}}
 };
-
 }  // namespace Textures
 
 #endif
