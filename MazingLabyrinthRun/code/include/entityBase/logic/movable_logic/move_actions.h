@@ -7,7 +7,7 @@
 class RunEvent : public EventUsingState<MovableState> {
 public:
 	RunEvent(sf::Sprite* sprite, MovableState* state) : EventUsingState<MovableState>(sprite, state) {};
-	void event() override {m_state->action_type = ActionType::run;}
+	void after_event() override {m_state->action_type = ActionType::run;}
 };
 
 class RunRight : public RunEvent {

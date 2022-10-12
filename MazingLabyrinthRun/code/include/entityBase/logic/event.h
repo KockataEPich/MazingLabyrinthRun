@@ -19,10 +19,12 @@ public:
 	virtual void after_event(){};
 
 	bool is_finished() { return m_finished; }
+	virtual int event_recurrence_number() { return m_event_recurrence_number; }
 
 protected:
 	sf::Sprite* m_sprite;
-	bool m_finished = true;
+	bool m_finished = false;
+	int m_event_recurrence_number = 1;
 };
 
 template<typename T>
@@ -54,11 +56,10 @@ public:
 class SequenceEvent : CompositeEvent {
 public:
 	void event() override {
-		if (!m_events.empty()) {
-			m_events.front()->apply();
-			if (m_events.front()->is_finished()) m_events.pop_front();
-		}
-		m_finished = m_events.empty();
+		if (m_finished = m_events.empty(); m_finished) return;
+
+		m_events.front()->apply();
+		if (m_events.front()->is_finished()) m_events.pop_front();
 	}
 };
 
