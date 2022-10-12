@@ -4,10 +4,10 @@
 #include <functional>
 #include <memory>
 
-class JumpAction : public ActionUsingState<PlayerState> {
+class JumpAction : public EventUsingState<PlayerState> {
 public:
-	JumpAction(sf::Sprite* sprite, PlayerState* state) : ActionUsingState<PlayerState>(sprite, state){};
-	void apply_action() override { m_state->action_type = ActionType::jump; }
+	JumpAction(sf::Sprite* sprite, PlayerState* state) : EventUsingState<PlayerState>(sprite, state){};
+	void event() override { m_state->action_type = ActionType::jump; }
 };
 
 #endif

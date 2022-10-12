@@ -1,7 +1,7 @@
 #ifndef PLAYER_LOGIC_HEADER_H
 #define PLAYER_LOGIC_HEADER_H
 
-#include "../include/entityBase/logic/action.h"
+#include "../include/entityBase/logic/event.h"
 #include "../include/entityBase/logic/iLogic.h"
 #include "player_state.h"
 
@@ -14,7 +14,7 @@ public:
 
 private:
 	void initialize() override;
-	void fill_actions_from_play_input(std::vector<std::unique_ptr<Action>>& actions);
+	void fill_actions_from_play_input(std::vector<std::unique_ptr<Event>>& actions);
 };
 
 #endif

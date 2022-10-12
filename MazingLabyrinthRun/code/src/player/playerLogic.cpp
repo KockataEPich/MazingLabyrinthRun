@@ -10,7 +10,7 @@ PlayerLogic::PlayerLogic() {}
 PlayerState* PlayerLogic::doLogic(const float deltaTime) {
 	m_state.delta_time = deltaTime;
 
-	std::vector<std::unique_ptr<Action>> all_actions;
+	std::vector<std::unique_ptr<Event>> all_actions;
 	fill_actions_from_play_input(all_actions);
 	for (auto& action : all_actions) { action->apply(); }
 
@@ -27,7 +27,7 @@ void PlayerLogic::initialize() {
 }
 
 
-void PlayerLogic::fill_actions_from_play_input(std::vector<std::unique_ptr<Action>>& actions) {
+void PlayerLogic::fill_actions_from_play_input(std::vector<std::unique_ptr<Event>>& actions) {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
 		actions.push_back(std::make_unique<RunRight>(m_sprite, &m_state));
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))

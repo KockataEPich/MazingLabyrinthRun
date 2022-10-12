@@ -1,47 +1,47 @@
 #ifndef MOVING_RUN_ACTION_HEADER_H
 #define MOVING_RUN_ACTION_HEADER_H
 
-#include "../action.h"
+#include "../event.h"
 #include "movable_state.h"
 
-class RunAction : public ActionUsingState<MovableState> {
+class RunEvent : public EventUsingState<MovableState> {
 public:
-	RunAction(sf::Sprite* sprite, MovableState* state) : ActionUsingState<MovableState>(sprite, state) {};
-	void after_applying() override {m_state->action_type = ActionType::run;}
+	RunEvent(sf::Sprite* sprite, MovableState* state) : EventUsingState<MovableState>(sprite, state) {};
+	void event() override {m_state->action_type = ActionType::run;}
 };
 
-class RunRight : public RunAction {
+class RunRight : public RunEvent {
 public:
-	RunRight(sf::Sprite* sprite, MovableState* state) : RunAction(sprite, state){};
-	void apply_action() override {
+	RunRight(sf::Sprite* sprite, MovableState* state) : RunEvent(sprite, state){};
+	void event() override {
 		m_sprite->setPosition(m_sprite->getPosition().x + (m_state->speed * m_state->delta_time),
 		                      m_sprite->getPosition().y);
 		m_state->side = FacingSide::right;
 	};
 };
 
-class RunLeft : public RunAction {
+class RunLeft : public RunEvent {
 public:
-	RunLeft(sf::Sprite* sprite, MovableState* state) : RunAction(sprite, state){};
-	void apply_action() override {
+	RunLeft(sf::Sprite* sprite, MovableState* state) : RunEvent(sprite, state){};
+	void event() override {
 		m_sprite->setPosition(m_sprite->getPosition().x - (m_state->speed * m_state->delta_time), m_sprite->getPosition().y);
 		m_state->side = FacingSide::left;
 	};
 };
 
-class RunUp : public RunAction {
+class RunUp : public RunEvent {
 public:
-	RunUp(sf::Sprite* sprite, MovableState* state) : RunAction(sprite, state){};
-	void apply_action() override {
+	RunUp(sf::Sprite* sprite, MovableState* state) : RunEvent(sprite, state){};
+	void event() override {
 		m_sprite->setPosition(m_sprite->getPosition().x, m_sprite->getPosition().y - (m_state->speed * m_state->delta_time));
 		m_state->side = FacingSide::up;
 	};
 };
 
-class RunDown : public RunAction {
+class RunDown : public RunEvent {
 public:
-	RunDown(sf::Sprite* sprite, MovableState* state) : RunAction(sprite, state){};
-	void apply_action() override {
+	RunDown(sf::Sprite* sprite, MovableState* state) : RunEvent(sprite, state){};
+	void event() override {
 		m_sprite->setPosition(m_sprite->getPosition().x, m_sprite->getPosition().y + (m_state->speed * m_state->delta_time));
 		m_state->side = FacingSide::down;
 	};
