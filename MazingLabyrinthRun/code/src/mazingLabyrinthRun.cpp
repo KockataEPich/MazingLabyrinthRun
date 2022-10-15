@@ -6,8 +6,6 @@
 
 MazingLabyrinthRun::MazingLabyrinthRun() : m_window("MazingLabyrinthRun", sf::Vector2u(1920, 1080)) {
 	initialize_game();
-	m_player = std::make_unique<Player>(Player());
-	m_zombie = std::make_unique<Zombie>(Zombie());
 
 	tile_texture.loadFromFile("resources/tile/grass.png");
 
@@ -29,20 +27,14 @@ void MazingLabyrinthRun::initialize_game() {
 void MazingLabyrinthRun::handleInput() {}
 
 void MazingLabyrinthRun::update() {
-	m_player->play(m_deltaTime);
-	m_zombie->play(m_deltaTime);
-
 	m_window.update();
-	m_camera.setCenter(m_player->getPosition());
+	//m_camera.setCenter(m_player->getPosition());
 	m_window.setView(m_camera);
 }
 
 void MazingLabyrinthRun::render() {
 	m_window.beginDraw();
 	for (auto& grass : grass_lands) m_window.draw(grass);
-
-	m_window.draw(*m_player);
-	m_window.draw(*m_zombie);
 
 	m_window.endDraw();
 }

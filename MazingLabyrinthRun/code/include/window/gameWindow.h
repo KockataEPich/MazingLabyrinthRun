@@ -1,8 +1,6 @@
 #ifndef GAME_WINDOW_HEADER_H
 #define GAME_WINDOW_HEADER_H
 
-#include "../entityBase/worldObject.h"
-
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -23,7 +21,7 @@ public:
 
 	void toggleFullscreen();
 	void draw(sf::Drawable& drawable);
-	void draw(WorldObject& worldObject);
+//	void draw(WorldObject& worldObject);
 	// void draw(WorldObjectHolder& worldObjectHolder);
 
 private:
