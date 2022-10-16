@@ -1,8 +1,32 @@
 #include "../include/mazingLabyrinthRun.h"
+#include "../include/world/coordinator.h"
+#include "../include/systems/move_system.h"
 
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
+
+namespace {
+
+void test_ECS(float m_deltaTime) {
+	gCoordinator.Init();
+
+	gCoordinator.register_component<Transform>();
+
+	auto move_system = gCoordinator.register_system<MoveSystem>();
+
+	Signature signature;
+	signature.set(gCoordinator.get_component_type<Transform>());
+	gCoordinator.set_system_signature<MoveSystem>(signature);
+
+	std::vector<Entity> entities(MAX_ENTITIES);
+
+	Entity entity1 = gCoordinator.create_entity();
+	gCoordinator.add_component(entity1, Transform{0, 0});
+
+	move_system->update(m_deltaTime);
+}
+}  // namespace
 
 MazingLabyrinthRun::MazingLabyrinthRun() : m_window("MazingLabyrinthRun", sf::Vector2u(1920, 1080)) {
 	initialize_game();
@@ -30,6 +54,7 @@ void MazingLabyrinthRun::update() {
 	m_window.update();
 	//m_camera.setCenter(m_player->getPosition());
 	m_window.setView(m_camera);
+	test_ECS(m_deltaTime);
 }
 
 void MazingLabyrinthRun::render() {
