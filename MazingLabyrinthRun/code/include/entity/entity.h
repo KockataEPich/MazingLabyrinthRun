@@ -1,7 +1,11 @@
 #ifndef BASE_ENTITY_HEADER
 #define BASE_ENTITY_HEADER
 
-using Entity = std::uint32_t;
+class World;
+struct Entity {
+	int id;
 
-const Entity MAX_ENTITIES = 10;
+	// To put it in maps
+	friend bool operator<(const Entity& l, const Entity& r) { return l.id < r.id; }
+};
 #endif

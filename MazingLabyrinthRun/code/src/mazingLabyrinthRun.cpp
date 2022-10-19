@@ -1,30 +1,48 @@
 #include "../include/mazingLabyrinthRun.h"
-#include "../include/world/coordinator.h"
-#include "../include/systems/move_system.h"
+
+#include "../include/world/world.h"
 
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
+#include <entity/entityHandle.h>
 
 namespace {
 
+struct Position : Component<Position> {
+	Position(float x): x(x) {};
+	float x;
+};
+
+class Wind : public System {
+public:
+	Wind() { signature.addComponent<Position>(); }
+
+	void update(float dt) override {
+		for (auto& entity : registeredEntities) {
+			ComponentHandle<Position> position;
+			parentWorld->unpack(entity, position);
+
+			position->x += 1.0f * (dt / 1000.0f);
+		}
+	}
+};
+
 void test_ECS(float m_deltaTime) {
-	gCoordinator.Init();
+	auto entityManager = std::make_unique<EntityManager>();
+	auto world = std::make_unique<World>(std::move(entityManager));
 
-	gCoordinator.register_component<Transform>();
+	std::unique_ptr<System> wind = std::make_unique<Wind>();
+	world->addSystem(std::move(wind));
 
-	auto move_system = gCoordinator.register_system<MoveSystem>();
+	world->init();
 
-	Signature signature;
-	signature.set(gCoordinator.get_component_type<Transform>());
-	gCoordinator.set_system_signature<MoveSystem>(signature);
+	auto tumbleweed = world->createEntity();
+	tumbleweed.addComponent(Position(0));
 
-	std::vector<Entity> entities(MAX_ENTITIES);
-
-	Entity entity1 = gCoordinator.create_entity();
-	gCoordinator.add_component(entity1, Transform{0, 0});
-
-	move_system->update(m_deltaTime);
+	for(int i = 0; i < 50; i++) {
+		world->update(m_deltaTime);
+	}
 }
 }  // namespace
 
