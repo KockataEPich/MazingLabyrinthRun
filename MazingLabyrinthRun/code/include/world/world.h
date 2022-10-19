@@ -20,44 +20,44 @@ public:
 
 	void update(float dt);
 	void render();
-	EntityHandle createEntity();
-	void addSystem(std::unique_ptr<System> system);
-	void destroyEntity(Entity entity);
+	EntityHandle create_entity();
+	void add_system(std::unique_ptr<System> system);
+	void destroy_entity(Entity entity);
 
 	template <typename ComponentType>
-	void addCustomComponentManager(std::unique_ptr<ComponentManager<ComponentType>> manager) {
+	void add_custom_component_manager(std::unique_ptr<ComponentManager<ComponentType>> manager) {
 		int family = GetComponentFamily<ComponentType>();
-		if (family >= componentManagers.size()) { componentManagers.resize(family + 1); }
-		componentManagers[family] = manager;
+		if (family >= m_component_managers.size()) { m_component_managers.resize(family + 1); }
+		m_component_managers[family] = manager;
 	}
 
 	template<typename ComponentType>
-	void addComponent(Entity const& entity, ComponentType&& component) {
-		ComponentManager<ComponentType>* manager = getComponentManager<ComponentType>();
-		manager->addComponent(entity, component);
+	void add_component(Entity const& entity, ComponentType&& component) {
+		ComponentManager<ComponentType>* manager = get_component_manager<ComponentType>();
+		manager->add_component(entity, component);
 
-		ComponentMask oldMask = entityMasks[entity];
-		entityMasks[entity].addComponent<ComponentType>();
+		ComponentMask oldMask = m_entity_masks[entity];
+		m_entity_masks[entity].add_component<ComponentType>();
 
-		updateEntityMask(entity, oldMask);
+		update_entity_mask(entity, oldMask);
 	}
 
 	template<typename ComponentType>
-	void removeComponent(Entity const& entity) {
-		ComponentManager<ComponentType>* manager = getComponentManager<ComponentType>();
+	void remove_component(Entity const& entity) {
+		ComponentManager<ComponentType>* manager = get_component_manager<ComponentType>();
 		ComponentHandle<ComponentType> component = manager->lookup(entity);
 		component.destroy();
 
-		ComponentMask oldMask = entityMasks[entity];
-		entityMasks[entity].removeComponent<ComponentType>();
+		ComponentMask oldMask = m_entity_masks[entity];
+		m_entity_masks[entity].remove_component<ComponentType>();
 
-		updateEntityMask(entity, oldMask);
+		update_entity_mask(entity, oldMask);
 	}
 
 	template<typename ComponentType, typename... Args>
 	void unpack(Entity e, ComponentHandle<ComponentType>& handle, ComponentHandle<Args>&... args) {
 		typedef ComponentManager<ComponentType> ComponentManagerType;
-		auto mgr = getComponentManager<ComponentType>();
+		auto mgr = get_component_manager<ComponentType>();
 		handle = ComponentHandle<ComponentType>(e, mgr->lookup(e), mgr);
 
 		// Recurse
@@ -68,29 +68,29 @@ public:
 	template<typename ComponentType>
 	void unpack(Entity e, ComponentHandle<ComponentType>& handle) {
 		typedef ComponentManager<ComponentType> ComponentManagerType;
-		auto mgr = getComponentManager<ComponentType>();
-		handle = ComponentHandle<ComponentType>(e, mgr->lookup(e), mgr);
+		auto manger = get_component_manager<ComponentType>();
+		handle = ComponentHandle<ComponentType>(e, manger->lookup(e), manger);
 	}
 
 private:
-	std::unique_ptr<EntityManager> entityManager;
-	std::vector<std::unique_ptr<System>> systems;
-	std::vector<std::unique_ptr<BaseComponentManager>> componentManagers;
-	std::map<Entity, ComponentMask> entityMasks;
+	std::unique_ptr<EntityManager> m_entity_manager;
+	std::vector<std::unique_ptr<System>> m_systems;
+	std::vector<std::unique_ptr<BaseComponentManager>> m_component_managers;
+	std::map<Entity, ComponentMask> m_entity_masks;
 
-	void updateEntityMask(Entity const& entity, ComponentMask oldMask);
+	void update_entity_mask(Entity const& entity, ComponentMask old_mask);
 
 	template<typename ComponentType>
-	ComponentManager<ComponentType>* getComponentManager() {
-		int family = GetComponentFamily<ComponentType>();
+	ComponentManager<ComponentType>* get_component_manager() {
+		int family = get_component_family<ComponentType>();
 
-		if (family >= componentManagers.size()) { componentManagers.resize(family + 1); }
+		if (family >= m_component_managers.size()) { m_component_managers.resize(family + 1); }
 
-		if (!componentManagers[family]) {
-			componentManagers[family] = std::make_unique<ComponentManager<ComponentType>>();
+		if (!m_component_managers[family]) {
+			m_component_managers[family] = std::make_unique<ComponentManager<ComponentType>>();
 		}
 
-		return static_cast<ComponentManager<ComponentType>*>(componentManagers[family].get());
+		return static_cast<ComponentManager<ComponentType>*>(m_component_managers[family].get());
 	}
 };
 #endif

@@ -1,10 +1,10 @@
 #include "../include/component/componentMask.h"
 
-bool ComponentMask::isNewMatch(ComponentMask oldMask, ComponentMask systemMask) {
+bool ComponentMask::is_new_match(ComponentMask oldMask, ComponentMask systemMask) {
 	return matches(systemMask) && !oldMask.matches(systemMask);
 }
 
-bool ComponentMask::isNoLongerMatched(ComponentMask oldMask, ComponentMask systemMask) {
+bool ComponentMask::is_no_longer_matched(ComponentMask oldMask, ComponentMask systemMask) {
 	return oldMask.matches(systemMask) && !matches(systemMask);
 }
 

@@ -19,7 +19,7 @@ struct Component {
 
 // Util method for getting family given type
 template<typename C>
-static int GetComponentFamily() {
+static int get_component_family() {
 	return Component<typename std::remove_const<C>::type>::family();
 }
 #endif

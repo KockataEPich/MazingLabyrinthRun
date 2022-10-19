@@ -5,15 +5,15 @@
 struct ComponentMask {
 	unsigned int mask = 0;
 	template<typename ComponentType>
-	void addComponent() {
-		mask |= (1 << GetComponentFamily<ComponentType>());
+	void add_component() {
+		mask |= (1 << get_component_family<ComponentType>());
 	}
 	template<typename ComponentType>
-	void removeComponent() {
-		mask &= ~(1 << GetComponentFamily<ComponentType>());
+	void remove_component() {
+		mask &= ~(1 << get_component_family<ComponentType>());
 	}
-	bool isNewMatch(ComponentMask oldMask, ComponentMask systemMask);
-	bool isNoLongerMatched(ComponentMask oldMask, ComponentMask systemMask);
+	bool is_new_match(ComponentMask oldMask, ComponentMask systemMask);
+	bool is_no_longer_matched(ComponentMask oldMask, ComponentMask systemMask);
 	bool matches(ComponentMask systemMask);
 };
 #endif

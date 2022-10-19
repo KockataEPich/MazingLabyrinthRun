@@ -3,11 +3,11 @@
 #include "entity.h"
 
 class EntityManager {
- public:
-  Entity createEntity();
-  void destroy(Entity entity);
+public:
+	Entity create_entity();
+	void destroy(Entity entity);
 
- private:
-  int lastEntity = 0;
+private:
+	int last_entity = 0;
 };
 #endif

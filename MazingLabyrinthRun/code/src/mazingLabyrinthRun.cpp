@@ -16,12 +16,12 @@ struct Position : Component<Position> {
 
 class Wind : public System {
 public:
-	Wind() { signature.addComponent<Position>(); }
+	Wind() { m_signature.add_component<Position>(); }
 
 	void update(float dt) override {
-		for (auto& entity : registeredEntities) {
+		for (auto& entity : m_registered_entities) {
 			ComponentHandle<Position> position;
-			parentWorld->unpack(entity, position);
+			m_parent_world->unpack(entity, position);
 
 			position->x += 1.0f * (dt / 1000.0f);
 		}
@@ -33,12 +33,12 @@ void test_ECS(float m_deltaTime) {
 	auto world = std::make_unique<World>(std::move(entityManager));
 
 	std::unique_ptr<System> wind = std::make_unique<Wind>();
-	world->addSystem(std::move(wind));
+	world->add_system(std::move(wind));
 
 	world->init();
 
-	auto tumbleweed = world->createEntity();
-	tumbleweed.addComponent(Position(0));
+	auto tumbleweed = world->create_entity();
+	tumbleweed.add_component(Position(0));
 
 	for(int i = 0; i < 50; i++) {
 		world->update(m_deltaTime);
