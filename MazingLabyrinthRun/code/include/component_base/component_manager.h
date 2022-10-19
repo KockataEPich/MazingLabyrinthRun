@@ -1,6 +1,5 @@
 #ifndef BASE_COMPONENT_MANAGER_HEADER
 #define BASE_COMPONENT_MANAGER_HEADER
-#include "../entity_base/entity.h"
 #include "../entity_base/entity_map.h"
 
 #include <array>

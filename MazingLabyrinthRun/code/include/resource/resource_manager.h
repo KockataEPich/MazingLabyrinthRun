@@ -1,10 +1,11 @@
 #ifndef RESOURCE_MANAGER_HEADER_H
 #define RESOURCE_MANAGER_HEADER_H
 
-#include <SFML/Graphics/Texture.hpp>
 #include "texture_enum.h"
-#include <unordered_map>
+
+#include <SFML/Graphics/Texture.hpp>
 #include <memory>
+#include <unordered_map>
 
 class ResourceManager {
 public:

@@ -1,7 +1,5 @@
 #ifndef COMPONENT_HANDLE_HEADER
 #define COMPONENT_HANDLE_HEADER
-#include "../entity_base/entity.h"
-#include "component_manager.h"
 
 template<typename ComponentType>
 struct ComponentHandle {

@@ -22,12 +22,12 @@ private:
 
 	float m_deltaTime;
 
-	void handleInput();
+	void handle_input();
 	void update();
 	void render();
-	GameWindow& getWindow() { return m_window; };
-	sf::Time MazingLabyrinthRun::getElapsed() { return m_elapsed; }
-	void MazingLabyrinthRun::restartClock() { m_elapsed = m_clock.restart(); }
+	GameWindow& get_window() { return m_window; };
+	sf::Time get_elapsed() { return m_elapsed; }
+	void restart_clock() { m_elapsed = m_clock.restart(); }
 	void initialize_game();
 
 	sf::Texture tile_texture;

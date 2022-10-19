@@ -11,25 +11,23 @@ public:
 	GameWindow(const std::string& title, const sf::Vector2u& size);
 	~GameWindow();
 
-	void beginDraw();
-	void endDraw();
+	void begin_draw();
+	void end_draw();
 	void update();
-	bool isDone();
-	bool isFullscreen();
-	sf::Vector2u getWindowSize();
+	bool is_done();
+	bool is_full_screen();
+	sf::Vector2u get_window_size();
 	void setView(sf::View& view);
 
-	void toggleFullscreen();
+	void toggle_fullscreen();
 	void draw(sf::Drawable& drawable);
-//	void draw(WorldObject& worldObject);
-	// void draw(WorldObjectHolder& worldObjectHolder);
 
 private:
-	sf::RenderWindow m_gameWindow;
-	sf::Vector2u m_windowSize;
-	std::string m_windowTitle;
-	bool m_isDone;
-	bool m_isFullscreen;
+	sf::RenderWindow m_game_window;
+	sf::Vector2u m_window_size;
+	std::string m_window_title;
+	bool m_is_done;
+	bool m_is_fullscreen;
 
 	void setup(const std::string& title, const sf::Vector2u& size);
 	void destroy();

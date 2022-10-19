@@ -61,10 +61,10 @@ MazingLabyrinthRun::MazingLabyrinthRun() : m_window("MazingLabyrinthRun", sf::Ve
 void MazingLabyrinthRun::initialize_game() {
 	m_world = std::make_unique<World>(std::make_unique<EntityManager>());
 	m_world->init();
-	m_camera = sf::View(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(m_window.getWindowSize().x, m_window.getWindowSize().y));
+	m_camera = sf::View(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(m_window.get_window_size().x, m_window.get_window_size().y));
 }
 
-void MazingLabyrinthRun::handleInput() {}
+void MazingLabyrinthRun::handle_input() {}
 
 void MazingLabyrinthRun::update() {
 	m_window.update();
@@ -76,18 +76,18 @@ void MazingLabyrinthRun::update() {
 
 void MazingLabyrinthRun::render() {
 	m_world->render();
-	m_window.beginDraw();
+	m_window.begin_draw();
 	for (auto& grass : grass_lands) m_window.draw(grass);
 
-	m_window.endDraw();
+	m_window.end_draw();
 }
 
 void MazingLabyrinthRun::start_game() {
-	while (!m_window.isDone()) {
-		m_deltaTime = getElapsed().asSeconds();
-		handleInput();
+	while (!m_window.is_done()) {
+		m_deltaTime = get_elapsed().asSeconds();
+		handle_input();
 		update();
 		render();
-		restartClock();
+		restart_clock();
 	}
 }

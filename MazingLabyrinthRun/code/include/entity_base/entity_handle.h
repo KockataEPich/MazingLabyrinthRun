@@ -1,9 +1,7 @@
 #ifndef ENTITY_HANDLE_HEADER
 #define ENTITY_HANDLE_HEADER
 
-#include "../component_base/component_handle.h"
 #include "../world/world.h"
-#include "entity.h"
 
 struct EntityHandle {
 	Entity entity;
