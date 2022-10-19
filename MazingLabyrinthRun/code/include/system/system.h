@@ -1,8 +1,8 @@
 #ifndef BASE_SYSTEM_HEADER
 #define BASE_SYSTEM_HEADER
 
-#include "../component/componentMask.h"
-#include "../entity/entity.h"
+#include "../component_base/component_mask.h"
+#include "../entity_base/entity.h"
 
 #include <bitset>
 #include <vector>

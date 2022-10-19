@@ -2,7 +2,7 @@
 #define RESOURCE_MANAGER_HEADER_H
 
 #include <SFML/Graphics/Texture.hpp>
-#include "textureEnum.h"
+#include "texture_enum.h"
 #include <unordered_map>
 #include <memory>
 

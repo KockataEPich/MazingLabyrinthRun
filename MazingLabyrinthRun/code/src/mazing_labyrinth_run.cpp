@@ -1,16 +1,14 @@
-#include "../include/mazingLabyrinthRun.h"
-
-#include "../include/world/world.h"
+#include "../include/mazing_labyrinth_run.h"
+#include "../include/entity_base/entity_handle.h"
 
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
-#include <entity/entityHandle.h>
 
 namespace {
 
 struct Position : Component<Position> {
-	Position(float x): x(x) {};
+	Position(float x) : x(x){};
 	float x;
 };
 
@@ -40,9 +38,7 @@ void test_ECS(float m_deltaTime) {
 	auto tumbleweed = world->create_entity();
 	tumbleweed.add_component(Position(0));
 
-	for(int i = 0; i < 50; i++) {
-		world->update(m_deltaTime);
-	}
+	for (int i = 0; i < 50; i++) { world->update(m_deltaTime); }
 }
 }  // namespace
 
@@ -63,6 +59,8 @@ MazingLabyrinthRun::MazingLabyrinthRun() : m_window("MazingLabyrinthRun", sf::Ve
 };
 
 void MazingLabyrinthRun::initialize_game() {
+	m_world = std::make_unique<World>(std::make_unique<EntityManager>());
+	m_world->init();
 	m_camera = sf::View(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(m_window.getWindowSize().x, m_window.getWindowSize().y));
 }
 
@@ -70,12 +68,14 @@ void MazingLabyrinthRun::handleInput() {}
 
 void MazingLabyrinthRun::update() {
 	m_window.update();
-	//m_camera.setCenter(m_player->getPosition());
+	m_world->update(m_deltaTime);
+	// m_camera.setCenter(m_player->getPosition());
 	m_window.setView(m_camera);
 	test_ECS(m_deltaTime);
 }
 
 void MazingLabyrinthRun::render() {
+	m_world->render();
 	m_window.beginDraw();
 	for (auto& grass : grass_lands) m_window.draw(grass);
 

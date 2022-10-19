@@ -1,6 +1,6 @@
 #include "../include/world/world.h"
 
-#include "../include/entity/entityHandle.h"
+#include "../include/entity_base/entity_handle.h"
 
 #include <iostream>
 

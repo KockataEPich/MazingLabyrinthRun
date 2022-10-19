@@ -1,7 +1,7 @@
 #ifndef BASE_COMPONENT_HEADER
 #define BASE_COMPONENT_HEADER
-#include "../include/entity/entity.h"
-#include "componentManager.h"
+#include "../entity_base/entity.h"
+#include "component_manager.h"
 
 #include <type_traits>
 

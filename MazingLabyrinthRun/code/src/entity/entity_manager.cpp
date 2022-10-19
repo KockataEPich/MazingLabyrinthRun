@@ -1,4 +1,4 @@
-#include "../include/entity/entityManager.h"
+#include "../include/entity_base/entity_manager.h"
 
 Entity EntityManager::create_entity() {
 	last_entity++;

@@ -1,4 +1,4 @@
-#include "../include/component/componentMask.h"
+#include "../include/component_base/component_mask.h"
 
 bool ComponentMask::is_new_match(ComponentMask oldMask, ComponentMask systemMask) {
 	return matches(systemMask) && !oldMask.matches(systemMask);

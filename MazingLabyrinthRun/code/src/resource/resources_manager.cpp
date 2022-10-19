@@ -1,4 +1,4 @@
-#include "../include/resource/resourceManager.h"
+#include "../include/resource/resource_manager.h"
 
 ResourceManager* ResourceManager::getInstance() {
 	if (!m_textureFactoryInstance) m_textureFactoryInstance = std::unique_ptr<ResourceManager>(new ResourceManager());

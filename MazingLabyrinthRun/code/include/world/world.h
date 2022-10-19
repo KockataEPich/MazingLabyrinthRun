@@ -1,12 +1,9 @@
 #ifndef WORLD_HEADER_H
 #define WORLD_HEADER_H
 
-#include "../component/component.h"
-#include "../component/componentHandle.h"
-#include "../component/componentManager.h"
-#include "../component/componentMask.h"
-#include "../entity/entity.h"
-#include "../entity/entityManager.h"
+#include "../component_base/component_manager.h"
+#include "../component_base/component_handle.h"
+#include "../entity_base/entity_manager.h"
 #include "../system/system.h"
 
 #include <memory>

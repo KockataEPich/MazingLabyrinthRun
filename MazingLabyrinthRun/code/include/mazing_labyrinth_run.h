@@ -1,7 +1,8 @@
 #ifndef MAZING_LABYRINTH_RUN_HEADER_H
 #define MAZING_LABYRINTH_RUN_HEADER_H
 
-#include "window/gameWindow.h"
+#include "window/game_window.h"
+#include "world/world.h"
 
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/View.hpp>
@@ -12,6 +13,7 @@ public:
 	void start_game();
 
 private:
+	std::unique_ptr<World> m_world;
 	GameWindow m_window;
 
 	sf::View m_camera;
