@@ -25,8 +25,6 @@ private:
 	void handle_input();
 	void update();
 	void render();
-	GameWindow& get_window() { return m_window; };
-	sf::Time get_elapsed() { return m_elapsed; }
 	void restart_clock() { m_elapsed = m_clock.restart(); }
 	void initialize_game();
 

@@ -1,6 +1,8 @@
 #ifndef COMPONENT_HANDLE_HEADER
 #define COMPONENT_HANDLE_HEADER
 
+#include "component_manager.h"
+
 template<typename ComponentType>
 struct ComponentHandle {
 	using ExposedComponentType = typename ComponentManager<ComponentType>::LookupType;
