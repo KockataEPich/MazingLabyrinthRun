@@ -1,4 +1,4 @@
-#include "../include/animation/animationPlayer.h"
+#include "../include/animation/animation_player.h"
 
 AnimationPlayer::AnimationPlayer(DefaultAnimations&& defaultAnimations)
     : m_default_animations{defaultAnimations}

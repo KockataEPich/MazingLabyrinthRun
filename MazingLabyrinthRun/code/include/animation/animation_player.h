@@ -12,7 +12,7 @@
 
 class AnimationPlayer {
 public:
-	AnimationPlayer(DefaultAnimations&& defaultAnimations);
+	AnimationPlayer(DefaultAnimations&& default_animations);
 
 	sf::Texture& get_current_texture(){ return *m_current_animation.getTexture(); };
 	Animation& get_current_animation(){ return m_current_animation; };
