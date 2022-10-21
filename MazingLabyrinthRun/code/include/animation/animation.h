@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 
-using Repeat = struct { int numberOfTimes; };
+using Repeat = struct { int number_of_times; };
 using AnimationSpeed = struct { float speed; };
 
 class Animation {
@@ -25,8 +25,8 @@ public:
 		m_current_rectange = {0, 0, m_x_axis_offset, (int)m_texture->getSize().y};
 	};
 
-	bool nextFrame();
-	bool resetCycle();
+	bool next_frame();
+	bool reset_cycle();
 
 	float speed() { return m_speed.speed; }
 

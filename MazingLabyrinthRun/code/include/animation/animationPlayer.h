@@ -14,20 +14,20 @@ class AnimationPlayer {
 public:
 	AnimationPlayer(DefaultAnimations&& defaultAnimations);
 
-	sf::Texture& getCurrentTexture(){ return *m_currentAnimation.getTexture(); };
-	Animation& getCurrentAnimation(){ return m_currentAnimation; };
+	sf::Texture& get_current_texture(){ return *m_current_animation.getTexture(); };
+	Animation& get_current_animation(){ return m_current_animation; };
 
-	void playAnimation(Animation&& animation);
-	void AnimationPlayer::playAnimation(Animation& animation);
+	void play_animation(Animation&& animation);
+	void play_animation(Animation& animation);
 
 	void update(const FacingSide& side, float deltaTime);
-	void playDefaultAnimation(const FacingSide& side);
+	void play_default_animation(const FacingSide& side);
 	sf::IntRect& get_current_rect();
 
 private:
-	float m_totalTime = 0.0f;
-	DefaultAnimations m_defaultAnimations;
-	Animation m_currentAnimation;
+	float m_total_time = 0.0f;
+	DefaultAnimations m_default_animations;
+	Animation m_current_animation;
 };
 
 #endif
