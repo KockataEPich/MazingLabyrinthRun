@@ -5,7 +5,7 @@
 
 class SkinComponent : public Component<SkinComponent> {
 public:
-	() = default;
+	SkinComponent() = default;
 	AnimationPlayer& animationPlayer() { return m_animation_player; };
 private:
 	m_animation_player;

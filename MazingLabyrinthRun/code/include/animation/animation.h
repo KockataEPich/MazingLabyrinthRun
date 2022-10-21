@@ -1,8 +1,8 @@
 #ifndef ANIMATION_HEADER_H
 #define ANIMATION_HEADER_H
 
-#include "../resource/resourceManager.h"
-#include "../resource/textureEnum.h"
+#include "../resource/resource_manager.h"
+#include "../resource/texture_enum.h"
 
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Texture.hpp>
@@ -19,7 +19,7 @@ public:
 	    : m_repeat{Textures::texture_id_to_texture_metadata.at(m_texture_id).default_repeats}
 	    , m_speed{Textures::texture_id_to_texture_metadata.at(m_texture_id).default_speed}
 	    , m_texture_id{texture_id}
-	    , m_texture{ResourceManager::getInstance()->getTexture(texture_id)} {
+	    , m_texture{ResourceManager::get_instance()->get_texture(texture_id)} {
 		m_x_axis_offset =
 		    m_texture->getSize().x / Textures::texture_id_to_texture_metadata.at(m_texture_id).number_of_frames;
 		m_current_rectange = {0, 0, m_x_axis_offset, (int)m_texture->getSize().y};

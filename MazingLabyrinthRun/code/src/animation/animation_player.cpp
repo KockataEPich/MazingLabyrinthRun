@@ -13,16 +13,16 @@ void AnimationPlayer::update(const FacingSide& side, float deltaTime) {
 	if (m_total_time >= m_current_animation.speed()) {
 		m_total_time -= m_current_animation.speed();
 
-		if (m_current_animation.nextFrame() && m_current_animation.resetCycle()) playDefaultAnimation(side);
+		if (m_current_animation.next_frame() && m_current_animation.reset_cycle()) play_default_animation(side);
 	}
 }
 sf::IntRect& AnimationPlayer::get_current_rect() { return m_current_animation.get_current_rect(); }
 
 void AnimationPlayer::play_default_animation(const FacingSide& side) {
 	switch (side) {
-		case FacingSide::down: playAnimation(m_default_animations.facingDown); break;
-		case FacingSide::up: playAnimation(m_default_animations.facingUp); break;
-		case FacingSide::left: playAnimation(m_default_animations.facingLeft); break;
-		case FacingSide::right: playAnimation(m_default_animations.facingRight); break;
+		case FacingSide::down: play_animation(m_default_animations.facingDown); break;
+		case FacingSide::up: play_animation(m_default_animations.facingUp); break;
+		case FacingSide::left: play_animation(m_default_animations.facingLeft); break;
+		case FacingSide::right: play_animation(m_default_animations.facingRight); break;
 	}
 }

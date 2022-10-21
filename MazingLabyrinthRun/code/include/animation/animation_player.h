@@ -1,9 +1,7 @@
 #ifndef ANIMATION_PLAYER_HEADER_H
 #define ANIMATION_PLAYER_HEADER_H
 
-#include "../include/resource/resourceManager.h"
 #include "../include/attribute/facingSide.h"
-#include <SFML/Graphics/Sprite.hpp>
 #include "animation.h"
 #include "default_animations.h"
 
