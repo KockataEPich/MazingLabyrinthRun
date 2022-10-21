@@ -3,58 +3,6 @@
 #include "../include/entity_base/entity_handle.h"
 #include "../include/system/systems/render_system.h"
 
-#include <SFML/Graphics/RectangleShape.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Window/Event.hpp>
-
-namespace {
-
-struct Position : Component<Position> {
-	Position(float x) : x(x){};
-	float x;
-};
-
-class Sprite2 {
-public:
-	Sprite2(sf::Sprite&& sprite) : m_sprite{sprite} {};
-	Sprite2() = default;
-	sf::Sprite& sprite() { return m_sprite; };
-private:
-	sf::Sprite m_sprite;
-};
-
-class Wind : public System {
-public:
-	Wind() { m_signature.add_component<Position>(); }
-
-	void update(float dt) override {
-		for (auto& entity : m_registered_entities) {
-			ComponentHandle<Position> position;
-			m_parent_world->unpack(entity, position);
-
-			position->x += 1.0f * (dt / 1000.0f);
-		}
-	}
-};
-
-void test_ECS(float m_deltaTime) {
-	/*	auto entityManager = std::make_unique<EntityManager>();
-	    auto world = std::make_unique<World>(std::move(entityManager));
-
-	    std::unique_ptr<System> wind = std::make_unique<Wind>();
-	    std::unique_ptr<System> render = std::make_unique<Render>(&m_window);
-	    world->add_system(std::move(wind));
-	    world->add_system(std::move(render));
-
-	    world->init();
-
-	    auto tumbleweed = world->create_entity();
-	    tumbleweed.add_component(Position(0));
-
-	    for (int i = 0; i < 50; i++) { world->update(m_deltaTime); }*/
-}
-}  // namespace
-
 MazingLabyrinthRun::MazingLabyrinthRun() : m_window("MazingLabyrinthRun", sf::Vector2u(1920, 1080)) {
 	initialize_game();
 };
@@ -64,9 +12,7 @@ void MazingLabyrinthRun::initialize_game() {
 
 	m_world = std::make_unique<World>(std::make_unique<EntityManager>());
 
-	std::unique_ptr<System> wind = std::make_unique<Wind>();
 	std::unique_ptr<System> render = std::make_unique<Render>(m_window);
-	m_world->add_system(std::move(wind));
 	m_world->add_system(std::move(render));
 
 	m_world->init();
@@ -84,12 +30,6 @@ void MazingLabyrinthRun::initialize_game() {
 			processed_tile.setPosition(i, j);
 
 			grass_land.add_component(std::make_unique<SpriteComponent>(std::move(processed_tile)));
-			//grass_land.add_component(std::make_unique<Position>(0));
-
-
-			//auto& processed_tile2 = sprite->sprite();
-			// m_window.draw(tile);
-			//m_window.draw(processed_tile);
 		}
 	}
 }
@@ -101,14 +41,11 @@ void MazingLabyrinthRun::update() {
 	m_world->update(m_deltaTime);
 	// m_camera.setCenter(m_player->getPosition());
 	m_window.setView(m_camera);
-	test_ECS(m_deltaTime);
 }
 
 void MazingLabyrinthRun::render() {
 	m_window.begin_draw();
 	m_world->render();
-	// for (auto& grass : grass_lands) m_window.draw(grass);
-
 	m_window.end_draw();
 }
 

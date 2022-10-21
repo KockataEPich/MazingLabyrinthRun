@@ -9,11 +9,7 @@ class SpriteComponent : public Component<SpriteComponent> {
 public:
 	SpriteComponent(sf::Sprite&& sprite) : m_sprite{sprite} {};
 	SpriteComponent() = default;
-	sf::Sprite& sprite() {
-		int x = 2;
-		return m_sprite;
-	};
-
+	sf::Sprite& sprite() { return m_sprite; };
 private:
 	sf::Sprite m_sprite;
 };
