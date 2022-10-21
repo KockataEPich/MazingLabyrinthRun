@@ -29,9 +29,9 @@ public:
 	}
 
 	template<typename ComponentType>
-	void add_component(Entity const& entity, ComponentType&& component) {
+	void add_component(Entity const& entity, std::unique_ptr<ComponentType>&& component) {
 		ComponentManager<ComponentType>* manager = get_component_manager<ComponentType>();
-		manager->add_component(entity, component);
+		manager->add_component(entity, std::move(component));
 
 		ComponentMask oldMask = m_entity_masks[entity];
 		m_entity_masks[entity].add_component<ComponentType>();

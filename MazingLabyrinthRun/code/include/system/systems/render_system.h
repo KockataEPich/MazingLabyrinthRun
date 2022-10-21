@@ -8,11 +8,11 @@
 
 class Render : public System {
 public:
-	Render(GameWindow* render_window) : m_render_window{render_window} { m_signature.add_component<SpriteComponent>(); }
+	Render(GameWindow& render_window) : m_render_window{render_window} { m_signature.add_component<SpriteComponent>(); }
 	void render() override;
 
 private:
-	GameWindow* m_render_window;
+	GameWindow& m_render_window;
 };
 
 #endif

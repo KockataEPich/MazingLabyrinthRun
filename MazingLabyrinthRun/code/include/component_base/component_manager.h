@@ -2,14 +2,9 @@
 #define BASE_COMPONENT_MANAGER_HEADER
 #include "../entity_base/entity_map.h"
 
-#include <array>
 #include <map>
-
-template<typename ComponentType>
-struct ComponentData {
-	unsigned int size = 1;
-	std::array<ComponentType, MAX_NUMBER_OF_COMPONENTS>* data;
-};
+#include <memory>
+#include <vector>
 
 class BaseComponentManager {
 public:
@@ -26,37 +21,34 @@ class ComponentManager : public BaseComponentManager {
 public:
 	using LookupType = ComponentType;
 
-	ComponentManager() {
-		component_data.data = static_cast<std::array<ComponentType, 1024>*>(malloc(sizeof(ComponentType) * 1024));
-	}
-	ComponentInstance add_component(Entity entity, ComponentType& component) {
-		ComponentInstance new_instance = component_data.size;
-		component_data.data->at(new_instance) = component;
+	ComponentManager() { m_data.reserve(MAX_NUMBER_OF_COMPONENTS); }
+	ComponentInstance add_component(const Entity entity, std::unique_ptr<ComponentType>&& component) {
+		ComponentInstance new_instance = m_data.size();
+		m_data.push_back(std::move(component));
 		entity_map.add(entity, new_instance);
-		component_data.size++;
 		return new_instance;
 	}
 
-	void destroy_component(Entity entity) {
+	void destroy_component(const Entity entity) {
 		ComponentInstance instance = entity_map.get_instance(entity);
+		ComponentInstance lastComponent = m_data.size() - 1;
 
-		ComponentInstance lastComponent = component_data.size - 1;
-		component_data.data[instance] = component_data.data[lastComponent];
+		std::swap(m_data.at(instance), m_data.size());
+		m_data.pop_back();
+
 		Entity lastEntity = entity_map.get_entity(lastComponent);
 
 		entity_map.remove(entity);
 		entity_map.update(lastEntity, instance);
-
-		component_data.size--;
 	}
 
-	LookupType* lookup(Entity entity) {
+	LookupType* lookup(const Entity entity) {
 		ComponentInstance instance = entity_map.get_instance(entity);
-		return &component_data.data->at(instance);
+		return m_data.at(instance).get();
 	}
 
 private:
-	ComponentData<ComponentType> component_data;
+	std::vector<std::unique_ptr<ComponentType>> m_data;
 	EntityMap entity_map;
 };
 #endif

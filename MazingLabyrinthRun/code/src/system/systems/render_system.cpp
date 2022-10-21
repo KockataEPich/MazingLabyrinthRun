@@ -5,9 +5,10 @@ void Render::render() {
 		ComponentHandle<SpriteComponent> sprite;
 		m_parent_world->unpack(entity, sprite);
 
-		sf::Texture text;
+	/*	sf::Texture text;
 		text.loadFromFile("resources/tile/grass.png");
-		sprite->m_sprite.setTexture(text);
-		m_render_window->draw(sprite->m_sprite);
+		sprite->m_sprite.setTexture(text);*/
+		auto& real_sprite = sprite->sprite();
+		m_render_window.draw(real_sprite);
 	}
 }
