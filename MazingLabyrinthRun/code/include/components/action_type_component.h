@@ -1,11 +1,12 @@
 #ifndef ACTION_TYPE_COMPONENT_HEADER
 #define ACTION_TYPE_COMPONENT_HEADER
 
-#include "../resource/skins.h"
+#include "../attribute/action_type.h"
 
-struct SkinComponent : public Component<SkinComponent> {
-	SkinComponent(Skin&& skin){m_skin{skin}};
-	Skin& m_skin;
+struct ActionTypeComponent : public Component<ActionTypeComponent> {
+	explicit ActionTypeComponent(ActionType&& action_type) : m_action_type{std::move(action_type)} {};
+	ActionTypeComponent() = default;
+	ActionType m_action_type = ActionType::idle;
 };
 
 #endif

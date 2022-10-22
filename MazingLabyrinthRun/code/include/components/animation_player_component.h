@@ -4,7 +4,8 @@
 #include "../animation/animation_player.h"
 
 struct AnimationPlayerComponent : public Component<AnimationPlayerComponent> {
-	AnimationPlayerComponent(DefaultAnimations&& default_animations) : m_animation_player{default_animations};
+	explicit AnimationPlayerComponent(DefaultAnimations&& default_animations)
+	    : m_animation_player{std::move(default_animations)} {};
 	m_animation_player;
 };
 

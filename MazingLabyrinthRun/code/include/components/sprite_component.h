@@ -5,12 +5,9 @@
 
 #include <sfml/Graphics/Sprite.hpp>
 
-class SpriteComponent : public Component<SpriteComponent> {
-public:
-	SpriteComponent(sf::Sprite&& sprite) : m_sprite{sprite} {};
+struct SpriteComponent : public Component<SpriteComponent> {
+	explicit SpriteComponent(sf::Sprite&& sprite) : m_sprite{std::move(sprite)} {};
 	SpriteComponent() = default;
-	sf::Sprite& sprite() { return m_sprite; };
-private:
 	sf::Sprite m_sprite;
 };
 

@@ -5,7 +5,7 @@ void Render::render() {
 		ComponentHandle<SpriteComponent> sprite;
 		m_parent_world->unpack(entity, sprite);
 
-		auto& real_sprite = sprite->sprite();
+		auto& real_sprite = sprite->m_sprite;
 		m_render_window.draw(real_sprite);
 	}
 }

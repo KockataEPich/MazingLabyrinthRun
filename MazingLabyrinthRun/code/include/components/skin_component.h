@@ -1,14 +1,11 @@
 #ifndef SKIN_COMPONENT_HEADER
 #define SKIN_COMPONENT_HEADER
 
-#include "../"
+#include "../resource/skins.h"
 
-class SkinComponent : public Component<SkinComponent> {
-public:
-	SkinComponent() = default;
-	AnimationPlayer& animationPlayer() { return m_animation_player; };
-private:
-	m_animation_player;
+struct SkinComponent : public Component<SkinComponent> {
+	explicit SkinComponent(Skin&& skin) : m_skin{std::move(skin)} {};
+	Skin& m_skin;
 };
 
 #endif
