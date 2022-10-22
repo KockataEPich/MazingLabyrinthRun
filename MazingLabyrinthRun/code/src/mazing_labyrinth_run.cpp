@@ -6,6 +6,8 @@
 #include "../include/resource/texture_enum.h"
 #include "../include/system/systems/animate_system.h"
 #include "../include/system/systems/render_system.h"
+#include "../include/system/systems/transform_system.h"
+#include "../include/system/systems/move_system.h"
 
 MazingLabyrinthRun::MazingLabyrinthRun() : m_window("MazingLabyrinthRun", sf::Vector2u(1920, 1080)) {
 	initialize_game();

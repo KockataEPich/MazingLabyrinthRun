@@ -2,6 +2,7 @@
 #define FACING_SIDE_COMPONENT_HEADER
 
 #include "../attribute/facingSide.h"
+#include "../component_base/component.h"
 
 struct FacingSideComponent : public Component<FacingSideComponent> {
 	explicit FacingSideComponent(FacingSide&& side) : m_side{std::move(side)} {};
