@@ -3,7 +3,7 @@
 
 #include "../attribute/action_type.h"
 #include "../attribute/facingSide.h"
-#include "textureEnum.h"
+#include "texture_enum.h"
 
 #include <unordered_map>
 enum class Skin { MAIN_CHARACTER_START_SKIN, ZOMBIE_DEFAULT_SKIN };

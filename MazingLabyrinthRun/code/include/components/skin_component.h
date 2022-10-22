@@ -5,7 +5,7 @@
 
 struct SkinComponent : public Component<SkinComponent> {
 	explicit SkinComponent(Skin&& skin) : m_skin{std::move(skin)} {};
-	Skin& m_skin;
+	Skin m_skin;
 };
 
 #endif

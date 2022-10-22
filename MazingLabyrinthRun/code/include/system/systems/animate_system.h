@@ -1,0 +1,24 @@
+#ifndef ANIMATE_SYSTEM_HEADER
+#define ANIMATE_SYSTEM_HEADER
+
+#include "../../components/sprite_component.h"
+#include "../../components/action_type_component.h"
+#include "../../components/animation_player_component.h"
+#include "../../components/facing_side_component.h"
+#include "../../components/skin_component.h"
+#include "../system.h"
+#include "../../world/world.h"
+
+class Animate : public System {
+public:
+	Animate(){
+		m_signature.add_component<ActionTypeComponent>();
+		m_signature.add_component<FacingSideComponent>();
+		m_signature.add_component<SkinComponent>();
+		m_signature.add_component<AnimationPlayerComponent>();
+		m_signature.add_component<SpriteComponent>();
+	}
+	void update(float dt) override;
+};
+
+#endif

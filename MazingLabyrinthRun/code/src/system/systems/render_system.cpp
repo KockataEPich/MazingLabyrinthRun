@@ -1,5 +1,5 @@
 #include "../include/system/systems/render_system.h"
-#include "../include/resource/resource_manager.h"
+
 void Render::render() {
 	for (auto& entity : m_registered_entities) {
 		ComponentHandle<SpriteComponent> sprite;

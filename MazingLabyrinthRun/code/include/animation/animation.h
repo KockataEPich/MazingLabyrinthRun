@@ -31,7 +31,7 @@ public:
 	float speed() { return m_speed.speed; }
 
 	sf::IntRect& get_current_rect() { return m_current_rectange; }
-	sf::Texture* getTexture() { return m_texture; }
+	sf::Texture* get_texture() { return m_texture; }
 	Textures::ID& get_texture_id() { return m_texture_id; }
 
 	void operator=(Animation& other) noexcept {
