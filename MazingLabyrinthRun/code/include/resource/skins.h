@@ -17,7 +17,7 @@ const static std::unordered_map<Skin, std::unordered_map<ActionType, std::unorde
 							{FacingSide::left, Textures::ID::NORRIS_NAKED_DEF_LEFT_1},
 							{FacingSide::up, Textures::ID::NORRIS_NAKED_DEF_UP_1},
 							{FacingSide::down, Textures::ID::NORRIS_NAKED_DEF_DOWN_1}}},
-				{ActionType::run, {
+				{ActionType::move, {
 							{FacingSide::right, Textures::ID::NORRIS_RUN_RIGHT},
                             {FacingSide::left, Textures::ID::NORRIS_RUN_LEFT},
                             {FacingSide::up, Textures::ID::NORRIS_RUN_UP},

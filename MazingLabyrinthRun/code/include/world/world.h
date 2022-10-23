@@ -1,8 +1,8 @@
 #ifndef WORLD_HEADER_H
 #define WORLD_HEADER_H
 
-#include "../component_base/component_manager.h"
 #include "../component_base/component_handle.h"
+#include "../component_base/component_manager.h"
 #include "../entity_base/entity_manager.h"
 #include "../system/system.h"
 
@@ -11,7 +11,7 @@
 struct EntityHandle;
 class World {
 public:
-	explicit World(std::unique_ptr<EntityManager> entityManager);
+	explicit World(std::unique_ptr<EntityManager> entityManager, std::unique_ptr<System>&& render_system);
 
 	void init();
 
@@ -21,7 +21,7 @@ public:
 	void add_system(std::unique_ptr<System> system);
 	void destroy_entity(Entity entity);
 
-	template <typename ComponentType>
+	template<typename ComponentType>
 	void add_custom_component_manager(std::unique_ptr<ComponentManager<ComponentType>> manager) {
 		int family = GetComponentFamily<ComponentType>();
 		if (family >= m_component_managers.size()) { m_component_managers.resize(family + 1); }
@@ -74,6 +74,9 @@ private:
 	std::vector<std::unique_ptr<System>> m_systems;
 	std::vector<std::unique_ptr<BaseComponentManager>> m_component_managers;
 	std::map<Entity, ComponentMask> m_entity_masks;
+
+	std::unique_ptr<System> m_player_system;
+	std::unique_ptr<System> m_render_system;
 
 	void update_entity_mask(Entity const& entity, ComponentMask old_mask);
 

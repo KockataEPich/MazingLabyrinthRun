@@ -4,7 +4,9 @@
 
 #include <iostream>
 
-World::World(std::unique_ptr<EntityManager> entityManager) : m_entity_manager(std::move(entityManager)) {}
+World::World(std::unique_ptr<EntityManager> entityManager, std::unique_ptr<System>&& render_system)
+    : m_entity_manager(std::move(entityManager))
+    , m_render_system(std::move(render_system)) {}
 
 void World::init() {
 	for (auto& system : m_systems) { system->init(); }
@@ -14,9 +16,7 @@ void World::update(float dt) {
 	for (auto& system : m_systems) { system->update(dt); }
 }
 
-void World::render() {
-	for (auto& system : m_systems) { system->render(); }
-}
+void World::render() { m_render_system->render(); }
 
 EntityHandle World::create_entity() { return {m_entity_manager->create_entity(), this}; }
 

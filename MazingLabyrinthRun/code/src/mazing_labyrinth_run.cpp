@@ -7,6 +7,7 @@
 #include "../include/system/systems/animate_system.h"
 #include "../include/system/systems/render_system.h"
 #include "../include/system/systems/transform_system.h"
+#include "../include/system/systems/player_system.h"
 #include "../include/system/systems/move_system.h"
 
 MazingLabyrinthRun::MazingLabyrinthRun() : m_window("MazingLabyrinthRun", sf::Vector2u(1920, 1080)) {
@@ -16,12 +17,11 @@ MazingLabyrinthRun::MazingLabyrinthRun() : m_window("MazingLabyrinthRun", sf::Ve
 void MazingLabyrinthRun::initialize_game() {
 	tile_texture.loadFromFile("resources/tile/grass.png");
 
-	m_world = std::make_unique<World>(std::make_unique<EntityManager>());
+	m_world = std::make_unique<World>(std::make_unique<EntityManager>(), std::make_unique<Render>(m_window));
 
-	std::unique_ptr<System> render = std::make_unique<Render>(m_window);
-	std::unique_ptr<System> animate = std::make_unique<Animate>();
-	m_world->add_system(std::move(render));
-	m_world->add_system(std::move(animate));
+	m_world->add_system(std::make_unique<Player>());
+	m_world->add_system(std::make_unique<Animate>());
+	m_world->add_system(std::make_unique<Transform>());
 
 	m_world->init();
 	m_camera =
@@ -42,10 +42,9 @@ void MazingLabyrinthRun::initialize_game() {
 	}
 
 	auto player = m_world->create_entity();
-	auto sprite = std::make_unique<SpriteComponent>();
-	sprite->m_sprite.setPosition(sf::Vector2f(0.0f, 0.0f));
-	sprite->m_sprite.setScale(sf::Vector2f(6, 6));
+	auto transform_component = std::make_unique<TransformComponent>(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(6, 6));
 
+	player.add_component(std::move(transform_component));
 	DefaultAnimations default_animation{Animation(Textures::ID::NORRIS_NAKED_DEF_RIGHT_1),
 	                                    Animation(Textures::ID::NORRIS_NAKED_DEF_LEFT_1),
 	                                    Animation(Textures::ID::NORRIS_NAKED_DEF_UP_1),
@@ -54,8 +53,11 @@ void MazingLabyrinthRun::initialize_game() {
 
 	player.add_component(std::make_unique<FacingSideComponent>());
 	player.add_component(std::make_unique<ActionTypeComponent>());
+	player.add_component(std::make_unique<PlayerComponent>());
+	player.add_component(std::make_unique<SpeedComponent>(300.0f));
 
 	auto animation_player = std::make_unique<AnimationPlayerComponent>(std::move(default_animation));
+	auto sprite = std::make_unique<SpriteComponent>();
 	sprite->m_sprite.setTexture(animation_player->m_animation_player.get_current_texture());
 	player.add_component(std::move(animation_player));
 	player.add_component(std::move(sprite));
