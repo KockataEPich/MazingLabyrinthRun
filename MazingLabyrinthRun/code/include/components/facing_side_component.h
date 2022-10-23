@@ -5,7 +5,7 @@
 #include "../component_base/component.h"
 
 struct FacingSideComponent : public Component<FacingSideComponent> {
-	explicit FacingSideComponent(FacingSide&& side) : m_side{std::move(side)} {};
+	explicit FacingSideComponent(FacingSide&& side) : m_side{side} {};
 	FacingSideComponent() = default;
 	FacingSide m_side = FacingSide::down;
 };

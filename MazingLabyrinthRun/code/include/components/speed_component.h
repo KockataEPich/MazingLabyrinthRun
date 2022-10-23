@@ -2,8 +2,8 @@
 #define MOVE_COMPONENT_HEADER
 
 #include "../component_base/component.h"
-struct MoveComponent : public Component<MoveComponent> {
-	MoveComponent(float speed) : m_speed{speed} {};
+struct SpeedComponent : public Component<SpeedComponent> {
+	SpeedComponent(float speed) : m_speed{speed} {};
 	float m_speed;
 };
 
