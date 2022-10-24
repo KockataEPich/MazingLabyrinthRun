@@ -27,6 +27,9 @@ private:
 	void render();
 	void restart_clock() { m_elapsed = m_clock.restart(); }
 	void initialize_game();
+	void initialize_world();
+	void initialize_creatures();
+	void initialize_world_tiles();
 
 	sf::Texture tile_texture;
 	std::vector<sf::Sprite> grass_lands;
