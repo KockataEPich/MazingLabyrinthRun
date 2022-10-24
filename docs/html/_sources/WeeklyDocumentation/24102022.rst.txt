@@ -1,0 +1,25 @@
+.. _24102022:
+
+24/October/2022
+==============================================
+
+
+Retrospect
+------------------------
+- While I was looking for ways to solve one of the problems coming ( how to sync animation and event ) I found that these types of games are actually better done in something called ECS ( Entity Component System ).  While reading it, I was slowly accepting the fact that I had to rewrite big portions of the code. Yea, it didn't feel nice, considering that I came up with the code I had myself. However, I could really see the benefits of the new system and how much easier it will be to code. I after reading some guides, I followed one of the blog posts and its github and wrote the base for the ECS. I have modified it to suit my needs quite a bit, but the implementation still stands.
+
+- Right now, I managed to rewrite most of the functionality I had befire the switch. Honestly, it was not that hard to rewrite it back. Maybe I just knew what I wanted. Also, not everything went to waste. Most of the animation system I had in place didn't change and I could easily reuse it. There are a few things left to bring back from the old style, mainly the event system. This is why the ECS code is still in a separate branch as I still haven't fully reached the state I was in. When that happens, I will merge the branch into master and continue from there again. 
+
+- Ironically, my problem with syncing events and animations still stands, but right now I need to do some code cleanup. This system, while it reduces massively the number of files, is a bit ugly to set up code wise without some infrastructure. I can clearly see I need some factories and all that cool abstraction jazz which I am pretty hyped up for.  
+
+- I really need a project goal list!
+
+TODOs For Next Update
+------------------------
+- For the love of God, comment the code or explain it somewhere so I can understand it if I forget what was I doing!!!
+- Create some code abstractions to better facilitate future development. 
+- Log my work better on GitHub with issues
+- Separate Action from States 
+- Create path finding system (Probably A*). Test it with a mod as well
+- Create blocking and sequential animations (animations which must be performed before you can move, have to be done in a specific sequence)
+- Make the main character go where the mouse clicks.
