@@ -55,7 +55,7 @@ void MazingLabyrinthRun::initialize_game() {
 	player.add_component(std::make_unique<FacingSideComponent>());
 	player.add_component(std::make_unique<ActionTypeComponent>());
 	player.add_component(std::make_unique<PlayerComponent>());
-	player.add_component(std::make_unique<SpeedComponent>(300.0f));
+	player.add_component(std::make_unique<SpeedComponent>(200.0f));
 
 	auto animation_player = std::make_unique<AnimationPlayerComponent>(std::move(default_animation));
 	auto player_sprite = std::make_unique<SpriteComponent>();
