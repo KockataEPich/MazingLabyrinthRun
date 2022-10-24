@@ -17,8 +17,9 @@ MazingLabyrinthRun::MazingLabyrinthRun() : m_window("MazingLabyrinthRun", sf::Ve
 void MazingLabyrinthRun::initialize_game() {
 	tile_texture.loadFromFile("resources/tile/grass.png");
 
-	m_world = std::make_unique<World>(std::make_unique<EntityManager>(), std::make_unique<Render>(m_window));
+	m_world = std::make_unique<World>(std::make_unique<EntityManager>());
 
+	m_world->add_render_system(std::make_unique<Render>(m_window));
 	m_world->add_system(std::make_unique<Player>());
 	m_world->add_system(std::make_unique<Animate>());
 	m_world->add_system(std::make_unique<Transform>());
@@ -57,10 +58,11 @@ void MazingLabyrinthRun::initialize_game() {
 	player.add_component(std::make_unique<SpeedComponent>(300.0f));
 
 	auto animation_player = std::make_unique<AnimationPlayerComponent>(std::move(default_animation));
-	auto sprite = std::make_unique<SpriteComponent>();
-	sprite->m_sprite.setTexture(animation_player->m_animation_player.get_current_texture());
+	auto player_sprite = std::make_unique<SpriteComponent>();
+	player_sprite->m_sprite.setTexture(animation_player->m_animation_player.get_current_texture());
+	m_player_sprite = &player_sprite->m_sprite;
 	player.add_component(std::move(animation_player));
-	player.add_component(std::move(sprite));
+	player.add_component(std::move(player_sprite));
 	player.add_component(std::make_unique<SkinComponent>(Skin::MAIN_CHARACTER_START_SKIN));
 }
 
@@ -69,7 +71,7 @@ void MazingLabyrinthRun::handle_input() {}
 void MazingLabyrinthRun::update() {
 	m_window.update();
 	m_world->update(m_deltaTime);
-	// m_camera.setCenter(m_player->getPosition());
+	m_camera.setCenter(m_player_sprite->getPosition());
 	m_window.setView(m_camera);
 }
 

@@ -30,6 +30,8 @@ private:
 
 	sf::Texture tile_texture;
 	std::vector<sf::Sprite> grass_lands;
+
+	sf::Sprite* m_player_sprite;
 };
 
 #endif // !MAZING_LABYRINTH_RUN_HEADER_H

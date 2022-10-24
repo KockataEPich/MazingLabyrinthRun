@@ -11,7 +11,7 @@
 struct EntityHandle;
 class World {
 public:
-	explicit World(std::unique_ptr<EntityManager> entityManager, std::unique_ptr<System>&& render_system);
+	explicit World(std::unique_ptr<EntityManager> entityManager);
 
 	void init();
 
@@ -19,6 +19,7 @@ public:
 	void render();
 	EntityHandle create_entity();
 	void add_system(std::unique_ptr<System> system);
+	void add_render_system(std::unique_ptr<System> system);
 	void destroy_entity(Entity entity);
 
 	template<typename ComponentType>
@@ -72,11 +73,9 @@ public:
 private:
 	std::unique_ptr<EntityManager> m_entity_manager;
 	std::vector<std::unique_ptr<System>> m_systems;
+	std::vector<std::unique_ptr<System>> m_render_systems;
 	std::vector<std::unique_ptr<BaseComponentManager>> m_component_managers;
 	std::map<Entity, ComponentMask> m_entity_masks;
-
-	std::unique_ptr<System> m_player_system;
-	std::unique_ptr<System> m_render_system;
 
 	void update_entity_mask(Entity const& entity, ComponentMask old_mask);
 
