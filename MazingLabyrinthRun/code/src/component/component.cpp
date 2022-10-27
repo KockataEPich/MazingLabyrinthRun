@@ -1,3 +1,3 @@
 #include "../include/component_base/component.h"
 
-int ComponentCounter::familyCounter = 0;
+int ComponentCounter::m_family_counter = 0;

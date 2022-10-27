@@ -10,8 +10,9 @@ struct EntityHandle {
 	void destroy() { world->destroy_entity(entity); }
 
 	template<typename ComponentType>
-	void add_component(std::unique_ptr<ComponentType>&& component) {
+	EntityHandle& add_component(std::unique_ptr<ComponentType>&& component) {
 		world->add_component<ComponentType>(entity, std::move(component));
+		return *this;
 	}
 
 	template<typename ComponentType>

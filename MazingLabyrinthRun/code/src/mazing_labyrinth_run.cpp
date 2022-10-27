@@ -9,7 +9,7 @@
 #include "../include/system/systems/player_system.h"
 #include "../include/system/systems/render_system.h"
 #include "../include/system/systems/transform_system.h"
-
+#include "../include/factory/entity_factory.h"
 MazingLabyrinthRun::MazingLabyrinthRun() : m_window("MazingLabyrinthRun", sf::Vector2u(1920, 1080)) {
 	initialize_game();
 };
@@ -52,29 +52,8 @@ void MazingLabyrinthRun::initialize_world_tiles() {
 
 void MazingLabyrinthRun::initialize_creatures() {
 	auto player = m_world->create_entity();
-	auto transform_component = std::make_unique<TransformComponent>(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(6, 6));
-
-	player.add_component(std::move(transform_component));
-	DefaultAnimations default_animation{Animation(Textures::ID::NORRIS_NAKED_DEF_RIGHT_1),
-	                                    Animation(Textures::ID::NORRIS_NAKED_DEF_LEFT_1),
-	                                    Animation(Textures::ID::NORRIS_NAKED_DEF_UP_1),
-	                                    Animation(Textures::ID::NORRIS_NAKED_DEF_DOWN_1)};
-
-	player.add_component(std::make_unique<FacingSideComponent>());
-	player.add_component(std::make_unique<ActionTypeComponent>());
-	player.add_component(std::make_unique<PlayerComponent>());
-	player.add_component(std::make_unique<SpeedComponent>(200.0f));
-
-	auto animation_player = std::make_unique<AnimationPlayerComponent>(std::move(default_animation));
-	auto player_sprite = std::make_unique<SpriteComponent>();
-	player_sprite->m_sprite.setTexture(animation_player->m_animation_player.get_current_texture());
-	m_player_sprite = &player_sprite->m_sprite;
-	m_player_sprite->setOrigin(
-	    sf::Vector2f(m_player_sprite->getTexture()->getSize().x * m_player_sprite->getScale().x / 2.0f,
-	                 m_player_sprite->getTexture()->getSize().y * m_player_sprite->getScale().y / 2.0f));
-	player.add_component(std::move(animation_player));
-	player.add_component(std::move(player_sprite));
-	player.add_component(std::make_unique<SkinComponent>(Skin::MAIN_CHARACTER_START_SKIN));
+	create_entity_type(EntityType::player, player);
+	m_player_sprite = &player.get_component<SpriteComponent>()->m_sprite;
 }
 
 void MazingLabyrinthRun::handle_input() {}
