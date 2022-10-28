@@ -2,6 +2,7 @@
 
 #include "../include/animation/animation.h"
 #include "../include/entity_base/entity_handle.h"
+#include "../include/factory/entity_factory.h"
 #include "../include/resource/skins.h"
 #include "../include/resource/texture_enum.h"
 #include "../include/system/systems/animate_system.h"
@@ -9,7 +10,6 @@
 #include "../include/system/systems/player_system.h"
 #include "../include/system/systems/render_system.h"
 #include "../include/system/systems/transform_system.h"
-#include "../include/factory/entity_factory.h"
 MazingLabyrinthRun::MazingLabyrinthRun() : m_window("MazingLabyrinthRun", sf::Vector2u(1920, 1080)) {
 	initialize_game();
 };
@@ -25,9 +25,10 @@ void MazingLabyrinthRun::initialize_world() {
 	m_world = std::make_unique<World>(std::make_unique<EntityManager>());
 
 	m_world->add_render_system(std::make_unique<Render>(m_window));
-	m_world->add_system(std::make_unique<Player>());
-	m_world->add_system(std::make_unique<Animate>());
-	m_world->add_system(std::make_unique<Transform>());
+	// TODO this is insanely ugly. I need go find a way to fix this 
+	m_world->add_system(std::make_unique<Player>())
+	    ->add_system(std::make_unique<Animate>())
+	    ->add_system(std::make_unique<Transform>());
 
 	m_world->init();
 }
@@ -42,7 +43,7 @@ void MazingLabyrinthRun::initialize_world_tiles() {
 			sf::Sprite grass;
 			grass.setPosition(sf::Vector2f((float)i, (float)j));
 			grass.setTexture(tile_texture);
-			grass.scale(sf::Vector2f(5.0f, 5.0f));
+			grass.scale(sf::Vector2f(4.0f, 4.0f));
 			grass.setPosition(i, j);
 
 			grass_land.add_component(std::make_unique<SpriteComponent>(std::move(grass)));

@@ -18,7 +18,7 @@ public:
 	void update(float dt);
 	void render();
 	EntityHandle create_entity();
-	void add_system(std::unique_ptr<System> system);
+	World* add_system(std::unique_ptr<System> system);
 	void add_render_system(std::unique_ptr<System> system);
 	void destroy_entity(Entity entity);
 
@@ -54,11 +54,7 @@ public:
 
 	template<typename ComponentType, typename... Args>
 	void unpack(Entity e, ComponentHandle<ComponentType>& handle, ComponentHandle<Args>&... args) {
-		typedef ComponentManager<ComponentType> ComponentManagerType;
-		auto mgr = get_component_manager<ComponentType>();
-		handle = ComponentHandle<ComponentType>(e, mgr->lookup(e), mgr);
-
-		// Recurse
+		unpack(e, handle);
 		unpack<Args...>(e, args...);
 	}
 

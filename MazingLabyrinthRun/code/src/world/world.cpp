@@ -41,9 +41,10 @@ void World::destroy_entity(Entity entity) {
 	m_entity_manager->destroy(entity);
 }
 
-void World::add_system(std::unique_ptr<System> system) {
+World* World::add_system(std::unique_ptr<System> system) {
 	system->register_world(this);
 	m_systems.push_back(std::move(system));
+	return this;
 }
 
 void World::add_render_system(std::unique_ptr<System> render_system) {
