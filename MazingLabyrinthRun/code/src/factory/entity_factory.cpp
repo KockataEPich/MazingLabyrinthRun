@@ -4,8 +4,8 @@
 #include "../include/components/animation_player_component.h"
 #include "../include/components/facing_side_component.h"
 #include "../include/components/player_component.h"
-#include "../include/components/speed_component.h"
 #include "../include/components/skin_component.h"
+#include "../include/components/speed_component.h"
 #include "../include/components/sprite_component.h"
 #include "../include/components/transform_component.h"
 
