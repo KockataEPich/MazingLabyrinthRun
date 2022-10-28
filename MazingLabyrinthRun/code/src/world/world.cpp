@@ -1,7 +1,9 @@
 #include "../include/world/world.h"
 
 #include "../include/entity_base/entity_handle.h"
-
+#include "../include/components/transform_component.h"
+#include "../include/entity_creation/attach_components.h"
+#include "../include/entity_creation/set_start_values.h"
 #include <iostream>
 
 namespace {
@@ -57,4 +59,16 @@ void World::update_entity_mask(Entity const& entity, ComponentMask old_mask) {
 
 	flow_entity(entity, m_systems, new_mask, old_mask);
 	flow_entity(entity, m_render_systems, new_mask, old_mask);
+}
+
+bool World::place_entity(EntityHandle& entity, sf::Vector2f position) {
+	entity.get_component<TransformComponent>()->m_position = position;
+	return true;
+}
+
+EntityHandle World::create_generic_entity(const EntityType type){
+	EntityHandle entity = create_entity();
+	attach_components_to_type(type, entity);
+	initialize_entity_components(type, entity);
+	return entity;
 }

@@ -31,8 +31,19 @@ void initialize_components_regular_mobs(EntityType entity_type, EntityHandle& en
 	if (entity_type == EntityType::player) initialize_player_values(entity_type, entity);
 }
 
+void initialize_grass_land(EntityType entity_type, EntityHandle& entity){
+	entity.get_component<TransformComponent>()->m_scale = {4, 4};
+	auto& sprite = entity.get_component<SpriteComponent>()->m_sprite;
+	sprite.setTexture(*ResourceManager::get_instance()->get_texture(Textures::ID::GRASS_LANDS_1));
+}
+
+void initialize_components_walkable_tile(EntityType entity_type, EntityHandle& entity) {
+	if (entity_type == EntityType::grass_lands_1) initialize_grass_land(entity_type, entity);
+}
+
 }  // namespace
 
 void initialize_entity_components(EntityType entity_type, EntityHandle& entity_handle) {
 	if (is_regular_mob(entity_type)) initialize_components_regular_mobs(entity_type, entity_handle);
+	if (is_walkalbe_tile(entity_type)) initialize_components_walkable_tile(entity_type, entity_handle);
 }

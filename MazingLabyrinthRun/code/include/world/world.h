@@ -4,8 +4,10 @@
 #include "../component_base/component_handle.h"
 #include "../component_base/component_manager.h"
 #include "../entity_base/entity_manager.h"
+#include "../entity_creation/entity_list.h"
 #include "../system/system.h"
 
+#include <SFML/System/Vector2.hpp>
 #include <memory>
 
 struct EntityHandle;
@@ -21,6 +23,8 @@ public:
 	World* add_system(std::unique_ptr<System> system);
 	void add_render_system(std::unique_ptr<System> system);
 	void destroy_entity(Entity entity);
+	bool place_entity(EntityHandle& handle, sf::Vector2f position);
+	EntityHandle create_generic_entity(const EntityType type);
 
 	template<typename ComponentType>
 	void add_custom_component_manager(std::unique_ptr<ComponentManager<ComponentType>> manager) {

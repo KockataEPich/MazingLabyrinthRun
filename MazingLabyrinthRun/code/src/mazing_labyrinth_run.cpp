@@ -2,8 +2,6 @@
 
 #include "../include/animation/animation.h"
 #include "../include/entity_base/entity_handle.h"
-#include "../include/entity_creation/attach_components.h"
-#include "../include/entity_creation/set_start_values.h"
 #include "../include/resource/skins.h"
 #include "../include/resource/texture_enum.h"
 #include "../include/system/systems/animate_system.h"
@@ -39,23 +37,14 @@ void MazingLabyrinthRun::initialize_world_tiles() {
 
 	for (int i = -1600; i <= 1600; i += 160) {
 		for (int j = 1600; j >= -1600; j -= 160) {
-			auto grass_land = m_world->create_entity();
-
-			sf::Sprite grass;
-			grass.setPosition(sf::Vector2f((float)i, (float)j));
-			grass.setTexture(tile_texture);
-			grass.scale(sf::Vector2f(4.0f, 4.0f));
-			grass.setPosition(i, j);
-
-			grass_land.add_component(std::make_unique<SpriteComponent>(std::move(grass)));
+			auto grass_land = m_world->create_generic_entity(EntityType::grass_lands_1);
+			m_world->place_entity(grass_land, {(float)i, (float)j});
 		}
 	}
 }
 
 void MazingLabyrinthRun::initialize_creatures() {
-	auto player = m_world->create_entity();
-	attach_components_to_type(EntityType::player, player);
-	initialize_entity_components(EntityType::player, player);
+	auto player = m_world->create_generic_entity(EntityType::player);
 	m_player_sprite = &player.get_component<SpriteComponent>()->m_sprite;
 }
 

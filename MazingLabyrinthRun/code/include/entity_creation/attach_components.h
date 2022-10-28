@@ -7,6 +7,6 @@
 #include <any>
 #include <unordered_map>
 
-void attach_components_to_type(EntityType entity_type, EntityHandle& entity_handle);
+void attach_components_to_type(EntityType entity_type, EntityHandle& entity);
 
 #endif
