@@ -32,6 +32,7 @@ void create_player(EntityType entity_type, EntityHandle& entity) {
 	scale.y = 6;
 
 	auto& sprite = entity.get_component<SpriteComponent>()->m_sprite;
+	//sprite.setScale(scale);
 	sprite.setTexture(entity.get_component<AnimationPlayerComponent>()->m_animation_player.get_current_texture());
 	sprite.setOrigin(sf::Vector2f(sprite.getTexture()->getSize().x * sprite.getScale().x / 2.0f,
 	                              sprite.getTexture()->getSize().y * sprite.getScale().y / 2.0f));

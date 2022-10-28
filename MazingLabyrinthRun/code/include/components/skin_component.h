@@ -6,7 +6,8 @@
 
 struct SkinComponent : public Component<SkinComponent> {
 	explicit SkinComponent(Skin&& skin) : m_skin{std::move(skin)} {};
-	Skin m_skin;
+	explicit SkinComponent() = default;
+	Skin m_skin = Skin::DEFAULT_PLACEHOLDER_SKIN;
 };
 
 #endif
