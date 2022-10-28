@@ -11,11 +11,12 @@
 
 namespace {
 void create_player(EntityType entity_type, EntityHandle& entity) {
-	DefaultAnimations default_animation{Animation(Textures::ID::NORRIS_NAKED_DEF_RIGHT_1),
-	                                    Animation(Textures::ID::NORRIS_NAKED_DEF_LEFT_1),
-	                                    Animation(Textures::ID::NORRIS_NAKED_DEF_UP_1),
-	                                    Animation(Textures::ID::NORRIS_NAKED_DEF_DOWN_1)};
-	entity.add_component(std::make_unique<AnimationPlayerComponent>(std::move(default_animation)))
+	auto animation_player = std::make_unique<AnimationPlayerComponent>();
+	animation_player->m_animation_player.set_skin(Skin::MAIN_CHARACTER_START_SKIN);
+	animation_player->m_animation_player.play_animation(
+	    get_idle_animation(Skin::MAIN_CHARACTER_START_SKIN, FacingSide::down));
+
+	entity.add_component(std::move(animation_player))
 	    .add_component(std::make_unique<PlayerComponent>())
 	    .add_component(std::make_unique<SkinComponent>(Skin::MAIN_CHARACTER_START_SKIN));
 

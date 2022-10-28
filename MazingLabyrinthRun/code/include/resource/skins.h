@@ -6,7 +6,7 @@
 #include "texture_enum.h"
 
 #include <unordered_map>
-enum class Skin { MAIN_CHARACTER_START_SKIN, ZOMBIE_DEFAULT_SKIN };
+enum class Skin { DEFAULT_PLACEHOLDER_SKIN, MAIN_CHARACTER_START_SKIN, ZOMBIE_DEFAULT_SKIN };
 
 // clang-format off
 const static std::unordered_map<Skin, std::unordered_map<ActionType, std::unordered_map<FacingSide, Textures::ID>>>
@@ -47,7 +47,8 @@ const static std::unordered_map<Skin, std::unordered_map<ActionType, std::unorde
 const static Textures::ID get_id_of_rotating_texture(Skin skin, ActionType animation, FacingSide side) {
 	return skin_animation_side_map.at(skin).at(animation).at(side);
 }
-const static std::unordered_map<Skin, Textures::ID> skin_texture_id_map;
-const static Textures::ID get_id_of_non_rotating_texture(Skin skin) { return skin_texture_id_map.at(skin); }
+const static Textures::ID get_idle_animation(Skin skin, FacingSide side) {
+	return skin_animation_side_map.at(skin).at(ActionType::idle).at(side);
+}
 
 #endif

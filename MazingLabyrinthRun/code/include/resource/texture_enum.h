@@ -6,6 +6,8 @@
 #include <unordered_map>
 namespace Textures {
 enum class ID {
+	DEFAULT_PLACEHOLDER_TEXTURE,
+
 	NORRIS_NAKED_DEF_UP_1,
 	NORRIS_NAKED_DEF_DOWN_1,
 	NORRIS_NAKED_DEF_LEFT_1,
@@ -31,6 +33,8 @@ struct TextureMetadata {
 static std::string toString(const ID& textureID) { return magic_enum::enum_name(textureID).data(); }
 
 const static std::unordered_map<ID, std::string> texture_id_to_file_map{
+    {ID::DEFAULT_PLACEHOLDER_TEXTURE, "resources/default_texture.png"},
+
     {ID::NORRIS_NAKED_DEF_UP_1, "resources/character/up.png"},
     {ID::NORRIS_NAKED_DEF_DOWN_1, "resources/character/down.png"},
     {ID::NORRIS_NAKED_DEF_LEFT_1, "resources/character/left.png"},
@@ -48,6 +52,8 @@ const static std::unordered_map<ID, std::string> texture_id_to_file_map{
 };
 
 const static std::unordered_map<ID, TextureMetadata> texture_id_to_texture_metadata{
+    {ID::DEFAULT_PLACEHOLDER_TEXTURE, {1, -1, 0.0f}},
+
     {ID::NORRIS_NAKED_DEF_UP_1, {1, -1, 0.2f}},
     {ID::NORRIS_NAKED_DEF_DOWN_1, {4, -1, 0.2f}},
     {ID::NORRIS_NAKED_DEF_LEFT_1, {1, -1, 0.2f}},
@@ -61,8 +67,7 @@ const static std::unordered_map<ID, TextureMetadata> texture_id_to_texture_metad
     {ID::MAIN_CHARACTER_DEFAULT_SKIN_JUMP, {9, 1, 0.1f}},
 
     {ID::ZOMBIE_IDLE_LEFT, {1, -1, 0.1f}},
-    {ID::ZOMBIE_ATTACK_LEFT, {4, 1, 0.2f}}
-};
+    {ID::ZOMBIE_ATTACK_LEFT, {4, 1, 0.2f}}};
 }  // namespace Textures
 
 #endif
