@@ -2,7 +2,8 @@
 
 #include "../include/animation/animation.h"
 #include "../include/entity_base/entity_handle.h"
-#include "../include/factory/entity_factory.h"
+#include "../include/entity_creation/attach_components.h"
+#include "../include/entity_creation/set_start_values.h"
 #include "../include/resource/skins.h"
 #include "../include/resource/texture_enum.h"
 #include "../include/system/systems/animate_system.h"
@@ -53,7 +54,8 @@ void MazingLabyrinthRun::initialize_world_tiles() {
 
 void MazingLabyrinthRun::initialize_creatures() {
 	auto player = m_world->create_entity();
-	create_entity_type(EntityType::player, player);
+	attach_components_to_type(EntityType::player, player);
+	initialize_entity_components(EntityType::player, player);
 	m_player_sprite = &player.get_component<SpriteComponent>()->m_sprite;
 }
 
