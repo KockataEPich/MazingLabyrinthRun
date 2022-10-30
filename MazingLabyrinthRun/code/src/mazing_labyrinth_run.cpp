@@ -9,6 +9,8 @@
 #include "../include/system/systems/player_system.h"
 #include "../include/system/systems/render_system.h"
 #include "../include/system/systems/transform_system.h"
+#include "../include/entity_creation/entity_builder/builders/grass_lands_tile_builder.h"
+
 MazingLabyrinthRun::MazingLabyrinthRun() : m_window("MazingLabyrinthRun", sf::Vector2u(1920, 1080)) {
 	initialize_game();
 };
@@ -37,7 +39,8 @@ void MazingLabyrinthRun::initialize_world_tiles() {
 
 	for (int i = -1600; i <= 1600; i += 160) {
 		for (int j = 1600; j >= -1600; j -= 160) {
-			auto grass_land = m_world->create_generic_entity(EntityType::grass_lands_1);
+			auto grass_land = m_world->create_entity();
+			GrassLandsTileBuilder{}.build_entity(grass_land);
 			m_world->place_entity(grass_land, {(float)i, (float)j});
 		}
 	}

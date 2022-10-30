@@ -19,7 +19,7 @@ void initialize_player_values(EntityType entity_type, EntityHandle& entity) {
 
 	auto& animation_player = entity.get_component<AnimationPlayerComponent>()->m_animation_player;
 	animation_player.set_skin(skin);
-	animation_player.play_animation(get_idle_animation(Skin::MAIN_CHARACTER_START_SKIN, FacingSide::down));
+	animation_player.play_animation(get_idle_animation(skin, FacingSide::down));
 
 	auto& sprite = entity.get_component<SpriteComponent>()->m_sprite;
 	sprite.setTexture(animation_player.get_current_texture());
