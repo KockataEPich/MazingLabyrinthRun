@@ -8,6 +8,7 @@
 #include "../system/system.h"
 
 #include <SFML/System/Vector2.hpp>
+#include <any>
 #include <memory>
 
 struct EntityHandle;
@@ -24,7 +25,6 @@ public:
 	void add_render_system(std::unique_ptr<System> system);
 	void destroy_entity(Entity entity);
 	bool place_entity(EntityHandle& handle, sf::Vector2f position);
-	EntityHandle create_generic_entity(const EntityType type);
 
 	template<typename ComponentType>
 	void add_custom_component_manager(std::unique_ptr<ComponentManager<ComponentType>> manager) {

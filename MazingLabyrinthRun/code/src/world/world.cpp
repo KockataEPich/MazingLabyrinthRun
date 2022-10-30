@@ -65,10 +65,3 @@ bool World::place_entity(EntityHandle& entity, sf::Vector2f position) {
 	entity.get_component<TransformComponent>()->m_position = position;
 	return true;
 }
-
-EntityHandle World::create_generic_entity(const EntityType type){
-	EntityHandle entity = create_entity();
-	attach_components_to_type(type, entity);
-	initialize_entity_components(type, entity);
-	return entity;
-}
