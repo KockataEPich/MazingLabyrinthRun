@@ -2,8 +2,6 @@
 
 #include "../include/entity_base/entity_handle.h"
 #include "../include/components/transform_component.h"
-#include "../include/entity_creation/attach_components.h"
-#include "../include/entity_creation/set_start_values.h"
 #include <iostream>
 
 namespace {

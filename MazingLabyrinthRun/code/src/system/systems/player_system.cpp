@@ -41,4 +41,3 @@ void Player::update(float dt) {
 	    !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
 		action_type->m_action_type = ActionType::idle;
 }
-}
