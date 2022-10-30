@@ -5,14 +5,12 @@
 #include "../../component_initializer/initializers/basic_drawable_initializer.h"
 #include "../entity_builder.h"
 
-const int N = 1;
-const int M = 1;
-class GrassLandsTileBuilder : public EntityBuilder<N, M> {
+class GrassLandsTileBuilder : public EntityBuilder<1, 1> {
 private:
-	std::array<std::unique_ptr<ComponentAdder>, N> get_adders() override {
+	std::array<std::unique_ptr<ComponentAdder>, 1> get_adders() override {
 		return {std::make_unique<DrawableAdder>()};
 	};
-	std::array<std::unique_ptr<ComponentInitializer>, M> get_initializers() override {
+	std::array<std::unique_ptr<ComponentInitializer>, 1> get_initializers() override {
 		return {std::make_unique<BasicDrawableInitializer>(Textures::ID::GRASS_LANDS_1)};
 	};
 };

@@ -2,6 +2,9 @@
 
 #include "../include/animation/animation.h"
 #include "../include/entity_base/entity_handle.h"
+#include "../include/entity_creation/entity_builder/builders/grass_lands_tile_builder.h"
+#include "../include/entity_creation/entity_builder/builders/player_builder.h"
+#include "../include/entity_creation/entity_builder/builders/zombie_builder.h"
 #include "../include/resource/skins.h"
 #include "../include/resource/texture_enum.h"
 #include "../include/system/systems/animate_system.h"
@@ -9,7 +12,6 @@
 #include "../include/system/systems/player_system.h"
 #include "../include/system/systems/render_system.h"
 #include "../include/system/systems/transform_system.h"
-#include "../include/entity_creation/entity_builder/builders/grass_lands_tile_builder.h"
 
 MazingLabyrinthRun::MazingLabyrinthRun() : m_window("MazingLabyrinthRun", sf::Vector2u(1920, 1080)) {
 	initialize_game();
@@ -26,7 +28,7 @@ void MazingLabyrinthRun::initialize_world() {
 	m_world = std::make_unique<World>(std::make_unique<EntityManager>());
 
 	m_world->add_render_system(std::make_unique<Render>(m_window));
-	// TODO this is insanely ugly. I need go find a way to fix this 
+	// TODO this is insanely ugly. I need go find a way to fix this
 	m_world->add_system(std::make_unique<Player>())
 	    ->add_system(std::make_unique<Animate>())
 	    ->add_system(std::make_unique<Transform>());
@@ -37,18 +39,25 @@ void MazingLabyrinthRun::initialize_world() {
 void MazingLabyrinthRun::initialize_world_tiles() {
 	tile_texture.loadFromFile("resources/tile/grass.png");
 
+	GrassLandsTileBuilder grass_builder;
 	for (int i = -1600; i <= 1600; i += 160) {
 		for (int j = 1600; j >= -1600; j -= 160) {
 			auto grass_land = m_world->create_entity();
-			GrassLandsTileBuilder{}.build_entity(grass_land);
+			grass_builder.build_entity(grass_land);
 			m_world->place_entity(grass_land, {(float)i, (float)j});
 		}
 	}
 }
 
 void MazingLabyrinthRun::initialize_creatures() {
-	auto player = m_world->create_generic_entity(EntityType::player);
+	auto player = m_world->create_entity();
+	PlayerEntityBuilder{}.build_entity(player);
+
 	m_player_sprite = &player.get_component<SpriteComponent>()->m_sprite;
+	auto zombie = m_world->create_entity();
+	ZombieEntityBuilder{}.build_entity(zombie);
+
+	m_world->place_entity(zombie, {-50, -50});
 }
 
 void MazingLabyrinthRun::handle_input() {}
