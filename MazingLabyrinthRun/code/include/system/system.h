@@ -11,19 +11,15 @@ class World;
 
 class System {
 public:
-	System() = default;
-	virtual ~System() = default;
-	System(const System&) = default;
-	System& operator=(const System&) = default;
-	System(System&&) = default;
-	System& operator=(System&&) = default;
 	virtual void init(){};
 	virtual void update(float dt){};
 	virtual void render(){};
-	void register_world(World* world);
-	void register_entity(Entity const& entity);
+
 	void unregister_entity(Entity const& entity);
-	ComponentMask get_signature();
+
+	void register_world(World* world) { m_parent_world = world; }
+	void register_entity(Entity const& entity) { m_registered_entities.push_back(entity); }
+	ComponentMask get_signature() { return m_signature; }
 
 protected:
 	std::vector<Entity> m_registered_entities;

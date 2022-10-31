@@ -20,7 +20,7 @@ private:
 	sf::Clock m_clock;
 	sf::Time m_elapsed;
 
-	float m_deltaTime;
+	float m_delta_time;
 
 	void handle_input();
 	void update();
@@ -30,9 +30,6 @@ private:
 	void initialize_world();
 	void initialize_creatures();
 	void initialize_world_tiles();
-
-	sf::Texture tile_texture;
-	std::vector<sf::Sprite> grass_lands;
 
 	sf::Sprite* m_player_sprite;
 };

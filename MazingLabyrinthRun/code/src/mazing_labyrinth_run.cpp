@@ -37,8 +37,6 @@ void MazingLabyrinthRun::initialize_world() {
 }
 
 void MazingLabyrinthRun::initialize_world_tiles() {
-	tile_texture.loadFromFile("resources/tile/grass.png");
-
 	GrassLandsTileBuilder grass_builder;
 	for (int i = -1600; i <= 1600; i += 160) {
 		for (int j = 1600; j >= -1600; j -= 160) {
@@ -64,7 +62,7 @@ void MazingLabyrinthRun::handle_input() {}
 
 void MazingLabyrinthRun::update() {
 	m_window.update();
-	m_world->update(m_deltaTime);
+	m_world->update(m_delta_time);
 	m_camera.setCenter(m_player_sprite->getPosition());
 	m_window.setView(m_camera);
 }
@@ -77,7 +75,7 @@ void MazingLabyrinthRun::render() {
 
 void MazingLabyrinthRun::start_game() {
 	while (!m_window.is_done()) {
-		m_deltaTime = m_elapsed.asSeconds();
+		m_delta_time = m_elapsed.asSeconds();
 		handle_input();
 		update();
 		render();
