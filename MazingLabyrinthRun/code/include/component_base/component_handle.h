@@ -18,9 +18,7 @@ struct ComponentHandle {
 		this->m_manager = manager;
 	}
 
-	// handle->member is the same as handle.component->member
 	ExposedComponentType* operator->() const { return m_component; }
-
 	void destroy() { m_manager->destroyComponent(m_owner); }
 };
 #endif
