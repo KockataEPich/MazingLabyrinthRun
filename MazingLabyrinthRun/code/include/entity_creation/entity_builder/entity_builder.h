@@ -5,15 +5,17 @@
 #include "../component_adder/component_adder.h"
 #include "../component_initializer/component_initializer.h"
 
-template<unsigned int N, unsigned int M>
+template<unsigned int AddersLength, unsigned int InitializerLength>
 class EntityBuilder {
 public:
 	void build_entity(EntityHandle& entity) {
-		for (auto& component_adder : get_adders()) component_adder->attach_components(entity);
-		for (auto& component_initializer : get_initializers()) component_initializer->initialize_components(entity);
+		assert(!m_component_adders.empty() || !m_component_initializers.empty());
+		for (auto& adder : m_component_adders) adder->attach_components(entity);
+		for (auto& initializer : m_component_initializers) initializer->initialize_components(entity);
 	};
 
-	virtual std::array<std::unique_ptr<ComponentAdder>, N> get_adders() = 0;
-	virtual std::array<std::unique_ptr<ComponentInitializer>, M> get_initializers() = 0;
+protected:
+	std::array<std::unique_ptr<ComponentAdder>, AddersLength> m_component_adders;
+	std::array<std::unique_ptr<ComponentInitializer>, InitializerLength> m_component_initializers;
 };
 #endif

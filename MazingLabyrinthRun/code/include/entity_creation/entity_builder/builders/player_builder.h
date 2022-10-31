@@ -8,12 +8,14 @@
 #include "../entity_builder.h"
 
 class PlayerEntityBuilder : public EntityBuilder<3, 1> {
-private:
-	std::array<std::unique_ptr<ComponentAdder>, 3> get_adders() override {
-		return {std::make_unique<DrawableAdder>(), std::make_unique<AnimatedAdder>(), std::make_unique<PlayerAdder>()};
-	};
-	std::array<std::unique_ptr<ComponentInitializer>, 1> get_initializers() override {
-		return {std::make_unique<AnimatedDrawableInitializer>(Skin::MAIN_CHARACTER_START_SKIN, 200.0f)};
-	};
+public:
+	PlayerEntityBuilder() {
+		m_component_adders = {std::make_unique<DrawableAdder>(),
+		                      std::make_unique<AnimatedAdder>(),
+		                      std::make_unique<PlayerAdder>()};
+
+		m_component_initializers = {
+		    std::make_unique<AnimatedDrawableInitializer>(Skin::MAIN_CHARACTER_START_SKIN, 200.0f)};
+	}
 };
 #endif

@@ -7,12 +7,11 @@
 #include "../entity_builder.h"
 
 class ZombieEntityBuilder : public EntityBuilder<2, 1> {
-private:
-	std::array<std::unique_ptr<ComponentAdder>, 2> get_adders() override {
-		return {std::make_unique<DrawableAdder>(), std::make_unique<AnimatedAdder>()};
-	};
-	std::array<std::unique_ptr<ComponentInitializer>, 1> get_initializers() override {
-		return {std::make_unique<AnimatedDrawableInitializer>(Skin::ZOMBIE_DEFAULT_SKIN, 100.0f)};
-	};
+public:
+	ZombieEntityBuilder() {
+		m_component_adders = {std::make_unique<DrawableAdder>(), std::make_unique<AnimatedAdder>()};
+		m_component_initializers = {
+		    std::make_unique<AnimatedDrawableInitializer>(Skin::ZOMBIE_DEFAULT_SKIN, 200.0f)};
+	}
 };
 #endif
