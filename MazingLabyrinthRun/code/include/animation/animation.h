@@ -6,14 +6,13 @@
 
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Texture.hpp>
-#include <exception>
-#include <string>
-#include <vector>
+#include <optional>
 
 class Animation {
 public:
 	Animation(const Textures::ID& texture_id)
 	    : m_speed{Textures::texture_id_to_texture_metadata.at(m_texture_id).default_speed}
+	    , m_number_of_cycles{Textures::texture_id_to_texture_metadata.at(m_texture_id).default_repeats}
 	    , m_texture_id{texture_id}
 	    , m_texture{ResourceManager::get_instance()->get_texture(texture_id)} {
 		m_x_axis_offset =
@@ -39,7 +38,7 @@ private:
 
 	Textures::ID m_texture_id;
 	sf::Texture* m_texture;
-	int m_number_of_cycles;
+	std::optional<unsigned int> m_number_of_cycles;
 	float m_speed;
 };
 

@@ -6,7 +6,7 @@ bool Animation::next_frame() {
 }
 
 bool Animation::reset_cycle() {
-	if (m_number_of_cycles == 0) return true;
+	if (!m_number_of_cycles.has_value() || m_number_of_cycles.value()-- == 0) return true;
 	m_current_rectange.left = 0;
 	return false;
 }

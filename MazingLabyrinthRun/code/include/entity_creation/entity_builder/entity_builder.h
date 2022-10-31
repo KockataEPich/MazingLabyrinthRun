@@ -9,7 +9,7 @@ template<unsigned int AddersLength, unsigned int InitializerLength>
 class EntityBuilder {
 public:
 	void build_entity(EntityHandle& entity) {
-		assert(!m_component_adders.empty() || !m_component_initializers.empty());
+		assert(!m_component_adders.empty() || !m_component_initializers.empty()); // At least one from both
 		for (auto& adder : m_component_adders) adder->attach_components(entity);
 		for (auto& initializer : m_component_initializers) initializer->initialize_components(entity);
 	};
