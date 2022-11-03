@@ -10,7 +10,7 @@
 class PlayerEntityBuilder : public EntityBuilder<3, 1> {
 public:
 	PlayerEntityBuilder() {
-		m_component_adders = {std::make_unique<DrawableAdder>(),
+		m_component_adders = {std::make_unique<DrawableAdder>(ElevationLevel::two),
 		                      std::make_unique<AnimatedAdder>(),
 		                      std::make_unique<PlayerAdder>()};
 

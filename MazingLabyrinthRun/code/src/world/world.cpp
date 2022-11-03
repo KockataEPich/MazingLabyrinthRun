@@ -1,7 +1,8 @@
 #include "../include/world/world.h"
 
-#include "../include/entity_base/entity_handle.h"
 #include "../include/components/transform_component.h"
+#include "../include/entity_base/entity_handle.h"
+
 #include <iostream>
 
 namespace {
@@ -11,11 +12,10 @@ void flow_entity(Entity const& entity,
                  ComponentMask old_mask) {
 	for (auto& system : systems) {
 		ComponentMask systemSignature = system->get_signature();
-		if (new_mask.is_new_match(old_mask, systemSignature)) {
+		if (new_mask.is_new_match(old_mask, systemSignature))
 			system->register_entity(entity);
-		} else if (new_mask.is_no_longer_matched(old_mask, systemSignature)) {
+		else if (new_mask.is_no_longer_matched(old_mask, systemSignature))
 			system->unregister_entity(entity);
-		}
 	}
 }
 }  // namespace

@@ -9,6 +9,8 @@
 
 class World;
 
+//remove_entity_from_
+
 class System {
 public:
 	System() = default;
@@ -21,10 +23,10 @@ public:
 	virtual void update(float dt){};
 	virtual void render(){};
 
-	void unregister_entity(Entity const& entity);
+	virtual void unregister_entity(Entity const& entity);
 
 	void register_world(World* world) { m_parent_world = world; }
-	void register_entity(Entity const& entity) { m_registered_entities.push_back(entity); }
+	virtual void register_entity(Entity const& entity) { m_registered_entities.push_back(entity); }
 	ComponentMask get_signature() { return m_signature; }
 
 protected:

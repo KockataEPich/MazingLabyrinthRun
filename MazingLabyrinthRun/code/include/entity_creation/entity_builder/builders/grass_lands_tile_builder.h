@@ -7,7 +7,7 @@
 class GrassLandsTileBuilder : public EntityBuilder<1, 1> {
 public:
 	GrassLandsTileBuilder() {
-		m_component_adders = {std::make_unique<DrawableAdder>()};
+		m_component_adders = {std::make_unique<DrawableAdder>(ElevationLevel::one)};
 		m_component_initializers = {std::make_unique<BasicDrawableInitializer>(Textures::ID::GRASS_LANDS_1)};
 	}
 };
