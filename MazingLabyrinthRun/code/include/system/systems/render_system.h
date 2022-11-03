@@ -23,6 +23,7 @@ private:
 	GameWindow& m_render_window;
 
 	void draw_level(std::vector<std::pair<sf::Sprite*, Entity>>& sprites);
+	std::vector<std::pair<sf::Sprite*, Entity>>& get_level_vector(ElevationLevel level);
 };
 
 #endif
