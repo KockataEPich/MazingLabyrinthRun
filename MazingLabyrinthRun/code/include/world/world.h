@@ -7,6 +7,7 @@
 #include "../entity_creation/entity_list.h"
 #include "../system/system.h"
 
+#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <any>
 #include <memory>
@@ -70,12 +71,16 @@ public:
 		handle = ComponentHandle<ComponentType>(e, manger->lookup(e), manger);
 	}
 
+	void set_player_location(sf::Sprite* player_sprite) { m_player_sprite = player_sprite; }
+	sf::Vector2f get_player_location() { return m_player_sprite->getPosition(); }
+
 private:
 	std::unique_ptr<EntityManager> m_entity_manager;
 	std::vector<std::unique_ptr<System>> m_systems;
 	std::vector<std::unique_ptr<System>> m_render_systems;
 	std::vector<std::unique_ptr<BaseComponentManager>> m_component_managers;
 	std::map<Entity, ComponentMask> m_entity_masks;
+	sf::Sprite* m_player_sprite;
 
 	void update_entity_mask(Entity const& entity, ComponentMask old_mask);
 

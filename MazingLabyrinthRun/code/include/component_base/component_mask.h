@@ -4,13 +4,16 @@
 
 struct ComponentMask {
 	unsigned int mask = 0;
+
 	template<typename ComponentType>
-	void add_component() {
+	ComponentMask& add_component() {
 		mask |= (1 << get_component_family<ComponentType>());
+		return *this;
 	}
 	template<typename ComponentType>
-	void remove_component() {
+	ComponentMask& remove_component() {
 		mask &= ~(1 << get_component_family<ComponentType>());
+		return *this;
 	}
 	bool is_new_match(ComponentMask oldMask, ComponentMask systemMask);
 	bool is_no_longer_matched(ComponentMask oldMask, ComponentMask systemMask);

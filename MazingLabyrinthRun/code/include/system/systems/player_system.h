@@ -13,13 +13,13 @@
 class Player : public System {
 public:
 	Player() {
-		m_signature.add_component<PlayerComponent>();
-		m_signature.add_component<TransformComponent>();
-		m_signature.add_component<SpeedComponent>();
-		m_signature.add_component<ActionTypeComponent>();
-		m_signature.add_component<FacingSideComponent>();
+		m_signature.add_component<PlayerComponent>()
+		    .add_component<TransformComponent>()
+		    .add_component<SpeedComponent>()
+		    .add_component<ActionTypeComponent>()
+		    .add_component<FacingSideComponent>();
 	}
-	void init() override { m_registered_entities.reserve(1); } // Only one player
+	void init() override { m_registered_entities.reserve(1); }  // Only one player
 	void update(float dt) override;
 };
 

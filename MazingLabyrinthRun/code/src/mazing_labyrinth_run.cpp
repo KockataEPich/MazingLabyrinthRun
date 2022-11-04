@@ -7,11 +7,14 @@
 #include "../include/entity_creation/entity_builder/builders/zombie_builder.h"
 #include "../include/resource/skins.h"
 #include "../include/resource/texture_enum.h"
+#include "../include/system/systems/ai_system.h"
 #include "../include/system/systems/animate_system.h"
 #include "../include/system/systems/move_system.h"
 #include "../include/system/systems/player_system.h"
 #include "../include/system/systems/render_system.h"
 #include "../include/system/systems/transform_system.h"
+
+#include <system/systems/ai_system.h>
 
 MazingLabyrinthRun::MazingLabyrinthRun() : m_window("MazingLabyrinthRun", sf::Vector2u(1920, 1080)) {
 	initialize_game();
@@ -31,18 +34,25 @@ void MazingLabyrinthRun::initialize_world() {
 	// TODO this is insanely ugly. I need go find a way to fix this
 	m_world->add_system(std::make_unique<Player>())
 	    ->add_system(std::make_unique<Animate>())
-	    ->add_system(std::make_unique<Transform>());
+	    ->add_system(std::make_unique<Transform>())
+	    ->add_system(std::make_unique<AI>());
 
 	m_world->init();
 }
 
 void MazingLabyrinthRun::initialize_world_tiles() {
 	GrassLandsTileBuilder grass_builder;
+	ZombieEntityBuilder zombie_builder;
 	for (int i = -1600; i <= 1600; i += 160) {
 		for (int j = 1600; j >= -1600; j -= 160) {
 			auto grass_land = m_world->create_entity();
 			grass_builder.build_entity(grass_land);
+
+			auto zombie = m_world->create_entity();
+			zombie_builder.build_entity(zombie);
+
 			m_world->place_entity(grass_land, {(float)i, (float)j});
+			m_world->place_entity(zombie, {(float)i, (float)j});
 		}
 	}
 }
@@ -52,10 +62,7 @@ void MazingLabyrinthRun::initialize_creatures() {
 	PlayerEntityBuilder{}.build_entity(player);
 
 	m_player_sprite = &player.get_component<SpriteComponent>()->m_sprite;
-	auto zombie = m_world->create_entity();
-	ZombieEntityBuilder{}.build_entity(zombie);
-
-	m_world->place_entity(zombie, {-50, -50});
+	m_world->set_player_location(m_player_sprite);
 }
 
 void MazingLabyrinthRun::handle_input() {}

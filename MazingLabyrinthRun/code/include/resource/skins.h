@@ -34,7 +34,11 @@ const static std::unordered_map<Skin, std::unordered_map<ActionType, std::unorde
 		 				{FacingSide::left, Textures::ID::ZOMBIE_IDLE_LEFT},
 		 				{FacingSide::up, Textures::ID::ZOMBIE_IDLE_LEFT},
 		 				{FacingSide::down, Textures::ID::ZOMBIE_IDLE_LEFT}}},
-
+                {ActionType::move, {
+						{FacingSide::right, Textures::ID::NORRIS_RUN_RIGHT},
+						{FacingSide::left, Textures::ID::NORRIS_RUN_LEFT},
+		 				{FacingSide::up, Textures::ID::NORRIS_RUN_UP},
+		 				{FacingSide::down, Textures::ID::NORRIS_RUN_DOWN}}},
 				{ActionType::attack, {
 						{FacingSide::right, Textures::ID::ZOMBIE_ATTACK_LEFT},
 		 				{FacingSide::left, Textures::ID::ZOMBIE_ATTACK_LEFT},

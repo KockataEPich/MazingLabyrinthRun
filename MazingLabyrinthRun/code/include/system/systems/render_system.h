@@ -1,8 +1,8 @@
 #ifndef RENDER_SYSTEM_HEADER
 #define RENDER_SYSTEM_HEADER
 
-#include "../../components/sprite_component.h"
 #include "../../components/elevation_component.h"
+#include "../../components/sprite_component.h"
 #include "../../window/game_window.h"
 #include "../../world/world.h"
 #include "../system.h"
@@ -10,8 +10,7 @@
 class Render : public System {
 public:
 	Render(GameWindow& render_window) : m_render_window{render_window} {
-		m_signature.add_component<SpriteComponent>();
-		m_signature.add_component<ElevationLevelComponent>();
+		m_signature.add_component<SpriteComponent>().add_component<ElevationLevelComponent>();
 	}
 	void register_entity(Entity const& entity) override;
 	void unregister_entity(Entity const& entity) override;
