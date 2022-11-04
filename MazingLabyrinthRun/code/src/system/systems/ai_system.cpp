@@ -9,7 +9,6 @@ void AI::update(float dt) {
 		ComponentHandle<FacingSideComponent> side;
 
 		m_parent_world->unpack(entity, transform, side, speed);
-asssssssssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaadddddd
 		float delta_x = m_parent_world->get_player_location().x - transform->m_position.x;
 		float delta_y = m_parent_world->get_player_location().y - transform->m_position.y;
 
