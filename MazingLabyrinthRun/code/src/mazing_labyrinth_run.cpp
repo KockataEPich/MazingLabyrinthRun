@@ -13,6 +13,7 @@
 #include "../include/system/systems/player_system.h"
 #include "../include/system/systems/render_system.h"
 #include "../include/system/systems/transform_system.h"
+#include "../include/system/systems/event_system.h"
 
 #include <system/systems/ai_system.h>
 
