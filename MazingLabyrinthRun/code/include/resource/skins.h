@@ -3,10 +3,10 @@
 
 #include "../attribute/action_type.h"
 #include "../attribute/facingSide.h"
-#include "textureEnum.h"
+#include "texture_enum.h"
 
 #include <unordered_map>
-enum class Skin { MAIN_CHARACTER_START_SKIN, ZOMBIE_DEFAULT_SKIN };
+enum class Skin { DEFAULT_PLACEHOLDER_SKIN, MAIN_CHARACTER_START_SKIN, ZOMBIE_DEFAULT_SKIN };
 
 // clang-format off
 const static std::unordered_map<Skin, std::unordered_map<ActionType, std::unordered_map<FacingSide, Textures::ID>>>
@@ -17,7 +17,7 @@ const static std::unordered_map<Skin, std::unordered_map<ActionType, std::unorde
 							{FacingSide::left, Textures::ID::NORRIS_NAKED_DEF_LEFT_1},
 							{FacingSide::up, Textures::ID::NORRIS_NAKED_DEF_UP_1},
 							{FacingSide::down, Textures::ID::NORRIS_NAKED_DEF_DOWN_1}}},
-				{ActionType::run, {
+				{ActionType::move, {
 							{FacingSide::right, Textures::ID::NORRIS_RUN_RIGHT},
                             {FacingSide::left, Textures::ID::NORRIS_RUN_LEFT},
                             {FacingSide::up, Textures::ID::NORRIS_RUN_UP},
@@ -34,7 +34,11 @@ const static std::unordered_map<Skin, std::unordered_map<ActionType, std::unorde
 		 				{FacingSide::left, Textures::ID::ZOMBIE_IDLE_LEFT},
 		 				{FacingSide::up, Textures::ID::ZOMBIE_IDLE_LEFT},
 		 				{FacingSide::down, Textures::ID::ZOMBIE_IDLE_LEFT}}},
-
+                {ActionType::move, {
+						{FacingSide::right, Textures::ID::NORRIS_RUN_RIGHT},
+						{FacingSide::left, Textures::ID::NORRIS_RUN_LEFT},
+		 				{FacingSide::up, Textures::ID::NORRIS_RUN_UP},
+		 				{FacingSide::down, Textures::ID::NORRIS_RUN_DOWN}}},
 				{ActionType::attack, {
 						{FacingSide::right, Textures::ID::ZOMBIE_ATTACK_LEFT},
 		 				{FacingSide::left, Textures::ID::ZOMBIE_ATTACK_LEFT},
@@ -47,7 +51,8 @@ const static std::unordered_map<Skin, std::unordered_map<ActionType, std::unorde
 const static Textures::ID get_id_of_rotating_texture(Skin skin, ActionType animation, FacingSide side) {
 	return skin_animation_side_map.at(skin).at(animation).at(side);
 }
-const static std::unordered_map<Skin, Textures::ID> skin_texture_id_map;
-const static Textures::ID get_id_of_non_rotating_texture(Skin skin) { return skin_texture_id_map.at(skin); }
+const static Textures::ID get_idle_animation(Skin skin, FacingSide side) {
+	return skin_animation_side_map.at(skin).at(ActionType::idle).at(side);
+}
 
 #endif

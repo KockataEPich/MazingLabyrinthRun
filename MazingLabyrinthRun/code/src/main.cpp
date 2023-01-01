@@ -1,4 +1,4 @@
-#include "../include/mazingLabyrinthRun.h"
+#include "../include/mazing_labyrinth_run.h"
 
 int main() {
 	MazingLabyrinthRun game;
