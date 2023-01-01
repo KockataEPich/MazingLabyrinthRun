@@ -9,11 +9,11 @@
 #include "../include/resource/texture_enum.h"
 #include "../include/system/systems/ai_system.h"
 #include "../include/system/systems/animate_system.h"
+#include "../include/system/systems/event_system.h"
 #include "../include/system/systems/move_system.h"
 #include "../include/system/systems/player_system.h"
 #include "../include/system/systems/render_system.h"
 #include "../include/system/systems/transform_system.h"
-#include "../include/system/systems/event_system.h"
 
 #include <system/systems/ai_system.h>
 
@@ -36,7 +36,8 @@ void MazingLabyrinthRun::initialize_world() {
 	m_world->add_system(std::make_unique<Player>())
 	    ->add_system(std::make_unique<Animate>())
 	    ->add_system(std::make_unique<Transform>())
-	    ->add_system(std::make_unique<AI>());
+	    ->add_system(std::make_unique<AI>())
+	    ->add_system(std::make_unique<EventSystem>());
 
 	m_world->init();
 }
@@ -61,6 +62,7 @@ void MazingLabyrinthRun::initialize_world_tiles() {
 void MazingLabyrinthRun::initialize_creatures() {
 	auto player = m_world->create_entity();
 	PlayerEntityBuilder{}.build_entity(player);
+	player.add_component(std::make_unique<CompositeEventComponent>());
 
 	m_player_sprite = &player.get_component<SpriteComponent>()->m_sprite;
 	m_world->set_player_location(m_player_sprite);

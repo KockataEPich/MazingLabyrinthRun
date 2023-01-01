@@ -1,6 +1,7 @@
 #include "../include/system/systems/player_system.h"
 
 #include "../include/component_base/component_handle.h"
+#include "../include/event/events/event_types/move_event.h"
 
 #include <SFML/Window/Keyboard.hpp>
 
@@ -10,27 +11,24 @@ void Player::update(float dt) {
 	ComponentHandle<FacingSideComponent> side;
 	ComponentHandle<TransformComponent> transform;
 	ComponentHandle<ActionTypeComponent> action_type;
+	ComponentHandle<CompositeEventComponent> events;
 
-	m_parent_world->unpack(player, transform, side, speed, action_type);
+	m_parent_world->unpack(player, transform, side, speed, action_type, events);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
-		transform->m_position = {transform->m_position.x + (speed->m_speed * dt), transform->m_position.y};
-		side->m_side = FacingSide::right;
+		events->m_events->add_event(std::make_unique<RunRight>(*transform.m_component, speed->m_speed, side->m_side));
 		action_type->m_action_type = ActionType::move;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
-		transform->m_position = {transform->m_position.x - (speed->m_speed * dt), transform->m_position.y};
-		side->m_side = FacingSide::left;
+		events->m_events->add_event(std::make_unique<RunLeft>(*transform.m_component, speed->m_speed, side->m_side));
 		action_type->m_action_type = ActionType::move;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
-		transform->m_position = {transform->m_position.x, transform->m_position.y - (speed->m_speed * dt)};
-		side->m_side = FacingSide::up;
+		events->m_events->add_event(std::make_unique<RunUp>(*transform.m_component, speed->m_speed, side->m_side));
 		action_type->m_action_type = ActionType::move;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
-		transform->m_position = {transform->m_position.x, transform->m_position.y + (speed->m_speed * dt)};
-		side->m_side = FacingSide::down;
+		events->m_events->add_event(std::make_unique<RunDown>(*transform.m_component, speed->m_speed, side->m_side));
 		action_type->m_action_type = ActionType::move;
 	}
 

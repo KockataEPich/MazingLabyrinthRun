@@ -1,10 +1,10 @@
 #ifndef EVENT_HEADER
 #define EVENT_HEADER
 
-#include <optional>
-#include <vector>
-#include <utils/vector_utils.h>
 #include <memory>
+#include <optional>
+#include <utils/vector_utils.h>
+#include <vector>
 
 class Event {
 public:
@@ -15,8 +15,12 @@ public:
 		before_event(dt);
 		apply(dt);
 		after_event(dt);
+
+		if (!m_event_recurrence_number.has_value()) return;
+
+		m_event_recurrence_number.value()--;
+		if (m_event_recurrence_number == 0) m_finished = true;
 	}
-	virtual void apply(float dt) = 0;
 
 	// Hooks supporting abstraction at lower levels
 	virtual void before_event(float dt){};
@@ -28,6 +32,7 @@ public:
 protected:
 	bool m_finished = false;
 	std::optional<int> m_event_recurrence_number = 1;
+	virtual void apply(float dt) = 0;
 };
 
 class CompositeEvent : public Event {
@@ -39,25 +44,26 @@ protected:
 };
 
 class ParallelEvent : public CompositeEvent {
-public:
+protected:
 	void apply(float dt) override {
-		for (auto& event : m_events) {
-			event->apply(dt);
-			if (m_event_recurrence_number.has_value()) m_event_recurrence_number.value()--;
+		for (int i = 0; i < m_events.size(); i++) {
+			m_events[i]->happen(dt);
+			if (m_events[i]->is_finished()) {
+				std::swap(m_events[i], m_events[m_events.size() - 1]);
+				m_events.pop_back();
+			}
 		}
-		std::remove_if(m_events.begin(), m_events.end(), [](std::unique_ptr<Event>& event) {
-			return event->is_finished();
-		});
+
 		m_finished = m_events.empty();
 	}
 };
 
 class SequenceEvent : CompositeEvent {
-public:
+protected:
 	void apply(float dt) override {
 		if (m_finished = m_events.empty(); m_finished) return;
 
-		m_events.front()->apply(dt);
+		m_events.front()->happen(dt);
 		if (m_events.front()->is_finished()) pop_front(m_events);
 	}
 };

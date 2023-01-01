@@ -10,6 +10,8 @@
 #include "../../world/world.h"
 #include "../system.h"
 
+#include <components/composite_event_component.h>
+
 class Player : public System {
 public:
 	Player() {
@@ -17,7 +19,8 @@ public:
 		    .add_component<TransformComponent>()
 		    .add_component<SpeedComponent>()
 		    .add_component<ActionTypeComponent>()
-		    .add_component<FacingSideComponent>();
+		    .add_component<FacingSideComponent>()
+		    .add_component<CompositeEventComponent>();
 	}
 	void init() override { m_registered_entities.reserve(1); }  // Only one player
 	void update(float dt) override;
