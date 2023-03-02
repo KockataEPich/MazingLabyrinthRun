@@ -26,7 +26,7 @@ void World::init() {
 }
 
 void World::update(float dt) {
-	for (auto& system : m_systems) { system->update(dt); }
+	for (auto& system : m_systems) { system->work(dt); }
 }
 
 void World::render() {

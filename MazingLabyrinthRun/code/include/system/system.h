@@ -9,7 +9,7 @@
 
 class World;
 
-//remove_entity_from_
+// remove_entity_from_
 
 class System {
 public:
@@ -20,19 +20,30 @@ public:
 	System(System&&) = default;
 	System& operator=(System&&) = default;
 	virtual void init(){};
-	virtual void update(float dt){};
+
+	void work(float dt) {
+		m_accumulator += dt;
+		float tick_weight = tick_frequency() * dt;
+		while (m_accumulator >= tick_weight) {
+			update(dt);
+			m_accumulator -= tick_weight;
+		}
+	}
+
 	virtual void render(){};
-
 	virtual void unregister_entity(Entity const& entity);
-
-	void register_world(World* world) { m_parent_world = world; }
 	virtual void register_entity(Entity const& entity) { m_registered_entities.push_back(entity); }
+	void register_world(World* world) { m_parent_world = world; }
+
 	ComponentMask get_signature() { return m_signature; }
 
 protected:
 	std::vector<Entity> m_registered_entities;
 	World* m_parent_world;
 	ComponentMask m_signature;
-};
+	float m_accumulator = 0;
 
+	virtual void update(float dt){};
+	virtual float tick_frequency() { return 1.0f; };
+};
 #endif

@@ -19,6 +19,7 @@
 
 MazingLabyrinthRun::MazingLabyrinthRun() : m_window("MazingLabyrinthRun", sf::Vector2u(1920, 1080)) {
 	initialize_game();
+	restart_clock();
 };
 
 void MazingLabyrinthRun::initialize_game() {
