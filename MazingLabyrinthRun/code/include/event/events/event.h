@@ -48,10 +48,7 @@ protected:
 	void apply(float dt) override {
 		for (int i = 0; i < m_events.size(); i++) {
 			m_events[i]->happen(dt);
-			if (m_events[i]->is_finished()) {
-				std::swap(m_events[i], m_events[m_events.size() - 1]);
-				m_events.pop_back();
-			}
+			if (m_events[i]->is_finished()) vec_utils::pop_at_index(i, m_events);
 		}
 
 		m_finished = m_events.empty();
@@ -64,7 +61,7 @@ protected:
 		if (m_finished = m_events.empty(); m_finished) return;
 
 		m_events.front()->happen(dt);
-		if (m_events.front()->is_finished()) pop_front(m_events);
+		if (m_events.front()->is_finished()) vec_utils::pop_front(m_events);
 	}
 };
 
