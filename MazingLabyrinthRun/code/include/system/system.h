@@ -23,7 +23,7 @@ public:
 
 	void work(float dt) {
 		m_accumulator += dt;
-		float tick_weight = tick_frequency() * dt;
+		float tick_weight = 0.015 * tick_frequency();
 		while (m_accumulator >= tick_weight) {
 			update(dt);
 			m_accumulator -= tick_weight;
@@ -44,6 +44,6 @@ protected:
 	float m_accumulator = 0;
 
 	virtual void update(float dt){};
-	virtual float tick_frequency() { return 1.0f; };
+	virtual const float tick_frequency() { return 1.0f; };
 };
 #endif

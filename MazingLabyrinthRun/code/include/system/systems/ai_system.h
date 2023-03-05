@@ -17,7 +17,7 @@ public:
 		m_signature.add_component<AIComponent>();
 	}
 	void update(float dt) override;
-	float tick_frequency() override { return 5.0f; }
+	float const tick_frequency() override { return 5.0f; }
 };
 
 #endif
