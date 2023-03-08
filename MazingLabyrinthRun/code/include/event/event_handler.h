@@ -3,17 +3,13 @@
 
 #include <entity_base/entity.h>
 #include <event/events/event.h>
-#include <unordered_map>
+#include <world/world.h>
 
 class World;
 class EventHandler {
 public:
-	EventHandler(World* world) : m_world{world} {}
-	add_event_to_entity(Entity entity, Event&& event) {}
+	void execute_event(Entity entity, Event&& event, float dt) { event.happen(dt); }
 
-private:
-	std::unordered_map<Entity, std::vector<Event>> m_entity_event_map;
-	World* m_world;
 };
 
 #endif

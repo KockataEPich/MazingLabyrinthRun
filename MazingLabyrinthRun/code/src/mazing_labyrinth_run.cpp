@@ -63,7 +63,7 @@ void MazingLabyrinthRun::initialize_world_tiles() {
 void MazingLabyrinthRun::initialize_creatures() {
 	auto player = m_world->create_entity();
 	PlayerEntityBuilder{}.build_entity(player);
-	player.add_component(std::make_unique<CompositeEventComponent>());
+	player.add_component(std::make_unique<StatusListComponent>());
 
 	m_player_sprite = &player.get_component<SpriteComponent>()->m_sprite;
 	m_world->set_player_location(m_player_sprite);

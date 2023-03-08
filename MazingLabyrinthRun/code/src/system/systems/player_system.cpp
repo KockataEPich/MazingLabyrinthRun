@@ -12,30 +12,30 @@ void Player::update(float dt) {
 	ComponentHandle<FacingSideComponent> side;
 	ComponentHandle<TransformComponent> transform;
 	ComponentHandle<ActionTypeComponent> action_type;
-	ComponentHandle<CompositeEventComponent> events;
+	ComponentHandle<StatusListComponent> events;
 
 	m_parent_world->unpack(player, transform, side, speed, action_type, events);
 
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) &&
 	    !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A) &&
 	    !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
-		events->m_events->add_event(std::make_unique<ChangeActionTypeEvent>(*action_type.m_component, ActionType::idle));
+		ChangeActionTypeEvent{*action_type.m_component, ActionType::idle}.happen(dt);
 		return;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {
-		events->m_events->add_event(std::make_unique<ChangeActionTypeEvent>(*action_type.m_component, ActionType::jump));
+		ChangeActionTypeEvent{*action_type.m_component, ActionType::jump}.happen(dt);
 		return;
 	}
 
-	events->m_events->add_event(std::make_unique<ChangeActionTypeEvent>(*action_type.m_component, ActionType::move));
+	ChangeActionTypeEvent{*action_type.m_component, ActionType::move}.happen(dt);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
-		events->m_events->add_event(std::make_unique<RunRight>(*transform.m_component, speed->m_speed, side->m_side));
+		RunRight{*transform.m_component, speed->m_speed, side->m_side}.happen(dt);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
-		events->m_events->add_event(std::make_unique<RunLeft>(*transform.m_component, speed->m_speed, side->m_side));
+		RunLeft{*transform.m_component, speed->m_speed, side->m_side}.happen(dt);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
-		events->m_events->add_event(std::make_unique<RunUp>(*transform.m_component, speed->m_speed, side->m_side));
+		RunUp{*transform.m_component, speed->m_speed, side->m_side}.happen(dt);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
-		events->m_events->add_event(std::make_unique<RunDown>(*transform.m_component, speed->m_speed, side->m_side));
+		RunDown{*transform.m_component, speed->m_speed, side->m_side}.happen(dt);
 }

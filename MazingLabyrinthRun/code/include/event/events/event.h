@@ -22,10 +22,6 @@ public:
 		if (m_event_recurrence_number == 0) m_finished = true;
 	}
 
-	// Hooks supporting abstraction at lower levels
-	virtual void before_event(float dt){};
-	virtual void after_event(float dt){};
-
 	bool is_finished() { return m_finished; }
 	std::optional<int> event_recurrence_number() { return m_event_recurrence_number; }
 
@@ -33,6 +29,10 @@ protected:
 	bool m_finished = false;
 	std::optional<int> m_event_recurrence_number = 1;
 	virtual void apply(float dt) = 0;
+
+	// Hooks supporting abstraction at lower levels
+	virtual void before_event(float dt){};
+	virtual void after_event(float dt){};
 };
 
 class CompositeEvent : public Event {

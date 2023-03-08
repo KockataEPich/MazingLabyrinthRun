@@ -6,9 +6,9 @@
 #include <event/events/event.h>
 #include <vector>
 
-struct CompositeEventComponent : public Component<CompositeEventComponent> {
-	explicit CompositeEventComponent(std::unique_ptr<ParallelEvent>&& events) : m_events{std::move(events)} {}
-	CompositeEventComponent() = default;
+struct StatusListComponent : public Component<StatusListComponent> {
+	explicit StatusListComponent(std::unique_ptr<ParallelEvent>&& events) : m_events{std::move(events)} {}
+	StatusListComponent() = default;
 	std::unique_ptr<ParallelEvent> m_events = std::make_unique<ParallelEvent>();
 };
 

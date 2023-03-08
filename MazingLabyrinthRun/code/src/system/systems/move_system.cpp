@@ -10,9 +10,7 @@ void Move::update(float dt) {
 		ComponentHandle<SpeedComponent> speed;
 		ComponentHandle<FacingSideComponent> side;
 		ComponentHandle<ActionTypeComponent> action_type;
-		ComponentHandle<CompositeEventComponent> events;
 
 		m_parent_world->unpack(entity, transform, side, speed, action_type);
-
 	}
 }

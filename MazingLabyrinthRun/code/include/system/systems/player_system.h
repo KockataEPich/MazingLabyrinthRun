@@ -10,7 +10,7 @@
 #include "../../world/world.h"
 #include "../system.h"
 
-#include <components/composite_event_component.h>
+#include <components/status_list_component.h>
 
 class Player : public System {
 public:
@@ -20,7 +20,7 @@ public:
 		    .add_component<SpeedComponent>()
 		    .add_component<ActionTypeComponent>()
 		    .add_component<FacingSideComponent>()
-		    .add_component<CompositeEventComponent>();
+		    .add_component<StatusListComponent>();
 	}
 	void init() override { m_registered_entities.reserve(1); }  // Only one player
 	void update(float dt) override;
