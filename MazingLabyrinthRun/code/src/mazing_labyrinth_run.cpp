@@ -17,6 +17,9 @@
 
 #include <system/systems/ai_system.h>
 
+#include <chrono>
+#include <thread>
+
 MazingLabyrinthRun::MazingLabyrinthRun() : m_window("MazingLabyrinthRun", sf::Vector2u(1920, 1080)) {
 	initialize_game();
 	restart_clock();
@@ -74,6 +77,7 @@ void MazingLabyrinthRun::handle_input() {}
 void MazingLabyrinthRun::update() {
 	m_window.update();
 	m_world->update(m_delta_time);
+	// @TODO Can be used to pause the game
 	m_camera.setCenter(m_player_sprite->getPosition());
 	m_window.setView(m_camera);
 }
@@ -86,6 +90,7 @@ void MazingLabyrinthRun::render() {
 
 void MazingLabyrinthRun::start_game() {
 	while (!m_window.is_done()) {
+		//std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		m_delta_time = m_elapsed.asSeconds();
 		handle_input();
 		update();

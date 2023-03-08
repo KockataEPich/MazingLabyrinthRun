@@ -24,8 +24,8 @@ public:
 	RunRight(TransformComponent& transform, float speed, FacingSide& side)
 	    : RunEvent(transform, speed, side){};
 private:
-	void apply(float dt) override {
-		m_transform.m_position = {m_transform.m_position.x + (m_speed * dt), m_transform.m_position.y};
+	void apply() override {
+		m_transform.m_position = {m_transform.m_position.x + m_speed , m_transform.m_position.y};
 		m_side = FacingSide::right;
 	};
 };
@@ -36,8 +36,8 @@ public:
 	    : RunEvent(transform, speed, side){};
 
 private:
-	void apply(float dt) override {
-		m_transform.m_position = {m_transform.m_position.x - (m_speed * dt), m_transform.m_position.y};
+	void apply() override {
+		m_transform.m_position = {m_transform.m_position.x - m_speed, m_transform.m_position.y};
 		m_side = FacingSide::left;
 	};
 };
@@ -48,8 +48,8 @@ public:
 	    : RunEvent(transform, speed, side){};
 
 private:
-	void apply(float dt) override {
-		m_transform.m_position = {m_transform.m_position.x, m_transform.m_position.y - (m_speed * dt)};
+	void apply() override {
+		m_transform.m_position = {m_transform.m_position.x, m_transform.m_position.y - m_speed};
 		m_side = FacingSide::up;
 	};
 };
@@ -60,8 +60,8 @@ public:
 	    : RunEvent(transform, speed, side){};
 
 private:
-	void apply(float dt) override {
-		m_transform.m_position = {m_transform.m_position.x , m_transform.m_position.y + (m_speed * dt)};
+	void apply() override {
+		m_transform.m_position = {m_transform.m_position.x , m_transform.m_position.y + m_speed};
 		m_side = FacingSide::down;
 	};
 };

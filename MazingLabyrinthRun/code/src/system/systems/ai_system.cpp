@@ -16,16 +16,16 @@ void AI::update(float dt) {
 
 		if (delta_x != 0) {
 			if (delta_x > 0)  // right
-				transform->m_position = {transform->m_position.x + (speed->m_speed * dt), transform->m_position.y};
+				transform->m_position = {transform->m_position.x + speed->m_speed , transform->m_position.y};
 			else  // left
-				transform->m_position = {transform->m_position.x - (speed->m_speed * dt), transform->m_position.y};
+				transform->m_position = {transform->m_position.x - speed->m_speed, transform->m_position.y};
 		}
 
 		if (delta_y != 0) {
 			if (delta_y < 0)  // up
-				transform->m_position = {transform->m_position.x, transform->m_position.y - (speed->m_speed * dt)};
+				transform->m_position = {transform->m_position.x, transform->m_position.y - speed->m_speed};
 			else  // down
-				transform->m_position = {transform->m_position.x, transform->m_position.y + (speed->m_speed * dt)};
+				transform->m_position = {transform->m_position.x, transform->m_position.y + speed->m_speed};
 		}
 	}
 }

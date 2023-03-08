@@ -16,6 +16,6 @@ private:
 	ActionTypeComponent& m_action_type_component;
 	ActionType m_action_type;
 
-	void apply(float dt) override { m_action_type_component.m_action_type = m_action_type; }
+	void apply() override { m_action_type_component.m_action_type = m_action_type; }
 };
 #endif

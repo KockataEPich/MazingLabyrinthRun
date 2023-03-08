@@ -13,7 +13,7 @@ public:
 		m_component_adders = {std::make_unique<DrawableAdder>(ElevationLevel::two),
 		                      std::make_unique<AnimatedAdder>(),
 		                      std::make_unique<AIAdder>()};
-		m_component_initializers = {std::make_unique<AnimatedDrawableInitializer>(Skin::ZOMBIE_DEFAULT_SKIN, 100.0f)};
+		m_component_initializers = {std::make_unique<AnimatedDrawableInitializer>(Skin::ZOMBIE_DEFAULT_SKIN, 5.0f)};
 	}
 };
 #endif

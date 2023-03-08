@@ -15,7 +15,7 @@ public:
 		                      std::make_unique<PlayerAdder>()};
 
 		m_component_initializers = {
-		    std::make_unique<AnimatedDrawableInitializer>(Skin::MAIN_CHARACTER_START_SKIN, 200.0f)};
+		    std::make_unique<AnimatedDrawableInitializer>(Skin::MAIN_CHARACTER_START_SKIN, 10.0f)};
 	}
 };
 #endif

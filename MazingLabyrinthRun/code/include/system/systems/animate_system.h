@@ -12,11 +12,11 @@
 class Animate : public System {
 public:
 	Animate(){
-		m_signature.add_component<ActionTypeComponent>();
-		m_signature.add_component<FacingSideComponent>();
-		m_signature.add_component<SkinComponent>();
-		m_signature.add_component<AnimationPlayerComponent>();
-		m_signature.add_component<SpriteComponent>();
+		m_signature.add_component<ActionTypeComponent>()
+			.add_component<FacingSideComponent>()
+			.add_component<SkinComponent>()
+			.add_component<AnimationPlayerComponent>()
+			.add_component<SpriteComponent>();
 	}
 	void update(float dt) override;
 };

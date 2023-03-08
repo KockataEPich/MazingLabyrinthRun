@@ -11,10 +11,10 @@ public:
 	Event(std::optional<int> event_recurrence_number) : m_event_recurrence_number{event_recurrence_number} {}
 	Event() = default;
 
-	void happen(float dt) {
-		before_event(dt);
-		apply(dt);
-		after_event(dt);
+	void happen() {
+		before_event();
+		apply();
+		after_event();
 
 		if (!m_event_recurrence_number.has_value()) return;
 
@@ -28,11 +28,11 @@ public:
 protected:
 	bool m_finished = false;
 	std::optional<int> m_event_recurrence_number = 1;
-	virtual void apply(float dt) = 0;
+	virtual void apply() = 0;
 
 	// Hooks supporting abstraction at lower levels
-	virtual void before_event(float dt){};
-	virtual void after_event(float dt){};
+	virtual void before_event(){};
+	virtual void after_event(){};
 };
 
 class CompositeEvent : public Event {
@@ -45,9 +45,9 @@ protected:
 
 class ParallelEvent : public CompositeEvent {
 protected:
-	void apply(float dt) override {
+	void apply() override {
 		for (int i = 0; i < m_events.size(); i++) {
-			m_events[i]->happen(dt);
+			m_events[i]->happen();
 			if (m_events[i]->is_finished()) vec_utils::pop_at_index(i, m_events);
 		}
 
@@ -57,10 +57,10 @@ protected:
 
 class SequenceEvent : CompositeEvent {
 protected:
-	void apply(float dt) override {
+	void apply() override {
 		if (m_finished = m_events.empty(); m_finished) return;
 
-		m_events.front()->happen(dt);
+		m_events.front()->happen();
 		if (m_events.front()->is_finished()) vec_utils::pop_front(m_events);
 	}
 };

@@ -19,23 +19,23 @@ void Player::update(float dt) {
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) &&
 	    !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A) &&
 	    !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
-		ChangeActionTypeEvent{*action_type.m_component, ActionType::idle}.happen(dt);
+		ChangeActionTypeEvent{*action_type.m_component, ActionType::idle}.happen();
 		return;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {
-		ChangeActionTypeEvent{*action_type.m_component, ActionType::jump}.happen(dt);
+		ChangeActionTypeEvent{*action_type.m_component, ActionType::jump}.happen();
 		return;
 	}
 
-	ChangeActionTypeEvent{*action_type.m_component, ActionType::move}.happen(dt);
+	ChangeActionTypeEvent{*action_type.m_component, ActionType::move}.happen();
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
-		RunRight{*transform.m_component, speed->m_speed, side->m_side}.happen(dt);
+		RunRight{*transform.m_component, speed->m_speed, side->m_side}.happen();
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
-		RunLeft{*transform.m_component, speed->m_speed, side->m_side}.happen(dt);
+		RunLeft{*transform.m_component, speed->m_speed, side->m_side}.happen();
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
-		RunUp{*transform.m_component, speed->m_speed, side->m_side}.happen(dt);
+		RunUp{*transform.m_component, speed->m_speed, side->m_side}.happen();
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
-		RunDown{*transform.m_component, speed->m_speed, side->m_side}.happen(dt);
+		RunDown{*transform.m_component, speed->m_speed, side->m_side}.happen();
 }

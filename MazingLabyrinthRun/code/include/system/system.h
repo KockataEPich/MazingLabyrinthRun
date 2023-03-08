@@ -9,8 +9,6 @@
 
 class World;
 
-// remove_entity_from_
-
 class System {
 public:
 	System() = default;
