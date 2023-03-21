@@ -15,7 +15,7 @@ public:
 		m_signature.add_component<FacingSideComponent>();
 		m_signature.add_component<ActionTypeComponent>();
 	}
-	void update(float dt) override;
+	void update() override;
 };
 
 #endif

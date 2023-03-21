@@ -6,7 +6,7 @@
 
 #include <SFML/Window/Keyboard.hpp>
 
-void Player::update(float dt) {
+void Player::update() {
 	auto player = m_registered_entities[0];  // Only one player for the foreseeable future
 	ComponentHandle<SpeedComponent> speed;
 	ComponentHandle<FacingSideComponent> side;

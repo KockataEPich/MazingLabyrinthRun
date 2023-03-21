@@ -1,7 +1,7 @@
 #include "../include/system/systems/animate_system.h"
 #include "../include/component_base/component_handle.h"
 
-void Animate::update(float dt) {
+void Animate::update() {
 	for (auto& entity : m_registered_entities) {
 		ComponentHandle<SpriteComponent> sprite;
 		ComponentHandle<FacingSideComponent> side;
@@ -16,7 +16,7 @@ void Animate::update(float dt) {
 			animation_player->m_animation_player.play_animation(Animation(texture_id));
 			sprite->m_sprite.setTexture(animation_player->m_animation_player.get_current_texture());
 		}
-		animation_player->m_animation_player.update(side->m_side, dt);
+		animation_player->m_animation_player.update(side->m_side);
 		sprite->m_sprite.setTextureRect(animation_player->m_animation_player.get_current_rect());
 	}
 }

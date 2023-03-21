@@ -5,11 +5,7 @@
 #include <event/events/event.h>
 #include <world/world.h>
 
-class World;
-class EventHandler {
-public:
-	void execute_event(Entity entity, Event&& event, float dt) { event.happen(dt); }
 
-};
+//inline void execute_event(Entity entity, Event&& event) { event.happen(); }
 
 #endif

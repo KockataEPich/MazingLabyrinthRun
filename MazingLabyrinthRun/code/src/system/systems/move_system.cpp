@@ -4,7 +4,7 @@
 
 
 
-void Move::update(float dt) {
+void Move::update() {
 	for (auto& entity : m_registered_entities) {
 		ComponentHandle<TransformComponent> transform;
 		ComponentHandle<SpeedComponent> speed;

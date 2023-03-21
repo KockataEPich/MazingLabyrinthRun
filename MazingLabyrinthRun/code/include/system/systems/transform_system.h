@@ -12,7 +12,7 @@ public:
 		m_signature.add_component<TransformComponent>();
 		m_signature.add_component<SpriteComponent>();
 	}
-	void update(float dt) override;
+	void update() override;
 };
 
 #endif

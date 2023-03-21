@@ -6,6 +6,7 @@
 #include "../entity_base/entity_manager.h"
 #include "../entity_creation/entity_list.h"
 #include "../system/system.h"
+#include "../system/system_sequence_wrapper.h"
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -78,6 +79,7 @@ private:
 	std::unique_ptr<EntityManager> m_entity_manager;
 	std::vector<std::unique_ptr<System>> m_systems;
 	std::vector<std::unique_ptr<System>> m_render_systems;
+	SystemSequenceWrapper m_system_sequence_wrapper;
 	std::vector<std::unique_ptr<BaseComponentManager>> m_component_managers;
 	std::map<Entity, ComponentMask> m_entity_masks;
 	sf::Sprite* m_player_sprite;

@@ -18,7 +18,7 @@ public:
 			.add_component<AnimationPlayerComponent>()
 			.add_component<SpriteComponent>();
 	}
-	void update(float dt) override;
+	void update() override;
 };
 
 #endif

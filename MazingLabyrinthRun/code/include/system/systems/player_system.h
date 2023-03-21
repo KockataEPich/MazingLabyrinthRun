@@ -23,7 +23,7 @@ public:
 		    .add_component<StatusListComponent>();
 	}
 	void init() override { m_registered_entities.reserve(1); }  // Only one player
-	void update(float dt) override;
+	void update() override;
 };
 
 #endif

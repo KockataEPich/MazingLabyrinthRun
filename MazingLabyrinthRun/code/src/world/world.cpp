@@ -25,9 +25,7 @@ void World::init() {
 	for (auto& system : m_systems) { system->init(); }
 }
 
-void World::update(float dt) {
-	for (auto& system : m_systems) { system->work(dt); }
-}
+void World::update(float dt) { m_system_sequence_wrapper.run_systems(dt); }
 
 void World::render() {
 	for (auto& system : m_render_systems) { system->render(); }
@@ -44,6 +42,7 @@ void World::destroy_entity(Entity entity) {
 World* World::add_system(std::unique_ptr<System> system) {
 	system->register_world(this);
 	m_systems.push_back(std::move(system));
+	m_system_sequence_wrapper.add_system(m_systems.back().get());
 	return this;
 }
 

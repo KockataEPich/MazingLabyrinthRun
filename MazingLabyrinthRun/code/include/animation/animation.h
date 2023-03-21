@@ -23,7 +23,7 @@ public:
 	bool next_frame();
 	bool reset_cycle();
 
-	float speed() { return m_speed; }
+	int speed() { return m_speed; }
 
 	sf::IntRect& get_current_rect() { return m_current_rectange; }
 	sf::Texture* get_texture() { return m_texture; }
@@ -39,7 +39,7 @@ private:
 	Textures::ID m_texture_id;
 	sf::Texture* m_texture;
 	std::optional<unsigned int> m_number_of_cycles;
-	float m_speed;
+	int m_speed;
 };
 
 #endif

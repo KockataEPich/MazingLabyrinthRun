@@ -19,12 +19,11 @@ public:
 	System& operator=(System&&) = default;
 	virtual void init(){};
 
-	void work(float dt) {
-		m_accumulator += dt;
-		float tick_weight = 0.015 * tick_frequency();
-		while (m_accumulator >= tick_weight) {
-			update(dt);
-			m_accumulator -= tick_weight;
+	void work() {
+		m_tick_accumulator++;
+		if (m_tick_accumulator == tick_frequency()) {
+			update();
+			m_tick_accumulator--;
 		}
 	}
 
@@ -39,9 +38,9 @@ protected:
 	std::vector<Entity> m_registered_entities;
 	World* m_parent_world;
 	ComponentMask m_signature;
-	float m_accumulator = 0;
+	float m_tick_accumulator = 0;
 
-	virtual void update(float dt){};
-	virtual const float tick_frequency() { return 1.0f; };
+	virtual void update(){};
+	virtual const int tick_frequency() { return 1; };
 };
 #endif

@@ -1,6 +1,6 @@
 #include "../include/system/systems/event_system.h"
 
-void EventSystem::update(float dt) {
+void EventSystem::update() {
 	for (auto& entity : m_registered_entities) {
 		//ComponentHandle<CompositeEventComponent> events;
 		//m_parent_world->unpack(entity, events);

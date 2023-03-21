@@ -12,7 +12,7 @@ class AnimationPlayer {
 public:
 	AnimationPlayer() : m_current_animation(Textures::ID::DEFAULT_PLACEHOLDER_TEXTURE){};
 
-	void update(const FacingSide& side, float deltaTime);
+	void update(const FacingSide& side);
 
 	void set_skin(Skin skin) { m_skin = skin; }
 	void play_animation(Animation&& animation) { m_current_animation = animation; }

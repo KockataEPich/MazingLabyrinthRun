@@ -2,7 +2,7 @@
 
 #include "../include/component_base/component_handle.h"
 
-void AI::update(float dt) {
+void AI::update() {
 	for (auto& entity : m_registered_entities) {
 		ComponentHandle<TransformComponent> transform;
 		ComponentHandle<SpeedComponent> speed;

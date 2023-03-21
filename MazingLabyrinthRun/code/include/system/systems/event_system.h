@@ -7,7 +7,7 @@
 class EventSystem : public System {
 public:
 	EventSystem() { }
-	void update(float dt) override;
+	void update() override;
 };
 
 #endif
