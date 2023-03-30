@@ -49,16 +49,15 @@ void MazingLabyrinthRun::initialize_world() {
 void MazingLabyrinthRun::initialize_world_tiles() {
 	GrassLandsTileBuilder grass_builder;
 	ZombieEntityBuilder zombie_builder;
+	auto zombie = m_world->create_entity();
+	zombie_builder.build_entity(zombie);
+	m_world->place_entity(zombie, {64.0f, 64.0f});
+	
 	for (int i = -1600; i <= 1600; i += 160) {
 		for (int j = 1600; j >= -1600; j -= 160) {
 			auto grass_land = m_world->create_entity();
 			grass_builder.build_entity(grass_land);
-
-			auto zombie = m_world->create_entity();
-			zombie_builder.build_entity(zombie);
-
 			m_world->place_entity(grass_land, {(float)i, (float)j});
-			m_world->place_entity(zombie, {(float)i, (float)j});
 		}
 	}
 }

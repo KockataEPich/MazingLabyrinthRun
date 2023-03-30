@@ -16,6 +16,7 @@ void AI::update() {
 
 		if (delta_x != 0) {
 			if (delta_x > 0)  // right
+				//RunRight()
 				transform->m_position = {transform->m_position.x + speed->m_speed , transform->m_position.y};
 			else  // left
 				transform->m_position = {transform->m_position.x - speed->m_speed, transform->m_position.y};
@@ -27,5 +28,8 @@ void AI::update() {
 			else  // down
 				transform->m_position = {transform->m_position.x, transform->m_position.y + speed->m_speed};
 		}
+
+		//if(in_range(m_parent_world)
+			//atack(m_parent_player);
 	}
 }

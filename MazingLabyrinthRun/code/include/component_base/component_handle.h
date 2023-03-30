@@ -20,5 +20,7 @@ struct ComponentHandle {
 
 	ExposedComponentType* operator->() const { return m_component; }
 	void destroy() { m_manager->destroyComponent(m_owner); }
+	ExposedComponentType& operator*() const { return *m_component; }
+
 };
 #endif
