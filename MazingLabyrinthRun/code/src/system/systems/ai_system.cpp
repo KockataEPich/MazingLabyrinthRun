@@ -1,6 +1,7 @@
 #include "../include/system/systems/ai_system.h"
 
 #include "../include/component_base/component_handle.h"
+#include "../include/event/events/event_types/move_event.h"
 
 void AI::update() {
 	for (auto& entity : m_registered_entities) {
@@ -15,18 +16,14 @@ void AI::update() {
 		if (delta_x == 0 && delta_y == 0) continue;
 
 		if (delta_x != 0) {
-			if (delta_x > 0)  // right
-				//RunRight()
-				transform->m_position = {transform->m_position.x + speed->m_speed , transform->m_position.y};
-			else  // left
-				transform->m_position = {transform->m_position.x - speed->m_speed, transform->m_position.y};
+			if (delta_x > 0) RunRight{*transform, *speed, *side}.happen();
+			else RunLeft{*transform, *speed, *side}.happen();
 		}
 
 		if (delta_y != 0) {
-			if (delta_y < 0)  // up
-				transform->m_position = {transform->m_position.x, transform->m_position.y - speed->m_speed};
-			else  // down
-				transform->m_position = {transform->m_position.x, transform->m_position.y + speed->m_speed};
+			if (delta_y < 0) RunUp{*transform, *speed, *side}.happen();
+			else RunDown{*transform, *speed, *side}.happen();  
+	
 		}
 
 		//if(in_range(m_parent_world)

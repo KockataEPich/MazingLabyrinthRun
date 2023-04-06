@@ -30,12 +30,9 @@ void Player::update() {
 
 	ChangeActionTypeEvent{*action_type, ActionType::move}.happen();
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
-		RunRight{*transform, *speed, *side}.happen();
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
-		RunLeft{*transform, *speed, *side}.happen();
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
-		RunUp{*transform, *speed, *side}.happen();
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
-		RunDown{*transform, *speed, *side}.happen();
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) RunRight{*transform, *speed, *side}.happen();
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) RunLeft{*transform, *speed, *side}.happen();
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) RunUp{*transform, *speed, *side}.happen();
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) RunDown{*transform, *speed, *side}.happen();
+
 }
