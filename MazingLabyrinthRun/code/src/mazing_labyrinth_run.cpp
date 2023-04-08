@@ -9,7 +9,6 @@
 #include "../include/resource/texture_enum.h"
 #include "../include/system/systems/ai_system.h"
 #include "../include/system/systems/animate_system.h"
-#include "../include/system/systems/event_system.h"
 #include "../include/system/systems/move_system.h"
 #include "../include/system/systems/player_system.h"
 #include "../include/system/systems/render_system.h"
@@ -35,14 +34,13 @@ void MazingLabyrinthRun::initialize_game() {
 void MazingLabyrinthRun::initialize_world() {
 	m_world = std::make_unique<World>(std::make_unique<EntityManager>());
 
-	m_world->add_render_system(std::make_unique<Render>(m_window));
-	// TODO this is insanely ugly. I need go find a way to fix this
-	m_world->add_system(std::make_unique<Player>())
-	    ->add_system(std::make_unique<Animate>())
-	    ->add_system(std::make_unique<Transform>())
-	    ->add_system(std::make_unique<AI>())
-	    ->add_system(std::make_unique<EventSystem>())
-	    ->add_system(std::make_unique<Move>());
+	m_world->add_producer_system(std::make_unique<Player>())
+	    ->add_producer_system(std::make_unique<Animate>())
+	    ->add_producer_system(std::make_unique<Transform>())
+	    ->add_producer_system(std::make_unique<AI>())
+	    ->add_producer_system(std::make_unique<Render>(m_window));
+
+	m_world->add_react_system(std::make_unique<Move>());
 
 	m_world->init();
 }

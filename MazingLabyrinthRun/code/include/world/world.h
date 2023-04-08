@@ -22,9 +22,12 @@ public:
 
 	void update(float dt);
 	void render();
+
 	EntityHandle create_entity();
-	World* add_system(std::unique_ptr<System> system);
-	void add_render_system(std::unique_ptr<System> system);
+
+	World* add_producer_system(std::unique_ptr<ProducerSystem>&& system);
+	World* add_react_system(std::unique_ptr<ReactSystem>&& system);
+
 	void destroy_entity(Entity entity);
 	bool place_entity(EntityHandle& handle, sf::Vector2f position);
 
@@ -44,6 +47,13 @@ public:
 		m_entity_masks[entity].add_component<ComponentType>();
 
 		update_entity_mask(entity, oldMask);
+	}
+
+	template<typename ComponentType>
+	void add_event_component(Entity const& entity, std::unique_ptr<ComponentType>&& component) {
+		ComponentMask old_mask = m_entity_masks[entity];
+		ComponentMask new_mask = old_mask.add_component<ComponentType>();
+		react_on_event(entity, new_mask);
 	}
 
 	template<typename ComponentType>
@@ -77,14 +87,16 @@ public:
 
 private:
 	std::unique_ptr<EntityManager> m_entity_manager;
-	std::vector<std::unique_ptr<System>> m_systems;
-	std::vector<std::unique_ptr<System>> m_render_systems;
-	SystemSequenceWrapper m_system_sequence_wrapper;
+
+	std::vector<std::unique_ptr<ReactSystem>> m_react_systems;
+	ProducerSystemSequenceWrapper m_producer_system_sequence_wrapper;
+
 	std::vector<std::unique_ptr<BaseComponentManager>> m_component_managers;
 	std::map<Entity, ComponentMask> m_entity_masks;
 	sf::Sprite* m_player_sprite;
 
 	void update_entity_mask(Entity const& entity, ComponentMask old_mask);
+	void react_on_event(Entity const& entity, ComponentMask new_mask);
 
 	template<typename ComponentType>
 	ComponentManager<ComponentType>* get_component_manager() {

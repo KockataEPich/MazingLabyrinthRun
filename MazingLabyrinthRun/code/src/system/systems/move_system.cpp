@@ -13,12 +13,11 @@ sf::Vector2<float> calculate_new_position(const TransformComponent& transform,
 	}
 }
 
-void Move::register_entity(Entity const& entity) {
+void Move::react(Entity const& entity) {
 		ComponentHandle<TransformComponent> transform;
 		ComponentHandle<SpeedComponent> speed;
 		ComponentHandle<FacingSideComponent> side;
 
 		m_parent_world->unpack(entity, transform, side, speed);
 	    transform->m_position = calculate_new_position(*transform, *speed, *side);
-	    m_parent_world->remove_component<MoveEventComponent>(entity);
 }

@@ -9,7 +9,7 @@
 #include "../system.h"
 #include "../../world/world.h"
 
-class Animate : public System {
+class Animate : public ProducerSystem {
 public:
 	Animate(){
 		m_signature.add_component<ActionTypeComponent>()

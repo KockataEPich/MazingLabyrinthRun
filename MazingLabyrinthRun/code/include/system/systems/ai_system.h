@@ -8,7 +8,7 @@
 #include "../../world/world.h"
 #include "../system.h"
 
-class AI : public System {
+class AI : public ProducerSystem {
 public:
 	AI() {
 		m_signature.add_component<TransformComponent>();

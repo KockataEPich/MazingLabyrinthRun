@@ -8,6 +8,7 @@
 #include <vector>
 
 class World;
+class World;
 
 class System {
 public:
@@ -17,9 +18,19 @@ public:
 	System& operator=(const System&) = default;
 	System(System&&) = default;
 	System& operator=(System&&) = default;
+
+	ComponentMask get_signature() { return m_signature; }
+	void register_world(World* world) { m_parent_world = world; }
 	virtual void init(){};
 
-	void work() {
+protected:
+	World* m_parent_world;
+	ComponentMask m_signature;
+};
+
+class ProducerSystem : public System {
+public:
+	void update_in_ticks() {
 		m_tick_accumulator++;
 		if (m_tick_accumulator == tick_frequency()) {
 			update();
@@ -27,20 +38,20 @@ public:
 		}
 	}
 
-	virtual void render(){};
+	virtual void update(){};
 	virtual void unregister_entity(Entity const& entity);
 	virtual void register_entity(Entity const& entity) { m_registered_entities.push_back(entity); }
-	void register_world(World* world) { m_parent_world = world; }
 
 	ComponentMask get_signature() { return m_signature; }
 
 protected:
 	std::vector<Entity> m_registered_entities;
-	World* m_parent_world;
-	ComponentMask m_signature;
 	float m_tick_accumulator = 0;
-
-	virtual void update(){};
 	virtual const int tick_frequency() { return 1; };
+};
+
+class ReactSystem : public System {
+public:
+	virtual void react(Entity const& entity) {}
 };
 #endif

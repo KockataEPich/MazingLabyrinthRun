@@ -12,7 +12,7 @@
 
 #include <components/status_list_component.h>
 
-class Player : public System {
+class Player : public ProducerSystem {
 public:
 	Player() {
 		m_signature.add_component<PlayerComponent>()

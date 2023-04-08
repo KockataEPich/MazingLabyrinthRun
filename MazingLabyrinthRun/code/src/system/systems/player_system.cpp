@@ -35,5 +35,5 @@ void Player::update() {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) side->m_side = FacingSide::up;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) side->m_side = FacingSide::down;
 
-	m_parent_world->add_component(player, std::make_unique<MoveEventComponent>());
+	m_parent_world->add_event_component(player, std::make_unique<MoveEventComponent>());
 }

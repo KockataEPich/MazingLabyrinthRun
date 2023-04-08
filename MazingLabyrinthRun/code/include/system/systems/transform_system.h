@@ -6,7 +6,7 @@
 #include "../../world/world.h"
 #include "../system.h"
 
-class Transform : public System {
+class Transform : public ProducerSystem {
 public:
 	Transform() {
 		m_signature.add_component<TransformComponent>();

@@ -7,7 +7,7 @@
 #include "../../components/move_event_component.h"
 #include "../../world/world.h"
 #include "../system.h"
-class Move : public System {
+class Move : public ReactSystem {
 public:
 	Move() {
 		m_signature.add_component<TransformComponent>();
@@ -15,7 +15,7 @@ public:
 		m_signature.add_component<FacingSideComponent>();
 		m_signature.add_component<MoveEventComponent>();
 	}
-	virtual void register_entity(Entity const& entity);
+	virtual void react(Entity const& entity);
 };
 
 #endif

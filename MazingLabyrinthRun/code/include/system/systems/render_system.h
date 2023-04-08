@@ -7,14 +7,14 @@
 #include "../../world/world.h"
 #include "../system.h"
 
-class Render : public System {
+class Render : public ProducerSystem {
 public:
 	Render(GameWindow& render_window) : m_render_window{render_window} {
 		m_signature.add_component<SpriteComponent>().add_component<ElevationLevelComponent>();
 	}
 	void register_entity(Entity const& entity) override;
 	void unregister_entity(Entity const& entity) override;
-	void render() override;
+	void update() override;
 
 private:
 	std::vector<std::pair<sf::Sprite*, Entity>> level_one_sprites;

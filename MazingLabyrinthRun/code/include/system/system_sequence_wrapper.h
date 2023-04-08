@@ -16,19 +16,22 @@ inline int get_amount_of_tickts_to_execute(float dt) {
 
 }
 
-class SystemSequenceWrapper {
+class ProducerSystemSequenceWrapper {
 public:
-	void add_system(System* system) { m_system_list.push_back(system); }
+	void add_system(std::unique_ptr<ProducerSystem>&& system) { m_system_list.push_back(std::move(system)); }
 	void run_systems(float dt) {
 		int ticks_to_execute = get_ticks(dt);
 		while (ticks_to_execute != 0) {
-			for (auto& system : m_system_list) { system->work(); }
+			// Last system is always the render system.
+			for (int i = 0; i < m_system_list.size() - 1; i++) m_system_list[i]->update_in_ticks();
 			ticks_to_execute--;
 		}
 	}
 
+	std::vector<std::unique_ptr<ProducerSystem>>& get_systems() { return m_system_list; } 
+
 private:
-	std::vector<System*> m_system_list;
+	std::vector<std::unique_ptr<ProducerSystem>> m_system_list;
 	float m_delta_accumulator = 0;
 
 	int get_ticks(float dt) {

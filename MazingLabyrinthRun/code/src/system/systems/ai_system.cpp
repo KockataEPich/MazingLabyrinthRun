@@ -18,12 +18,12 @@ void AI::update() {
 		if (delta_x != 0) {
 			if (delta_x > 0) side->m_side = FacingSide::right;
 			else side->m_side = FacingSide::left;
-			m_parent_world->add_component(entity, std::make_unique<MoveEventComponent>());
+			m_parent_world->add_event_component(entity, std::make_unique<MoveEventComponent>());
 		}
 		if (delta_y != 0) {
 			if (delta_y < 0) side->m_side = FacingSide::up;
 			else side->m_side = FacingSide::down;
-			m_parent_world->add_component(entity, std::make_unique<MoveEventComponent>());
+			m_parent_world->add_event_component(entity, std::make_unique<MoveEventComponent>());
 		}
 
 		

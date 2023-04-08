@@ -23,7 +23,7 @@ void Render::unregister_entity(Entity const& entity) {
 	remove_entity_if_it_exists(get_level_vector(elevation->m_level), entity);
 }
 
-void Render::render() {
+void Render::update() {
 	// Hot path. This operation will probably be one of the most common ones and thus removing the
 	// abstraction of entity handlers and using the sprites directly will be beneficial for performance
 	std::sort(level_two_sprites.begin(), level_two_sprites.end(), [](const auto& lhs, const auto& rhs) {
