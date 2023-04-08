@@ -10,11 +10,11 @@ void AI::update() {
 		ComponentHandle<FacingSideComponent> side;
 
 		m_parent_world->unpack(entity, transform, side, speed);
-		float delta_x = m_parent_world->get_player_location().x - transform->m_position.x;
-		float delta_y = m_parent_world->get_player_location().y - transform->m_position.y;
+		float delta_x = m_parent_world->get_player_sprite().getPosition().x - transform->m_position.x;
+		float delta_y = m_parent_world->get_player_sprite().getPosition().y - transform->m_position.y;
 
 		if (delta_x == 0 && delta_y == 0) continue;
-
+		
 		if (delta_x != 0) {
 			if (delta_x > 0) side->m_side = FacingSide::right;
 			else side->m_side = FacingSide::left;

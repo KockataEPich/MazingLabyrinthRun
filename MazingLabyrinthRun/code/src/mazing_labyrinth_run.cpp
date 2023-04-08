@@ -68,6 +68,7 @@ void MazingLabyrinthRun::initialize_creatures() {
 
 	m_player_sprite = &player.get_component<SpriteComponent>()->m_sprite;
 	m_world->set_player_location(m_player_sprite);
+	m_world->place_entity(player, {0.0f, 0.0f});
 }
 
 void MazingLabyrinthRun::handle_input() {}

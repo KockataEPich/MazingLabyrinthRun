@@ -83,7 +83,7 @@ public:
 	}
 
 	void set_player_location(sf::Sprite* player_sprite) { m_player_sprite = player_sprite; }
-	sf::Vector2f get_player_location() { return m_player_sprite->getPosition(); }
+	const sf::Sprite& get_player_sprite() { return *m_player_sprite; }
 
 private:
 	std::unique_ptr<EntityManager> m_entity_manager;
