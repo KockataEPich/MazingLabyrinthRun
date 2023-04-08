@@ -41,7 +41,8 @@ void MazingLabyrinthRun::initialize_world() {
 	    ->add_system(std::make_unique<Animate>())
 	    ->add_system(std::make_unique<Transform>())
 	    ->add_system(std::make_unique<AI>())
-	    ->add_system(std::make_unique<EventSystem>());
+	    ->add_system(std::make_unique<EventSystem>())
+	    ->add_system(std::make_unique<Move>());
 
 	m_world->init();
 }

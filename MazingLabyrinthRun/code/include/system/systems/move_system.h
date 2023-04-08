@@ -4,18 +4,18 @@
 #include "../../components/facing_side_component.h"
 #include "../../components/speed_component.h"
 #include "../../components/transform_component.h"
+#include "../../components/move_event_component.h"
 #include "../../world/world.h"
 #include "../system.h"
-#include <components/action_type_component.h>
 class Move : public System {
 public:
 	Move() {
 		m_signature.add_component<TransformComponent>();
 		m_signature.add_component<SpeedComponent>();
 		m_signature.add_component<FacingSideComponent>();
-		m_signature.add_component<ActionTypeComponent>();
+		m_signature.add_component<MoveEventComponent>();
 	}
-	void update() override;
+	virtual void register_entity(Entity const& entity);
 };
 
 #endif

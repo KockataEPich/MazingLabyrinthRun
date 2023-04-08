@@ -49,7 +49,7 @@ public:
 	template<typename ComponentType>
 	void remove_component(Entity const& entity) {
 		ComponentManager<ComponentType>* manager = get_component_manager<ComponentType>();
-		ComponentHandle<ComponentType> component = manager->lookup(entity);
+		ComponentHandle<ComponentType> component{entity, manager->lookup(entity), manager};
 		component.destroy();
 
 		ComponentMask oldMask = m_entity_masks[entity];

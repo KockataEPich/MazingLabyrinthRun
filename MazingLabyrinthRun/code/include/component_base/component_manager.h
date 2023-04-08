@@ -1,7 +1,7 @@
 #ifndef BASE_COMPONENT_MANAGER_HEADER
 #define BASE_COMPONENT_MANAGER_HEADER
 #include "../entity_base/entity_map.h"
-
+#include "../utils/vector_utils.h"
 #include <map>
 #include <memory>
 #include <vector>
@@ -21,7 +21,7 @@ class ComponentManager : public BaseComponentManager {
 public:
 	using LookupType = ComponentType;
 
-	ComponentManager() { m_data.reserve(MAX_NUMBER_OF_COMPONENTS); }
+	ComponentManager() { m_data.reserve(MAX_NUMBER_OF_COMPONENTS);}
 	ComponentInstance add_component(const Entity entity, std::unique_ptr<ComponentType>&& component) {
 		ComponentInstance new_instance = m_data.size();
 		m_data.push_back(std::move(component));
@@ -31,14 +31,13 @@ public:
 
 	void destroy_component(const Entity entity) {
 		ComponentInstance instance = entity_map.get_instance(entity);
-		ComponentInstance lastComponent = m_data.size() - 1;
 
-		std::swap(m_data.at(instance), m_data.size());
-		m_data.pop_back();
-
-		Entity lastEntity = entity_map.get_entity(lastComponent);
+		vec_utils::pop_at_index(instance, m_data);
 
 		entity_map.remove(entity);
+		if (m_data.size() == 0) return;
+
+		Entity lastEntity = entity_map.get_entity(m_data.size() - 1);
 		entity_map.update(lastEntity, instance);
 	}
 

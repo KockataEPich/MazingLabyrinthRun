@@ -1,7 +1,7 @@
 #include "../include/system/systems/ai_system.h"
 
 #include "../include/component_base/component_handle.h"
-#include "../include/event/events/event_types/move_event.h"
+#include "../include/components/move_event_component.h"
 
 void AI::update() {
 	for (auto& entity : m_registered_entities) {
@@ -16,17 +16,16 @@ void AI::update() {
 		if (delta_x == 0 && delta_y == 0) continue;
 
 		if (delta_x != 0) {
-			if (delta_x > 0) RunRight{*transform, *speed, *side}.happen();
-			else RunLeft{*transform, *speed, *side}.happen();
+			if (delta_x > 0) side->m_side = FacingSide::right;
+			else side->m_side = FacingSide::left;
+			m_parent_world->add_component(entity, std::make_unique<MoveEventComponent>());
 		}
-
 		if (delta_y != 0) {
-			if (delta_y < 0) RunUp{*transform, *speed, *side}.happen();
-			else RunDown{*transform, *speed, *side}.happen();  
-	
+			if (delta_y < 0) side->m_side = FacingSide::up;
+			else side->m_side = FacingSide::down;
+			m_parent_world->add_component(entity, std::make_unique<MoveEventComponent>());
 		}
 
-		//if(in_range(m_parent_world)
-			//atack(m_parent_player);
+		
 	}
 }

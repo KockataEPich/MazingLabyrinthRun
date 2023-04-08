@@ -1,5 +1,5 @@
-#ifndef MOVE_SYSTEM_HEADER
-#define MOVE_SYSTEM_HEADER
+#ifndef AI_SYSTEM_HEADER
+#define AI_SYSTEM_HEADER
 
 #include "../../components/ai_component.h"
 #include "../../components/facing_side_component.h"
