@@ -1,7 +1,8 @@
 #include "../include/system/systems/move_system.h"
 
 #include "../include/component_base/component_handle.h"
-
+#include "../include/components/collision_component.h"
+#include "../include/components/update_solid_event_component.h"
 sf::Vector2<float> calculate_new_position(const TransformComponent& transform,
 										  const SpeedComponent& speed,
                                           const FacingSideComponent& facing_side) {
@@ -20,4 +21,6 @@ void Move::react(Entity const& entity) {
 
 		m_parent_world->unpack(entity, transform, side, speed);
 	    transform->m_position = calculate_new_position(*transform, *speed, *side);
+	    m_parent_world->add_event_component(entity, std::make_unique<UpdateSolidEventComponent>());
+	    m_parent_world->add_event_component(entity, std::make_unique<CollisionComponent>());
 }

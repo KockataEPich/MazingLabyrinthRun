@@ -42,8 +42,6 @@ public:
 	virtual void unregister_entity(Entity const& entity);
 	virtual void register_entity(Entity const& entity) { m_registered_entities.push_back(entity); }
 
-	ComponentMask get_signature() { return m_signature; }
-
 protected:
 	std::vector<Entity> m_registered_entities;
 	float m_tick_accumulator = 0;

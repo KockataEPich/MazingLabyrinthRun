@@ -1,7 +1,7 @@
 #ifndef ANIMATION_PLAYER_HEADER_H
 #define ANIMATION_PLAYER_HEADER_H
 
-#include "../include/attribute/facingSide.h"
+#include "../include/attribute/facing_side.h"
 #include "../include/resource/skins.h"
 #include "animation.h"
 

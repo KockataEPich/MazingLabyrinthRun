@@ -8,6 +8,7 @@
 #include "../system/system.h"
 #include "../system/system_sequence_wrapper.h"
 
+
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <any>
@@ -93,6 +94,7 @@ private:
 
 	std::vector<std::unique_ptr<BaseComponentManager>> m_component_managers;
 	std::map<Entity, ComponentMask> m_entity_masks;
+	
 	sf::Sprite* m_player_sprite;
 
 	void update_entity_mask(Entity const& entity, ComponentMask old_mask);

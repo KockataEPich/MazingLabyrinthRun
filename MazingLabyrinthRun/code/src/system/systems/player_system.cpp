@@ -12,9 +12,8 @@ void Player::update() {
 	ComponentHandle<FacingSideComponent> side;
 	ComponentHandle<TransformComponent> transform;
 	ComponentHandle<ActionTypeComponent> action_type;
-	ComponentHandle<StatusListComponent> events;
 
-	m_parent_world->unpack(player, transform, side, speed, action_type, events);
+	m_parent_world->unpack(player, transform, side, speed, action_type);
 
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) &&
 	    !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A) &&

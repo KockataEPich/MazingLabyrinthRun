@@ -6,6 +6,8 @@
 #include "../../components/animation_player_component.h"
 #include "../../components/facing_side_component.h"
 #include "../../components/skin_component.h"
+#include "../../components/transform_component.h"
+
 #include "../system.h"
 #include "../../world/world.h"
 
@@ -16,6 +18,7 @@ public:
 			.add_component<FacingSideComponent>()
 			.add_component<SkinComponent>()
 			.add_component<AnimationPlayerComponent>()
+			.add_component<TransformComponent>()
 			.add_component<SpriteComponent>();
 	}
 	void update() override;

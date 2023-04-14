@@ -2,7 +2,7 @@
 #define SKINS_HEADER_H
 
 #include "../attribute/action_type.h"
-#include "../attribute/facingSide.h"
+#include "../attribute/facing_side.h"
 #include "texture_enum.h"
 
 #include <unordered_map>

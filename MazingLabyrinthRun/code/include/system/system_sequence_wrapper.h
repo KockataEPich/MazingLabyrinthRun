@@ -12,10 +12,6 @@ const float base_system_tick_frequency = 0.015; // Acquired through testing for 
 
 class World;
 
-inline int get_amount_of_tickts_to_execute(float dt) {
-
-}
-
 class ProducerSystemSequenceWrapper {
 public:
 	void add_system(std::unique_ptr<ProducerSystem>&& system) { m_system_list.push_back(std::move(system)); }

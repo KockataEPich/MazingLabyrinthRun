@@ -48,9 +48,8 @@ void World::update_entity_mask(Entity const& entity, ComponentMask old_mask) {
 }
 
 void World::react_on_event(Entity const& entity, ComponentMask new_mask) {
-	for (auto& system : m_react_systems) {
+	for (auto& system : m_react_systems)
 		if (new_mask.matches(system->get_signature())) system->react(entity);
-	}
 }
 
 bool World::place_entity(EntityHandle& entity, sf::Vector2f position) {

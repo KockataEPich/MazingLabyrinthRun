@@ -19,8 +19,7 @@ public:
 		    .add_component<TransformComponent>()
 		    .add_component<SpeedComponent>()
 		    .add_component<ActionTypeComponent>()
-		    .add_component<FacingSideComponent>()
-		    .add_component<StatusListComponent>();
+		    .add_component<FacingSideComponent>();
 	}
 	void init() override { m_registered_entities.reserve(1); }  // Only one player
 	void update() override;
