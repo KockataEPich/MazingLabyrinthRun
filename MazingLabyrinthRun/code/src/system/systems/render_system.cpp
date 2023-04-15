@@ -31,11 +31,23 @@ void Render::update() {
 	});
 
 	draw_level(level_one_sprites);
-	draw_level(level_two_sprites);
+	draw_level(level_two_sprites, true);
 }
 
-void Render::draw_level(std::vector<std::pair<sf::Sprite*, Entity>>& sprites_and_entities) {
-	for (auto& sprite_and_entity : sprites_and_entities) m_render_window.draw(*sprite_and_entity.first);
+void Render::draw_level(std::vector<std::pair<sf::Sprite*, Entity>>& sprites_and_entities, bool draw_hitbox) {
+	for (auto& sprite_and_entity : sprites_and_entities) { 
+		m_render_window.draw(*sprite_and_entity.first); 
+		if (!draw_hitbox) continue;
+
+		auto box = sprite_and_entity.first->getGlobalBounds();
+		sf::RectangleShape rectangle({box.width - 30, box.height - 100});
+		rectangle.setFillColor(sf::Color::Transparent);
+		rectangle.setOutlineThickness(5);
+		rectangle.setOutlineColor(sf::Color::Magenta);
+		rectangle.setPosition(sprite_and_entity.first->getPosition());
+		rectangle.setPosition(rectangle.getPosition().x + 13, rectangle.getPosition().y + 60);
+		m_render_window.draw(rectangle); 
+	}
 }
 std::vector<std::pair<sf::Sprite*, Entity>>& Render::get_level_vector(ElevationLevel level) {
 	if (level == ElevationLevel::one) return level_one_sprites;
