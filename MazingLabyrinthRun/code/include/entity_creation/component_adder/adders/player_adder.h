@@ -2,7 +2,7 @@
 #define PLAYER_ENTITY_COMPONENT_ADDER
 
 #include "../component_adder.h"
-#include <components/player_component.h>
+#include <components/data_components/player_component.h>
 class PlayerAdder : public ComponentAdder {
 public:
 	void attach_components(EntityHandle& entity) override {

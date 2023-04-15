@@ -3,11 +3,11 @@
 
 #include "../component_adder.h"
 
-#include <components/action_type_component.h>
-#include <components/animation_player_component.h>
-#include <components/facing_side_component.h>
-#include <components/skin_component.h>
-#include <components/speed_component.h>
+#include <components/data_components/action_type_component.h>
+#include <components/data_components/animation_player_component.h>
+#include <components/data_components/facing_side_component.h>
+#include <components/data_components/skin_component.h>
+#include <components/data_components/speed_component.h>
 
 class AnimatedAdder : public ComponentAdder {
 public:

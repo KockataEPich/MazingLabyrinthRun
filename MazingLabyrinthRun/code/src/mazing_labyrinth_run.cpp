@@ -1,23 +1,21 @@
-#include "../include/mazing_labyrinth_run.h"
+#include <mazing_labyrinth_run.h>
 
-#include "../include/animation/animation.h"
-#include "../include/entity_base/entity_handle.h"
-#include "../include/entity_creation/entity_builder/builders/grass_lands_tile_builder.h"
-#include "../include/entity_creation/entity_builder/builders/player_builder.h"
-#include "../include/entity_creation/entity_builder/builders/zombie_builder.h"
-#include "../include/resource/skins.h"
-#include "../include/resource/texture_enum.h"
-#include "../include/system/systems/ai_system.h"
-#include "../include/system/systems/animate_system.h"
-#include "../include/system/systems/move_system.h"
-#include "../include/system/systems/player_system.h"
-#include "../include/system/systems/render_system.h"
-#include "../include/system/systems/transform_system.h"
-#include "../include/system/systems/solid_system.h"
-#include "../include/system/systems/collision_system.h"
-#include "../include/system/systems/update_solid_system.h"
-
-#include <system/systems/ai_system.h>
+#include <animation/animation.h>
+#include <entity_base/entity_handle.h>
+#include <entity_creation/entity_builder/builders/grass_lands_tile_builder.h>
+#include <entity_creation/entity_builder/builders/player_builder.h>
+#include <entity_creation/entity_builder/builders/zombie_builder.h>
+#include <resource/skins.h>
+#include <resource/texture_enum.h>
+#include <system/systems/producer_systems/ai_system.h>
+#include <system/systems/producer_systems/animate_system.h>
+#include <system/systems/react_systems/move_system.h>
+#include <system/systems/producer_systems/player_system.h>
+#include <system/systems/producer_systems/render_system.h>
+#include <system/systems/producer_systems/transform_system.h>
+#include <system/systems/producer_systems/solid_system.h>
+#include <system/systems/react_systems/collision_system.h>
+#include <system/systems/react_systems/update_solid_system.h>
 
 #include <chrono>
 #include <thread>

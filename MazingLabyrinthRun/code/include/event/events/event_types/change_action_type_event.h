@@ -4,7 +4,7 @@
 #include "../event.h"
 
 #include <attribute/action_type.h>
-#include <components/action_type_component.h>
+#include <components/data_components/action_type_component.h>
 
 class ChangeActionTypeEvent : public Event {
 public:

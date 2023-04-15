@@ -1,7 +1,7 @@
-#include "../include/world/world.h"
+#include <world/world.h>
 
-#include "../include/components/transform_component.h"
-#include "../include/entity_base/entity_handle.h"
+#include <components/data_components/transform_component.h>
+#include <entity_base/entity_handle.h>
 
 #include <iostream>
 
