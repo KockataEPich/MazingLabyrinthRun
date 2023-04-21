@@ -86,6 +86,16 @@ public:
 	void set_player_location(sf::Sprite* player_sprite) { m_player_sprite = player_sprite; }
 	const sf::Sprite& get_player_sprite() { return *m_player_sprite; }
 
+	template<typename ComponentType>
+	const std::vector<Entity> get_all_entities_who_have_component() {
+		std::vector<Entity> entity_vector;
+		ComponentMask component_mask;
+		component_mask.add_component<ComponentType>();
+		for (auto& [entity, mask] : m_entity_masks)
+			if (mask.matches(component_mask)) entity_vector.push_back(entity);
+		return entity_vector;
+	}
+
 private:
 	std::unique_ptr<EntityManager> m_entity_manager;
 

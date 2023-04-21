@@ -20,7 +20,7 @@ void Collision::react(Entity const& entity) {
 	    ComponentHandle<SolidComponent> solid;
 
 		m_parent_world->unpack(entity, transform, side, speed, solid);
-		for (auto solid_entity : m_solid_system->get_registered_entities()) { 
+		for (auto solid_entity : m_parent_world->get_all_entities_who_have_component<SolidComponent>()) { 
 			if (entity == solid_entity) continue;
 		    ComponentHandle<SolidComponent> solid_comp;
 		    m_parent_world->unpack(solid_entity, solid_comp);

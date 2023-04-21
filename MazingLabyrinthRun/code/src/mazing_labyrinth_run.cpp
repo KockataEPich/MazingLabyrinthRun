@@ -35,15 +35,12 @@ void MazingLabyrinthRun::initialize_game() {
 void MazingLabyrinthRun::initialize_world() {
 	m_world = std::make_unique<World>(std::make_unique<EntityManager>());
 
-	auto solid_system = std::make_unique<Solid>();
-
 	m_world->add_react_system(std::make_unique<Move>());
-	m_world->add_react_system(std::make_unique<Collision>(solid_system.get()));
+	m_world->add_react_system(std::make_unique<Collision>());
 	m_world->add_react_system(std::make_unique<UpdateSolid>());
 
 	m_world->add_producer_system(std::make_unique<Player>())
 	    ->add_producer_system(std::make_unique<AI>())
-	    ->add_producer_system(std::move(solid_system))
 	    ->add_producer_system(std::make_unique<Animate>())
 	    ->add_producer_system(std::make_unique<Transform>())
 	    ->add_producer_system(std::make_unique<Render>(m_window));

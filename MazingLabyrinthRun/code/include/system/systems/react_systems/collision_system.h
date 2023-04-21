@@ -9,10 +9,10 @@
 
 #include <world/world.h>
 #include <system/system.h>
-#include <system/systems/producer_systems/solid_system.h>
+
 class Collision : public ReactSystem {
 public:
-	Collision(Solid* solid_system) : m_solid_system{solid_system} {
+	Collision() {
 		m_signature.add_component<TransformComponent>();
 		m_signature.add_component<SpeedComponent>();
 		m_signature.add_component<FacingSideComponent>();
@@ -20,9 +20,6 @@ public:
 		m_signature.add_component<CollisionComponent>();
 	}
 	void react(Entity const& entity);
-
-private:
-	Solid* m_solid_system;
 };
 
 #endif
