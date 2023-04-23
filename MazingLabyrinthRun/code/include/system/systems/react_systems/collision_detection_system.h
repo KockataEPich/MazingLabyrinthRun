@@ -1,5 +1,5 @@
-#ifndef COLLISION_SYSTEM_HEADER
-#define COLLISION_SYSTEM_HEADER
+#ifndef COLLISION_DETECTION_SYSTEM_HEADER
+#define COLLISION_DETECTION_SYSTEM_HEADER
 
 #include <components/data_components/facing_side_component.h>
 #include <components/data_components/speed_component.h>

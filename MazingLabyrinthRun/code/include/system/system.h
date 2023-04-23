@@ -8,7 +8,6 @@
 #include <vector>
 
 class World;
-class World;
 
 class System {
 public:

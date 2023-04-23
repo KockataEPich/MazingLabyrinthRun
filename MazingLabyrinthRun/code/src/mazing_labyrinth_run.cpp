@@ -14,6 +14,7 @@
 #include <system/systems/producer_systems/render_system.h>
 #include <system/systems/producer_systems/transform_system.h>
 #include <system/systems/react_systems/collision_detection_system.h>
+#include <system/systems/react_systems/collision_resolution_system.h>
 #include <system/systems/react_systems/update_solid_system.h>
 
 #include <chrono>
@@ -36,6 +37,7 @@ void MazingLabyrinthRun::initialize_world() {
 
 	m_world->add_react_system(std::make_unique<Move>());
 	m_world->add_react_system(std::make_unique<CollisionDetection>());
+	m_world->add_react_system(std::make_unique<CollisionResolution>());
 	m_world->add_react_system(std::make_unique<UpdateSolid>());
 
 	m_world->add_producer_system(std::make_unique<Player>())
