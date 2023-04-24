@@ -37,8 +37,9 @@ void MazingLabyrinthRun::initialize_world() {
 
 	m_world->add_react_system(std::make_unique<Move>());
 	m_world->add_react_system(std::make_unique<CollisionDetection>());
-	m_world->add_react_system(std::make_unique<CollisionResolution>());
 	m_world->add_react_system(std::make_unique<UpdateSolid>());
+
+	m_world->add_impulse_system(std::make_unique<CollisionResolution>());
 
 	m_world->add_producer_system(std::make_unique<Player>())
 	    ->add_producer_system(std::make_unique<AI>())

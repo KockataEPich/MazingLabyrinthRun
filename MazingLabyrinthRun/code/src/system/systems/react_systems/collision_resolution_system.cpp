@@ -11,11 +11,11 @@ sf::Vector2f change_transform_on_side(TransformComponent& transform, const Speed
 	}
 }
 
-void CollisionResolution::react(Entity const& entity) {
+void CollisionResolution::exchange_impulse(const Entity& initiator, const Entity& victim) {
 	ComponentHandle<TransformComponent> transform;
 	ComponentHandle<SpeedComponent> speed;
 	ComponentHandle<FacingSideComponent> side;
 
-	m_parent_world->unpack(entity, transform, side, speed);
+	m_parent_world->unpack(initiator, transform, side, speed);
 	transform->m_position = change_transform_on_side(*transform, *speed, *side);
 } 

@@ -28,6 +28,7 @@ public:
 
 	World* add_producer_system(std::unique_ptr<ProducerSystem>&& system);
 	World* add_react_system(std::unique_ptr<ReactSystem>&& system);
+	World* add_impulse_system(std::unique_ptr<ImpulseSystem>&& system);
 
 	void destroy_entity(Entity entity);
 	bool place_entity(EntityHandle& handle, sf::Vector2f position);
@@ -55,6 +56,14 @@ public:
 		ComponentMask old_mask = m_entity_masks[entity];
 		ComponentMask new_mask = old_mask.add_component<ComponentType>();
 		react_on_event(entity, new_mask);
+	}
+
+	void exchange_impulses(Entity const& initiator, Entity const& victim) { 
+		for (auto& system : m_impulse_systems) { 
+			if (m_entity_masks[initiator].matches(system->get_signature()) &&
+			    m_entity_masks[victim].matches(system->get_signature_of_victim()))
+				system->exchange_impulse(initiator, victim);
+		}
 	}
 
 	template<typename ComponentType>
@@ -100,6 +109,7 @@ private:
 	std::unique_ptr<EntityManager> m_entity_manager;
 
 	std::vector<std::unique_ptr<ReactSystem>> m_react_systems;
+	std::vector<std::unique_ptr<ImpulseSystem>> m_impulse_systems;
 	ProducerSystemSequenceWrapper m_producer_system_sequence_wrapper;
 
 	std::vector<std::unique_ptr<BaseComponentManager>> m_component_managers;

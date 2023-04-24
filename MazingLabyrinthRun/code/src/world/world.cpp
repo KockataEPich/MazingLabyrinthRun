@@ -36,6 +36,12 @@ World* World::add_react_system(std::unique_ptr<ReactSystem>&& system) {
 	return this;
 }
 
+World* World::add_impulse_system(std::unique_ptr<ImpulseSystem>&& system) {
+	system->register_world(this);
+	m_impulse_systems.push_back(std::move(system));
+	return this;
+}
+
 void World::update_entity_mask(Entity const& entity, ComponentMask old_mask) {
 	ComponentMask new_mask = m_entity_masks[entity];
 	for (auto& system : m_producer_system_sequence_wrapper.get_systems()) {

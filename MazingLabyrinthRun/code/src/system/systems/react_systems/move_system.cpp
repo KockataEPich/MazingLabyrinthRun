@@ -3,16 +3,18 @@
 #include <component_base/component_handle.h>
 #include <components/event_components/check_collision_event_component.h>
 
+namespace {
 sf::Vector2<float> calculate_new_position(const TransformComponent& transform,
-										  const SpeedComponent& speed,
+                                          const SpeedComponent& speed,
                                           const FacingSideComponent& facing_side) {
-	switch (facing_side.m_side) { 
+	switch (facing_side.m_side) {
 		case FacingSide::right: return {transform.m_position.x + speed.m_speed, transform.m_position.y};
 		case FacingSide::left: return {transform.m_position.x - speed.m_speed, transform.m_position.y};
 		case FacingSide::up: return {transform.m_position.x, transform.m_position.y - speed.m_speed};
 		case FacingSide::down: return {transform.m_position.x, transform.m_position.y + speed.m_speed};
 	}
 }
+}  // namespace
 
 void Move::react(Entity const& entity) {
 		ComponentHandle<TransformComponent> transform;

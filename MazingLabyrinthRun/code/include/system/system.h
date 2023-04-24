@@ -51,4 +51,14 @@ class ReactSystem : public System {
 public:
 	virtual void react(Entity const& entity) {}
 };
+
+class ImpulseSystem : public System {
+public:
+	virtual void exchange_impulse(const Entity& initiator, const Entity& victim) {}
+
+	ComponentMask get_signature_of_victim() { return m_signature_of_victim; }
+
+protected:
+	ComponentMask m_signature_of_victim;
+};
 #endif
