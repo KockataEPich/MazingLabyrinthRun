@@ -5,7 +5,7 @@
 #include <array>
 #include <unordered_map>
 
-const int MAX_NUMBER_OF_COMPONENTS = 1024;
+const int MAX_NUMBER_OF_COMPONENTS = 10024;
 using ComponentInstance = unsigned int;
 
 struct EntityMap {

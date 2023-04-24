@@ -56,11 +56,13 @@ void MazingLabyrinthRun::initialize_world_tiles() {
 	auto zombie = m_world->create_entity();
 	zombie_builder.build_entity(zombie);
 	zombie.add_component(std::make_unique<SolidComponent>());
+	zombie.add_component(std::make_unique<CollideImpulseComponent>());
 	m_world->place_entity(zombie, {64.0f, 64.0f});
 
 	auto zombie2 = m_world->create_entity();
 	zombie_builder.build_entity(zombie2);
 	zombie2.add_component(std::make_unique<SolidComponent>());
+	zombie2.add_component(std::make_unique<CollideImpulseComponent>());
 	m_world->place_entity(zombie, {32.0f, 32.0f});
 	
 	for (int i = -1600; i <= 1600; i += 160) {
@@ -76,6 +78,7 @@ void MazingLabyrinthRun::initialize_creatures() {
 	auto player = m_world->create_entity();
 	PlayerEntityBuilder{}.build_entity(player);
 	player.add_component(std::make_unique<SolidComponent>());
+	player.add_component(std::make_unique<CollideImpulseComponent>());
 	m_player_sprite = &player.get_component<SpriteComponent>()->m_sprite;
 	m_world->set_player_location(m_player_sprite);
 	m_world->place_entity(player, {0.0f, 0.0f});
