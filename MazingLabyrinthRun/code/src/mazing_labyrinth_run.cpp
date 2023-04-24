@@ -7,15 +7,18 @@
 #include <entity_creation/entity_builder/builders/zombie_builder.h>
 #include <resource/skins.h>
 #include <resource/texture_enum.h>
+
 #include <system/systems/producer_systems/ai_system.h>
 #include <system/systems/producer_systems/animate_system.h>
-#include <system/systems/react_systems/move_system.h>
 #include <system/systems/producer_systems/player_system.h>
 #include <system/systems/producer_systems/render_system.h>
 #include <system/systems/producer_systems/transform_system.h>
+
 #include <system/systems/react_systems/collision_detection_system.h>
-#include <system/systems/react_systems/collision_resolution_system.h>
 #include <system/systems/react_systems/update_solid_system.h>
+#include <system/systems/react_systems/move_system.h>
+
+#include <system/systems/impulse_systems/basic_collision_impulse_exchange_system.h>
 
 #include <chrono>
 #include <thread>
@@ -39,7 +42,7 @@ void MazingLabyrinthRun::initialize_world() {
 	m_world->add_react_system(std::make_unique<CollisionDetection>());
 	m_world->add_react_system(std::make_unique<UpdateSolid>());
 
-	m_world->add_impulse_system(std::make_unique<CollisionResolution>());
+	m_world->add_impulse_system(std::make_unique<BasicCollisionImpulseExchange>());
 
 	m_world->add_producer_system(std::make_unique<Player>())
 	    ->add_producer_system(std::make_unique<AI>())

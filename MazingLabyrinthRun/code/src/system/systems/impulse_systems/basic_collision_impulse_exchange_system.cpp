@@ -1,4 +1,4 @@
-#include <system/systems/react_systems/collision_resolution_system.h>
+#include <system/systems/impulse_systems/basic_collision_impulse_exchange_system.h>
 #include <component_base/component_handle.h>
 #include <components/event_components/update_solid_event_component.h>
 
@@ -11,7 +11,7 @@ sf::Vector2f change_transform_on_side(TransformComponent& transform, const Speed
 	}
 }
 
-void CollisionResolution::exchange_impulse(const Entity& initiator, const Entity& victim) {
+void BasicCollisionImpulseExchange::exchange_impulse(const Entity& initiator, const Entity& victim) {
 	ComponentHandle<TransformComponent> transform;
 	ComponentHandle<SpeedComponent> speed;
 	ComponentHandle<FacingSideComponent> side;
