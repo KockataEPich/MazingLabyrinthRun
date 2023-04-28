@@ -33,6 +33,7 @@ public:
 
 	void destroy_entity(Entity entity);
 	bool place_entity(EntityHandle& handle, sf::Vector2f position);
+	void exchange_impulses(Entity const& initiator, Entity const& victim);
 
 	template<typename ComponentType>
 	void add_custom_component_manager(std::unique_ptr<ComponentManager<ComponentType>> manager) {

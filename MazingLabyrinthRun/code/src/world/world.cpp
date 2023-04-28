@@ -70,3 +70,11 @@ bool World::place_entity(EntityHandle& entity, sf::Vector2f position) {
 	entity.get_component<TransformComponent>()->m_position = position;
 	return true;
 }
+
+void World::exchange_impulses(Entity const& initiator, Entity const& victim) {
+	for (auto& system : m_impulse_systems) {
+		if (m_entity_masks[initiator].matches(system->get_signature()) &&
+		    m_entity_masks[victim].matches(system->get_signature_of_victim()))
+			system->exchange_impulse(initiator, victim);
+	}
+}
