@@ -32,6 +32,7 @@ public:
 
 	void destroy_entity(Entity entity);
 	bool place_entity(EntityHandle& handle, sf::Vector2f position);
+	void exchange_impulses(Entity const& initiator, Entity const& victim);
 
 	template<typename ComponentType>
 	void add_custom_component_manager(std::unique_ptr<ComponentManager<ComponentType>> manager) {
@@ -56,14 +57,6 @@ public:
 		ComponentMask old_mask = m_entity_masks[entity];
 		ComponentMask new_mask = old_mask.add_component<ComponentType>();
 		react_on_event(entity, new_mask);
-	}
-
-	void exchange_impulses(Entity const& initiator, Entity const& victim) { 
-		for (auto& system : m_impulse_systems) { 
-			if (m_entity_masks[initiator].matches(system->get_signature()) &&
-			    m_entity_masks[victim].matches(system->get_signature_of_victim()))
-				system->exchange_impulse(initiator, victim);
-		}
 	}
 
 	template<typename ComponentType>
