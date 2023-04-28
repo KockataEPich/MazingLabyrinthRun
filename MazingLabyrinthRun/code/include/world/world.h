@@ -29,7 +29,6 @@ public:
 	World* add_producer_system(std::unique_ptr<ProducerSystem>&& system);
 	World* add_react_system(std::unique_ptr<ReactSystem>&& system);
 	World* add_impulse_system(std::unique_ptr<ImpulseSystem>&& system);
-	void exchange_impulses(Entity const& initiator, Entity const& victim);
 
 	void destroy_entity(Entity entity);
 	bool place_entity(EntityHandle& handle, sf::Vector2f position);

@@ -42,14 +42,6 @@ World* World::add_impulse_system(std::unique_ptr<ImpulseSystem>&& system) {
 	return this;
 }
 
-void World::exchange_impulses(Entity const& initiator, Entity const& victim) {
-	for (auto& system : m_impulse_systems) {
-		if (m_entity_masks[initiator].matches(system->get_signature()) &&
-		    m_entity_masks[victim].matches(system->get_signature_of_victim()))
-			system->exchange_impulse(initiator, victim);
-	}
-}
-
 void World::update_entity_mask(Entity const& entity, ComponentMask old_mask) {
 	ComponentMask new_mask = m_entity_masks[entity];
 	for (auto& system : m_producer_system_sequence_wrapper.get_systems()) {
