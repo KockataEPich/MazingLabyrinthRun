@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-World::World(std::unique_ptr<EntityManager> entityManager) : m_entity_manager(std::move(entityManager)) {}
+World::World(std::unique_ptr<EntityManager> entity_manager) : m_entity_manager(std::move(entity_manager)) {}
 
 void World::init() {
 	for (auto& system : m_producer_system_sequence_wrapper.get_systems()) { system->init(); }
@@ -40,6 +40,14 @@ World* World::add_impulse_system(std::unique_ptr<ImpulseSystem>&& system) {
 	system->register_world(this);
 	m_impulse_systems.push_back(std::move(system));
 	return this;
+}
+
+void World::exchange_impulses(Entity const& initiator, Entity const& victim) {
+	for (auto& system : m_impulse_systems) {
+		if (m_entity_masks[initiator].matches(system->get_signature()) &&
+		    m_entity_masks[victim].matches(system->get_signature_of_victim()))
+			system->exchange_impulse(initiator, victim);
+	}
 }
 
 void World::update_entity_mask(Entity const& entity, ComponentMask old_mask) {
