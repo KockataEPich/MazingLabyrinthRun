@@ -22,8 +22,8 @@ public:
 		auto& sprite = entity.get_component<SpriteComponent>()->m_sprite;
 		sprite.setScale(entity.get_component<TransformComponent>()->m_scale);
 		sprite.setTexture(animation_player.get_current_texture());
-		//sprite.setOrigin(sf::Vector2f(animation_player.get_current_rect().width / 2.0f, 
-		//							  animation_player.get_current_rect().height / 2.0f));
+		sprite.setOrigin(sf::Vector2f(animation_player.get_current_rect().width / 2.0f, 
+									  animation_player.get_current_rect().height / 2.0f));
 	};
 private:
 	Skin m_skin;

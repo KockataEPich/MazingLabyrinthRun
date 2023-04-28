@@ -16,6 +16,9 @@ void Animate::update() {
 		if (texture_id != animation_player->m_animation_player.get_current_animation().get_texture_id()) {
 			animation_player->m_animation_player.play_animation(Animation(texture_id));
 			sprite->m_sprite.setTexture(animation_player->m_animation_player.get_current_texture());
+
+			if (side->m_side == FacingSide::left) transform->m_scale.x = -std::abs(transform->m_scale.x); 
+			else transform->m_scale.x = std::abs(transform->m_scale.x); 
 		}
 
 		animation_player->m_animation_player.update(side->m_side);
