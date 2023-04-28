@@ -1,4 +1,5 @@
 #include <system/systems/producer_systems/render_system.h>
+#include <components/data_components/solid_component.h>
 namespace {
 void remove_entity_if_it_exists(std::vector<std::pair<sf::Sprite*, Entity>>& entities_and_sprites, Entity entity) {
 	auto entity_inside = std::find_if(entities_and_sprites.begin(),
@@ -39,14 +40,18 @@ void Render::draw_level(std::vector<std::pair<sf::Sprite*, Entity>>& sprites_and
 		m_render_window.draw(*sprite_and_entity.first); 
 		if (!draw_hitbox) continue;
 
-		auto box = sprite_and_entity.first->getGlobalBounds();
-		sf::RectangleShape rectangle({box.width - 30, box.height - 100});
-		rectangle.setFillColor(sf::Color::Transparent);
-		rectangle.setOutlineThickness(5);
-		rectangle.setOutlineColor(sf::Color::Magenta);
-		rectangle.setPosition(sprite_and_entity.first->getPosition());
-		rectangle.setPosition(rectangle.getPosition().x + 13, rectangle.getPosition().y + 60);
-		m_render_window.draw(rectangle); 
+		for (const auto& entity : m_parent_world->get_all_entities_who_have_component<SolidComponent>()) {
+			ComponentHandle<SolidComponent> solid;
+			m_parent_world->unpack(entity, solid);
+
+			auto box = solid->m_hitbox;
+			sf::RectangleShape rectangle({box.width, box.height});
+			rectangle.setFillColor(sf::Color::Transparent);
+			rectangle.setOutlineThickness(5);
+			rectangle.setOutlineColor(sf::Color::Magenta);
+			rectangle.setPosition({solid->m_hitbox.left, solid->m_hitbox.top});
+			m_render_window.draw(rectangle);
+		}
 	}
 }
 std::vector<std::pair<sf::Sprite*, Entity>>& Render::get_level_vector(ElevationLevel level) {
