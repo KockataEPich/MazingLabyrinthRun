@@ -9,8 +9,8 @@ void UpdateSolid::react(const Entity& entity) {
 
 	// shave off 5% of each side
 	
-	solid->m_hitbox = {transform->m_position.x + 13,
-					   transform->m_position.y + 60,
+	solid->m_hitbox = {transform->m_position.x - 30,
+					   transform->m_position.y + 15,
 	                   get_scaled_size(*transform).x - 30,
 		               get_scaled_size(*transform).y - 100};
 }
