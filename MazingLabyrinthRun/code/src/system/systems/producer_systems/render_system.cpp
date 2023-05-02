@@ -1,5 +1,5 @@
 #include <system/systems/producer_systems/render_system.h>
-#include <components/data_components/solid_component.h>
+#include <components/data_components/boundary_component.h>
 namespace {
 void remove_entity_if_it_exists(std::vector<std::pair<sf::Sprite*, Entity>>& entities_and_sprites, Entity entity) {
 	auto entity_inside = std::find_if(entities_and_sprites.begin(),
@@ -40,16 +40,16 @@ void Render::draw_level(std::vector<std::pair<sf::Sprite*, Entity>>& sprites_and
 		m_render_window.draw(*sprite_and_entity.first); 
 		if (!draw_hitbox) continue;
 
-		for (const auto& entity : m_parent_world->get_all_entities_who_have_component<SolidComponent>()) {
-			ComponentHandle<SolidComponent> solid;
-			m_parent_world->unpack(entity, solid);
+		for (const auto& entity : m_parent_world->get_all_entities_who_have_component<BoundaryComponent>()) {
+			ComponentHandle<BoundaryComponent> boundary;
+			m_parent_world->unpack(entity, boundary);
 
-			auto box = solid->m_hitbox;
+			auto box = boundary->m_hitbox;
 			sf::RectangleShape rectangle({box.width, box.height});
 			rectangle.setFillColor(sf::Color::Transparent);
 			rectangle.setOutlineThickness(5);
 			rectangle.setOutlineColor(sf::Color::Magenta);
-			rectangle.setPosition({solid->m_hitbox.left, solid->m_hitbox.top});
+			rectangle.setPosition({boundary->m_hitbox.left, boundary->m_hitbox.top});
 			m_render_window.draw(rectangle);
 		}
 	}

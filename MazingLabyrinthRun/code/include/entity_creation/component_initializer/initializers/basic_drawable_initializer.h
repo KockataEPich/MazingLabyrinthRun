@@ -12,6 +12,8 @@ public:
 		entity.get_component<TransformComponent>()->m_scale = m_default_scale;
 		auto& sprite = entity.get_component<SpriteComponent>()->m_sprite;
 		sprite.setTexture(*ResourceManager::get_instance()->get_texture(m_texture));
+		entity.get_component<TransformComponent>()->m_size = {(float)sprite.getTextureRect().width,
+		                                                      (float)sprite.getTextureRect().height};
 	};
 
 private:

@@ -12,6 +12,7 @@ public:
 		entity.get_component<SpeedComponent>()->m_speed = m_speed;
 		entity.get_component<TransformComponent>()->m_scale = m_default_scale;
 
+		
 		auto& skin = entity.get_component<SkinComponent>()->m_skin;
 		skin = m_skin;
 
@@ -24,6 +25,8 @@ public:
 		sprite.setTexture(animation_player.get_current_texture());
 		sprite.setOrigin(sf::Vector2f(animation_player.get_current_rect().width / 2.0f, 
 									  animation_player.get_current_rect().height / 2.0f));
+		entity.get_component<TransformComponent>()->m_size = {(float)sprite.getTextureRect().width,
+		                                                      (float)sprite.getTextureRect().height};
 	};
 private:
 	Skin m_skin;

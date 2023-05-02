@@ -6,7 +6,7 @@
 #include <components/data_components/transform_component.h>
 #include <components/data_components/solid_component.h>
 
-#include <components/impulse_components/collide_impulse_component.h>
+#include <components/impulse_components/armor/default_collision_armor.h>
 
 #include <world/world.h>
 #include <system/system.h>
@@ -17,9 +17,10 @@ public:
 		m_signature.add_component<TransformComponent>();
 		m_signature.add_component<SpeedComponent>();
 		m_signature.add_component<FacingSideComponent>();
-		m_signature.add_component<CollideImpulseComponent>();
+		m_signature.add_component<SolidComponent>();
 
 		m_signature_of_victim.add_component<SolidComponent>();
+		m_signature_of_victim.add_component<DefaultCollisionArmor>();
 	}
 	void exchange_impulse(const Entity& initiator, const Entity& victim) override;
 };

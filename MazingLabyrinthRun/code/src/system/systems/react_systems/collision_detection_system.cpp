@@ -1,18 +1,18 @@
 #include <component_base/component_handle.h>
-#include <components/event_components/update_solid_event_component.h>
 #include <system/systems/react_systems/collision_detection_system.h>
 
 void CollisionDetection::react(Entity const& entity) {
-	m_parent_world->add_event_component(entity, std::make_unique<UpdateSolidEventComponent>());
+	ComponentHandle<BoundaryComponent> boundary;
+	ComponentHandle<TransformComponent> transform;
+	m_parent_world->unpack(entity, boundary, transform);
 
-	ComponentHandle<SolidComponent> solid;
-	m_parent_world->unpack(entity, solid);
+	boundary->m_hitbox = get_hitbox_based_on_transform_component(*transform);
 
-	for (auto solid_entity : m_parent_world->get_all_entities_who_have_component<SolidComponent>()) {
-		if (entity == solid_entity) continue;
-		ComponentHandle<SolidComponent> solid_comp;
-		m_parent_world->unpack(solid_entity, solid_comp);
-		if (solid->m_hitbox.intersects(solid_comp->m_hitbox))
-			m_parent_world->exchange_impulses(entity, solid_entity);
+	for (auto victim_entity : m_parent_world->get_all_entities_who_have_component<BoundaryComponent>()) {
+		if (entity == victim_entity) continue;
+		ComponentHandle<BoundaryComponent> victim_boundary;
+		m_parent_world->unpack(victim_entity, victim_boundary);
+		if (boundary->m_hitbox.intersects(victim_boundary->m_hitbox))
+			m_parent_world->exchange_impulses(entity, victim_entity);
 	}
 }

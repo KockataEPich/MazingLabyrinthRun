@@ -15,7 +15,6 @@
 #include <system/systems/producer_systems/transform_system.h>
 
 #include <system/systems/react_systems/collision_detection_system.h>
-#include <system/systems/react_systems/update_solid_system.h>
 #include <system/systems/react_systems/move_system.h>
 
 #include <system/systems/impulse_systems/basic_collision_impulse_exchange_system.h>
@@ -40,7 +39,6 @@ void MazingLabyrinthRun::initialize_world() {
 
 	m_world->add_react_system(std::make_unique<Move>());
 	m_world->add_react_system(std::make_unique<CollisionDetection>());
-	m_world->add_react_system(std::make_unique<UpdateSolid>());
 
 	m_world->add_impulse_system(std::make_unique<BasicCollisionImpulseExchange>());
 
@@ -59,13 +57,15 @@ void MazingLabyrinthRun::initialize_world_tiles() {
 	auto zombie = m_world->create_entity();
 	zombie_builder.build_entity(zombie);
 	zombie.add_component(std::make_unique<SolidComponent>());
-	zombie.add_component(std::make_unique<CollideImpulseComponent>());
+	zombie.add_component(std::make_unique<DefaultCollisionArmor>());
+	zombie.add_component(std::make_unique<BoundaryComponent>(get_hitbox_based_on_transform_component(*zombie.get_component<TransformComponent>())));
 	m_world->place_entity(zombie, {64.0f, 64.0f});
 
 	auto zombie2 = m_world->create_entity();
 	zombie_builder.build_entity(zombie2);
 	zombie2.add_component(std::make_unique<SolidComponent>());
-	zombie2.add_component(std::make_unique<CollideImpulseComponent>());
+	zombie2.add_component(std::make_unique<BoundaryComponent>(get_hitbox_based_on_transform_component(*zombie2.get_component<TransformComponent>())));
+	zombie2.add_component(std::make_unique<DefaultCollisionArmor>());
 	m_world->place_entity(zombie, {32.0f, 32.0f});
 	
 	for (int i = -1600; i <= 1600; i += 160) {
@@ -73,6 +73,8 @@ void MazingLabyrinthRun::initialize_world_tiles() {
 			auto grass_land = m_world->create_entity();
 			grass_builder.build_entity(grass_land);
 			m_world->place_entity(grass_land, {(float)i, (float)j});
+			grass_land.add_component(std::make_unique<BoundaryComponent>(
+			    get_hitbox_based_on_transform_component(*grass_land.get_component<TransformComponent>())));
 		}
 	}
 }
@@ -81,7 +83,9 @@ void MazingLabyrinthRun::initialize_creatures() {
 	auto player = m_world->create_entity();
 	PlayerEntityBuilder{}.build_entity(player);
 	player.add_component(std::make_unique<SolidComponent>());
-	player.add_component(std::make_unique<CollideImpulseComponent>());
+	player.add_component(std::make_unique<BoundaryComponent>(
+	    get_hitbox_based_on_transform_component(*player.get_component<TransformComponent>())));
+	player.add_component(std::make_unique<DefaultCollisionArmor>());
 	m_player_sprite = &player.get_component<SpriteComponent>()->m_sprite;
 	m_world->set_player_location(m_player_sprite);
 	m_world->place_entity(player, {0.0f, 0.0f});
