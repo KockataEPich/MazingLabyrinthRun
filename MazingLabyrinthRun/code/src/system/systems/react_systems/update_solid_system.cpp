@@ -7,10 +7,10 @@ void UpdateSolid::react(const Entity& entity) {
 
 	m_parent_world->unpack(entity, transform, solid);
 
-	// shave off 5% of each side
-	
-	solid->m_hitbox = {transform->m_position.x - 30,
-					   transform->m_position.y + 15,
-	                   get_scaled_size(*transform).x - 30,
-		               get_scaled_size(*transform).y - 100};
+	// shave off 5% of each sid
+	auto scaled_size = get_scaled_size(*transform);
+	solid->m_hitbox = { transform->m_position.x - scaled_size.x * 0.275f,
+	                   transform->m_position.y - scaled_size.y * 0.10f,
+	                   scaled_size.x * 0.55f,
+	                   scaled_size.y * 0.50f};
 }
