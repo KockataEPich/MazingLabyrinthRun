@@ -17,13 +17,19 @@ void Player::update() {
 
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) &&
 	    !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A) &&
-	    !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
+	    !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X)) {
 		ChangeActionTypeEvent{*action_type, ActionType::idle}.happen();
 		return;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {
 		ChangeActionTypeEvent{*action_type, ActionType::jump}.happen();
+		return;
+	}
+
+	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X)) {
+		ChangeActionTypeEvent{*action_type, ActionType::attack}.happen();
 		return;
 	}
 

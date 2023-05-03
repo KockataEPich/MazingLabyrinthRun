@@ -25,5 +25,7 @@ void Animate::update() {
 		sprite->m_sprite.setTextureRect(animation_player->m_animation_player.get_current_rect());
 		transform->m_size = {(float)sprite->m_sprite.getTextureRect().width,
 		                     (float)sprite->m_sprite.getTextureRect().height};
+
+	//	if (action_type->m_action_type == ActionType::attack && )
 	}
 }

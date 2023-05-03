@@ -23,7 +23,11 @@ const static std::unordered_map<Skin, std::unordered_map<ActionType, std::unorde
 				{ActionType::jump, {
                             {FacingSide::right, Textures::ID::MAIN_CHARACTER_DEFAULT_SKIN_JUMP},
                             {FacingSide::up, Textures::ID::MAIN_CHARACTER_DEFAULT_SKIN_JUMP},
-                            {FacingSide::down, Textures::ID::MAIN_CHARACTER_DEFAULT_SKIN_JUMP}}}}
+                            {FacingSide::down, Textures::ID::MAIN_CHARACTER_DEFAULT_SKIN_JUMP}}},
+				{ActionType::attack, {
+                            {FacingSide::right, Textures::ID::MAIN_CHARACTER_ATTACK_RIGHT_SKIN},
+							{FacingSide::up, Textures::ID::MAIN_CHARACTER_ATTACK_RIGHT_SKIN},
+							{FacingSide::down, Textures::ID::MAIN_CHARACTER_ATTACK_RIGHT_SKIN}}}}
 		},
 		{Skin::ZOMBIE_DEFAULT_SKIN, {
 		 		{ActionType::idle, {
