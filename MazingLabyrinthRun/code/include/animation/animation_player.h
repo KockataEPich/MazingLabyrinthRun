@@ -20,6 +20,9 @@ public:
 	Animation& get_current_animation() { return m_current_animation; };
 	sf::IntRect& get_current_rect(){ return m_current_animation.get_current_rect(); }
 	sf::Texture& get_current_texture() { return *m_current_animation.get_texture(); };
+
+	bool is_action_frame() { return m_current_animation.is_action_frame(); }
+
 private:
 	float m_total_time = 0.0f;
 	Skin m_skin = Skin::DEFAULT_PLACEHOLDER_SKIN;

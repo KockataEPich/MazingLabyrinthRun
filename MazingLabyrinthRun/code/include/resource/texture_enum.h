@@ -31,6 +31,7 @@ struct TextureMetadata {
 	unsigned int number_of_frames;
 	std::optional<unsigned int> default_repeats;
 	int default_speed;
+	std::optional<unsigned int> action_on_frame = std::nullopt;
 };
 
 static std::string toString(const ID& textureID) { return magic_enum::enum_name(textureID).data(); }
@@ -69,7 +70,7 @@ const static std::unordered_map<ID, TextureMetadata> texture_id_to_texture_metad
 
     {ID::MAIN_CHARACTER_DEFAULT_SKIN_JUMP, {9, 1, 5}},
 
-    {ID::MAIN_CHARACTER_ATTACK_RIGHT_SKIN, {3, 1, 15}},
+    {ID::MAIN_CHARACTER_ATTACK_RIGHT_SKIN, {3, 1, 15, 2}},
 
     {ID::ZOMBIE_IDLE_LEFT, {1, std::nullopt, 10}},
     {ID::ZOMBIE_ATTACK_LEFT, {4, 1, 10}}};

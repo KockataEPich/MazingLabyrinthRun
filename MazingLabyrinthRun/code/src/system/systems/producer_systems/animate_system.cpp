@@ -1,6 +1,6 @@
 #include <system/systems/producer_systems/animate_system.h>
 #include <component_base/component_handle.h>
-
+#include <components/event_components/initiate_action_component.h>
 void Animate::update() {
 	for (auto& entity : m_registered_entities) {
 		ComponentHandle<SpriteComponent> sprite;
@@ -26,6 +26,7 @@ void Animate::update() {
 		transform->m_size = {(float)sprite->m_sprite.getTextureRect().width,
 		                     (float)sprite->m_sprite.getTextureRect().height};
 
-	//	if (action_type->m_action_type == ActionType::attack && )
+		if (animation_player->m_animation_player.is_action_frame())
+			m_parent_world->add_event_component(entity, std::make_unique<InitiateActionEventComponent>());
 	}
 }

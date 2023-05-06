@@ -2,12 +2,14 @@
 
 bool Animation::next_frame() {
 	m_current_rectange.left += m_x_axis_offset;
+	m_current_rect_number++;
 	return m_current_rectange.left == m_texture->getSize().x;
 }
 
 bool Animation::reset_cycle() {
 	if (!m_number_of_cycles.has_value() || m_number_of_cycles.value()-- == 0) return true;
 	m_current_rectange.left = 0;
+	m_current_rect_number = 1;
 	return false;
 }
 
@@ -19,5 +21,7 @@ void Animation::operator=(Animation& other) noexcept {
 	m_number_of_cycles = other.m_number_of_cycles;
 	m_speed = other.m_speed;
 	m_texture = other.m_texture;
+	m_action_on_frame = other.m_action_on_frame;
 	m_current_rectange = sf::IntRect{0, 0, other.m_x_axis_offset, (int)m_texture->getSize().y};
+	m_current_rect_number = 1;
 }
