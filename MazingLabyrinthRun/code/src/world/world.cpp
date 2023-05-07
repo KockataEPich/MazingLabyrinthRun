@@ -20,7 +20,10 @@ void World::render() { m_producer_system_sequence_wrapper.get_systems().back()->
 EntityHandle World::create_entity() { return {m_entity_manager->create_entity(), this}; }
 
 void World::destroy_entity(Entity entity) {
-	for (auto& system : m_producer_system_sequence_wrapper.get_systems()) { system->unregister_entity(entity); }
+	for (auto& system : m_producer_system_sequence_wrapper.get_systems()) 
+		if (m_entity_masks[entity].matches(system->get_signature()))
+			system->unregister_entity(entity); 
+
 	m_entity_manager->destroy(entity);
 }
 

@@ -32,7 +32,7 @@ void Render::update() {
 	});
 
 	draw_level(level_one_sprites);
-	draw_level(level_two_sprites, false);
+	draw_level(level_two_sprites, true);
 }
 
 void Render::draw_level(std::vector<std::pair<sf::Sprite*, Entity>>& sprites_and_entities, bool draw_hitbox) {

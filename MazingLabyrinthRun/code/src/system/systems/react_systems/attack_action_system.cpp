@@ -31,4 +31,5 @@ void AttackActionSystem::react(Entity const& entity) {
 
 	attack_box.add_component(std::move(atk_transform));
 	m_parent_world->add_event_component(attack_box.entity, std::make_unique<CheckCollisionEventComponent>());
+	attack_box.destroy();
 }

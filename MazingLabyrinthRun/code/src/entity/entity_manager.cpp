@@ -1,8 +1,7 @@
 #include "../include/entity_base/entity_manager.h"
 
-Entity EntityManager::create_entity() {
-	last_entity++;
-	return {last_entity};
-}
+Entity EntityManager::create_entity() {	return last_entity++; }
 
-void EntityManager::destroy(Entity entity) {}
+void EntityManager::destroy(Entity entity) {
+
+}
