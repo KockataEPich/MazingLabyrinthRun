@@ -98,6 +98,13 @@ public:
 		return entity_vector;
 	}
 
+	void remove_all_components_from_entity(Entity entity) { 
+		for (auto& component_manager : m_component_managers) 
+			component_manager->destroy_component(entity);
+		
+		m_entity_masks[entity] = {};
+	}
+
 private:
 	std::unique_ptr<EntityManager> m_entity_manager;
 

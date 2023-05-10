@@ -4,6 +4,7 @@
 
 #include <array>
 #include <unordered_map>
+#include <optional>
 
 const int MAX_NUMBER_OF_COMPONENTS = 10024;
 using ComponentInstance = unsigned int;
@@ -11,7 +12,10 @@ using ComponentInstance = unsigned int;
 struct EntityMap {
 	Entity get_entity(ComponentInstance instance) { return m_instance_to_entity.at(instance); }
 
-	ComponentInstance get_instance(Entity entity) { return m_entity_to_instance.at(entity); }
+	std::optional<ComponentInstance> get_instance(Entity entity) {
+		if (m_entity_to_instance.count(entity) != 0) return m_entity_to_instance.at(entity);
+		return std::nullopt;
+	}
 
 	void add(Entity entity, ComponentInstance instance) {
 		m_entity_to_instance.insert({entity, instance});

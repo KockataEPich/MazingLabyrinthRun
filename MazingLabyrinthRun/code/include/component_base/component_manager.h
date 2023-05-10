@@ -14,6 +14,7 @@ public:
 	BaseComponentManager& operator=(const BaseComponentManager&) = default;
 	BaseComponentManager(BaseComponentManager&&) = default;
 	BaseComponentManager& operator=(BaseComponentManager&&) = default;
+	virtual void destroy_component(const Entity entity) = 0;
 };
 
 template<typename ComponentType>
@@ -30,22 +31,22 @@ public:
 	}
 
 	void destroy_component(const Entity entity) {
-		ComponentInstance instance = entity_map.get_instance(entity);
+		auto instance = entity_map.get_instance(entity);
+		if (!instance.has_value()) return;
 
-		vec_utils::pop_at_index(instance, m_data);
+		vec_utils::pop_at_index(instance.value(), m_data);
 
 		entity_map.remove(entity);
 		if (m_data.size() == 0) return;
 
 		Entity lastEntity = entity_map.get_entity(m_data.size() - 1);
-		entity_map.update(lastEntity, instance);
+		entity_map.update(lastEntity, instance.value());
 	}
 
 	LookupType* lookup(const Entity entity) {
-		ComponentInstance instance = entity_map.get_instance(entity);
+		ComponentInstance instance = entity_map.get_instance(entity).value();
 		return m_data.at(instance).get();
 	}
-
 private:
 	std::vector<std::unique_ptr<ComponentType>> m_data;
 	EntityMap entity_map;
