@@ -98,13 +98,6 @@ public:
 		return entity_vector;
 	}
 
-	void remove_all_components_from_entity(Entity entity) { 
-		for (auto& component_manager : m_component_managers) 
-			component_manager->destroy_component(entity);
-		
-		m_entity_masks[entity] = {};
-	}
-
 private:
 	std::unique_ptr<EntityManager> m_entity_manager;
 
@@ -120,17 +113,25 @@ private:
 	void update_entity_mask(Entity const& entity, ComponentMask old_mask);
 	void react_on_event(Entity const& entity, ComponentMask new_mask);
 
+	std::unordered_map<int, int> m_managers_family_to_index;
+	int m_current_manager_last_index = 0;
+
 	template<typename ComponentType>
 	ComponentManager<ComponentType>* get_component_manager() {
 		int family = get_component_family<ComponentType>();
 
-		if (family >= m_component_managers.size()) { m_component_managers.resize(family + 1); }
-
-		if (!m_component_managers[family]) {
-			m_component_managers[family] = std::make_unique<ComponentManager<ComponentType>>();
+		if (m_managers_family_to_index.find(family) == m_managers_family_to_index.end()) {
+			m_managers_family_to_index[family] = m_current_manager_last_index++;
 		}
 
-		return static_cast<ComponentManager<ComponentType>*>(m_component_managers[family].get());
+		const int index = m_managers_family_to_index[family];
+		if (index >= m_component_managers.size()) { m_component_managers.resize(m_current_manager_last_index); }
+
+		if (!m_component_managers[index]) {
+			m_component_managers[index] = std::make_unique<ComponentManager<ComponentType>>();
+		}
+
+		return static_cast<ComponentManager<ComponentType>*>(m_component_managers[index].get());
 	}
 };
 #endif

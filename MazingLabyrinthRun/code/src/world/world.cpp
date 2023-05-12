@@ -24,6 +24,11 @@ void World::destroy_entity(Entity entity) {
 		if (m_entity_masks[entity].matches(system->get_signature()))
 			system->unregister_entity(entity); 
 
+	for (auto& component_manager : m_component_managers) 
+		component_manager->destroy_component(entity);
+	
+	m_entity_masks[entity] = {};
+
 	m_entity_manager->destroy(entity);
 }
 
