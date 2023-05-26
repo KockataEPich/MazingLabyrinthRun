@@ -13,6 +13,7 @@
 #include <system/systems/producer_systems/player_system.h>
 #include <system/systems/producer_systems/render_system.h>
 #include <system/systems/producer_systems/transform_system.h>
+#include <system/systems/producer_systems/display_healthpoints_system.h>
 
 #include <system/systems/react_systems/collision_detection_system.h>
 #include <system/systems/react_systems/move_system.h>
@@ -50,6 +51,7 @@ void MazingLabyrinthRun::initialize_world() {
 	    ->add_producer_system(std::make_unique<AI>())
 	    ->add_producer_system(std::make_unique<Animate>())
 	    ->add_producer_system(std::make_unique<Transform>())
+	    ->add_producer_system(std::make_unique<DisplayHealthpoints>(m_window))
 	    ->add_producer_system(std::make_unique<Render>(m_window));
 
 	m_world->init();
@@ -111,6 +113,7 @@ void MazingLabyrinthRun::update() {
 void MazingLabyrinthRun::render() {
 	m_window.begin_draw();
 	m_world->render();
+
 	m_window.end_draw();
 }
 

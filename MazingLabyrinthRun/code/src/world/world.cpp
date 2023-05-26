@@ -15,7 +15,11 @@ void World::update(float dt) { m_producer_system_sequence_wrapper.run_systems(dt
 
 // Last system is always the render system. It behaves like producer systems, however needs to be tick independent
 // and has to be executed at a different position
-void World::render() { m_producer_system_sequence_wrapper.get_systems().back()->update(); }
+void World::render() { 
+	auto& systems = m_producer_system_sequence_wrapper.get_systems();
+	systems.back()->update();
+	systems[systems.size() - 2]->update();
+}
 
 EntityHandle World::create_entity() { return {m_entity_manager->create_entity(), this}; }
 

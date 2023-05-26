@@ -18,8 +18,8 @@ public:
 	void run_systems(float dt) {
 		int ticks_to_execute = get_ticks(dt);
 		while (ticks_to_execute != 0) {
-			// Last system is always the render system.
-			for (int i = 0; i < m_system_list.size() - 1; i++) m_system_list[i]->update_in_ticks();
+			// Last 2 systems is always the render system.
+			for (int i = 0; i < m_system_list.size() - 2; i++) m_system_list[i]->update_in_ticks();
 			ticks_to_execute--;
 		}
 	}
