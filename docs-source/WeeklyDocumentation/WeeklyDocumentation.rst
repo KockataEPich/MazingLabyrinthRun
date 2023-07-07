@@ -29,3 +29,4 @@ The weekly progress documentation is structured in the following way:
    Week15
    09102022
    25102022
+   07072023
