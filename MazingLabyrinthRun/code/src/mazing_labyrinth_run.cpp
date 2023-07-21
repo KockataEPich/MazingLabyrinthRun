@@ -14,6 +14,7 @@
 #include <system/systems/producer_systems/render_system.h>
 #include <system/systems/producer_systems/transform_system.h>
 #include <system/systems/producer_systems/display_healthpoints_system.h>
+#include <system/systems/producer_systems/render_crosshair_system.h>
 
 #include <system/systems/react_systems/collision_detection_system.h>
 #include <system/systems/react_systems/move_system.h>
@@ -52,6 +53,7 @@ void MazingLabyrinthRun::initialize_world() {
 	    ->add_producer_system(std::make_unique<Animate>())
 	    ->add_producer_system(std::make_unique<Transform>())
 	    ->add_producer_system(std::make_unique<DisplayHealthpoints>(m_window))
+	    ->add_producer_system(std::make_unique<UpdateCrosshairPosition>(m_window))
 	    ->add_producer_system(std::make_unique<Render>(m_window));
 
 	m_world->init();
@@ -91,13 +93,29 @@ void MazingLabyrinthRun::initialize_creatures() {
 	auto player = m_world->create_entity();
 	PlayerEntityBuilder{}.build_entity(player);
 	player.add_component(std::make_unique<SolidComponent>());
-	//player.add_component(std::make_unique<HealthPointsComponent>());
+	player.add_component(std::make_unique<HealthPointsComponent>());
 	player.add_component(std::make_unique<BoundaryComponent>(
 	    get_hitbox_based_on_transform_component(*player.get_component<TransformComponent>())));
 	player.add_component(std::make_unique<DefaultCollisionArmor>());
 	m_player_sprite = &player.get_component<SpriteComponent>()->m_sprite;
 	m_world->set_player_location(m_player_sprite);
 	m_world->place_entity(player, {0.0f, 0.0f});
+
+
+	auto mouse = m_world->create_entity();
+	mouse.add_component(std::make_unique<SpriteComponent>())
+	    .add_component(std::make_unique<TransformComponent>())
+	    .add_component(std::make_unique<BoundaryComponent>(
+	        get_hitbox_based_on_transform_component(*mouse.get_component<TransformComponent>())))
+	    .add_component(std::make_unique<MouseComponent>())
+	    .add_component(std::make_unique<ElevationLevelComponent>(ElevationLevel::UI));
+
+
+	mouse.get_component<TransformComponent>()->m_scale = {3, 3};
+	auto& mouse_sprite = mouse.get_component<SpriteComponent>()->m_sprite;
+	mouse_sprite.setTexture(*ResourceManager::get_instance()->get_texture(Textures::ID::CROSS_HAIR_DEFAULT));
+	mouse.get_component<TransformComponent>()->m_size = {(float)mouse_sprite.getTextureRect().width,
+	                                                     (float)mouse_sprite.getTextureRect().height};
 }
 
 void MazingLabyrinthRun::handle_input() {}

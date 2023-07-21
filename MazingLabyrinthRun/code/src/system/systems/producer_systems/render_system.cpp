@@ -33,6 +33,7 @@ void Render::update() {
 
 	draw_level(level_one_sprites);
 	draw_level(level_two_sprites, false);
+	draw_level(level_UI_sprites, true);
 }
 
 void Render::draw_level(std::vector<std::pair<sf::Sprite*, Entity>>& sprites_and_entities, bool draw_hitbox) {
@@ -56,5 +57,6 @@ void Render::draw_level(std::vector<std::pair<sf::Sprite*, Entity>>& sprites_and
 }
 std::vector<std::pair<sf::Sprite*, Entity>>& Render::get_level_vector(ElevationLevel level) {
 	if (level == ElevationLevel::one) return level_one_sprites;
-	return level_two_sprites;
+	if (level == ElevationLevel::two) return level_two_sprites;
+	return level_UI_sprites;
 }

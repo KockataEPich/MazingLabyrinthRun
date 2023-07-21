@@ -21,6 +21,7 @@ public:
 
 	void toggle_fullscreen();
 	void draw(sf::Drawable& drawable);
+	sf::RenderWindow& as_sfml_window() { return m_game_window; }
 
 private:
 	sf::RenderWindow m_game_window;

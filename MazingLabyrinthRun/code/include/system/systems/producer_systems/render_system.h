@@ -19,6 +19,7 @@ public:
 private:
 	std::vector<std::pair<sf::Sprite*, Entity>> level_one_sprites;
 	std::vector<std::pair<sf::Sprite*, Entity>> level_two_sprites;
+	std::vector<std::pair<sf::Sprite*, Entity>> level_UI_sprites;
 	GameWindow& m_render_window;
 
 	void draw_level(std::vector<std::pair<sf::Sprite*, Entity>>& sprites, bool draw_hitbox = false);

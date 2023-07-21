@@ -11,6 +11,7 @@ void GameWindow::setup(const std::string& title, const sf::Vector2u& size) {
 	m_is_fullscreen = false;
 	m_is_done = false;
 	create();
+	m_game_window.setMouseCursorVisible(false);
 }
 
 void GameWindow::create() {

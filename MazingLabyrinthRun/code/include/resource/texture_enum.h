@@ -25,6 +25,8 @@ enum class ID {
 	ZOMBIE_ATTACK_LEFT,
 
 	GRASS_LANDS_1,
+
+	CROSS_HAIR_DEFAULT,
 };
 
 struct TextureMetadata {
@@ -55,6 +57,8 @@ const static std::unordered_map<ID, std::string> texture_id_to_file_map{
     {ID::ZOMBIE_ATTACK_LEFT, "resources/character/zombie_left_attack.png"},
 
     {ID::GRASS_LANDS_1, "resources/tile/grass.png"},
+
+    {ID::CROSS_HAIR_DEFAULT, "resources/ui/crosshair.png"},
 };
 
 const static std::unordered_map<ID, TextureMetadata> texture_id_to_texture_metadata{

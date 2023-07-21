@@ -6,7 +6,7 @@
 #include "texture_enum.h"
 
 #include <unordered_map>
-enum class Skin { DEFAULT_PLACEHOLDER_SKIN, MAIN_CHARACTER_START_SKIN, ZOMBIE_DEFAULT_SKIN };
+enum class Skin { DEFAULT_PLACEHOLDER_SKIN, MAIN_CHARACTER_START_SKIN, ZOMBIE_DEFAULT_SKIN, CROSSHAIR_DEFAULT_SKIN };
 
 // clang-format off
 const static std::unordered_map<Skin, std::unordered_map<ActionType, std::unordered_map<FacingSide, Textures::ID>>>
@@ -42,7 +42,7 @@ const static std::unordered_map<Skin, std::unordered_map<ActionType, std::unorde
 						{FacingSide::right, Textures::ID::ZOMBIE_ATTACK_LEFT},
 		 				{FacingSide::up, Textures::ID::ZOMBIE_ATTACK_LEFT},
 		 				{FacingSide::down, Textures::ID::ZOMBIE_ATTACK_LEFT}}}}
-		}
+		},
 };
 // clang-format on
 
