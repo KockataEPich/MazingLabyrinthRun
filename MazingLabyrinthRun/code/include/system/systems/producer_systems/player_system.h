@@ -3,6 +3,7 @@
 
 #include <components/data_components/action_type_component.h>
 #include <components/data_components/facing_side_component.h>
+#include <components/data_components/target_for_direction_component.h>
 #include <components/data_components/player_component.h>
 #include <components/data_components/speed_component.h>
 #include <components/data_components/transform_component.h>
@@ -16,6 +17,7 @@ public:
 		m_signature.add_component<PlayerComponent>()
 		    .add_component<TransformComponent>()
 		    .add_component<SpeedComponent>()
+		    .add_component<TargetForDirection>()
 		    .add_component<ActionTypeComponent>()
 		    .add_component<FacingSideComponent>();
 	}

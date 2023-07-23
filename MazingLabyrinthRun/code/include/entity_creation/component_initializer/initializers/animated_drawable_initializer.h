@@ -18,7 +18,7 @@ public:
 
 		auto& animation_player = entity.get_component<AnimationPlayerComponent>()->m_animation_player;
 		animation_player.set_skin(skin);
-		animation_player.play_animation(get_idle_animation(skin, FacingSide::down));
+		animation_player.play_animation(get_idle_animation(skin));
 
 		auto& sprite = entity.get_component<SpriteComponent>()->m_sprite;
 		sprite.setScale(entity.get_component<TransformComponent>()->m_scale);

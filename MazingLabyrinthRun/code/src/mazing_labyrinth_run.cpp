@@ -61,30 +61,30 @@ void MazingLabyrinthRun::initialize_world() {
 
 void MazingLabyrinthRun::initialize_world_tiles() {
 	GrassLandsTileBuilder grass_builder;
-	ZombieEntityBuilder zombie_builder;
-	auto zombie = m_world->create_entity();
-	zombie_builder.build_entity(zombie);
-	zombie.add_component(std::make_unique<SolidComponent>());
-	zombie.add_component(std::make_unique<DefaultCollisionArmor>());
-	zombie.add_component(std::make_unique<HealthPointsComponent>());
-	zombie.add_component(std::make_unique<BoundaryComponent>(get_hitbox_based_on_transform_component(*zombie.get_component<TransformComponent>())));
-	m_world->place_entity(zombie, {64.0f, 64.0f});
+	//ZombieEntityBuilder zombie_builder;
+	//auto zombie = m_world->create_entity();
+	//zombie_builder.build_entity(zombie);
+	//zombie.add_component(std::make_unique<SolidComponent>());
+	//zombie.add_component(std::make_unique<DefaultCollisionArmor>());
+	//zombie.add_component(std::make_unique<HealthPointsComponent>());
+	//zombie.add_component(std::make_unique<BoundaryComponent>(get_hitbox_based_on_transform_component(*zombie.get_component<TransformComponent>())));
+	//m_world->place_entity(zombie, {64.0f, 64.0f});
 
-	auto zombie2 = m_world->create_entity();
-	zombie_builder.build_entity(zombie2);
-	zombie2.add_component(std::make_unique<SolidComponent>());
-	zombie2.add_component(std::make_unique<BoundaryComponent>(get_hitbox_based_on_transform_component(*zombie2.get_component<TransformComponent>())));
-	zombie2.add_component(std::make_unique<DefaultCollisionArmor>());
-	zombie2.add_component(std::make_unique<HealthPointsComponent>());
-	m_world->place_entity(zombie, {32.0f, 32.0f});
+	//auto zombie2 = m_world->create_entity();
+	//zombie_builder.build_entity(zombie2);
+	//zombie2.add_component(std::make_unique<SolidComponent>());
+	//zombie2.add_component(std::make_unique<BoundaryComponent>(get_hitbox_based_on_transform_component(*zombie2.get_component<TransformComponent>())));
+	//zombie2.add_component(std::make_unique<DefaultCollisionArmor>());
+	//zombie2.add_component(std::make_unique<HealthPointsComponent>());
+	//m_world->place_entity(zombie, {32.0f, 32.0f});
 	
 	for (int i = -1600; i <= 1600; i += 160) {
 		for (int j = 1600; j >= -1600; j -= 160) {
 			auto grass_land = m_world->create_entity();
 			grass_builder.build_entity(grass_land);
 			m_world->place_entity(grass_land, {(float)i, (float)j});
-			grass_land.add_component(std::make_unique<BoundaryComponent>(
-			    get_hitbox_based_on_transform_component(*grass_land.get_component<TransformComponent>())));
+			//grass_land.add_component(std::make_unique<BoundaryComponent>(
+			//    get_hitbox_based_on_transform_component(*grass_land.get_component<TransformComponent>())));
 		}
 	}
 }
@@ -97,6 +97,7 @@ void MazingLabyrinthRun::initialize_creatures() {
 	player.add_component(std::make_unique<BoundaryComponent>(
 	    get_hitbox_based_on_transform_component(*player.get_component<TransformComponent>())));
 	player.add_component(std::make_unique<DefaultCollisionArmor>());
+	player.add_component(std::make_unique<TargetForDirection>());
 	m_player_sprite = &player.get_component<SpriteComponent>()->m_sprite;
 	m_world->set_player_location(m_player_sprite);
 	m_world->place_entity(player, {0.0f, 0.0f});

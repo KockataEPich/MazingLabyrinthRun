@@ -12,8 +12,11 @@ void Player::update() {
 	ComponentHandle<FacingSideComponent> side;
 	ComponentHandle<TransformComponent> transform;
 	ComponentHandle<ActionTypeComponent> action_type;
+	ComponentHandle<TargetForDirection> target;
 
-	m_parent_world->unpack(player, transform, side, speed, action_type);
+	m_parent_world->unpack(player, transform, side, speed, action_type, target);
+
+	target->m_target_position = transform->m_position;
 
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) &&
 	    !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A) &&
@@ -34,11 +37,11 @@ void Player::update() {
 	}
 
 	ChangeActionTypeEvent{*action_type, ActionType::move}.happen();
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) side->m_side = FacingSide::right;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) side->m_side = FacingSide::left;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) side->m_side = FacingSide::up;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) side->m_side = FacingSide::down;
-
+	// The magic number should be changed to be the end corners of the map (when boxed)
+	// Apparently FLT_MIN == 0 ?!
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) target->m_target_position.x += 100000.0f; 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) target->m_target_position.x -= 100000.0f; 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) target->m_target_position.y += 100000.0f;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) target->m_target_position.y -= 100000.0f;
 	m_parent_world->add_event_component(player, std::make_unique<MoveEventComponent>());
 }

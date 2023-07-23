@@ -4,5 +4,5 @@ void AnimationPlayer::update(const FacingSide& side) {
 
 	m_total_time -= m_current_animation.speed();
 	if (m_current_animation.next_frame() && m_current_animation.reset_cycle())
-		play_animation(Animation(get_idle_animation(m_skin, side)));
+		play_animation(Animation(get_idle_animation(m_skin)));
 }

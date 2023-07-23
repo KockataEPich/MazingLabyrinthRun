@@ -1,5 +1,6 @@
 #ifndef BASE_COMPONENT_HEADER
 #define BASE_COMPONENT_HEADER
+#include <type_traits>
 struct ComponentCounter {
 	static int m_family_counter;
 };

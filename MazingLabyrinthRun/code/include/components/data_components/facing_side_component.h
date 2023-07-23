@@ -7,7 +7,7 @@
 struct FacingSideComponent : public Component<FacingSideComponent> {
 	explicit FacingSideComponent(FacingSide&& side) : m_side{side} {};
 	FacingSideComponent() = default;
-	FacingSide m_side = FacingSide::down;
+	FacingSide m_side = FacingSide::left;
 };
 
 #endif
