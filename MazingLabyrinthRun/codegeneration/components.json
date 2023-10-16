@@ -1,0 +1,50 @@
+{
+    "FacingSide" :
+    {
+        "type" : "data",
+        "needs_cpp" : false,
+        "includes" : ["<attribute/facing_side.h>"],
+        "members" : [
+            {
+                "FacingSide" : 
+                {
+                    "parameter" : true,
+                    "name" : "side",
+                    "default_value" : "FacingSide::left"
+                } 
+            }
+        ]
+        
+    },
+
+    "Transform" :
+    {
+        "type" : "data",
+        "needs_cpp" : false,
+        "includes" : ["<SFML/System/Vector2.hpp>", "<cmath>"],
+        "members" : [
+            {
+                "sf::Vector2f" : 
+                {
+                    "parameter" : true,
+                    "name" : "position"
+                } 
+            },
+            {
+                "sf::Vector2f" : 
+                {
+                    "parameter" : true,
+                    "name" : "scale"
+                } 
+            },
+            {
+                "sf::Vector2f" : 
+                {
+                    "parameter" : true,
+                    "name" : "size"
+                } 
+            }
+        ]
+        
+    }
+}
