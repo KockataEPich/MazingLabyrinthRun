@@ -36,7 +36,7 @@ def validate_component_attributes(component, component_metadata):
     except Exception as e:
         raise Exception(component," has caused an error. Error: ", e)
   
-#TODO validate name of component
+#TODO validate name of component, moved
 def validate_component_json(data):
     ...
     component_list = get_unique_components(data)

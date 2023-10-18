@@ -45,6 +45,186 @@
                 } 
             }
         ]
-        
+    },
+    "ActionType" :
+    {
+        "type" : "data",
+        "needs_cpp" : false,
+        "includes" : ["<attribute/action_type.h>"],
+        "members" : [
+            {
+                "ActionType" : 
+                {
+                    "parameter" : true,
+                    "name" : "action_type",
+                    "default_value" : "ActionType::idle"
+                } 
+            }
+        ]
+    },
+
+    "Player" :
+    {
+        "type" : "data",
+        "needs_cpp" : false,
+        "includes" : [],
+        "members" : []
+    },
+
+    "Solid" :
+    {
+        "type" : "data",
+        "needs_cpp" : false,
+        "includes" : [],
+        "members" : []
+    },
+
+    "Speed" :
+    {
+        "type" : "data",
+        "needs_cpp" : false,
+        "includes" : [],
+        "members" : [
+            {
+                "float" : 
+                {
+                    "parameter" : true,
+                    "name" : "speed"
+                } 
+            }
+        ]
+    },
+
+    "Sprite" :
+    {
+        "type" : "data",
+        "needs_cpp" : false,
+        "includes" : ["<sfml/Graphics/Sprite.hpp>"],
+        "members" : [
+            {
+                "sf::Sprite" : 
+                {
+                    "parameter" : true,
+                    "moved" : true,
+                    "name" : "sprite"
+                } 
+            }
+        ]
+    },
+
+    "Skin" :
+    {
+        "type" : "data",
+        "needs_cpp" : false,
+        "includes" : ["<resource/skins.h>"],
+        "members" : [
+            {
+                "Skin" : 
+                {
+                    "parameter" : true,
+                    "moved" : true,
+                    "name" : "sprite",
+                    "default_value" : "Skin::DEFAULT_PLACEHOLDER_SKIN"
+                } 
+            }
+        ]
+    },
+
+    "TargetForDirection" :
+    {
+        "type" : "data",
+        "needs_cpp" : false,
+        "includes" : ["<SFML/System/Vector2.hpp>"],
+        "members" : [
+            {
+                "sf::Vector2f" : 
+                {
+                    "parameter" : true,
+                    "name" : "target_position"
+                } 
+            }
+        ]
+    },
+
+    "ElevationLevel" :
+    {
+        "type" : "data",
+        "needs_cpp" : false,
+        "includes" : ["<attribute/elevation_level.h>"],
+        "members" : [
+            {
+                "ElevationLevel" : 
+                {
+                    "parameter" : true,
+                    "name" : "level",
+                    "default_value" : "ElevationLevel::two"
+                } 
+            }
+        ]
+    },
+
+    "HealthPoints" :
+    {
+        "type" : "data",
+        "needs_cpp" : false,
+        "includes" : ["<attribute/elevation_level.h>"],
+        "members" : [
+            {
+                "int" : 
+                {
+                    "parameter" : true,
+                    "name" : "health",
+                    "default_value" : "50"
+                } 
+            }
+        ]
+    },
+
+    "Mouse" :
+    {
+        "type" : "data",
+        "needs_cpp" : false,
+        "includes" : [],
+        "members" : []
+    },
+
+    "AnimationPlayer" :
+    {
+        "type" : "data",
+        "needs_cpp" : false,
+        "includes" : ["<animation/animation_player.h>"],
+        "members" : [
+            {
+                "AnimationPlayer" : 
+                {
+                    "parameter" : true,
+                    "name" : "animation_player"
+                } 
+            }
+        ]
+    },
+
+    "AI" :
+    {
+        "type" : "data",
+        "needs_cpp" : false,
+        "includes" : [],
+        "members" : []
+    },
+
+    "Boundary" :
+    {
+        "type" : "data",
+        "needs_cpp" : false,
+        "includes" : ["<SFML/Graphics/Rect.hpp>"],
+        "members" : [
+            {
+                "sf::FloatRect" : 
+                {
+                    "parameter" : true,
+                    "name" : "hitbox"
+                } 
+            }
+        ]
     }
 }
