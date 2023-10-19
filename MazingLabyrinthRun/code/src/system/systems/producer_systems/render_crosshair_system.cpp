@@ -1,4 +1,5 @@
 #include <component_base/component_handle.h>
+#include <utils/component_utils.h>
 #include <system/systems/producer_systems/render_crosshair_system.h>
 void UpdateCrosshairPosition::update() {
 	for (auto& entity : m_registered_entities) {

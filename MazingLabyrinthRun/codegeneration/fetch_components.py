@@ -11,7 +11,7 @@ def get_member_list(members):
         m = component_class.Member()
         m.type = member_name
         m.name = member_data.get("name")
-        m.is_parameter = member_data.get("parameter", False)
+        m.is_parameter = member_data.get("is_parameter", False)
         m.default_value = member_data.get("default_value", "")
         m.moved = member_data.get("moved", False)
         result.append(m)

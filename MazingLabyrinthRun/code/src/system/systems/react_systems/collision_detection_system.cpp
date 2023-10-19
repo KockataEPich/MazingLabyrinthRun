@@ -1,4 +1,5 @@
 #include <component_base/component_handle.h>
+#include <utils/component_utils.h>
 #include <system/systems/react_systems/collision_detection_system.h>
 
 void CollisionDetection::react(Entity const& entity) {

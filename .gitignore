@@ -3,6 +3,7 @@ MazingLabyrinthRun/.idea
 MazingLabyrinthRun/codegeneration/*.pyc
 MazingLabyrinthRun/codegeneration/*.h
 MazingLabyrinthRun/codegeneration/generated
+MazingLabyrinthRun/code/include/generated
 MazingLabyrinthRun/codegeneration/__pycache__
 backup
 .vs

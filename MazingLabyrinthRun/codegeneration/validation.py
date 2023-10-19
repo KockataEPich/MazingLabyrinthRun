@@ -1,3 +1,6 @@
+accepted_component_keys = ["type", "needs_cpp", "includes", "members"]
+accepted_member_keys = ["is_parameter", "name", "default_value", "moved"]
+
 def check_exists(name, metadata, mandatory = False,):
     if metadata is None:
         if mandatory == False:
@@ -19,6 +22,11 @@ def get_unique_components(data):
         component_set.add(component)
     return component_set
 
+def validate_no_unkown_values_in_member(component_metadata):
+    for key in component_metadata.keys():
+        if key not in accepted_component_keys:
+            raise Exception("Not allowed key in component")
+        
 def validate_members(members):
     if members is None:
         return
@@ -26,10 +34,16 @@ def validate_members(members):
     for member in members:
         member_name = next(iter(member))
         member_attributes = member[member_name]
-        check_exists("parameter", member_attributes["parameter"])
-    
+        check_exists("name", member_attributes["name"])
+
+def validate_no_unkown_values(component_metadata):
+    for key in component_metadata.keys():
+        if key not in accepted_component_keys:
+            raise Exception("Not allowed key in component")
+   
 def validate_component_attributes(component, component_metadata):
     try:
+        validate_no_unkown_values(component_metadata)
         validate("component type", component_metadata.get("type"), ["data", "composite", "event", "impulse"], True)
         check_exists("needs cpp", component_metadata.get("needs_cpp"))
         validate_members(component_metadata.get("members"))

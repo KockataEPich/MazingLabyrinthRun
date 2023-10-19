@@ -1,9 +1,10 @@
 import os.path
 
 def get_file_name(component):
-    save_path = "C:\D\Repositories\MazingLabyrinthRun\MazingLabyrinthRun\codegeneration\generated"
-    name_of_file = component.name.lower() + ".h"
-    return os.path.join(save_path, name_of_file)    
+    return os.path.join(os.path.dirname(os.getcwd()), 
+                        "code", "include", "generated", 
+                        "components", "data_components", component.name.lower() + "_component.h")
+
 
 def write_header(f, component):
     f.write("// ################## THIS FILE IS GENERATED ##################\n")
