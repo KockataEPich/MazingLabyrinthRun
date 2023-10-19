@@ -2,7 +2,7 @@ import os.path
 
 def get_file_name(component):
     save_path = "C:\D\Repositories\MazingLabyrinthRun\MazingLabyrinthRun\codegeneration\generated"
-    name_of_file = component.lower() + ".h"
+    name_of_file = component.name.lower() + ".h"
     return os.path.join(save_path, name_of_file)    
 
 def write_header(f, component):
@@ -68,13 +68,18 @@ def write_end(f):
     f.write("\n")
     f.write("#endif")
 
-def write_components(component_dict):
-    for component_name, component in component_dict.items():
-        f=open(get_file_name(component_name), "a+")
+def write_component(component):
+    f=open(get_file_name(component), "a+")
 
-        write_header(f, component_name)
-        write_includes(f, component.includes)
-        write_component_body(f, component)
-        write_end(f)
+    write_header(f, component.name)
+    write_includes(f, component.includes)
+    write_component_body(f, component)
+    write_end(f)
 
-        f.close()  
+    f.close()  
+    
+def write_components(components):
+    for component in components:
+        write_component(component)
+
+        
