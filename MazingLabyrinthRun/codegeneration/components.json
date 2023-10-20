@@ -65,18 +65,6 @@
         ]
     },
 
-    "Player" :
-    {
-        "type" : "data",
-        "needs_cpp" : false
-    },
-
-    "Solid" :
-    {
-        "type" : "data",
-        "needs_cpp" : false
-    },
-
     "Speed" :
     {
         "type" : "data",
@@ -181,12 +169,6 @@
         ]
     },
 
-    "Mouse" :
-    {
-        "type" : "data",
-        "needs_cpp" : false
-    },
-
     "AnimationPlayer" :
     {
         "var_name" : "animation_player", 
@@ -204,12 +186,6 @@
         ]
     },
 
-    "AI" :
-    {
-        "type" : "data",
-        "needs_cpp" : false
-    },
-
     "Boundary" :
     {
         "type" : "data",
@@ -224,5 +200,22 @@
                 } 
             }
         ]
+    },
+
+    "Player" : { "type" : "basic" },
+    "Solid" : { "type" : "basic" },
+    "Mouse" : { "type" : "basic" },
+    "AI" : { "type" : "basic" },
+
+    "InitiateAction" : 
+    { 
+        "var_name" : "basic_attack_needle",
+        "type" : "basic"
+    },
+
+    "BasicAttackNeedle" :
+    {
+        "var_name" : "basic_attack_needle",
+        "type" : "basic"
     }
 }

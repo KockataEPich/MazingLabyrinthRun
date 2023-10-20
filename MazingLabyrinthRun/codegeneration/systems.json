@@ -4,5 +4,20 @@
       "type" : "producer",
       "components" : ["ActionType", "FacingSide", "TargetForDirection", "Player", "Speed", "Transform"],
       "extra_functions" : ["void init() override { m_registered_entities.reserve(1); }  // Only one player"]
+   },
+
+   "AttackAction" : 
+   {
+      "var_name" : "attack_action",
+      "type" : "react",
+      "components" : ["ActionType", "FacingSide", "InitiateAction", "Transform"]
+   },
+
+   "BasicDamage" : 
+   {
+      "var_name" : "basic_damage",
+      "type" : "impulse",
+      "initiator_components" : ["BasicAttackNeedle"],
+      "victim_components" : ["HealthPoints"]
    }
 }

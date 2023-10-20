@@ -14,7 +14,7 @@ def get_member_list(members):
         m.is_parameter = member_data.get("is_parameter", False)
         m.default_value = member_data.get("default_value", "")
         m.moved = member_data.get("moved", False)
-        m.is_referece = member_data.get("is_reference", False)
+        m.is_reference = member_data.get("is_reference", False)
         result.append(m)
     return result
 
@@ -46,9 +46,18 @@ def fetch_systems_from_data(data, components):
         s.includes = metadata.get("includes", [])
         s.members = get_member_list(metadata.get("members", []))
         s.extra_functions = metadata.get("extra_functions", [])
-        for component in metadata.get("components"):
-            s.components.append(components[component])
-            
+
+        if s.type == "impulse":
+            for component in metadata.get("initiator_components"):
+                s.initiator_components.append(components[component])
+            for component in metadata.get("victim_components"):
+                s.victim_components.append(components[component])
+            s.components = s.initiator_components + s.victim_components
+        
+        else:
+            for component in metadata.get("components"):
+                s.components.append(components[component])
+
         result[s.name] = s
     print("< Fetching Systems From Data")
     return result

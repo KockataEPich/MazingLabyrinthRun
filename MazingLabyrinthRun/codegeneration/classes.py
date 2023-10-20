@@ -6,7 +6,7 @@ class Member:
         self.is_parameter = False
         self.default_value = ""
         self.moved = False
-        self.is_referece = False
+        self.is_reference = False
 
     def __str__(self):
         return f"{self.name}"
@@ -31,11 +31,6 @@ class Component:
         
         return end_path
         
-       
-            
-        
-        
-
 class System:
     def __init__(self):
         self.name = ""
@@ -43,6 +38,8 @@ class System:
         self.type = ""
         self.extra_functions = []
         self.components = []
+        self.initiator_components = []
+        self.victim_components = []
         self.includes = []
         self.members = []
    
