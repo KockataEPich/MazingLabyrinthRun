@@ -2,7 +2,7 @@
 #define COMPONENT_UTILS_HEADER
 
 #include <SFML/Graphics/Rect.hpp>
-#include <generated/components/data_components/transform_component.h>
+#include <components/data_components/transform_component.h>
 
 inline sf::Vector2f get_scaled_size(const TransformComponent& component) {
 	return {component.m_size.x * std::abs(component.m_scale.x), component.m_size.y * component.m_scale.y};
