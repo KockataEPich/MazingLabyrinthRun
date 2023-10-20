@@ -40,7 +40,7 @@ def write_non_default_constructor(f, members):
             to_write = "\t\t" + "m_" + member.name + "{" + member.name + "}"
         else:
             to_write = "\t\t" + "m_" + member.name + "{std::move(" + member.name + ")}"
-        write_with_condition(f, to_write, i == len(members) - 1, "{" + "};\n", "\n")
+        write_with_condition(f, to_write, i == len(members) - 1, "{" + "};\n", ",\n")
 
     f.write("\n")    
 

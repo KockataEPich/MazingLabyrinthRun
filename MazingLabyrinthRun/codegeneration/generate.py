@@ -21,7 +21,7 @@ def main():
     [component_dict, system_dict] = fetch_data.fetch_data(component_data, system_data)
 
     generation_folder = os.path.join(os.path.dirname(os.getcwd()), "code", "include", "generated")
-    #write_components.write_components(component_dict.values(), generation_folder)
+    write_components.write_components(component_dict.values(), generation_folder)
     write_systems.write_systems(system_dict.values(), generation_folder)
 
 if __name__ == "__main__":
