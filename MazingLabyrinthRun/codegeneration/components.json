@@ -1,6 +1,7 @@
 {
     "FacingSide" :
     {
+        "var_name" : "facing_side", 
         "type" : "data",
         "needs_cpp" : false,
         "includes" : ["<attribute/facing_side.h>"],
@@ -48,6 +49,7 @@
     },
     "ActionType" :
     {
+        "var_name" : "action_type", 
         "type" : "data",
         "needs_cpp" : false,
         "includes" : ["<attribute/action_type.h>"],
@@ -66,17 +68,13 @@
     "Player" :
     {
         "type" : "data",
-        "needs_cpp" : false,
-        "includes" : [],
-        "members" : []
+        "needs_cpp" : false
     },
 
     "Solid" :
     {
         "type" : "data",
-        "needs_cpp" : false,
-        "includes" : [],
-        "members" : []
+        "needs_cpp" : false
     },
 
     "Speed" :
@@ -132,6 +130,7 @@
 
     "TargetForDirection" :
     {
+        "var_name" : "target_for_direction", 
         "type" : "data",
         "needs_cpp" : false,
         "includes" : ["<SFML/System/Vector2.hpp>"],
@@ -148,6 +147,7 @@
 
     "ElevationLevel" :
     {
+        "var_name" : "elevation_level", 
         "type" : "data",
         "needs_cpp" : false,
         "includes" : ["<attribute/elevation_level.h>"],
@@ -165,6 +165,7 @@
 
     "HealthPoints" :
     {
+        "var_name" : "health_points", 
         "type" : "data",
         "needs_cpp" : false,
         "includes" : ["<attribute/elevation_level.h>"],
@@ -183,13 +184,12 @@
     "Mouse" :
     {
         "type" : "data",
-        "needs_cpp" : false,
-        "includes" : [],
-        "members" : []
+        "needs_cpp" : false
     },
 
     "AnimationPlayer" :
     {
+        "var_name" : "animation_player", 
         "type" : "data",
         "needs_cpp" : false,
         "includes" : ["<animation/animation_player.h>"],
@@ -207,9 +207,7 @@
     "AI" :
     {
         "type" : "data",
-        "needs_cpp" : false,
-        "includes" : [],
-        "members" : []
+        "needs_cpp" : false
     },
 
     "Boundary" :

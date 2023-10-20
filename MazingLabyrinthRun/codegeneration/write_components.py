@@ -1,9 +1,7 @@
 import os.path
 
-def get_file_name(component):
-    return os.path.join(os.path.dirname(os.getcwd()), 
-                        "code", "include", "generated", 
-                        "components", "data_components", component.name.lower() + "_component.h")
+def get_file_name(component, generation_folder):
+    return os.path.join(generation_folder, "components", component.get_relative_path())
 
 
 def write_header(f, component):
@@ -49,7 +47,7 @@ def write_non_default_constructor(f, members):
 def write_struct_members(f, members):
     for i in range(len(members)):
         member = members[i]
-        to_write = "\t" + member.name + " m_" + member.name
+        to_write = "\t" + member.type + " m_" + member.name
         write_with_condition(f, to_write, member.default_value == "", ";\n", 
                              " = " + member.default_value + ";\n")
 
@@ -69,18 +67,20 @@ def write_end(f):
     f.write("\n")
     f.write("#endif")
 
-def write_component(component):
-    f=open(get_file_name(component), "a+")
+def write_component(component, generation_folder):
+    f=open(get_file_name(component, generation_folder), "a+")
 
-    write_header(f, component.name)
+    write_header(f, component.get_var_name())
     write_includes(f, component.includes)
     write_component_body(f, component)
     write_end(f)
 
     f.close()  
     
-def write_components(components):
+def write_components(components, generation_folder):
+    print("> Writing Components To Disk")
     for component in components:
-        write_component(component)
+        write_component(component, generation_folder)
+    print("< Writing Components To Disk")
 
         

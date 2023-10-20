@@ -1,4 +1,5 @@
-accepted_component_keys = ["type", "needs_cpp", "includes", "members"]
+accepted_component_keys = ["type", "needs_cpp", "includes", "members", "var_name"]
+accepted_system_keys = ["type", "var_name", "components", "includes", "extra_functions", "members"]
 accepted_member_keys = ["is_parameter", "name", "default_value", "moved"]
 
 def check_exists(name, metadata, mandatory = False,):
@@ -6,21 +7,21 @@ def check_exists(name, metadata, mandatory = False,):
         if mandatory == False:
             return 
         else:
-            raise Exception("Missing mandatory member: ", name, "")
+            raise Exception("Missing mandatory keyword: ", name, "")
     
 def validate(name, metadata, accepted_values, mandatory = False,):
     check_exists(name, metadata, mandatory)
     if metadata not in accepted_values:
-        raise Exception("Member \"", name, "\" can only have these values: ", accepted_values)
+        raise Exception("Keyword \"", name, "\" can only have these values: ", accepted_values)
 
 
-def get_unique_components(data):
-    component_set = set()
-    for component in data:
-        if component in component_set:
-            raise Exception("Component: ", component, "is not unique")
-        component_set.add(component)
-    return component_set
+def get_unique_entries(data):
+    entry_set = set()
+    for entry in data:
+        if entry in entry_set:
+            raise Exception("Entry ", entry, "is not unique")
+        entry_set.add(entry)
+    return entry_set
 
 def validate_no_unkown_values_in_member(component_metadata):
     for key in component_metadata.keys():
@@ -36,30 +37,40 @@ def validate_members(members):
         member_attributes = member[member_name]
         check_exists("name", member_attributes["name"])
 
-def validate_no_unkown_values(component_metadata):
-    for key in component_metadata.keys():
-        if key not in accepted_component_keys:
+def validate_no_unkown_values(metadata, accepted_keys):
+    for key in metadata.keys():
+        if key not in accepted_keys:
             raise Exception("Not allowed key in component")
    
 def validate_component_attributes(component, component_metadata):
     try:
-        validate_no_unkown_values(component_metadata)
+        validate_no_unkown_values(component_metadata, accepted_component_keys)
         validate("component type", component_metadata.get("type"), ["data", "composite", "event", "impulse"], True)
-        check_exists("needs cpp", component_metadata.get("needs_cpp"))
+        check_exists("needs_cpp", component_metadata.get("needs_cpp"))
         validate_members(component_metadata.get("members"))
     except Exception as e:
-        raise Exception(component," has caused an error. Error: ", e)
+        raise Exception("Component: " + component," has caused an error. Error: ", e)
   
-#TODO validate name of component, moved
-def validate_component_json(data):
-    ...
-    component_list = get_unique_components(data)
+def validate_system_attributes(system, system_metadata, component_list):
+    try:
+        validate_no_unkown_values(system_metadata, accepted_system_keys)
+        validate("system type", system_metadata.get("type"), ["producer", "react", "impulse"], True)
+        for component in system_metadata.get("components"):
+            validate("components", component, component_list, True)
+        validate_members(system_metadata.get("members"))
+    except Exception as e:
+        raise Exception("System: " + system," has caused an error. Error: ", e)
+    
+def validate_jsons(component_data, system_data):
+    print("> VALIDATING COMPONENT JSON")
+    component_list = get_unique_entries(component_data)
     for component in component_list:
-        validate_component_attributes(component, data[component])
-        
+        validate_component_attributes(component, component_data[component])
+    print("> VALIDATING COMPONENT JSON")
+    
+    print("> VALIDATING SYSTEM JSON")
+    system_list = get_unique_entries(system_data)
+    for system in system_list:
+        validate_system_attributes(system, system_data[system], component_list)
+    print("< VALIDATING COMPONENT JSON")
 
-def validate_json(data):
-    print("> VALIDATING JSON")
-    validate_component_json(data)
-   # validate_system_json(data)
-    print("< VALIDATING JSON")
