@@ -19,5 +19,13 @@
       "type" : "impulse",
       "initiator_components" : ["BasicAttackNeedle"],
       "victim_components" : ["HealthPoints"]
+   },
+
+   "BasicCollision" : 
+   {
+      "var_name" : "basic_collision",
+      "type" : "impulse",
+      "initiator_components" : ["Transform", "Speed", "FacingSide", "Solid"],
+      "victim_components" : ["Solid", "DefaultCollisionArmor"]
    }
 }
