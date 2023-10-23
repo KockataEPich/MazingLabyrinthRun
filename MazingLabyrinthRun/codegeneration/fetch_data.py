@@ -45,7 +45,8 @@ def fetch_systems_from_data(data, components):
         s.type = metadata.get("type")
         s.includes = metadata.get("includes", [])
         s.members = get_member_list(metadata.get("members", []))
-        s.extra_functions = metadata.get("extra_functions", [])
+        s.public_functions = metadata.get("public_functions", [])
+        s.private_functions = metadata.get("private_functions", [])
 
         if s.type == "impulse":
             for component in metadata.get("initiator_components"):

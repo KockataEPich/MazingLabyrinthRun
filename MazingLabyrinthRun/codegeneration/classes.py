@@ -36,7 +36,8 @@ class System:
         self.name = ""
         self.var_name = ""
         self.type = ""
-        self.extra_functions = []
+        self.public_functions = []
+        self.private_functions = []
         self.components = []
         self.initiator_components = []
         self.victim_components = []

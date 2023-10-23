@@ -75,20 +75,24 @@ def write_includes(f, system):
     f.write("\n")   
 
 def write_class_initials(f, system):
-    f.write("class " + system.name + " : public " + system.type.capitalize() + "System {\n")
+    f.write("class " + system.name + "System : public " + system.type.capitalize() + "System {\n")
     f.write("public:\n")
 
 def write_construtor(f, system):
-    f.write( w_tabs(1, system.name + "("))
-    
-    write_members.write_non_default_constructor_with_members(f, system.members)
-    f.write(") {\n")
+    if len(write_members.filter_parameters(system.members)) == 0:
+        f.write( w_tabs(1, system.name + "System() {\n"))
+    else:
+        f.write( w_tabs(1, system.name + "System(\n"))
+        write_members.write_non_default_constructor_with_members(f, system.members, True)
 
     write_component_signatures(f, system)
     f.write(w_tabs(1, "}\n")) 
         
 def write_public_functions(f, system):
-    ...
+    for function in system.public_functions:
+        f.write(w_tabs(1, function))
+        f.write("\n")
+
 
 def write_component_signatures(f, system):
     if system.type != "impulse":
@@ -171,7 +175,12 @@ def write_private_functions(f, system):
            f.write(w_tabs(2, "Entity victim);\n"))
         else:
            f.write(w_tabs(2, "Entity victim,\n"))
-           add_code_sequence_list(f, filtered_comps, 2, component_victim_argument_string, ",", ");")
+           add_code_sequence_list(f, filtered_comps, 2, component_victim_argument_string, ",", ");\n")
+
+    f.write("\n")
+ 
+    for function in system.private_functions:
+        f.write(w_tabs(1, function +"\n"))
                
 def write_end(f):
     f.write("};")
@@ -190,6 +199,7 @@ def write_system_header(system, generation_folder):
     write_interactive_function(f, system)
     write_private_header(f)
     write_members.write_body_members(f, system.members)
+    f.write("\n")
     write_private_functions(f, system)
     
     write_end(f)

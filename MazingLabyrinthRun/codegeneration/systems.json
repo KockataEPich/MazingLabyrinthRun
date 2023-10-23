@@ -3,7 +3,68 @@
    {
       "type" : "producer",
       "components" : ["ActionType", "FacingSide", "TargetForDirection", "Player", "Speed", "Transform"],
-      "extra_functions" : ["void init() override { m_registered_entities.reserve(1); }  // Only one player"]
+      "public_functions" : ["void init() override { m_registered_entities.reserve(1); }  // Only one player"]
+   },
+
+   "AI" : 
+   {
+      "type" : "producer",
+      "components" : ["Transform", "Speed", "FacingSide", "AI"],
+      "public_functions" : ["int const tick_frequency() override { return 5; }"]
+   },
+
+   "Animate" : 
+   {
+      "type" : "producer",
+      "components" : ["ActionType", "Skin", "FacingSide", "AnimationPlayer", "Transform", "Sprite"]
+   },
+
+   "DisplayHealth" : 
+   {
+      "type" : "producer",
+      "var_name" : "display_health",
+      "includes" : ["<window/game_window.h>"],
+      "public_functions" : ["void init() override;"],
+      "components" : ["Transform", "HealthPoints"],
+      "members" : [
+         {
+            "GameWindow" :
+            {
+               "name" : "game_window",
+               "is_parameter" : true,
+               "is_reference" : true
+            }
+         },
+         {
+            "sf::Font" :
+            {
+               "name" : "font"
+            }
+         }
+      ]
+   },
+
+   "UpdateCrosshairPosition" : 
+   {
+      "type" : "producer",
+      "var_name" : "update_cross_hair_position",
+      "includes" : ["<window/game_window.h>"],
+      "components" : ["Transform", "Mouse", "Boundary"],
+      "members" : [
+         {
+            "GameWindow" :
+            {
+               "name" : "game_window",
+               "is_reference" : true
+            }
+         }
+      ]
+   },
+
+   "Transform" : 
+   {
+      "type" : "producer",
+      "components" : ["Transform", "Sprite"]
    },
 
    "AttackAction" : 
@@ -11,6 +72,19 @@
       "var_name" : "attack_action",
       "type" : "react",
       "components" : ["ActionType", "FacingSide", "InitiateAction", "Transform"]
+   },
+
+   "Move" : 
+   {
+      "type" : "react",
+      "components" : ["Transform", "Speed", "TargetForDirection", "Move"]
+   },
+
+   "CollisionDetection" : 
+   {
+      "var_name" : "collision_detection",
+      "type" : "react",
+      "components" : ["Boundary", "Transform", "CollisionCheck"]
    },
 
    "BasicDamage" : 
@@ -27,5 +101,46 @@
       "type" : "impulse",
       "initiator_components" : ["Transform", "Speed", "FacingSide", "Solid"],
       "victim_components" : ["Solid", "DefaultCollisionArmor"]
+   },
+
+   "Render" : 
+   {
+      "type" : "producer",
+      "includes" : ["<window/game_window.h>"],
+
+      "public_functions" : ["void register_entity(Entity const& entity) override;",
+                            "void unregister_entity(Entity const& entity) override;"],
+
+      "private_functions" : ["void draw_level(std::vector<std::pair<sf::Sprite*, Entity>>& sprites, bool draw_hitbox = false);",
+                             "std::vector<std::pair<sf::Sprite*, Entity>>& get_level_vector(ElevationLevel level);"],
+
+      "components" : ["Sprite", "ElevationLevel"],
+      "members" : [
+         {
+            "GameWindow" :
+            {
+               "name" : "render_window",
+               "is_reference" : true
+            }
+         },
+         {
+            "std::vector<std::pair<sf::Sprite*, Entity>>" :
+            {
+               "name" : "level_one_sprites"
+            }
+         },
+         {
+            "std::vector<std::pair<sf::Sprite*, Entity>>" :
+            {
+               "name" : "level_two_sprites"
+            }
+         },
+         {
+            "std::vector<std::pair<sf::Sprite*, Entity>>" :
+            {
+               "name" : "level_UI_sprites"
+            }
+         }
+      ]
    }
 }

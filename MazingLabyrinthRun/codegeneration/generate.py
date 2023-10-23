@@ -21,7 +21,7 @@ def get_json_data(file_name):
     try:
         data = json.load(f)
     except:
-        raise Exception("JSON LOADING IS NOT GOOD")
+        raise Exception("JSON LOADING IS NOT GOOD IN " + file_name)
     return data
 
 def main():

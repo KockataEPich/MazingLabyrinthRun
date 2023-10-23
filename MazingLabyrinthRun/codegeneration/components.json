@@ -209,7 +209,7 @@
 
     "InitiateAction" : 
     { 
-        "var_name" : "basic_attack_needle",
+        "var_name" : "initiate_action",
         "type" : "basic"
     },
 
@@ -222,6 +222,16 @@
     "DefaultCollisionArmor" :
     {
         "var_name" : "default_collision_armor",
+        "type" : "basic"
+    },
+
+    "Move" :
+    {
+        "type" : "basic"
+    },
+
+    "CollisionCheck" :
+    {
         "type" : "basic"
     }
 }
