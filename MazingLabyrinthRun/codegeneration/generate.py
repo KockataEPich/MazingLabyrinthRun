@@ -6,7 +6,6 @@ import fetch_data
 import os
 from shutil import rmtree
 
-
 def clean_generated_folder_and_create_dirs(generation_folder):
     rmtree(generation_folder) 
 

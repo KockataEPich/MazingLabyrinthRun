@@ -51,7 +51,7 @@ class System:
         return self.var_name
     
     def get_relative_path(self, linux_style = False):
-        end_path = os.path.join(self.type + "_systems", self.get_var_name() + "_system.h")
+        end_path = os.path.join(self.type + "_systems", self.get_var_name() + "_system")
         if linux_style:
             return end_path.replace("\\\\","/")
 

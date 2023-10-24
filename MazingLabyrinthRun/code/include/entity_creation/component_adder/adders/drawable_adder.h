@@ -3,9 +3,9 @@
 
 #include "../component_adder.h"
 
-#include <components/data_components/elevation_component.h>
-#include <components/data_components/sprite_component.h>
-#include <components/data_components/transform_component.h>
+#include <generated/components/data_components/elevation_level_component.h>
+#include <generated/components/data_components/sprite_component.h>
+#include <generated/components/data_components/transform_component.h>
 
 class DrawableAdder : public ComponentAdder {
 public:

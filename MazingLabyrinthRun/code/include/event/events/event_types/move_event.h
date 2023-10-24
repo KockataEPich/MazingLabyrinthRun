@@ -3,8 +3,8 @@
 
 #include "../event.h"
 
-#include <attribute/facingSide.h>
-#include <components/transform_component.h>
+//#include <attribute/facingSide.h>
+//#include <components/transform_component.h>
 //class World
 //static void move(World* world, Entity entity, FacingSideComponent facing_side){
 //

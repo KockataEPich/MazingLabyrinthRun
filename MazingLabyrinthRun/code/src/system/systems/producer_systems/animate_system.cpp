@@ -1,32 +1,31 @@
-#include <system/systems/producer_systems/animate_system.h>
-#include <component_base/component_handle.h>
-#include <components/event_components/initiate_action_component.h>
-void Animate::update() {
-	for (auto& entity : m_registered_entities) {
-		ComponentHandle<SpriteComponent> sprite;
-		ComponentHandle<FacingSideComponent> side;
-		ComponentHandle<AnimationPlayerComponent> animation_player;
-		ComponentHandle<ActionTypeComponent> action_type;
-		ComponentHandle<SkinComponent> skin;
-		ComponentHandle<TransformComponent> transform;
+#include <generated/systems/producer_systems/animate_system.h>
+#include <generated/components/basic_components/initiate_action_component.h>
+void AnimateSystem::for_every_entity(
+	Entity entity,
+	ActionTypeComponent& action_type,
+	SkinComponent& skin,
+	FacingSideComponent& facing_side,
+	AnimationPlayerComponent& animation_player,
+	TransformComponent& transform,
+	SpriteComponent& sprite){ 
 
-		m_parent_world->unpack(entity, sprite, side, animation_player, skin, action_type, transform);
+	auto texture_id = get_id_of_rotating_texture(skin.skin, action_type.action_type);
+	if (texture_id != animation_player.animation_player.get_current_animation().get_texture_id()) {
+		animation_player.animation_player.play_animation(Animation(texture_id));
+		sprite.sprite.setTexture(animation_player.animation_player.get_current_texture());
 
-		auto texture_id = get_id_of_rotating_texture(skin->m_skin, action_type->m_action_type);
-		if (texture_id != animation_player->m_animation_player.get_current_animation().get_texture_id()) {
-			animation_player->m_animation_player.play_animation(Animation(texture_id));
-			sprite->m_sprite.setTexture(animation_player->m_animation_player.get_current_texture());
-
-			if (side->m_side == FacingSide::right) transform->m_scale.x = -std::abs(transform->m_scale.x); 
-			else transform->m_scale.x = std::abs(transform->m_scale.x); 
-		}
-
-		animation_player->m_animation_player.update(side->m_side);
-		sprite->m_sprite.setTextureRect(animation_player->m_animation_player.get_current_rect());
-		transform->m_size = {(float)sprite->m_sprite.getTextureRect().width,
-		                     (float)sprite->m_sprite.getTextureRect().height};
-
-		if (animation_player->m_animation_player.is_action_frame())
-			m_parent_world->add_event_component(entity, std::make_unique<InitiateActionEventComponent>());
+		if (facing_side.side == FacingSide::right)
+			transform.scale.x = -std::abs(transform.scale.x);
+		else
+			transform.scale.x = std::abs(transform.scale.x);
 	}
+
+	animation_player.animation_player.update(facing_side.side);
+	sprite.sprite.setTextureRect(animation_player.animation_player.get_current_rect());
+	transform.size = {(float)sprite.sprite.getTextureRect().width,
+	                     (float)sprite.sprite.getTextureRect().height};
+
+	if (animation_player.animation_player.is_action_frame())
+		m_parent_world->add_event_component(entity, std::make_unique<InitiateActionComponent>());
 }
+

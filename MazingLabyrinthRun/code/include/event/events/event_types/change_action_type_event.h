@@ -4,7 +4,7 @@
 #include "../event.h"
 
 #include <attribute/action_type.h>
-#include <components/data_components/action_type_component.h>
+#include <generated/components/data_components/action_type_component.h>
 
 class ChangeActionTypeEvent : public Event {
 public:
@@ -16,6 +16,6 @@ private:
 	ActionTypeComponent& m_action_type_component;
 	ActionType m_action_type;
 
-	void apply() override { m_action_type_component.m_action_type = m_action_type; }
+	void apply() override { m_action_type_component.action_type = m_action_type; }
 };
 #endif

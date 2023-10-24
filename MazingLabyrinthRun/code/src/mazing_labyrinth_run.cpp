@@ -9,20 +9,20 @@
 #include <resource/texture_enum.h>
 
 
-#include <system/systems/producer_systems/ai_system.h>
-#include <system/systems/producer_systems/animate_system.h>
-#include <system/systems/producer_systems/player_system.h>
-#include <system/systems/producer_systems/render_system.h>
-#include <system/systems/producer_systems/transform_system.h>
-#include <system/systems/producer_systems/display_healthpoints_system.h>
-#include <system/systems/producer_systems/render_crosshair_system.h>
+#include <generated/systems/producer_systems/ai_system.h>
+#include <generated/systems/producer_systems/animate_system.h>
+#include <generated/systems/producer_systems/player_system.h>
+#include <generated/systems/producer_systems/render_system.h>
+#include <generated/systems/producer_systems/transform_system.h>
+#include <generated/systems/producer_systems/display_health_system.h>
+#include <generated/systems/producer_systems/update_crosshair_position_system.h>
 
-#include <system/systems/react_systems/collision_detection_system.h>
-#include <system/systems/react_systems/move_system.h>
-#include <system/systems/react_systems/attack_action_system.h>
+#include <generated/systems/react_systems/collision_detection_system.h>
+#include <generated/systems/react_systems/move_system.h>
+#include <generated/systems/react_systems/attack_action_system.h>
 
-#include <system/systems/impulse_systems/basic_collision_impulse_exchange_system.h>
-#include <system/systems/impulse_systems/basic_damage_impulse_system.h>
+#include <generated/systems/impulse_systems/basic_collision_system.h>
+#include <generated/systems/impulse_systems/basic_damage_system.h>
 
 #include <utils/component_utils.h>
 #include <chrono>

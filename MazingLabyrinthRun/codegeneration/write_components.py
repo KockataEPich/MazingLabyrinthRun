@@ -27,8 +27,8 @@ def write_component_body(f, component):
     
     if len(component.members) > 0:
         f.write(w_tabs(1, "explicit " + component_in_code + "(\n"))
-        write_members.write_non_default_constructor_with_members(f, component.members)
-        write_members.write_body_members(f, component.members)
+        write_members.write_non_default_constructor_with_members(f, component.members, True)
+        write_members.write_body_members(f, component.members, True)
 
 def write_end(f):
     f.write("};")

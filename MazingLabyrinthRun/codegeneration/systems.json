@@ -30,7 +30,7 @@
          {
             "GameWindow" :
             {
-               "name" : "game_window",
+               "name" : "render_window",
                "is_parameter" : true,
                "is_reference" : true
             }
@@ -47,7 +47,7 @@
    "UpdateCrosshairPosition" : 
    {
       "type" : "producer",
-      "var_name" : "update_cross_hair_position",
+      "var_name" : "update_crosshair_position",
       "includes" : ["<window/game_window.h>"],
       "components" : ["Transform", "Mouse", "Boundary"],
       "members" : [

@@ -109,7 +109,7 @@
                 {
                     "is_parameter" : true,
                     "moved" : true,
-                    "name" : "sprite",
+                    "name" : "skin",
                     "default_value" : "Skin::DEFAULT_PLACEHOLDER_SKIN"
                 } 
             }
@@ -232,6 +232,7 @@
 
     "CollisionCheck" :
     {
+        "var_name" : "collision_check",
         "type" : "basic"
     }
 }

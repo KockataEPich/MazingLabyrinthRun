@@ -31,7 +31,7 @@ def component_as_params_default_string(component):
     return component_as_params_string(component)
 
 def get_file_name(system, generation_folder):
-    return os.path.join(generation_folder, "systems", system.get_relative_path())
+    return os.path.join(generation_folder, "systems", system.get_relative_path() + ".h")
 
 def filter_basic_components(components):
     result = []
@@ -69,6 +69,8 @@ def write_component_includes(f, system, generated_folder_name):
 
 def write_includes(f, system):
     f.write("#include <world/world.h>\n")
+    f.write("#include <component_base/component_handle.h>\n")
+
     for entry in system.includes:
         f.write("#include " + entry + "\n")
 
@@ -83,7 +85,7 @@ def write_construtor(f, system):
         f.write( w_tabs(1, system.name + "System() {\n"))
     else:
         f.write( w_tabs(1, system.name + "System(\n"))
-        write_members.write_non_default_constructor_with_members(f, system.members, True)
+        write_members.write_non_default_constructor_with_members(f, system.members, False, True)
 
     write_component_signatures(f, system)
     f.write(w_tabs(1, "}\n")) 
@@ -116,7 +118,7 @@ def write_interactive_function(f, system):
 
         f.write("\n")
 
-        f.write(w_tabs(3, "for_every_entry(Entity entity,\n"))
+        f.write(w_tabs(3, "for_every_entity(entity,\n"))
         add_code_sequence_list(f, filter_basic_components(system.components), 4, component_as_params_dereferenced_string, ",", ");")
 
         f.write(w_tabs(2, "}\n"))
@@ -128,7 +130,7 @@ def write_interactive_function(f, system):
 
         f.write("\n")
         
-        f.write(w_tabs(2, "react_on_entity(Entity entity,\n"))
+        f.write(w_tabs(2, "react_on_entity(entity,\n"))
         add_code_sequence_list(f, filter_basic_components(system.components), 3, component_as_params_dereferenced_string, ",", ");")
 
         f.write(w_tabs(1, "}\n"))
@@ -157,28 +159,34 @@ def write_interactive_function(f, system):
 def write_private_header(f):
     f.write("private:\n")
 
-def write_private_functions(f, system):
+def write_cpp_function(f, system, is_cpp, tabs):
+    to_add = system.name + "System::" if is_cpp else ""
+    end = "){ bool TODO = true; }" if is_cpp else ");"
     if system.type == "producer":
-        f.write(w_tabs(1, "void for_every_entity(Entity entity,\n"))
-        add_code_sequence_list(f, system.components, 2, component_argument_string, ",", ");")
+        f.write(w_tabs(tabs, "void " + to_add + "for_every_entity(\n"))
+        f.write(w_tabs(tabs + 1, "Entity entity,\n"))
+        add_code_sequence_list(f, filter_basic_components(system.components), tabs + 1, component_argument_string, ",", end)
                 
     if system.type == "react":
-        f.write(w_tabs(1, "void react_on_entity(Entity entity,\n"))
-        add_code_sequence_list(f, system.components, 2, component_argument_string, ",", ");")
+        f.write(w_tabs(tabs, "void " + to_add + "react_on_entity(\n"))
+        f.write(w_tabs(tabs + 1, "Entity entity,\n"))
+        add_code_sequence_list(f, filter_basic_components(system.components), tabs + 1, component_argument_string, ",", end)
     
     if system.type == "impulse":
-        f.write(w_tabs(1, "void do_impulse(Entity initiator,\n"))
-        add_code_sequence_list(f, filter_basic_components(system.initiator_components), 2, component_initiator_argument_string, ",", ",")
+        f.write(w_tabs(tabs, "void " + to_add + "do_impulse(\n"))
+        f.write(w_tabs(tabs + 1, "Entity initiator,\n"))
+        add_code_sequence_list(f, filter_basic_components(system.initiator_components), tabs + 1, component_initiator_argument_string, ",", ",")
 
         filtered_comps = filter_basic_components(system.victim_components)
         if len(filtered_comps) == 0:
-           f.write(w_tabs(2, "Entity victim);\n"))
+           f.write(w_tabs(tabs + 1, "Entity victim" + end + "\n"))
         else:
-           f.write(w_tabs(2, "Entity victim,\n"))
-           add_code_sequence_list(f, filtered_comps, 2, component_victim_argument_string, ",", ");\n")
+           f.write(w_tabs(tabs + 1, "Entity victim,\n"))
+           add_code_sequence_list(f, filtered_comps, tabs + 1, component_victim_argument_string, ",", end + "\n")
 
     f.write("\n")
- 
+
+def write_private_functions(f, system):
     for function in system.private_functions:
         f.write(w_tabs(1, function +"\n"))
                
@@ -188,7 +196,7 @@ def write_end(f):
     f.write("#endif")
 
 def write_system_header(system, generation_folder):
-    f=open(get_file_name(system, generation_folder), "a+")
+    f = open(get_file_name(system, generation_folder), "a+")
 
     write_header(f, system.get_var_name())
     write_includes(f, system)
@@ -198,8 +206,9 @@ def write_system_header(system, generation_folder):
     write_public_functions(f, system)
     write_interactive_function(f, system)
     write_private_header(f)
-    write_members.write_body_members(f, system.members)
+    write_members.write_body_members(f, system.members, False)
     f.write("\n")
+    write_cpp_function(f, system, False, 1)
     write_private_functions(f, system)
     
     write_end(f)
@@ -207,15 +216,24 @@ def write_system_header(system, generation_folder):
     f.close()  
 
 # TODO
-def get_cpp_filename(system, generation_folder):
-    return os.path.join(generation_folder, "systems", system.get_relative_path())
-def write_system_cpp(system, generation_folder):
-    ...
+def get_cpp_filename(system):
+    return os.path.join(os.path.dirname(os.getcwd()), "code", "src", "system", "systems", system.get_relative_path() + ".cpp")
+
+def write_system_cpp(system):
+    cpp_filename = get_cpp_filename(system)
+    if os.path.exists(cpp_filename):
+        return
+    
+    f = open(cpp_filename, "a+")
+    f.write("#include <generated/systems/" + system.type + "_systems/" + system.get_var_name() + "_system.h>")
+    f.write("\n")
+    write_cpp_function(f, system, True, 0)
+    f.close()
 
 def write_systems(systems, generation_folder):
     print("> Writing Systems To Disk")
     for system in systems:
         write_system_header(system, generation_folder)
-        write_system_cpp(system, generation_folder)
+        write_system_cpp(system)
     print("< Writing Systems To Disk")
         

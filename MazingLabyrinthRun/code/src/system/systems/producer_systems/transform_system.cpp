@@ -1,14 +1,9 @@
-#include <system/systems/producer_systems/transform_system.h>
-#include <component_base/component_handle.h>
-
-void Transform::update() {
-	for (auto& entity : m_registered_entities) {
-		ComponentHandle<SpriteComponent> sprite;
-		ComponentHandle<TransformComponent> transform;
-
-		m_parent_world->unpack(entity, sprite, transform);
-
-		sprite->m_sprite.setPosition(transform->m_position);
-		sprite->m_sprite.setScale(transform->m_scale);
-	}
+#include <generated/systems/producer_systems/transform_system.h>
+void TransformSystem::for_every_entity(
+	Entity entity,
+	TransformComponent& transform,
+	SpriteComponent& sprite){ 
+	sprite.sprite.setPosition(transform.position);
+	sprite.sprite.setScale(transform.scale);
 }
+
