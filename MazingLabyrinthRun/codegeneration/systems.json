@@ -55,6 +55,7 @@
             "GameWindow" :
             {
                "name" : "game_window",
+               "is_parameter": true,
                "is_reference" : true
             }
          }
@@ -120,6 +121,7 @@
             "GameWindow" :
             {
                "name" : "render_window",
+               "is_parameter" : true,
                "is_reference" : true
             }
          },

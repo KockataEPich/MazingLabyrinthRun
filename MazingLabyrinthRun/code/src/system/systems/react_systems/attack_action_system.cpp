@@ -2,6 +2,7 @@
 #include <generated/components/basic_components/basic_attack_needle_component.h>
 #include <generated/components/data_components/boundary_component.h>
 #include <generated/components/basic_components/collision_check_component.h>
+#include <entity_base/entity_handle.h>
 
 void AttackActionSystem::react_on_entity(
 	Entity entity,
@@ -10,7 +11,7 @@ void AttackActionSystem::react_on_entity(
 	TransformComponent& transform){ 
 	
 	if (action_type.action_type != ActionType::attack) return;
-
+	
 	auto attack_box = m_parent_world->create_entity();
 	attack_box.add_component(std::make_unique<BasicAttackNeedleComponent>());
 	attack_box.add_component(std::make_unique<BoundaryComponent>());

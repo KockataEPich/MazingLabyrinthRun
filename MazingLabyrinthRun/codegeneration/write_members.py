@@ -46,7 +46,7 @@ def write_non_default_constructor_with_members(f, members, owner_is_component, c
 
 
 def write_body_members(f, members, owner_is_component):
-    before_member = "" if owner_is_component else "m_";
+    before_member = "" if owner_is_component else "m_"
     for i in range(len(members)):
         member = members[i]
         if member.is_reference:

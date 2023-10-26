@@ -43,20 +43,20 @@ void MazingLabyrinthRun::initialize_game() {
 void MazingLabyrinthRun::initialize_world() {
 	m_world = std::make_unique<World>(std::make_unique<EntityManager>());
 
-	m_world->add_react_system(std::make_unique<Move>());
-	m_world->add_react_system(std::make_unique<CollisionDetection>());
+	m_world->add_react_system(std::make_unique<MoveSystem>());
+	m_world->add_react_system(std::make_unique<CollisionDetectionSystem>());
 	m_world->add_react_system(std::make_unique<AttackActionSystem>());
 
-	m_world->add_impulse_system(std::make_unique<BasicCollisionImpulseExchange>());
-	m_world->add_impulse_system(std::make_unique<BasicDamageImpulseExchange>());
+	m_world->add_impulse_system(std::make_unique<BasicCollisionSystem>());
+	m_world->add_impulse_system(std::make_unique<BasicDamageSystem>());
 
-	m_world->add_producer_system(std::make_unique<Player>())
-	    ->add_producer_system(std::make_unique<AI>())
-	    ->add_producer_system(std::make_unique<Animate>())
-	    ->add_producer_system(std::make_unique<Transform>())
-	    ->add_producer_system(std::make_unique<DisplayHealthpoints>(m_window))
-	    ->add_producer_system(std::make_unique<UpdateCrosshairPosition>(m_window))
-	    ->add_producer_system(std::make_unique<Render>(m_window));
+	m_world->add_producer_system(std::make_unique<PlayerSystem>())
+	    ->add_producer_system(std::make_unique<AISystem>())
+	    ->add_producer_system(std::make_unique<AnimateSystem>())
+	    ->add_producer_system(std::make_unique<TransformSystem>())
+	    ->add_producer_system(std::make_unique<DisplayHealthSystem>(m_window))
+	    ->add_producer_system(std::make_unique<UpdateCrosshairPositionSystem>(m_window))
+	    ->add_producer_system(std::make_unique<RenderSystem>(m_window));
 
 	m_world->init();
 }
@@ -98,9 +98,9 @@ void MazingLabyrinthRun::initialize_creatures() {
 	player.add_component(std::make_unique<HealthPointsComponent>());
 	player.add_component(std::make_unique<BoundaryComponent>(
 	    get_hitbox_based_on_transform_component(*player.get_component<TransformComponent>())));
-	player.add_component(std::make_unique<DefaultCollisionArmor>());
-	player.add_component(std::make_unique<TargetForDirection>());
-	m_player_sprite = &player.get_component<SpriteComponent>()->m_sprite;
+	player.add_component(std::make_unique<DefaultCollisionArmorComponent>());
+	player.add_component(std::make_unique<TargetForDirectionComponent>());
+	m_player_sprite = &player.get_component<SpriteComponent>()->sprite;
 	m_world->set_player_location(m_player_sprite);
 	m_world->place_entity(player, {0.0f, 0.0f});
 
@@ -114,10 +114,10 @@ void MazingLabyrinthRun::initialize_creatures() {
 	    .add_component(std::make_unique<ElevationLevelComponent>(ElevationLevel::UI));
 
 
-	mouse.get_component<TransformComponent>()->m_scale = {3, 3};
-	auto& mouse_sprite = mouse.get_component<SpriteComponent>()->m_sprite;
+	mouse.get_component<TransformComponent>()->scale = {3, 3};
+	auto& mouse_sprite = mouse.get_component<SpriteComponent>()->sprite;
 	mouse_sprite.setTexture(*ResourceManager::get_instance()->get_texture(Textures::ID::CROSS_HAIR_DEFAULT));
-	mouse.get_component<TransformComponent>()->m_size = {(float)mouse_sprite.getTextureRect().width,
+	mouse.get_component<TransformComponent>()->size = {(float)mouse_sprite.getTextureRect().width,
 	                                                     (float)mouse_sprite.getTextureRect().height};
 }
 

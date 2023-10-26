@@ -1,6 +1,6 @@
 #include <world/world.h>
 
-#include <components/data_components/transform_component.h>
+#include <generated/components/data_components/transform_component.h>
 #include <entity_base/entity_handle.h>
 
 #include <iostream>
@@ -71,7 +71,7 @@ void World::react_on_event(Entity const& entity, ComponentMask new_mask) {
 }
 
 bool World::place_entity(EntityHandle& entity, sf::Vector2f position) {
-	entity.get_component<TransformComponent>()->m_position = position;
+	entity.get_component<TransformComponent>()->position = position;
 	return true;
 }
 

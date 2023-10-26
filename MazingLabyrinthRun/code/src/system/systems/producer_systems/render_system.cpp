@@ -31,13 +31,13 @@ void RenderSystem::register_entity(Entity const& entity) {
 	ComponentHandle<ElevationLevelComponent> elevation;
 
 	m_parent_world->unpack(entity, sprite, elevation);
-	get_level_vector(elevation.level).push_back({&sprite.sprite, entity});
+	get_level_vector(elevation->level).push_back({&sprite->sprite, entity});
 }
 
 void RenderSystem::unregister_entity(Entity const& entity) {
 	ComponentHandle<ElevationLevelComponent> elevation;
 	m_parent_world->unpack(entity, elevation);
-	remove_entity_if_it_exists(get_level_vector(elevation.level), entity);
+	remove_entity_if_it_exists(get_level_vector(elevation->level), entity);
 }
 
 void RenderSystem::draw_level(std::vector<std::pair<sf::Sprite*, Entity>>& sprites_and_entities, bool draw_hitbox) {
@@ -49,12 +49,12 @@ void RenderSystem::draw_level(std::vector<std::pair<sf::Sprite*, Entity>>& sprit
 			ComponentHandle<BoundaryComponent> boundary;
 			m_parent_world->unpack(entity, boundary);
 
-			auto box = boundary.hitbox;
+			auto box = boundary->hitbox;
 			sf::RectangleShape rectangle({box.width, box.height});
 			rectangle.setFillColor(sf::Color::Transparent);
 			rectangle.setOutlineThickness(5);
 			rectangle.setOutlineColor(sf::Color::Magenta);
-			rectangle.setPosition({boundary.hitbox.left, boundary.hitbox.top});
+			rectangle.setPosition({boundary->hitbox.left, boundary->hitbox.top});
 			m_render_window.draw(rectangle);
 		}
 	}

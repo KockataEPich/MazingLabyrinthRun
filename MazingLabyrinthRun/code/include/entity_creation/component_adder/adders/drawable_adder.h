@@ -13,7 +13,7 @@ public:
 	void attach_components(EntityHandle& entity) override {
 		entity.add_component(std::make_unique<SpriteComponent>())
 		    .add_component(std::make_unique<TransformComponent>())
-		    .add_component(std::make_unique<ElevationLevelComponent>(m_level));
+		    .add_component(std::make_unique<ElevationLevelComponent>(std::move(m_level)));
 	};
 
 private:
