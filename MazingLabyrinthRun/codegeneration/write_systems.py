@@ -111,6 +111,10 @@ def write_component_signatures(f, system):
     add_code_sequence_list(f, system.victim_components, 3, component_signature_string, "", ";")
 
 def write_interactive_function(f, system):
+    if system.type == "render":
+        f.write(w_tabs(1, "void render() override;\n"))
+        return
+    
     if system.type == "producer":
         f.write(w_tabs(1, "void update() override {\n"))
         f.write(w_tabs(2, "for (auto& entity : m_registered_entities) {\n"))
@@ -160,8 +164,15 @@ def write_private_header(f):
     f.write("private:\n")
 
 def write_cpp_function(f, system, is_cpp, tabs):
+    if system.type == "render" and not is_cpp:
+        return
+
     to_add = system.name + "System::" if is_cpp else ""
     end = "){ bool TODO = true; }" if is_cpp else ");"
+
+    if system.type == "render":
+        f.write("void " + to_add + "render(" + end)
+
     if system.type == "producer":
         f.write(w_tabs(tabs, "void " + to_add + "for_every_entity(\n"))
         f.write(w_tabs(tabs + 1, "Entity entity,\n"))

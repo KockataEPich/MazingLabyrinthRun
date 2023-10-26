@@ -29,6 +29,7 @@ public:
 	World* add_producer_system(std::unique_ptr<ProducerSystem>&& system);
 	World* add_react_system(std::unique_ptr<ReactSystem>&& system);
 	World* add_impulse_system(std::unique_ptr<ImpulseSystem>&& system);
+	World* add_render_system(std::unique_ptr<RenderSystem>&& system);
 
 	void destroy_entity(Entity entity);
 	bool place_entity(EntityHandle& handle, sf::Vector2f position);
@@ -103,6 +104,7 @@ private:
 
 	std::vector<std::unique_ptr<ReactSystem>> m_react_systems;
 	std::vector<std::unique_ptr<ImpulseSystem>> m_impulse_systems;
+	std::vector<std::unique_ptr<RenderSystem>> m_render_systems;
 	ProducerSystemSequenceWrapper m_producer_system_sequence_wrapper;
 
 	std::vector<std::unique_ptr<BaseComponentManager>> m_component_managers;

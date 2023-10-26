@@ -1,5 +1,5 @@
-#include <generated/systems/producer_systems/render_system.h>
 #include <generated/components/data_components/boundary_component.h>
+#include <generated/systems/render_systems/render_sprite_system.h>
 
 namespace {
 void remove_entity_if_it_exists(std::vector<std::pair<sf::Sprite*, Entity>>& entities_and_sprites, Entity entity) {
@@ -11,11 +11,9 @@ void remove_entity_if_it_exists(std::vector<std::pair<sf::Sprite*, Entity>>& ent
 }
 }  // namespace
 
-void RenderSystem::for_every_entity(
-	Entity entity,
-	SpriteComponent& sprite,
-	ElevationLevelComponent& elevation_level){
-
+void RenderSpriteSystem::render() {
+	// Hot path. This operation will probably be one of the most common ones and thus removing the
+	// abstraction of entity handlers and using the sprites directly will be beneficial for performance
 	std::sort(m_level_two_sprites.begin(), m_level_two_sprites.end(), [](const auto& lhs, const auto& rhs) {
 		return lhs.first->getPosition().y < rhs.first->getPosition().y;
 	});
@@ -25,8 +23,7 @@ void RenderSystem::for_every_entity(
 	draw_level(m_level_UI_sprites, true);
 }
 
-
-void RenderSystem::register_entity(Entity const& entity) {
+void RenderSpriteSystem::register_entity(Entity const& entity) {
 	ComponentHandle<SpriteComponent> sprite;
 	ComponentHandle<ElevationLevelComponent> elevation;
 
@@ -34,13 +31,14 @@ void RenderSystem::register_entity(Entity const& entity) {
 	get_level_vector(elevation->level).push_back({&sprite->sprite, entity});
 }
 
-void RenderSystem::unregister_entity(Entity const& entity) {
+void RenderSpriteSystem::unregister_entity(Entity const& entity) {
 	ComponentHandle<ElevationLevelComponent> elevation;
 	m_parent_world->unpack(entity, elevation);
 	remove_entity_if_it_exists(get_level_vector(elevation->level), entity);
 }
 
-void RenderSystem::draw_level(std::vector<std::pair<sf::Sprite*, Entity>>& sprites_and_entities, bool draw_hitbox) {
+void RenderSpriteSystem::draw_level(std::vector<std::pair<sf::Sprite*, Entity>>& sprites_and_entities,
+                                    bool draw_hitbox) {
 	for (auto& sprite_and_entity : sprites_and_entities) {
 		m_render_window.draw(*sprite_and_entity.first);
 		if (!draw_hitbox) continue;
@@ -60,9 +58,8 @@ void RenderSystem::draw_level(std::vector<std::pair<sf::Sprite*, Entity>>& sprit
 	}
 }
 
-std::vector<std::pair<sf::Sprite*, Entity>>& RenderSystem::get_level_vector(ElevationLevel level) {
+std::vector<std::pair<sf::Sprite*, Entity>>& RenderSpriteSystem::get_level_vector(ElevationLevel level) {
 	if (level == ElevationLevel::one) return m_level_one_sprites;
 	if (level == ElevationLevel::two) return m_level_two_sprites;
 	return m_level_UI_sprites;
 }
-

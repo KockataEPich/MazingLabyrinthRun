@@ -12,14 +12,16 @@
 #include <generated/systems/producer_systems/ai_system.h>
 #include <generated/systems/producer_systems/animate_system.h>
 #include <generated/systems/producer_systems/player_system.h>
-#include <generated/systems/producer_systems/render_system.h>
 #include <generated/systems/producer_systems/transform_system.h>
-#include <generated/systems/producer_systems/display_health_system.h>
+
 #include <generated/systems/producer_systems/update_crosshair_position_system.h>
 
 #include <generated/systems/react_systems/collision_detection_system.h>
 #include <generated/systems/react_systems/move_system.h>
 #include <generated/systems/react_systems/attack_action_system.h>
+
+#include <generated/systems/render_systems/render_sprite_system.h>
+#include <generated/systems/render_systems/render_health_system.h>
 
 #include <generated/systems/impulse_systems/basic_collision_system.h>
 #include <generated/systems/impulse_systems/basic_damage_system.h>
@@ -54,9 +56,12 @@ void MazingLabyrinthRun::initialize_world() {
 	    ->add_producer_system(std::make_unique<AISystem>())
 	    ->add_producer_system(std::make_unique<AnimateSystem>())
 	    ->add_producer_system(std::make_unique<TransformSystem>())
-	    ->add_producer_system(std::make_unique<DisplayHealthSystem>(m_window))
-	    ->add_producer_system(std::make_unique<UpdateCrosshairPositionSystem>(m_window))
-	    ->add_producer_system(std::make_unique<RenderSystem>(m_window));
+
+	    ->add_producer_system(std::make_unique<UpdateCrosshairPositionSystem>(m_window));
+
+	m_world
+		->add_render_system(std::make_unique<RenderHealthSystem>(m_window))
+	    ->add_render_system(std::make_unique<RenderSpriteSystem>(m_window));
 
 	m_world->init();
 }

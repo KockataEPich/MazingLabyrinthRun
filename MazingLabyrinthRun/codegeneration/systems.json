@@ -19,31 +19,6 @@
       "components" : ["ActionType", "Skin", "FacingSide", "AnimationPlayer", "Transform", "Sprite"]
    },
 
-   "DisplayHealth" : 
-   {
-      "type" : "producer",
-      "var_name" : "display_health",
-      "includes" : ["<window/game_window.h>"],
-      "public_functions" : ["void init() override;"],
-      "components" : ["Transform", "HealthPoints"],
-      "members" : [
-         {
-            "GameWindow" :
-            {
-               "name" : "render_window",
-               "is_parameter" : true,
-               "is_reference" : true
-            }
-         },
-         {
-            "sf::Font" :
-            {
-               "name" : "font"
-            }
-         }
-      ]
-   },
-
    "UpdateCrosshairPosition" : 
    {
       "type" : "producer",
@@ -104,9 +79,35 @@
       "victim_components" : ["Solid", "DefaultCollisionArmor"]
    },
 
-   "Render" : 
+   "RenderHealth" : 
    {
-      "type" : "producer",
+      "type" : "render",
+      "var_name" : "render_health",
+      "includes" : ["<window/game_window.h>"],
+      "public_functions" : ["void init() override;"],
+      "components" : ["Transform", "HealthPoints"],
+      "members" : [
+         {
+            "GameWindow" :
+            {
+               "name" : "render_window",
+               "is_parameter" : true,
+               "is_reference" : true
+            }
+         },
+         {
+            "sf::Font" :
+            {
+               "name" : "font"
+            }
+         }
+      ]
+   },
+
+   "RenderSprite" : 
+   {
+      "type" : "render",
+      "var_name" : "render_sprite",
       "includes" : ["<window/game_window.h>"],
 
       "public_functions" : ["void register_entity(Entity const& entity) override;",

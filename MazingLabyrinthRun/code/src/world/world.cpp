@@ -5,6 +5,19 @@
 
 #include <iostream>
 
+namespace {
+void update_mask_in_systems(Entity const& entity,
+                            ComponentMask& new_mask,
+                            ComponentMask& old_mask,
+                            EntityTrackerSystem* system) {
+	ComponentMask systemSignature = system->get_signature();
+	if (new_mask.is_new_match(old_mask, systemSignature))
+		system->register_entity(entity);
+	else if (new_mask.is_no_longer_matched(old_mask, systemSignature))
+		system->unregister_entity(entity);
+}
+} // namespace
+
 World::World(std::unique_ptr<EntityManager> entity_manager) : m_entity_manager(std::move(entity_manager)) {}
 
 void World::init() {
@@ -13,12 +26,8 @@ void World::init() {
 
 void World::update(float dt) { m_producer_system_sequence_wrapper.run_systems(dt); }
 
-// Last system is always the render system. It behaves like producer systems, however needs to be tick independent
-// and has to be executed at a different position
 void World::render() { 
-	auto& systems = m_producer_system_sequence_wrapper.get_systems();
-	systems.back()->update();
-	systems[systems.size() - 2]->update();
+	for (auto& system : m_render_systems) system->render();
 }
 
 EntityHandle World::create_entity() { return {m_entity_manager->create_entity(), this}; }
@@ -52,17 +61,21 @@ World* World::add_impulse_system(std::unique_ptr<ImpulseSystem>&& system) {
 	system->register_world(this);
 	m_impulse_systems.push_back(std::move(system));
 	return this;
-}
+} 
+World* World::add_render_system(std::unique_ptr<RenderSystem>&& system) {
+	system->register_world(this);
+	m_render_systems.push_back(std::move(system));
+	return this;
+} 
+
 
 void World::update_entity_mask(Entity const& entity, ComponentMask old_mask) {
 	ComponentMask new_mask = m_entity_masks[entity];
-	for (auto& system : m_producer_system_sequence_wrapper.get_systems()) {
-		ComponentMask systemSignature = system->get_signature();
-		if (new_mask.is_new_match(old_mask, systemSignature))
-			system->register_entity(entity);
-		else if (new_mask.is_no_longer_matched(old_mask, systemSignature))
-			system->unregister_entity(entity);
-	}
+	for (auto& system : m_producer_system_sequence_wrapper.get_systems()) 
+		update_mask_in_systems(entity, new_mask, old_mask, system.get());
+	for (auto& system :m_render_systems)
+		update_mask_in_systems(entity, new_mask, old_mask, system.get());
+	
 }
 
 void World::react_on_event(Entity const& entity, ComponentMask new_mask) {

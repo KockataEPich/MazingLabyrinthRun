@@ -3,7 +3,7 @@ accepted_system_keys = ["type", "var_name", "components", "includes", "public_fu
 accepted_member_keys = ["is_parameter", "is_reference", "name", "default_value", "moved"]
 
 component_types = ["data", "basic"]
-system_types = ["producer", "react", "impulse"]
+system_types = ["producer", "react", "impulse", "render"]
 
 def check_exists(name, metadata, mandatory = False,):
     if metadata is None:

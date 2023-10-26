@@ -4,6 +4,7 @@
 #include "../component_base/component_mask.h"
 #include "../entity_base/entity.h"
 
+
 #include <bitset>
 #include <vector>
 
@@ -27,7 +28,18 @@ protected:
 	ComponentMask m_signature;
 };
 
-class ProducerSystem : public System {
+class EntityTrackerSystem : public System {
+public:
+	EntityTrackerSystem() = default;
+	virtual void unregister_entity(Entity const& entity) { std::erase(m_registered_entities, entity); }
+	virtual void register_entity(Entity const& entity) { m_registered_entities.push_back(entity); }
+
+protected:
+	std::vector<Entity> m_registered_entities;
+};
+
+
+class ProducerSystem : public EntityTrackerSystem {
 public:
 	void update_in_ticks() {
 		m_tick_accumulator++;
@@ -38,11 +50,9 @@ public:
 	}
 
 	virtual void update(){};
-	virtual void unregister_entity(Entity const& entity);
-	virtual void register_entity(Entity const& entity) { m_registered_entities.push_back(entity); }
 
 protected:
-	std::vector<Entity> m_registered_entities;
+	
 	float m_tick_accumulator = 0;
 	virtual const int tick_frequency() { return 1; };
 };
@@ -51,6 +61,12 @@ class ReactSystem : public System {
 public:
 	virtual void react(Entity const& entity) {}
 };
+
+class RenderSystem : public EntityTrackerSystem {
+public:
+	virtual void render() {}
+};
+
 
 class ImpulseSystem : public System {
 public:
