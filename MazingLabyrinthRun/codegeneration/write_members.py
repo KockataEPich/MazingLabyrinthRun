@@ -8,6 +8,32 @@ def filter_parameters(members):
             result.append(member)
     return result
 
+def get_member_representation(member, in_body, is_component):
+    sign = ""
+    if member.is_reference:
+        sign = "& "
+    elif in_body or member.type in ["int", "bool"]:
+        sign = " "
+    else:
+        sign = "&& "
+    
+    print(sign)
+    return sign + "" if is_component else "m_"
+
+def get_members_with_types(members, in_body, is_component):
+    result = []
+    for param in filter_parameters(members):
+        result.append(param.type + get_member_representation(param, in_body, is_component) + param.name)
+    return result
+
+def get_initialization_members(members, is_component): 
+    behind = "" if is_component else "m_"
+    result = []
+    for param in filter_parameters(members):
+        result.append(behind + param.name + "{" + param.name + "}")
+    return result
+
+
 def write_non_default_constructor_with_members(f, members, owner_is_component, constructor_has_body = False):
     filtered_members = filter_parameters(members)
     end_string = "{" + "}" if not constructor_has_body else "{"
