@@ -2,6 +2,8 @@ import os.path
 import write_members
 from write_utils import w_tabs
 from write_utils import write_with_condition
+from write_utils import get_include_lines
+from write_utils import get_function_lines
 
 def component_handle_string(component):
     return "ComponentHandle<" + component.name + "Component> " + component.get_var_name()
@@ -33,6 +35,97 @@ def component_as_params_default_string(component):
 def get_file_name(system, generation_folder):
     return os.path.join(generation_folder, "systems", system.get_relative_path() + ".h")
 
+def get_component_includes(system, generated_folder_name):
+    result = []
+    for component in system.components:
+        result.append("#include <" + generated_folder_name + "/components/" + component.get_relative_path(True) + ">\n")
+    return result
+
+
+def get_interactive_function_signature(type):
+    if type == "producer":
+        return "update()"
+    elif type == "react":
+        return "react(const Entity& entity)"
+    elif type == "impulse":
+        return "exchange_impulse(const Entity& initiator, const Entity& victim)"
+    
+    return "void render() override;"
+
+def get_handle_components(components):
+    result = []
+    for component in components:
+        if component.type != "basic":
+            result.append("ComponentHandle<" + component.name + "Component> " + component.get_var_name())
+    return result
+
+#TODO
+def default_body(system):
+    handles = ", ".join(get_handle_components(system.components)) + ")"
+    return f'''{handles}
+{"m_parent_world->unpack(entity," if len(handles) != 1 else ""}
+    
+'''
+
+def exchange_body(system):
+    victim_signatures = "\n\t\t".join(get_signature_components(system.victim_components))
+    initiator_signatures = "\n\t\t".join(get_signature_components(system.initiator_components))
+    return f'''m_signature.
+    {initiator_signatures}
+
+m_signature_of_victim.
+    {victim_signatures}
+'''
+
+def get_interaction_function_body(system):
+    return f'''{default_body(system) if system.type != "exchange" else exchange_body(system)}'''
+    ...
+
+def write_file_string(f, system, generated_folder): 
+    includes = "\n".join(get_include_lines(system.includes))
+    component_includes = "\n".join(get_component_includes(system, generated_folder))
+    input_params = "\n\t\t" + ",\n\t\t".join(write_members.get_members_with_types(system.members, False, False))
+    member_initializations = ",\n\t".join(write_members.get_initialization_members(system.members, False))
+    public_functions = get_function_lines(system.public_functions)
+    interactive_function_name = get_interactive_function_signature(system.type)
+    body_members = ""
+    write_interactive_cpp = ""
+    private_functions = ""
+
+    f.write(f'''
+
+#ifndef {system.get_var_name().upper()}_SYSTEM_HEADER
+#define {system.get_var_name().upper()}_SYSTEM_HEADER
+
+#include <world/world.h>
+#include <component_base/component_handle.h>
+
+{component_includes}
+
+{includes}
+
+class {system.name}System : public {system.type.capitalize()} System {{
+    public:
+        {system.name}System(
+            {input_params}){":" if len(input_params) != 0 else ""}
+        {member_initializations} {{
+            {get_component_signatures(system)}
+        }}
+
+        {public_functions}
+
+        void {interactive_function_name} override{";" if system.type == "render" else get_interaction_function_body(system)}
+        
+    private:
+        {body_members}
+
+        {write_interactive_cpp if system.type != "render" else ""}
+
+        {private_functions}
+}}
+#endif     
+''')
+    
 def filter_basic_components(components):
     result = []
     for component in components:
@@ -59,12 +152,6 @@ def write_header(f, system):
     f.write("// ################## THIS FILE IS GENERATED ##################\n")
     f.write("#ifndef " + system.upper() + "_SYSTEM_HEADER\n")
     f.write("#define " + system.upper() + "_SYSTEM_HEADER\n")
-    f.write("\n")   
-
-def write_component_includes(f, system, generated_folder_name):
-    for component in system.components:
-        f.write("#include <" + generated_folder_name + "/components/" + component.get_relative_path(True) + ">\n")
-
     f.write("\n")   
 
 def write_includes(f, system):
@@ -95,20 +182,29 @@ def write_public_functions(f, system):
         f.write(w_tabs(1, function))
         f.write("\n")
 
+def get_signature_components(components):
+    result = []
+    for component in components:
+        result.append(".add_component<" + component.name + "Component>()")
+    return result
 
-def write_component_signatures(f, system):
-    if system.type != "impulse":
-        f.write(w_tabs(2, "m_signature\n"))
-        add_code_sequence_list(f, system.components, 3, component_signature_string, "", ";")
-        return
+def default_signatures(system):
+    signatures = "\n\t\t".join(get_signature_components(system.components))
+    return f'''m_signature.
+    {signatures}
+'''
 
-    f.write(w_tabs(2, "m_signature\n"))
-    add_code_sequence_list(f, system.initiator_components, 3, component_signature_string, "", ";") 
+def exchange_signatures(system):
+    victim_signatures = "\n\t\t".join(get_signature_components(system.victim_components))
+    initiator_signatures = "\n\t\t".join(get_signature_components(system.initiator_components))
+    return f'''m_signature.
+    {initiator_signatures}
 
-    f.write("\n")
-
-    f.write(w_tabs(2, "m_signature_of_victim\n"))
-    add_code_sequence_list(f, system.victim_components, 3, component_signature_string, "", ";")
+m_signature_of_victim.
+    {victim_signatures}
+'''
+def get_component_signatures(system):
+    return f'''{default_signatures(system) if system.type != "exchange" else exchange_signatures(system)};'''
 
 def write_interactive_function(f, system):
     if system.type == "render":
