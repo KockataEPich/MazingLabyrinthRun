@@ -86,15 +86,11 @@ def validate_system_attributes(system, system_metadata, component_list):
         raise Exception("System: " + system," has caused an error. Error: ", e)
     
 def validate_jsons(component_data, system_data):
-    print("> VALIDATING COMPONENT JSON")
     component_list = get_unique_entries(component_data)
     for component in component_list:
         validate_component_attributes(component, component_data[component])
-    print("> VALIDATING COMPONENT JSON")
-    
-    print("> VALIDATING SYSTEM JSON")
+
     system_list = get_unique_entries(system_data)
     for system in system_list:
         validate_system_attributes(system, system_data[system], component_list)
-    print("< VALIDATING COMPONENT JSON")
 

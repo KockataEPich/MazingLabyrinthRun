@@ -13,6 +13,12 @@ def get_include_lines(includes):
     for include in includes:
         result.append("#include " + include)
     return result
+
+def write_component_includes(f, components, generated_folder_name):
+    for component in components:
+        f.write("#include <" + generated_folder_name + "/components/" + component.get_relative_path(True) + ">\n")
+
+    f.write("\n")
     
 def get_function_lines(functions):
     result = []

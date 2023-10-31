@@ -1,5 +1,5 @@
 from . import classes
-def get_member_list(members):
+def get_member_list(members, owner):
     if len(members) == 0:
         return []
     
@@ -9,6 +9,7 @@ def get_member_list(members):
         member_data = member.get(member_name)
 
         m = classes.Member()
+        m.owner = owner
         m.type = member_name
         m.name = member_data.get("name")
         m.is_parameter = member_data.get("is_parameter", False)
@@ -19,7 +20,6 @@ def get_member_list(members):
     return result
 
 def fetch_components_from_data(data):
-    print("> Fetching Components From Data")
     result = {}
     for component, metadata in data.items():
         c = classes.Component()
@@ -28,15 +28,13 @@ def fetch_components_from_data(data):
         c.type = metadata.get("type")
         c.needs_cpp = metadata.get("needs_cpp", False)
         c.includes = metadata.get("includes", [])
-        c.members = get_member_list(metadata.get("members", []))
+        c.members = get_member_list(metadata.get("members", []), c.name)
         result[c.name] = c
 
-    print("< Fetching Components From Data")
     return result
 
 
 def fetch_systems_from_data(data, components):
-    print("> Fetching Systems From Data")
     result = {}
     for system, metadata in data.items():
         s = classes.System()
@@ -44,7 +42,7 @@ def fetch_systems_from_data(data, components):
         s.var_name = metadata.get("var_name", "")
         s.type = metadata.get("type")
         s.includes = metadata.get("includes", [])
-        s.members = get_member_list(metadata.get("members", []))
+        s.members = get_member_list(metadata.get("members", []), s.name)
         s.public_functions = metadata.get("public_functions", [])
         s.private_functions = metadata.get("private_functions", [])
 
@@ -60,7 +58,6 @@ def fetch_systems_from_data(data, components):
                 s.components.append(components[component])
 
         result[s.name] = s
-    print("< Fetching Systems From Data")
     return result
 
 def fetch_data(component_data, system_data):

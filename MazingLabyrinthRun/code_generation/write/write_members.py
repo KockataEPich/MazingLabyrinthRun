@@ -8,20 +8,24 @@ def filter_parameters(members):
     return result
 
 def get_member_representation(member, in_body, is_component):
-    sign = ""
+    sign = " "
     if member.is_reference:
         sign = "& "
     elif in_body or member.type in ["int", "bool"]:
         sign = " "
     else:
         sign = "&& "
-    
-    return sign + "" if is_component else "m_"
+
+    sign +=  "" if is_component or not in_body else "m_"
+
+    return sign 
 
 def get_members_with_types(members, in_body, is_component):
+    all_params = filter_parameters(members) if not in_body else members
     result = []
-    for param in filter_parameters(members):
-        result.append(param.type + get_member_representation(param, in_body, is_component) + param.name)
+    for param in all_params:
+        member_with_type = param.type + get_member_representation(param, in_body, is_component) + param.name
+        result.append(member_with_type)
     return result
 
 def get_initialization_members(members, is_component): 

@@ -3,7 +3,7 @@ option(CODE_GENERATION "CODE_GENERATION" ON)
 
 if(CODE_GENERATION)
   execute_process (
-      COMMAND python code_generation/generate.py RESULT_VARIABLE ret
+      COMMAND python code_generation/generate.py 2> nul RESULT_VARIABLE ret
   )
 
   if(NOT ret EQUAL "0")

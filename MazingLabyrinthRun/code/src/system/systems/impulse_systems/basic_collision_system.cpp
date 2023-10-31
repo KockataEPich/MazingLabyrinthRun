@@ -11,13 +11,13 @@ sf::Vector2f
 
 }  // namespace
 
-void BasicCollisionSystem::do_impulse(
+void BasicCollisionSystem::clash_entities(
 	Entity initiator,
 	TransformComponent& initiator_transform,
 	SpeedComponent& initiator_speed,
 	FacingSideComponent& initiator_facing_side,
 	Entity victim){ 
-	bool TODO = true; 
+
 
 	initiator_transform.position =
 	    change_transform_on_side(initiator_transform, initiator_speed, initiator_facing_side);

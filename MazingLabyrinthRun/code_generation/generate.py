@@ -25,9 +25,9 @@ def get_json_data(file_name):
     return data
 
 def main():
-    print(os.getcwd(), flush=True)
+    print("-- Code Generation Start")
     json_data_path = os.path.join("code_generation", "json_representations")
-    
+
     component_data = get_json_data(os.path.join(json_data_path, "components.json"))
     system_data = get_json_data(os.path.join(json_data_path, "systems.json"))
 
@@ -40,6 +40,8 @@ def main():
 
     write_components.write_components(component_dict.values(), generation_folder)
     write_systems.write_systems(system_dict.values(), generation_folder)
+
+    print("-- Code Generation Finish")
 
 if __name__ == "__main__":
     main()

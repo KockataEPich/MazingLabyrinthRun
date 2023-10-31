@@ -1,6 +1,7 @@
 import os.path
 class Member:
     def __init__(self):
+        self.owner = ""
         self.type = ""
         self.name = ""
         self.is_parameter = False

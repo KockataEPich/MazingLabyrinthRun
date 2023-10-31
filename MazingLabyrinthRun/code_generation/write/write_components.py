@@ -38,9 +38,7 @@ def write_component(component, generation_folder):
     f.close()  
     
 def write_components(components, generation_folder):
-    print("> Writing Components To Disk")
     for component in components:
         write_component(component, generation_folder)
-    print("< Writing Components To Disk")
 
         
