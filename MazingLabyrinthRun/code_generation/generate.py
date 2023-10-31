@@ -1,8 +1,9 @@
 import json
-import validation
-import write_components
-import write_systems
-import fetch_data
+import pre_process.validation as validation
+import pre_process.fetch_data as fetch_data
+import write.write_components as write_components
+import write.write_systems as write_systems
+
 import os
 from shutil import rmtree
 
@@ -24,13 +25,17 @@ def get_json_data(file_name):
     return data
 
 def main():
-    component_data, system_data = get_json_data("components.json"), get_json_data("systems.json")
+    print(os.getcwd(), flush=True)
+    json_data_path = os.path.join("code_generation", "json_representations")
+    
+    component_data = get_json_data(os.path.join(json_data_path, "components.json"))
+    system_data = get_json_data(os.path.join(json_data_path, "systems.json"))
 
     validation.validate_jsons(component_data, system_data)
     
     [component_dict, system_dict] = fetch_data.fetch_data(component_data, system_data)
 
-    generation_folder = os.path.join(os.path.dirname(os.getcwd()), "code", "include", "generated")
+    generation_folder = os.path.join("code", "include", "generated")
     clean_generated_folder_and_create_dirs(generation_folder)
 
     write_components.write_components(component_dict.values(), generation_folder)

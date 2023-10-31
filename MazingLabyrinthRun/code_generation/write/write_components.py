@@ -1,7 +1,7 @@
 import os.path
-from write_utils import get_include_lines
+from . import write_utils
+from . import write_members
 
-import write_members
 def get_file_name(component, generation_folder):
     return os.path.join(generation_folder, "components", component.get_relative_path())
 
@@ -12,7 +12,7 @@ def data_component_addition(component_in_code, input_params, member_initializati
     '''
 
 def write_file(f, component): 
-    includes = "\n".join(get_include_lines(component.includes))
+    includes = "\n".join(write_utils.get_include_lines(component.includes))
     input_params = "\n\t\t" + ",\n\t\t".join(write_members.get_members_with_types(component.members, False, True))
     member_initializations = ",\n\t".join(write_members.get_initialization_members(component.members, True))
     body_members = ";\n\t".join(write_members.get_members_with_types(component.members, True, True))

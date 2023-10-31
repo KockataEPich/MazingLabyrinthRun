@@ -1,3 +1,18 @@
+option(NO_BUILD "FULL_BUILD" True)
+
+execute_process (
+    COMMAND python code_generation/generate.py RESULT_VARIABLE ret
+)
+
+if(NOT ret EQUAL "0")
+    message( FATAL_ERROR "-- CODE GENERATION FAILED")
+endif()
+
+if(FULL_BUILD STREQUAL False)
+  message("-- Only file Generation")
+  return()
+endif()
+
 cmake_minimum_required(VERSION 3.15)
 project(MazingLabyrinthRun
   LANGUAGES CXX
@@ -8,8 +23,6 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON) 
 
 add_subdirectory(dependencies)
-
-
 
 set(_src_root_path "${CMAKE_CURRENT_SOURCE_DIR}/code")
 

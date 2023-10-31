@@ -1,9 +1,6 @@
 import os.path
-import write_members
-from write_utils import w_tabs
-from write_utils import write_with_condition
-from write_utils import get_include_lines
-from write_utils import get_function_lines
+from . import write_members
+from .  import write_utils
 
 def component_handle_string(component):
     return "ComponentHandle<" + component.name + "Component> " + component.get_var_name()
@@ -82,11 +79,11 @@ def get_interaction_function_body(system):
     ...
 
 def write_file_string(f, system, generated_folder): 
-    includes = "\n".join(get_include_lines(system.includes))
+    includes = "\n".join(write_utils.get_include_lines(system.includes))
     component_includes = "\n".join(get_component_includes(system, generated_folder))
     input_params = "\n\t\t" + ",\n\t\t".join(write_members.get_members_with_types(system.members, False, False))
     member_initializations = ",\n\t".join(write_members.get_initialization_members(system.members, False))
-    public_functions = get_function_lines(system.public_functions)
+    public_functions = write_utils.get_function_lines(system.public_functions)
     interactive_function_name = get_interactive_function_signature(system.type)
     body_members = ""
     write_interactive_cpp = ""
@@ -135,8 +132,8 @@ def filter_basic_components(components):
 
 def add_code_sequence_list(f, components, tabs, get_string_from_entry, separator = ",", end_of_sequence_closure = ""):
     for i in range(len(components)):
-        to_write = w_tabs(tabs, get_string_from_entry(components[i]))
-        write_with_condition(f, to_write, i != len(components) - 1, separator + "\n", end_of_sequence_closure + "\n")
+        to_write = write_utils.w_tabs(tabs, get_string_from_entry(components[i]))
+        write_utils.write_with_condition(f, to_write, i != len(components) - 1, separator + "\n", end_of_sequence_closure + "\n")
 
 def write_handles_and_unpack(f, components, tabs, entity_name = "entity"):
     filtered_comps = filter_basic_components(components)
@@ -145,7 +142,7 @@ def write_handles_and_unpack(f, components, tabs, entity_name = "entity"):
     
     add_code_sequence_list(f, filtered_comps, tabs, component_handle_string, ";", ";")
 
-    f.write(w_tabs(tabs, "m_parent_world->unpack(" + entity_name + ",\n"))
+    f.write(write_utils.w_tabs(tabs, "m_parent_world->unpack(" + entity_name + ",\n"))
     add_code_sequence_list(f, filtered_comps, tabs + 1, component_as_params_default_string, ",", ");")
 
 def write_header(f, system):
@@ -169,13 +166,13 @@ def write_class_initials(f, system):
 
 def write_construtor(f, system):
     if len(write_members.filter_parameters(system.members)) == 0:
-        f.write( w_tabs(1, system.name + "System() {\n"))
+        f.write( write_utils.w_tabs(1, system.name + "System() {\n"))
     else:
-        f.write( w_tabs(1, system.name + "System(\n"))
+        f.write( write_utils.w_tabs(1, system.name + "System(\n"))
         write_members.write_non_default_constructor_with_members(f, system.members, False, True)
 
-    write_component_signatures(f, system)
-    f.write(w_tabs(1, "}\n")) 
+    write_utils.write_component_signatures(f, system)
+    f.write(write_utils.w_tabs(1, "}\n")) 
         
 def write_public_functions(f, system):
     for function in system.public_functions:
@@ -208,35 +205,35 @@ def get_component_signatures(system):
 
 def write_interactive_function(f, system):
     if system.type == "render":
-        f.write(w_tabs(1, "void render() override;\n"))
+        f.write(write_utils.w_tabs(1, "void render() override;\n"))
         return
     
     if system.type == "producer":
-        f.write(w_tabs(1, "void update() override {\n"))
-        f.write(w_tabs(2, "for (auto& entity : m_registered_entities) {\n"))
+        f.write(write_utils.w_tabs(1, "void update() override {\n"))
+        f.write(write_utils.w_tabs(2, "for (auto& entity : m_registered_entities) {\n"))
         write_handles_and_unpack(f, system.components, 3)
 
         f.write("\n")
 
-        f.write(w_tabs(3, "for_every_entity(entity,\n"))
+        f.write(write_utils.w_tabs(3, "for_every_entity(entity,\n"))
         add_code_sequence_list(f, filter_basic_components(system.components), 4, component_as_params_dereferenced_string, ",", ");")
 
-        f.write(w_tabs(2, "}\n"))
-        f.write(w_tabs(1, "}\n"))
+        f.write(write_utils.w_tabs(2, "}\n"))
+        f.write(write_utils.w_tabs(1, "}\n"))
 
     if system.type == "react":
-        f.write(w_tabs(1, "void react(const Entity& entity) override {\n"))
+        f.write(write_utils.w_tabs(1, "void react(const Entity& entity) override {\n"))
         write_handles_and_unpack(f, system.components, 2)
 
         f.write("\n")
         
-        f.write(w_tabs(2, "react_on_entity(entity,\n"))
+        f.write(write_utils.w_tabs(2, "react_on_entity(entity,\n"))
         add_code_sequence_list(f, filter_basic_components(system.components), 3, component_as_params_dereferenced_string, ",", ");")
 
-        f.write(w_tabs(1, "}\n"))
+        f.write(write_utils.w_tabs(1, "}\n"))
 
     if system.type == "impulse":
-       f.write(w_tabs(1, "void exchange_impulse(const Entity& initiator, const Entity& victim) override {\n"))
+       f.write(write_utils.w_tabs(1, "void exchange_impulse(const Entity& initiator, const Entity& victim) override {\n"))
        write_handles_and_unpack(f, system.initiator_components, 2, "initiator")
        f.write("\n")
        write_handles_and_unpack(f, system.victim_components, 2, "victim")
@@ -244,17 +241,17 @@ def write_interactive_function(f, system):
        f.write("\n")
        f.write("\n")
 
-       f.write(w_tabs(2, "do_impulse(initiator,\n"))
+       f.write(write_utils.w_tabs(2, "do_impulse(initiator,\n"))
        add_code_sequence_list(f, filter_basic_components(system.initiator_components), 3, component_as_params_dereferenced_string, ",", ",") 
 
        filtered_comps = filter_basic_components(system.victim_components)
        if len(filtered_comps) == 0:
-          f.write(w_tabs(3, "victim);\n"))
+          f.write(write_utils.w_tabs(3, "victim);\n"))
        else:
-          f.write(w_tabs(3, "victim,\n"))
+          f.write(write_utils.w_tabs(3, "victim,\n"))
           add_code_sequence_list(f, filtered_comps, 3, component_as_params_dereferenced_string, ",", ");")
          
-       f.write(w_tabs(1, "}\n"))       
+       f.write(write_utils.w_tabs(1, "}\n"))       
 
 def write_private_header(f):
     f.write("private:\n")
@@ -270,32 +267,32 @@ def write_cpp_function(f, system, is_cpp, tabs):
         f.write("void " + to_add + "render(" + end)
 
     if system.type == "producer":
-        f.write(w_tabs(tabs, "void " + to_add + "for_every_entity(\n"))
-        f.write(w_tabs(tabs + 1, "Entity entity,\n"))
+        f.write(write_utils.w_tabs(tabs, "void " + to_add + "for_every_entity(\n"))
+        f.write(write_utils.w_tabs(tabs + 1, "Entity entity,\n"))
         add_code_sequence_list(f, filter_basic_components(system.components), tabs + 1, component_argument_string, ",", end)
                 
     if system.type == "react":
-        f.write(w_tabs(tabs, "void " + to_add + "react_on_entity(\n"))
-        f.write(w_tabs(tabs + 1, "Entity entity,\n"))
+        f.write(write_utils.w_tabs(tabs, "void " + to_add + "react_on_entity(\n"))
+        f.write(write_utils.w_tabs(tabs + 1, "Entity entity,\n"))
         add_code_sequence_list(f, filter_basic_components(system.components), tabs + 1, component_argument_string, ",", end)
     
     if system.type == "impulse":
-        f.write(w_tabs(tabs, "void " + to_add + "do_impulse(\n"))
-        f.write(w_tabs(tabs + 1, "Entity initiator,\n"))
+        f.write(write_utils.w_tabs(tabs, "void " + to_add + "do_impulse(\n"))
+        f.write(write_utils.w_tabs(tabs + 1, "Entity initiator,\n"))
         add_code_sequence_list(f, filter_basic_components(system.initiator_components), tabs + 1, component_initiator_argument_string, ",", ",")
 
         filtered_comps = filter_basic_components(system.victim_components)
         if len(filtered_comps) == 0:
-           f.write(w_tabs(tabs + 1, "Entity victim" + end + "\n"))
+           f.write(write_utils.w_tabs(tabs + 1, "Entity victim" + end + "\n"))
         else:
-           f.write(w_tabs(tabs + 1, "Entity victim,\n"))
+           f.write(write_utils.w_tabs(tabs + 1, "Entity victim,\n"))
            add_code_sequence_list(f, filtered_comps, tabs + 1, component_victim_argument_string, ",", end + "\n")
 
     f.write("\n")
 
 def write_private_functions(f, system):
     for function in system.private_functions:
-        f.write(w_tabs(1, function +"\n"))
+        f.write(write_utils.w_tabs(1, function +"\n"))
                
 def write_end(f):
     f.write("};")
@@ -307,7 +304,7 @@ def write_system_header(system, generation_folder):
 
     write_header(f, system.get_var_name())
     write_includes(f, system)
-    write_component_includes(f, system, os.path.basename(os.path.normpath(generation_folder)))
+    write_utils.write_component_includes(f, system, os.path.basename(os.path.normpath(generation_folder)))
     write_class_initials(f, system)
     write_construtor(f, system)
     write_public_functions(f, system)
@@ -324,7 +321,7 @@ def write_system_header(system, generation_folder):
 
 # TODO
 def get_cpp_filename(system):
-    return os.path.join(os.path.dirname(os.getcwd()), "code", "src", "system", "systems", system.get_relative_path() + ".cpp")
+    return os.path.join("code", "src", "system", "systems", system.get_relative_path() + ".cpp")
 
 def write_system_cpp(system):
     cpp_filename = get_cpp_filename(system)

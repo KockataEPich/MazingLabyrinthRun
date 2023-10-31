@@ -1,4 +1,4 @@
-import classes
+from . import classes
 def get_member_list(members):
     if len(members) == 0:
         return []

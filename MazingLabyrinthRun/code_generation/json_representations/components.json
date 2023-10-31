@@ -225,14 +225,16 @@
         "type" : "basic"
     },
 
-    "Move" :
-    {
-        "type" : "basic"
-    },
-
+    
     "CollisionCheck" :
     {
         "var_name" : "collision_check",
         "type" : "basic"
+    },
+
+    "Move" :
+    {
+        "type" : "basic"
     }
+
 }

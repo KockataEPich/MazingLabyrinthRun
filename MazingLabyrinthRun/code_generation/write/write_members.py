@@ -1,5 +1,4 @@
-from write_utils import write_with_condition
-from write_utils import w_tabs
+from . import write_utils
 
 def filter_parameters(members):
     result = []
@@ -17,7 +16,6 @@ def get_member_representation(member, in_body, is_component):
     else:
         sign = "&& "
     
-    print(sign)
     return sign + "" if is_component else "m_"
 
 def get_members_with_types(members, in_body, is_component):
@@ -51,10 +49,10 @@ def write_non_default_constructor_with_members(f, members, owner_is_component, c
             continue
 
         if member.is_reference:
-            to_write = w_tabs(2, member.type + "& " + member.name)
+            to_write = write_utils.w_tabs(2, member.type + "& " + member.name)
         else:
-            to_write = w_tabs(2, member.type + "&& " + member.name)
-        write_with_condition(f, to_write, i == len(filtered_members) - 1, ") : \n", ",\n")
+            to_write = write_utils.w_tabs(2, member.type + "&& " + member.name)
+        write_utils.write_with_condition(f, to_write, i == len(filtered_members) - 1, ") : \n", ",\n")
         
     #TODO BUG
     for i in range(len(filtered_members)):
@@ -63,10 +61,10 @@ def write_non_default_constructor_with_members(f, members, owner_is_component, c
             continue
         to_write = ""
         if not member.moved: 
-            to_write = w_tabs(2, before_member + member.name + "{" + member.name + "}")
+            to_write = write_utils.w_tabs(2, before_member + member.name + "{" + member.name + "}")
         else:
-            to_write = w_tabs(2, before_member + member.name + "{std::move(" + member.name + ")}")
-        write_with_condition(f, to_write, i == len(filtered_members) - 1, end_string + "\n", ",\n")
+            to_write = write_utils.w_tabs(2, before_member + member.name + "{std::move(" + member.name + ")}")
+        write_utils.write_with_condition(f, to_write, i == len(filtered_members) - 1, end_string + "\n", ",\n")
 
     f.write("\n")    
 
@@ -76,8 +74,8 @@ def write_body_members(f, members, owner_is_component):
     for i in range(len(members)):
         member = members[i]
         if member.is_reference:
-            to_write = w_tabs(1, member.type + "& " + before_member + member.name)
+            to_write = write_utils.w_tabs(1, member.type + "& " + before_member + member.name)
         else:
-             to_write = w_tabs(1, member.type + " " + before_member + member.name)
-        write_with_condition(f, to_write, member.default_value == "", ";\n", 
+             to_write = write_utils.w_tabs(1, member.type + " " + before_member + member.name)
+        write_utils.write_with_condition(f, to_write, member.default_value == "", ";\n", 
                              " = " + member.default_value + ";\n")

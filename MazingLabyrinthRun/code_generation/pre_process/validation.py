@@ -27,6 +27,7 @@ def get_unique_entries(data):
     for entry in data:
         if entry in entry_set:
             raise Exception("Entry ", entry, "is not unique")
+        
         entry_set.add(entry)
     return entry_set
 
