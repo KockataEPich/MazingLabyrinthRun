@@ -1,15 +1,20 @@
-option(NO_BUILD "FULL_BUILD" True)
+option(CPP_BUILD "CPP_BUILD" ON)
+option(CODE_GENERATION "CODE_GENERATION" ON)
 
-execute_process (
-    COMMAND python code_generation/generate.py RESULT_VARIABLE ret
-)
+if(CODE_GENERATION)
+  execute_process (
+      COMMAND python code_generation/generate.py RESULT_VARIABLE ret
+  )
 
-if(NOT ret EQUAL "0")
+  if(NOT ret EQUAL "0")
     message( FATAL_ERROR "-- CODE GENERATION FAILED")
+  endif()
+else()
+  message("-- No Code Generation")
 endif()
 
-if(FULL_BUILD STREQUAL False)
-  message("-- Only file Generation")
+if(NOT CPP_BUILD)
+  message("-- No Full Build")
   return()
 endif()
 
