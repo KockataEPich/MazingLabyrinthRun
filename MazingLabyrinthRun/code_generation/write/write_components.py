@@ -5,29 +5,27 @@ from . import write_members
 def get_file_name(component, generation_folder):
     return os.path.join(generation_folder, "components", component.get_relative_path())
 
-def data_component_addition(component_in_code, input_params, member_initializations, body_members):
-    return f'''{component_in_code}({input_params if len(input_params) != 3 else ""}){":" if len(input_params) != 3 else ""}{member_initializations}{{}}
+def data_component_body(component):
+    write_utils.tab_depth = 1
+    non_default_constructor = write_utils.get_idented_code_block(write_utils.component_code_name(component), "(", component, write_members.get_parameter_members_string, ") :")
+    member_initializations = write_utils.get_idented_code_block("", "", component, write_members.get_initialized_members_string, "{" + "}")
+    members = write_members.get_members_string(component)
 
-    {body_members}{";" if len(body_members) != 0 else ""} 
-    '''
+    return f'''
+{non_default_constructor}{member_initializations}
+
+{members}
+'''
 
 def write_file(f, component): 
-    includes = "\n".join(write_utils.get_include_lines(component.includes))
-    input_params = "\n\t\t" + ",\n\t\t".join(write_members.get_members_with_types(component.members, False, True))
-    member_initializations = ",\n\t".join(write_members.get_initialization_members(component.members, True))
-    body_members = ";\n\t".join(write_members.get_members_with_types(component.members, True, True))
-    component_in_code = component.name + "Component"
-
     f.write(f'''// ################## THIS FILE IS GENERATED ##################
 #ifndef {component.get_var_name().upper()}_COMPONENT_HEADER
 #define {component.get_var_name().upper()}_COMPONENT_HEADER
 
-#include <component_base/component.h>
-{includes}
+#include <component_base/component.h> {write_utils.optional_string(component, write_utils.get_includes_string)}
 
-struct {component_in_code} : public Component<{component_in_code}> {{
-    {component_in_code}() = default;
-    {data_component_addition(component_in_code, input_params, member_initializations, body_members) if component.type == "data" else ""}
+struct {write_utils.component_code_name(component)} : public Component<{write_utils.component_code_name(component)}> {{
+    {write_utils.component_code_name(component)}() = default; {write_utils.optional_string(component, data_component_body, component.is_data())}
 }};
 #endif   
 ''')
@@ -40,5 +38,6 @@ def write_component(component, generation_folder):
 def write_components(components, generation_folder):
     for component in components:
         write_component(component, generation_folder)
+        write_utils.tab_depth = 0
 
         

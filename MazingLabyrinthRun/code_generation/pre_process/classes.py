@@ -2,6 +2,7 @@ import os.path
 class Member:
     def __init__(self):
         self.owner = ""
+        self.owner_type = ""
         self.type = ""
         self.name = ""
         self.is_parameter = False
@@ -11,6 +12,9 @@ class Member:
 
     def __str__(self):
         return f"{self.name}"
+    
+    def owner_is_component(self): return self.owner_type == "Component"
+    def owner_is_system(self): return self.owner_type == "System"
     
 
 class Component:
@@ -31,6 +35,9 @@ class Component:
             return end_path.replace("\\","/")
         
         return end_path
+    
+    def is_basic(self): return self.type == "basic"
+    def is_data(self): return self.type == "data"
         
 class System:
     def __init__(self):
@@ -57,3 +64,14 @@ class System:
             return end_path.replace("\\\\","/")
 
         return end_path
+    
+    def is_producer(self): return self.type == "producer"
+    def is_react(self): return self.type == "react"
+    def is_impulse(self): return self.type == "impulse"
+    def is_render(self): return self.type == "render"
+    
+    def interactive_function_name(self):
+        if self.is_producer(): return "for_every_entity" 
+        if self.is_react(): return "rect_on_entity" 
+        if self.is_impulse(): return "clash_entities" 
+        return "" 

@@ -39,7 +39,7 @@ def main():
     clean_generated_folder_and_create_dirs(generation_folder)
 
     write_components.write_components(component_dict.values(), generation_folder)
-    write_systems.write_systems(system_dict.values(), generation_folder)
+    #write_systems.write_systems(system_dict.values(), generation_folder)
 
     print("-- Code Generation Finish")
 

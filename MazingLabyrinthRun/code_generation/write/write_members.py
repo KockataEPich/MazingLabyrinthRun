@@ -1,4 +1,11 @@
+from tkinter import W
 from . import write_utils
+
+def check_parameter_exists(members):
+    for member in members: 
+        if member.is_parameter: return True
+    
+    return False
 
 def filter_parameters(members):
     result = []
@@ -7,79 +14,43 @@ def filter_parameters(members):
             result.append(member)
     return result
 
-def get_member_representation(member, in_body, is_component):
-    sign = " "
-    if member.is_reference:
-        sign = "& "
-    elif in_body or member.type in ["int", "bool"]:
-        sign = " "
-    else:
-        sign = "&& "
-
-    sign +=  "" if is_component or not in_body else "m_"
-
-    return sign 
-
-def get_members_with_types(members, in_body, is_component):
-    all_params = filter_parameters(members) if not in_body else members
-    result = []
-    for param in all_params:
-        member_with_type = param.type + get_member_representation(param, in_body, is_component) + param.name
-        result.append(member_with_type)
-    return result
-
-def get_initialization_members(members, is_component): 
-    behind = "" if is_component else "m_"
-    result = []
-    for param in filter_parameters(members):
-        result.append(behind + param.name + "{" + param.name + "}")
-    return result
+def get_parameter_member_extended_type(member, in_body):
+    sign = ""
+    if member.is_reference: sign = "&"
+    elif in_body or member.type in ["int", "bool"]: sign = ""
+    else: sign = "&&"
+    return member.type + sign 
 
 
-def write_non_default_constructor_with_members(f, members, owner_is_component, constructor_has_body = False):
-    filtered_members = filter_parameters(members)
-    end_string = "{" + "}" if not constructor_has_body else "{"
 
-    if len(filtered_members) == 0:
-        f.write("\t)" + end_string + "\n")
-        return 
+
+
+
+
+
+def declare_member_in_constructor(member): 
+    if not member.is_parameter: return ""
+    return get_parameter_member_extended_type(member, False) + " " + member.name
     
-    filtered_members = filter_parameters(members)
-    before_member = "" if owner_is_component else "m_";
-
-    for i in range(len(filtered_members)):
-        member = filtered_members[i]
-        if not member.is_parameter:
-            continue
-
-        if member.is_reference:
-            to_write = write_utils.w_tabs(2, member.type + "& " + member.name)
-        else:
-            to_write = write_utils.w_tabs(2, member.type + "&& " + member.name)
-        write_utils.write_with_condition(f, to_write, i == len(filtered_members) - 1, ") : \n", ",\n")
-        
-    #TODO BUG
-    for i in range(len(filtered_members)):
-        member = filtered_members[i]
-        if not member.is_parameter:
-            continue
-        to_write = ""
-        if not member.moved: 
-            to_write = write_utils.w_tabs(2, before_member + member.name + "{" + member.name + "}")
-        else:
-            to_write = write_utils.w_tabs(2, before_member + member.name + "{std::move(" + member.name + ")}")
-        write_utils.write_with_condition(f, to_write, i == len(filtered_members) - 1, end_string + "\n", ",\n")
-
-    f.write("\n")    
+def get_parameter_members_string(entry): return write_utils.transform_sequence_and_get_string(entry.members, declare_member_in_constructor, ",")
 
 
-def write_body_members(f, members, owner_is_component):
-    before_member = "" if owner_is_component else "m_"
-    for i in range(len(members)):
-        member = members[i]
-        if member.is_reference:
-            to_write = write_utils.w_tabs(1, member.type + "& " + before_member + member.name)
-        else:
-             to_write = write_utils.w_tabs(1, member.type + " " + before_member + member.name)
-        write_utils.write_with_condition(f, to_write, member.default_value == "", ";\n", 
-                             " = " + member.default_value + ";\n")
+
+
+
+def initialize_member_in_constructor(member): 
+    if not member.is_parameter: return ""
+    before = "m_" if member.owner_is_system() else ""
+    return before + member.name + "{" + member.name + "}"
+
+def get_initialized_members_string(entry): return write_utils.transform_sequence_and_get_string(entry.members, initialize_member_in_constructor, ",")
+
+
+
+
+def initialize_member_in_body(member): 
+    before = "m_" if member.owner_is_system() else ""
+    return get_parameter_member_extended_type(member, True) + " " + before + member.name
+
+def get_members_string(entry): return write_utils.transform_sequence_and_get_string(entry.members, initialize_member_in_body, ";", True)
+

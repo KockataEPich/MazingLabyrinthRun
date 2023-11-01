@@ -1,5 +1,5 @@
 from . import classes
-def get_member_list(members, owner):
+def get_member_list(members, owner, owner_type):
     if len(members) == 0:
         return []
     
@@ -28,7 +28,7 @@ def fetch_components_from_data(data):
         c.type = metadata.get("type")
         c.needs_cpp = metadata.get("needs_cpp", False)
         c.includes = metadata.get("includes", [])
-        c.members = get_member_list(metadata.get("members", []), c.name)
+        c.members = get_member_list(metadata.get("members", []), c.name, "Component")
         result[c.name] = c
 
     return result
@@ -42,7 +42,7 @@ def fetch_systems_from_data(data, components):
         s.var_name = metadata.get("var_name", "")
         s.type = metadata.get("type")
         s.includes = metadata.get("includes", [])
-        s.members = get_member_list(metadata.get("members", []), s.name)
+        s.members = get_member_list(metadata.get("members", []), s.name, "System")
         s.public_functions = metadata.get("public_functions", [])
         s.private_functions = metadata.get("private_functions", [])
 

@@ -1,0 +1,1 @@
+cmake . -Bbuild -DCPP_BUILD=OFF -DCODE_GENERATION=ON
