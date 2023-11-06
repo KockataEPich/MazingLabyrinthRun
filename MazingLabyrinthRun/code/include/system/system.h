@@ -59,7 +59,7 @@ protected:
 
 class ReactSystem : public System {
 public:
-	virtual void react(Entity const& entity) {}
+	virtual void react(Entity const entity) {}
 };
 
 class RenderSystem : public EntityTrackerSystem {
@@ -70,7 +70,7 @@ public:
 
 class ImpulseSystem : public System {
 public:
-	virtual void exchange_impulse(const Entity& initiator, const Entity& victim) {}
+	virtual void exchange_impulse(const Entity initiator, const Entity victim) {}
 
 	ComponentMask get_signature_of_victim() { return m_signature_of_victim; }
 

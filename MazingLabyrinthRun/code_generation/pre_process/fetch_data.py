@@ -1,4 +1,5 @@
 from . import classes
+import os
 def get_member_list(members, owner, owner_type):
     if len(members) == 0:
         return []
@@ -10,6 +11,7 @@ def get_member_list(members, owner, owner_type):
 
         m = classes.Member()
         m.owner = owner
+        m.owner_type = owner_type
         m.type = member_name
         m.name = member_data.get("name")
         m.is_parameter = member_data.get("is_parameter", False)
@@ -19,7 +21,7 @@ def get_member_list(members, owner, owner_type):
         result.append(m)
     return result
 
-def fetch_components_from_data(data):
+def fetch_components_from_data(data, generated_folder):
     result = {}
     for component, metadata in data.items():
         c = classes.Component()
@@ -29,12 +31,13 @@ def fetch_components_from_data(data):
         c.needs_cpp = metadata.get("needs_cpp", False)
         c.includes = metadata.get("includes", [])
         c.members = get_member_list(metadata.get("members", []), c.name, "Component")
+        c.header_path = "<" + os.path.basename(os.path.basename(os.path.normpath(generated_folder))) + "/components/" + c.get_relative_path(True) + ">"
         result[c.name] = c
 
     return result
 
 
-def fetch_systems_from_data(data, components):
+def fetch_systems_from_data(data, components, generated_folder):
     result = {}
     for system, metadata in data.items():
         s = classes.System()
@@ -57,12 +60,13 @@ def fetch_systems_from_data(data, components):
             for component in metadata.get("components"):
                 s.components.append(components[component])
 
+        s.header_path = "<" + os.path.basename(os.path.basename(os.path.normpath(generated_folder))) + "/systems/" + s.get_relative_path(True) + ">"
         result[s.name] = s
     return result
 
-def fetch_data(component_data, system_data):
-    components = fetch_components_from_data(component_data)
-    systems = fetch_systems_from_data(system_data, components)
+def fetch_data(component_data, system_data, generated_folder):
+    components = fetch_components_from_data(component_data, generated_folder)
+    systems = fetch_systems_from_data(system_data, components, generated_folder)
     return components, systems
 
 

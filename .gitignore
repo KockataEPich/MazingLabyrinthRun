@@ -5,5 +5,7 @@ MazingLabyrinthRun/codegeneration/*.h
 MazingLabyrinthRun/codegeneration/generated
 MazingLabyrinthRun/code/include/generated
 MazingLabyrinthRun/codegeneration/__pycache__
+MazingLabyrinthRun/codegeneration/write/__pycache__
+MazingLabyrinthRun/codegeneration/fetch_data/__pycache__
 backup
 .vs

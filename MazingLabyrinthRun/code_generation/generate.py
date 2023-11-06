@@ -33,13 +33,13 @@ def main():
 
     validation.validate_jsons(component_data, system_data)
     
-    [component_dict, system_dict] = fetch_data.fetch_data(component_data, system_data)
-
     generation_folder = os.path.join("code", "include", "generated")
     clean_generated_folder_and_create_dirs(generation_folder)
 
+    [component_dict, system_dict] = fetch_data.fetch_data(component_data, system_data, generation_folder)    
+
     write_components.write_components(component_dict.values(), generation_folder)
-    #write_systems.write_systems(system_dict.values(), generation_folder)
+    write_systems.write_systems(system_dict.values(), generation_folder)
 
     print("-- Code Generation Finish")
 

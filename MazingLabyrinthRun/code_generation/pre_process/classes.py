@@ -22,6 +22,7 @@ class Component:
         self.name = ""
         self.var_name = ""
         self.type = ""
+        self.header_path = ""
         self.needs_cpp = False
         self.includes = []
         self.members = []
@@ -38,12 +39,15 @@ class Component:
     
     def is_basic(self): return self.type == "basic"
     def is_data(self): return self.type == "data"
+
+    def cpp_name(self): return self.name + "Component"
         
 class System:
     def __init__(self):
         self.name = ""
         self.var_name = ""
         self.type = ""
+        self.header_path = ""
         self.public_functions = []
         self.private_functions = []
         self.components = []
@@ -51,6 +55,7 @@ class System:
         self.victim_components = []
         self.includes = []
         self.members = []
+        
    
     def get_var_name(self):
         if self.var_name == "":
@@ -65,13 +70,20 @@ class System:
 
         return end_path
     
+    def cpp_name(self): return self.name + "System"
     def is_producer(self): return self.type == "producer"
     def is_react(self): return self.type == "react"
     def is_impulse(self): return self.type == "impulse"
     def is_render(self): return self.type == "render"
     
-    def interactive_function_name(self):
+    def cpp_function_name(self):
         if self.is_producer(): return "for_every_entity" 
-        if self.is_react(): return "rect_on_entity" 
+        if self.is_react(): return "react_on_entity" 
         if self.is_impulse(): return "clash_entities" 
         return "" 
+    
+    def interactive_function_name(self):
+        if self.is_producer(): return "update" 
+        if self.is_react(): return "react" 
+        if self.is_impulse(): return "exchange_impulse" 
+        return "render" 
