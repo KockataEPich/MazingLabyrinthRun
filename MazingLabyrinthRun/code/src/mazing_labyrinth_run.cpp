@@ -60,8 +60,8 @@ void MazingLabyrinthRun::initialize_world() {
 	    ->add_producer_system(std::make_unique<UpdateCrosshairPositionSystem>(m_window));
 
 	m_world
-		->add_render_system(std::make_unique<RenderHealthSystem>(m_window))
-	    ->add_render_system(std::make_unique<RenderSpriteSystem>(m_window));
+		->add_render_system(std::make_unique<RenderSpriteSystem>(m_window))
+		->add_render_system(std::make_unique<RenderHealthSystem>(m_window));
 
 	m_world->init();
 }

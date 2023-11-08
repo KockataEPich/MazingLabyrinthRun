@@ -9,11 +9,11 @@ void RenderHealthSystem::render() {
 		sf::Text text;
 		text.setFont(m_font);
 		text.setString(std::to_string(health_points->health) + "/50");
-		text.setCharacterSize(15);
+		text.setCharacterSize(20);
 
 		auto position = transform->position;
 
-		position.y -= 50;
+		position.y -= 100;
 		position.x -= 20;
 		text.setPosition(position);
 		m_render_window.draw(text);

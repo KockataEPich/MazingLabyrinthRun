@@ -21,7 +21,10 @@ void update_mask_in_systems(Entity const& entity,
 World::World(std::unique_ptr<EntityManager> entity_manager) : m_entity_manager(std::move(entity_manager)) {}
 
 void World::init() {
-	for (auto& system : m_producer_system_sequence_wrapper.get_systems()) { system->init(); }
+	for (auto& system : m_producer_system_sequence_wrapper.get_systems())  system->init(); 
+	for (auto& system : m_react_systems) system->init(); 
+	for (auto& system : m_impulse_systems) system->init();
+	for (auto& system : m_render_systems) system->init();
 }
 
 void World::update(float dt) { m_producer_system_sequence_wrapper.run_systems(dt); }
