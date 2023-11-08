@@ -1,5 +1,7 @@
 from . import classes
 import os
+from copy import copy
+
 def get_member_list(members, owner, owner_type):
     if len(members) == 0:
         return []
@@ -26,12 +28,13 @@ def fetch_components_from_data(data, generated_folder):
     for component, metadata in data.items():
         c = classes.Component()
         c.name = component
-        c.var_name = metadata.get("var_name", "")
+        c.var_name = metadata.get("var_name", c.name.lower())
         c.type = metadata.get("type")
         c.needs_cpp = metadata.get("needs_cpp", False)
         c.includes = metadata.get("includes", [])
         c.members = get_member_list(metadata.get("members", []), c.name, "Component")
-        c.header_path = "<" + os.path.basename(os.path.basename(os.path.normpath(generated_folder))) + "/components/" + c.get_relative_path(True) + ">"
+        c.set_relative_path(True)
+        c.header_path = "<" + os.path.basename(os.path.basename(os.path.normpath(generated_folder))) + "/components/" + c.relative_path + ">"
         result[c.name] = c
 
     return result
@@ -51,9 +54,15 @@ def fetch_systems_from_data(data, components, generated_folder):
 
         if s.type == "impulse":
             for component in metadata.get("initiator_components"):
-                s.initiator_components.append(components[component])
+                component_body = copy(components[component])
+                component_body.var_name = "initiator_" + component_body.var_name
+                s.initiator_components.append(component_body)
+
             for component in metadata.get("victim_components"):
-                s.victim_components.append(components[component])
+                component_body = copy(components[component])
+                component_body.var_name = "victim_" + component_body.var_name
+                s.victim_components.append(component_body)
+
             s.components = s.initiator_components + s.victim_components
         
         else:

@@ -1,24 +1,21 @@
 import os.path
-from . import write_utils
-from . import write_members
+from . import write_utils as wu
+from . import write_members as wm
 
 def get_file_name(component, generation_folder):
-    return os.path.join(generation_folder, "components", component.get_relative_path())
+    return os.path.join(generation_folder, "components", component.relative_path)
 
 def data_component_body(component):
-    write_utils.tab_depth = 2
-    non_default_constructor = write_utils.get_idented_code_block(component, write_members.get_parameter_members_string)
-    member_initializations = write_utils.get_idented_code_block(component, write_members.get_initialized_members_string)
+    non_default_constructor = wu.process_sequence(component.members, wm.declare_member_in_constructor, ",")
+    member_initializations = wu.process_sequence(component.members, wm.initialize_member_in_constructor, ",")
+    members = wu.process_sequence(component.members, wm.initialize_member_in_body, ";", True)
     
-    write_utils.tab_depth = 1
-    members = write_members.get_members_string(component)
-    
-    return f'''{component.cpp_name()}(
+    return f'''{wu.set_tab_depth(2)}{component.cpp_name()}(
         {non_default_constructor}
     ) : 
         {member_initializations} {{}}
 
-    {members}
+    {wu.set_tab_depth(1)}{members}
 '''
 
 def write_file(f, component): 
@@ -26,10 +23,10 @@ def write_file(f, component):
 #ifndef {component.get_var_name().upper()}_COMPONENT_HEADER
 #define {component.get_var_name().upper()}_COMPONENT_HEADER
 
-#include <component_base/component.h> {write_utils.optional_string(write_utils.get_includes_string(component), its_own_logic_block=True)}
+#include <component_base/component.h> {wu.optional_string(wu.process_sequence(component.includes, wu.transform_to_include), its_own_logic_block=True)}
 
 struct {component.cpp_name()} : public Component<{component.cpp_name()}> {{
-    {component.cpp_name()}() = default; {write_utils.optional_string(data_component_body(component), component.is_data())}
+    {component.cpp_name()}() = default; {wu.optional_string(data_component_body(component), component.is_data())}
 }};
 #endif   
 ''')
@@ -42,6 +39,4 @@ def write_component(component, generation_folder):
 def write_components(components, generation_folder):
     for component in components:
         write_component(component, generation_folder)
-        write_utils.tab_depth = 0
-
-
+        wu.set_tab_depth(0)

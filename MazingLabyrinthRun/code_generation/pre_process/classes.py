@@ -23,6 +23,7 @@ class Component:
         self.var_name = ""
         self.type = ""
         self.header_path = ""
+        self.relative_path = ""
         self.needs_cpp = False
         self.includes = []
         self.members = []
@@ -30,12 +31,11 @@ class Component:
     def get_var_name(self):
         return self.name.lower() if self.var_name == "" else self.var_name
     
-    def get_relative_path(self, linux_style = False):
-        end_path = os.path.join(self.type + "_components", self.get_var_name() + "_component.h")
+    def set_relative_path(self, linux_style = False):
+        self.relative_path = os.path.join(self.type + "_components", self.get_var_name() + "_component.h")
         if linux_style:
-            return end_path.replace("\\","/")
+            self.relative_path.replace("\\","/")
         
-        return end_path
     
     def is_basic(self): return self.type == "basic"
     def is_data(self): return self.type == "data"
@@ -66,7 +66,7 @@ class System:
     def get_relative_path(self, linux_style = False):
         end_path = os.path.join(self.type + "_systems", self.get_var_name() + "_system")
         if linux_style:
-            return end_path.replace("\\\\","/")
+            return end_path.replace("\\","/")
 
         return end_path
     

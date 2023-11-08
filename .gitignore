@@ -1,11 +1,9 @@
 MazingLabyrinthRun/build
 MazingLabyrinthRun/.idea
-MazingLabyrinthRun/codegeneration/*.pyc
-MazingLabyrinthRun/codegeneration/*.h
-MazingLabyrinthRun/codegeneration/generated
 MazingLabyrinthRun/code/include/generated
-MazingLabyrinthRun/codegeneration/__pycache__
-MazingLabyrinthRun/codegeneration/write/__pycache__
-MazingLabyrinthRun/codegeneration/fetch_data/__pycache__
+MazingLabyrinthRun/code_generation/__pycache__
+MazingLabyrinthRun/code_generation/write/__pycache__
+MazingLabyrinthRun/code_generation/fetch_data/__pycache__
+MazingLabyrinthRun/code_generation/pre_process/__pycache__
 backup
 .vs

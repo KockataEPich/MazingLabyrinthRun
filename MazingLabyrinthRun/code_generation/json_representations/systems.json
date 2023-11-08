@@ -18,7 +18,7 @@
       "type" : "producer",
       "components" : ["ActionType", "Skin", "FacingSide", "AnimationPlayer", "Transform", "Sprite"]
    },
-
+   
    "UpdateCrosshairPosition" : 
    {
       "type" : "producer",
