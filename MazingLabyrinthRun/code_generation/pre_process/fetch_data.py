@@ -69,7 +69,7 @@ def fetch_systems_from_data(data, components, generated_folder):
             for component in metadata.get("components"):
                 s.components.append(components[component])
 
-        s.header_path = "<" + os.path.basename(os.path.basename(os.path.normpath(generated_folder))) + "/systems/" + s.get_relative_path(True) + ">"
+        s.header_path = "<" + os.path.basename(os.path.basename(os.path.normpath(generated_folder))) + "/systems/" + s.get_relative_path(True) + ".h>"
         result[s.name] = s
     return result
 

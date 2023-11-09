@@ -21,7 +21,7 @@ sf::Vector2f change_transform_depending_on_target_vector(const TransformComponen
 	auto new_x = (transform.position.x < target.x) ? transform.position.x + (float)x_offset
 	                                                 : transform.position.x - (float)x_offset;
 
-	auto new_y = (transform.position.y > target.y) ? transform.position.y + (float)y_offset
+	auto new_y = (transform.position.y < target.y) ? transform.position.y + (float)y_offset
 	                                                 : transform.position.y - (float)y_offset;
 
 	return {new_x, new_y};

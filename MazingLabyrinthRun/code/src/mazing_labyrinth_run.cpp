@@ -13,8 +13,8 @@
 #include <generated/systems/producer_systems/animate_system.h>
 #include <generated/systems/producer_systems/player_system.h>
 #include <generated/systems/producer_systems/transform_system.h>
-
 #include <generated/systems/producer_systems/update_crosshair_position_system.h>
+#include <generated/systems/producer_systems/projectile_system.h>
 
 #include <generated/systems/react_systems/collision_detection_system.h>
 #include <generated/systems/react_systems/move_system.h>
@@ -56,7 +56,7 @@ void MazingLabyrinthRun::initialize_world() {
 	    ->add_producer_system(std::make_unique<AISystem>())
 	    ->add_producer_system(std::make_unique<AnimateSystem>())
 	    ->add_producer_system(std::make_unique<TransformSystem>())
-
+	    ->add_producer_system(std::make_unique<ProjectileSystem>())
 	    ->add_producer_system(std::make_unique<UpdateCrosshairPositionSystem>(m_window));
 
 	m_world

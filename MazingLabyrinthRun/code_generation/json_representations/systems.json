@@ -54,6 +54,13 @@
       "components" : ["Transform", "Sprite"]
    },
 
+   "Projectile" : 
+   {
+      "type" : "producer",
+      "components" : ["Projectile", "TargetForDirection"]
+   },
+
+
    "AttackAction" : 
    {
       "var_name" : "attack_action",

@@ -232,9 +232,7 @@
         "type" : "basic"
     },
 
-    "Move" :
-    {
-        "type" : "basic"
-    }
+    "Move" : { "type" : "basic" },
+    "Projectile" : { "type" : "basic" }
 
 }
