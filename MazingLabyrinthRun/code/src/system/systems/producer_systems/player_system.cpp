@@ -4,7 +4,6 @@
 #include <event/events/event_types/change_action_type_event.h>
 
 #include <SFML/Window/Keyboard.hpp>
-
 void PlayerSystem::for_every_entity(
 	Entity entity,
 	ActionTypeComponent& action_type,
@@ -12,6 +11,13 @@ void PlayerSystem::for_every_entity(
 	TargetForDirectionComponent& target_for_direction,
 	SpeedComponent& speed,
 	TransformComponent& transform){ 
+
+	auto pos = sf::Mouse::getPosition(m_game_window.as_sfml_window());
+	sf::Vector2f world_pos = m_game_window.as_sfml_window().mapPixelToCoords(pos);
+	if (transform.position.x < world_pos.x)
+		facing_side.side = FacingSide::right;
+	else
+		facing_side.side = FacingSide::left;
 
 	target_for_direction.target_position = transform.position;
 

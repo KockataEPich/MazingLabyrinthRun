@@ -13,12 +13,10 @@ void AnimateSystem::for_every_entity(
 	if (texture_id != animation_player.animation_player.get_current_animation().get_texture_id()) {
 		animation_player.animation_player.play_animation(Animation(texture_id));
 		sprite.sprite.setTexture(animation_player.animation_player.get_current_texture());
-
-		if (facing_side.side == FacingSide::right)
-			transform.scale.x = -std::abs(transform.scale.x);
-		else
-			transform.scale.x = std::abs(transform.scale.x);
 	}
+
+	if (facing_side.side == FacingSide::right) transform.scale.x = -std::abs(transform.scale.x);
+	else transform.scale.x = std::abs(transform.scale.x);
 
 	animation_player.animation_player.update(facing_side.side);
 	sprite.sprite.setTextureRect(animation_player.animation_player.get_current_rect());

@@ -52,7 +52,7 @@ void MazingLabyrinthRun::initialize_world() {
 	m_world->add_impulse_system(std::make_unique<BasicCollisionSystem>());
 	m_world->add_impulse_system(std::make_unique<BasicDamageSystem>());
 
-	m_world->add_producer_system(std::make_unique<PlayerSystem>())
+	m_world->add_producer_system(std::make_unique<PlayerSystem>(m_window))
 	    ->add_producer_system(std::make_unique<AISystem>())
 	    ->add_producer_system(std::make_unique<AnimateSystem>())
 	    ->add_producer_system(std::make_unique<TransformSystem>())

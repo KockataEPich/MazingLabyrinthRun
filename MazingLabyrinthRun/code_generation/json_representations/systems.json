@@ -2,8 +2,19 @@
    "Player" : 
    {
       "type" : "producer",
+      "includes" : ["<window/game_window.h>"],
       "components" : ["ActionType", "FacingSide", "TargetForDirection", "Player", "Speed", "Transform"],
-      "public_functions" : ["void init() override { m_registered_entities.reserve(1); }  // Only one player"]
+      "public_functions" : ["void init() override { m_registered_entities.reserve(1); }  // Only one player"],
+      "members" : [
+         {
+            "GameWindow" :
+            {
+               "name" : "game_window",
+               "is_parameter" : true,
+               "is_reference" : true
+            }
+         }
+      ]
    },
 
    "AI" : 
