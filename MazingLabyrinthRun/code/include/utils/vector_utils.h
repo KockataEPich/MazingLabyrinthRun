@@ -8,7 +8,7 @@ namespace vec_utils {
 template<typename T>
 void pop_at_index(int index, std::vector<T>& vector) {
 	if (index >= vector.size()) throw std::runtime_error("Vector size is bigger than index!");
-	std::swap(vector.at(index), vector.at(vector.size() - 1));
+	if (index != vector.size() - 1) std::swap(vector.at(index), vector.at(vector.size() - 1));
 	vector.pop_back();
 }
 

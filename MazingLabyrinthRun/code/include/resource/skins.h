@@ -16,6 +16,11 @@ const static std::unordered_map<Skin, std::unordered_map<ActionType, Textures::I
 				{ActionType::move, Textures::ID::MC_DEF_RUN},
 				{ActionType::attack, Textures::ID::MC_DEF_CAST}}
 		},
+		{Skin::ZOMBIE_DEFAULT_SKIN, {
+				{ActionType::idle, Textures::ID::ZOMBIE_DEFAULT},
+				{ActionType::move, Textures::ID::ZOMBIE_DEFAULT},
+				{ActionType::attack, Textures::ID::ZOMBIE_DEFAULT}}
+		},
 };
 // clang-format on
 

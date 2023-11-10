@@ -31,7 +31,9 @@ protected:
 class EntityTrackerSystem : public System {
 public:
 	EntityTrackerSystem() = default;
-	virtual void unregister_entity(Entity const& entity) { std::erase(m_registered_entities, entity); }
+	virtual void unregister_entity(Entity const& entity) { 
+		std::erase(m_registered_entities, entity); 
+	}
 	virtual void register_entity(Entity const& entity) { m_registered_entities.push_back(entity); }
 
 protected:

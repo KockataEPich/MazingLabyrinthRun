@@ -16,8 +16,10 @@ void BasicCollisionSystem::clash_entities(
 	TransformComponent& initiator_transform,
 	SpeedComponent& initiator_speed,
 	FacingSideComponent& initiator_facing_side,
-	Entity victim){ 
+	TargetForDirectionComponent& initiator_target_for_direction,
 
+	Entity victim,
+    BoundaryComponent& victim_boundary) { 
 
 	initiator_transform.position =
 	    change_transform_on_side(initiator_transform, initiator_speed, initiator_facing_side);

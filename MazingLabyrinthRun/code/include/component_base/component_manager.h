@@ -34,13 +34,13 @@ public:
 		auto instance = entity_map.get_instance(entity);
 		if (!instance.has_value()) return;
 
+		Entity last_entity = entity_map.get_entity(m_data.size() - 1);
 		vec_utils::pop_at_index(instance.value(), m_data);
 
 		entity_map.remove(entity);
 		if (m_data.size() == 0 || instance.value() == m_data.size()) return;
 
-		Entity lastEntity = entity_map.get_entity(m_data.size() - 1);
-		entity_map.update(lastEntity, instance.value());
+		entity_map.update(last_entity, instance.value());
 	}
 
 	LookupType* lookup(const Entity entity) {

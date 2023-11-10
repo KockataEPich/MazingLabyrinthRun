@@ -70,6 +70,7 @@ def interactive_functions_body(system):
     if system.is_producer():
         return f'''{{
         for (auto& entity : m_registered_entities) {{
+            if (std::find(m_registered_entities.begin(), m_registered_entities.end(), entity) == std::end(m_registered_entities)) continue;
             {wu.set_tab_depth(3)}{wu.process_sequence(system.components, handle_component, ";", True)}
             m_parent_world->unpack(
                 entity,

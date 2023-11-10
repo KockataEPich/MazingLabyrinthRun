@@ -17,6 +17,8 @@ enum class ID {
 
 	CROSS_HAIR_DEFAULT,
 
+    ZOMBIE_DEFAULT,
+
     FIREBALL_1
 };
 
@@ -40,15 +42,20 @@ const static std::unordered_map<ID, std::string> texture_id_to_file_map{
 
     {ID::CROSS_HAIR_DEFAULT, "resources/ui/crosshair.png"},
 
+    {ID::ZOMBIE_DEFAULT, "resources/character/zombie_left_idle.png"},
+    
+
     {ID::FIREBALL_1, "resources/character/MC/FIREBALL_RED.png"}
 };
 
 const static std::unordered_map<ID, TextureMetadata> texture_id_to_texture_metadata{
-	{ID::DEFAULT_PLACEHOLDER_TEXTURE, {1, std::nullopt, 0}},
+    {ID::DEFAULT_PLACEHOLDER_TEXTURE, {1, std::nullopt, 0}},
 
     {ID::MC_DEF, {1, std::nullopt, 10}},
     {ID::MC_DEF_RUN, {4, std::nullopt, 10}},
-    {ID::MC_DEF_CAST, {3, std::nullopt, 10}}};
+    {ID::MC_DEF_CAST, {3, std::nullopt, 10}},
+
+    {ID::ZOMBIE_DEFAULT, {1, std::nullopt, 10}}};
 }  // namespace Textures
 
 #endif

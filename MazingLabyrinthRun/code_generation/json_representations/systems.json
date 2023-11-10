@@ -20,7 +20,7 @@
    "AI" : 
    {
       "type" : "producer",
-      "components" : ["Transform", "Speed", "FacingSide", "AI"],
+      "components" : ["Transform", "Speed", "FacingSide", "AI", "TargetForDirection"],
       "public_functions" : ["int const tick_frequency() override { return 5; }"]
    },
 
@@ -93,8 +93,16 @@
    {
       "var_name" : "basic_collision",
       "type" : "impulse",
-      "initiator_components" : ["Transform", "Speed", "FacingSide", "Solid"],
-      "victim_components" : ["Solid", "DefaultCollisionArmor"]
+      "initiator_components" : ["Transform", "Speed", "FacingSide", "Solid", "TargetForDirection"],
+      "victim_components" : ["Solid", "DefaultCollisionArmor", "Boundary"]
+   },
+
+   "ProjectileCollision" : 
+   {
+      "var_name" : "projectile_collision",
+      "type" : "impulse",
+      "initiator_components" : ["Projectile"],
+      "victim_components" : ["Solid", "HealthPoints", "AI"]
    },
 
    "RenderHealth" : 

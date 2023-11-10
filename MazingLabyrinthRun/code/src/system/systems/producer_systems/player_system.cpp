@@ -29,8 +29,6 @@ void PlayerSystem::for_every_entity(
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) { 
 		auto projectile = m_parent_world->create_entity();
-		projectile.add_component(std::make_unique<BasicAttackNeedleComponent>());
-		projectile.add_component(std::make_unique<BoundaryComponent>());
 		projectile.add_component(std::make_unique<SpeedComponent>());
 		projectile.add_component(std::make_unique<ProjectileComponent>());
 
@@ -43,7 +41,9 @@ void PlayerSystem::for_every_entity(
 		atk_transform->size.y = transform.size.y - 10;
 
 		projectile.get_component<SpeedComponent>()->speed = 50.0f;
-		projectile.get_component<BoundaryComponent>()->hitbox = get_hitbox_based_on_transform_component(*atk_transform);
+		projectile.add_component(
+		    std::make_unique<BoundaryComponent>(get_hitbox_based_on_transform_component(*atk_transform)));
+
 		projectile.add_component(std::move(atk_transform));
 		
 		auto projectile_sprite = std::make_unique<SpriteComponent>();
