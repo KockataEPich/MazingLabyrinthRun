@@ -6,7 +6,7 @@
 class PlayerAdder : public ComponentAdder {
 public:
 	void attach_components(EntityHandle& entity) override {
-		entity.add_component(std::make_unique<PlayerComponent>());
+		entity.add_components(std::make_unique<PlayerComponent>());
 	};
 };
 

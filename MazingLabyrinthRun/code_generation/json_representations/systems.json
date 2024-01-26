@@ -78,7 +78,7 @@
    {
       "var_name" : "collision_detection",
       "type" : "react",
-      "components" : ["Boundary", "Transform", "CollisionCheck"]
+      "components" : ["Boundary", "Transform", "CollisionCheck", "TargetForDirection"]
    },
 
    "BasicDamage" : 

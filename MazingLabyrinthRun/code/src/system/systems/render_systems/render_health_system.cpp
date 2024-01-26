@@ -4,7 +4,7 @@ void RenderHealthSystem::render() {
 	for (auto& entity : m_registered_entities) {
 		ComponentHandle<TransformComponent> transform;
 		ComponentHandle<HealthPointsComponent> health_points;
-		m_parent_world->unpack(entity, transform, health_points);
+		m_game->components->unpack(entity, transform, health_points);
 
 		sf::Text text;
 		text.setFont(m_font);

@@ -28,9 +28,10 @@ void PlayerSystem::for_every_entity(
 	target_for_direction.target_position = transform.position;
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) { 
-		auto projectile = m_parent_world->create_entity();
-		projectile.add_component(std::make_unique<SpeedComponent>());
-		projectile.add_component(std::make_unique<ProjectileComponent>());
+		auto projectile = m_game->entities->create_entity();
+		projectile.add_components(
+			std::make_unique<SpeedComponent>(),
+			std::make_unique<ProjectileComponent>());
 
 		auto atk_transform = std::make_unique<TransformComponent>();
 
@@ -41,20 +42,21 @@ void PlayerSystem::for_every_entity(
 		atk_transform->size.y = transform.size.y - 10;
 
 		projectile.get_component<SpeedComponent>()->speed = 50.0f;
-		projectile.add_component(
+		projectile.add_components(
 		    std::make_unique<BoundaryComponent>(get_hitbox_based_on_transform_component(*atk_transform)));
 
-		projectile.add_component(std::move(atk_transform));
+		projectile.add_components(std::move(atk_transform));
 		
 		auto projectile_sprite = std::make_unique<SpriteComponent>();
 		projectile_sprite->sprite.setTexture(*ResourceManager::get_instance()->get_texture(Textures::ID::FIREBALL_1));
 
-		projectile.add_component(std::move(projectile_sprite));
-		projectile.add_component(std::make_unique<ElevationLevelComponent>(ElevationLevel::two));
+		projectile.add_components(
+			std::move(projectile_sprite),
+			std::make_unique<ElevationLevelComponent>(ElevationLevel::two));
 
 		auto target = std::make_unique<TargetForDirectionComponent>();
 		target->target_position = world_pos;
-		projectile.add_component(std::move(target));
+		projectile.add_components(std::move(target));
 
 		return;
 	}
@@ -83,7 +85,7 @@ void PlayerSystem::for_every_entity(
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) target_for_direction.target_position.x -= 100000.0f;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) target_for_direction.target_position.y -= 100000.0f;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) target_for_direction.target_position.y += 100000.0f;
-	m_parent_world->add_event_component(entity, std::make_unique<MoveComponent>());
+	m_game->add_event_component(entity, std::make_unique<MoveComponent>());
 
 	
 }

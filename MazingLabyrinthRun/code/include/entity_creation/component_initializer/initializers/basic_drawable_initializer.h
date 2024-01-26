@@ -3,6 +3,7 @@
 
 #include "../../../resource/texture_enum.h"
 #include "../component_initializer.h"
+#include <resource/resource_manager.h>
 
 class BasicDrawableInitializer : public ComponentInitializer {
 public:

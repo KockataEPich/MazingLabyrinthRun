@@ -8,7 +8,7 @@
 #include <bitset>
 #include <vector>
 
-class World;
+class Game;
 
 class System {
 public:
@@ -20,11 +20,11 @@ public:
 	System& operator=(System&&) = default;
 
 	ComponentMask get_signature() { return m_signature; }
-	void register_world(World* world) { m_parent_world = world; }
+	void register_game(Game* game) { m_game = game; }
 	virtual void init(){};
 
 protected:
-	World* m_parent_world;
+	Game* m_game;
 	ComponentMask m_signature;
 };
 

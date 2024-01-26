@@ -6,7 +6,7 @@
 class AIAdder : public ComponentAdder {
 public:
 	void attach_components(EntityHandle& entity) override {
-		entity.add_component(std::make_unique<AIComponent>());
+		entity.add_components(std::make_unique<AIComponent>());
 	};
 };
 

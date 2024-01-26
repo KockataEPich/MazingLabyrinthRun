@@ -1,29 +1,31 @@
 #ifndef ENTITY_HANDLE_HEADER
 #define ENTITY_HANDLE_HEADER
 
-#include "../world/world.h"
+#include <entity_base/entity.h>
+#include <component_base/component_handle.h>
+#include <game.h>
 
+class Game;
 struct EntityHandle {
 	Entity entity;
-	World* world;
+	Game* game;
 
-	void destroy() { world->destroy_entity(entity); }
+	void destroy() { game->destroy_entity(entity); }
 
-	template<typename ComponentType>
-	EntityHandle& add_component(std::unique_ptr<ComponentType>&& component) {
-		world->add_component<ComponentType>(entity, std::move(component));
-		return *this;
+	template<class... ComponentType>
+	void add_components(std::unique_ptr<ComponentType>&&... component) {
+		game->add_components<ComponentType>(entity, std::forward<ComponentType>(component)...);
 	}
 
 	template<typename ComponentType>
 	void remove_component() {
-		world->remove_component<ComponentType>(entity);
+		game->remove_component<ComponentType>(entity);
 	}
 
 	template<typename ComponentType>
 	ComponentHandle<ComponentType> get_component() {
 		ComponentHandle<ComponentType> handle;
-		world->unpack(entity, handle);
+		game->components->unpack(entity, handle);
 		return handle;
 	}
 };

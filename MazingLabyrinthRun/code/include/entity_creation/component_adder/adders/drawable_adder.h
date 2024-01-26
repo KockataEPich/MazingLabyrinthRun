@@ -11,9 +11,10 @@ class DrawableAdder : public ComponentAdder {
 public:
 	DrawableAdder(ElevationLevel level) : m_level{level} {};
 	void attach_components(EntityHandle& entity) override {
-		entity.add_component(std::make_unique<SpriteComponent>())
-		    .add_component(std::make_unique<TransformComponent>())
-		    .add_component(std::make_unique<ElevationLevelComponent>(std::move(m_level)));
+		entity.add_components(
+			std::make_unique<SpriteComponent>(),
+			std::make_unique<TransformComponent>(),
+			std::make_unique<ElevationLevelComponent>(std::move(m_level)));
 	};
 
 private:

@@ -6,16 +6,12 @@ def get_file_name(component, generation_folder):
     return os.path.join(generation_folder, "components", component.relative_path)
 
 def data_component_body(component):
-    non_default_constructor = wu.process_sequence(component.members, wm.declare_member_in_constructor, ",")
-    member_initializations = wu.process_sequence(component.members, wm.initialize_member_in_constructor, ",")
-    members = wu.process_sequence(component.members, wm.initialize_member_in_body, ";", True)
-    
     return f'''{wu.set_tab_depth(2)}{component.cpp_name()}(
-        {non_default_constructor}
+        {wu.process_sequence(component.members, wm.declare_member_in_constructor, ",")}
     ) : 
-        {member_initializations} {{}}
+        {wu.process_sequence(component.members, wm.initialize_member_in_constructor, ",")} {{}}
 
-    {wu.set_tab_depth(1)}{members}
+    {wu.set_tab_depth(1)}{wu.process_sequence(component.members, wm.initialize_member_in_body, ";", True)}
 '''
 
 def write_file(f, component): 

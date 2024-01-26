@@ -35,10 +35,9 @@ void MoveSystem::react_on_entity(
 	TransformComponent& transform,
 	SpeedComponent& speed,
 	TargetForDirectionComponent& target_for_direction){ 
-	bool TODO = true; 
 
 	transform.position =
 	    change_transform_depending_on_target_vector(transform, speed, target_for_direction.target_position);
-	m_parent_world->add_event_component(entity, std::make_unique<CollisionCheckComponent>());
+	m_game->add_event_component(entity, std::make_unique<CollisionCheckComponent>());
 }
 

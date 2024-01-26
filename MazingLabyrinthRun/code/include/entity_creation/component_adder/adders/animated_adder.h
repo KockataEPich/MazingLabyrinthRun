@@ -12,11 +12,11 @@
 class AnimatedAdder : public ComponentAdder {
 public:
 	void attach_components(EntityHandle& entity) override {
-		entity.add_component(std::make_unique<ActionTypeComponent>())
-		    .add_component(std::make_unique<SpeedComponent>())
-		    .add_component(std::make_unique<FacingSideComponent>())
-		    .add_component(std::make_unique<SkinComponent>())
-		    .add_component(std::make_unique<AnimationPlayerComponent>());
+		entity.add_components(std::make_unique<ActionTypeComponent>(),
+			std::make_unique<SpeedComponent>(),
+			std::make_unique<FacingSideComponent>(),
+			std::make_unique<SkinComponent>(),
+			std::make_unique<AnimationPlayerComponent>());
 	};
 };
 

@@ -47,13 +47,13 @@ def interactive_functions_body(system):
         victim_has_data = data_component_exists(system.victim_components)
 
         initiator_unpack = f'''{wu.set_tab_depth(2)}{wu.process_sequence(system.initiator_components, handle_component, ";", True)}
-        m_parent_world->unpack(
+        m_game->components->unpack(
             initiator_entity,
             {wu.set_tab_depth(3)}{wu.process_sequence(system.initiator_components, transform_to_var_name, ",")}
         );'''
         
         victim_unpack = f'''{wu.set_tab_depth(2)}{wu.process_sequence(system.victim_components, handle_component, ";", True)}
-        m_parent_world->unpack(
+        m_game->components->unpack(
             victim_entity,
             {wu.set_tab_depth(3)}{wu.process_sequence(system.victim_components, transform_to_var_name, ",")}
         );'''
@@ -72,7 +72,7 @@ def interactive_functions_body(system):
         for (auto& entity : m_registered_entities) {{
             if (std::find(m_registered_entities.begin(), m_registered_entities.end(), entity) == std::end(m_registered_entities)) continue;
             {wu.set_tab_depth(3)}{wu.process_sequence(system.components, handle_component, ";", True)}
-            m_parent_world->unpack(
+            m_game->components->unpack(
                 entity,
                 {wu.set_tab_depth(4)}{wu.process_sequence(system.components, transform_to_var_name, ",")}
             );
@@ -87,7 +87,7 @@ def interactive_functions_body(system):
     if system.is_react():
         return f'''{{
         {wu.set_tab_depth(2)}{wu.process_sequence(system.components, handle_component, ";", True)}
-        m_parent_world->unpack(
+        m_game->components->unpack(
             entity,
             {wu.set_tab_depth(3)}{wu.process_sequence(system.components, transform_to_var_name, ",")}
         );
@@ -125,7 +125,7 @@ def write_file_string(f, system):
 #ifndef {system.get_var_name().upper()}_SYSTEM_HEADER
 #define {system.get_var_name().upper()}_SYSTEM_HEADER
 
-#include <world/world.h>
+#include <game.h>
 #include <component_base/component_handle.h>
 
 {wu.process_sequence(wu.component_header_path_string(system.components), wu.transform_to_include)}{wu.optional_string(wu.process_sequence(system.includes, wu.transform_to_include), its_own_logic_block=True)}

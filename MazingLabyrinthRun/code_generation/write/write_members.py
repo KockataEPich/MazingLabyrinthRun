@@ -24,5 +24,5 @@ def initialize_member_in_constructor(member):
 
 def initialize_member_in_body(member): 
     before = "m_" if member.owner_is_system() else ""
-    return get_parameter_member_extended_type(member, True) + " " + before + member.name
-
+    if member.default_value == "": return get_parameter_member_extended_type(member, True) + " " + before + member.name
+    return get_parameter_member_extended_type(member, True) + " " + before + member.name + " = " + member.default_value

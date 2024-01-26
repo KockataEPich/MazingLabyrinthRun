@@ -34,7 +34,7 @@ class Component:
     def set_relative_path(self, linux_style = False):
         self.relative_path = os.path.join(self.type + "_components", self.get_var_name() + "_component.h")
         if linux_style:
-            self.relative_path.replace("\\","/")
+            self.relative_path = self.relative_path.replace("\\","/")
         
     
     def is_basic(self): return self.type == "basic"

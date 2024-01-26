@@ -1,103 +1,95 @@
 #include <world/world.h>
+#include <game.h>
 
 #include <generated/components/data_components/transform_component.h>
 #include <entity_base/entity_handle.h>
+#include <entity_creation/entity_builder/builders/grass_lands_tile_builder.h>
+#include <entity_creation/entity_builder/builders/zombie_builder.h>
+#include <entity_creation/entity_builder/builders/player_builder.h>
 
-#include <iostream>
+#include <generated/components/data_components/boundary_component.h>
+#include <generated/components/data_components/transform_component.h>
+#include <generated/components/data_components/target_for_direction_component.h>
+#include <generated/components/data_components/health_points_component.h>
 
-namespace {
-void update_mask_in_systems(Entity const& entity,
-                            ComponentMask& new_mask,
-                            ComponentMask& old_mask,
-                            EntityTrackerSystem* system) {
-	ComponentMask systemSignature = system->get_signature();
-	if (new_mask.is_new_match(old_mask, systemSignature))
-		system->register_entity(entity);
-	else if (new_mask.is_no_longer_matched(old_mask, systemSignature))
-		system->unregister_entity(entity);
-}
-} // namespace
+#include <generated/components/basic_components/solid_component.h>
+#include <generated/components/basic_components/default_collision_armor_component.h>
+#include <generated/components/basic_components/mouse_component.h>
 
-World::World(std::unique_ptr<EntityManager> entity_manager) : m_entity_manager(std::move(entity_manager)) {}
+#include <utils/component_utils.h>
 
-void World::init() {
-	for (auto& system : m_producer_system_sequence_wrapper.get_systems())  system->init(); 
-	for (auto& system : m_react_systems) system->init(); 
-	for (auto& system : m_impulse_systems) system->init();
-	for (auto& system : m_render_systems) system->init();
-}
-
-void World::update(float dt) { m_producer_system_sequence_wrapper.run_systems(dt); }
-
-void World::render() { 
-	for (auto& system : m_render_systems) system->render();
-}
-
-EntityHandle World::create_entity() { return {m_entity_manager->create_entity(), this}; }
-
-void World::destroy_entity(Entity entity) {
-	for (auto& system : m_producer_system_sequence_wrapper.get_systems()) 
-		if (m_entity_masks[entity].matches(system->get_signature()))
-			system->unregister_entity(entity); 
-
-	for (auto& system : m_render_systems)
-		if (m_entity_masks[entity].matches(system->get_signature())) system->unregister_entity(entity); 
-
-	for (auto& component_manager : m_component_managers) 
-		component_manager->destroy_component(entity);
-	
-	m_entity_masks[entity] = {};
-
-	m_entity_manager->destroy(entity);
-}
-
-World* World::add_producer_system(std::unique_ptr<ProducerSystem>&& system) {
-	system->register_world(this);
-	m_producer_system_sequence_wrapper.add_system(std::move(system));
-	return this;
-}
-
-World* World::add_react_system(std::unique_ptr<ReactSystem>&& system) {
-	system->register_world(this);
-	m_react_systems.push_back(std::move(system));
-	return this;
-}
-
-World* World::add_impulse_system(std::unique_ptr<ImpulseSystem>&& system) {
-	system->register_world(this);
-	m_impulse_systems.push_back(std::move(system));
-	return this;
-} 
-World* World::add_render_system(std::unique_ptr<RenderSystem>&& system) {
-	system->register_world(this);
-	m_render_systems.push_back(std::move(system));
-	return this;
-} 
-
-
-void World::update_entity_mask(Entity const& entity, ComponentMask old_mask) {
-	ComponentMask new_mask = m_entity_masks[entity];
-	for (auto& system : m_producer_system_sequence_wrapper.get_systems()) 
-		update_mask_in_systems(entity, new_mask, old_mask, system.get());
-	for (auto& system :m_render_systems)
-		update_mask_in_systems(entity, new_mask, old_mask, system.get());
-	
-}
-
-void World::react_on_event(Entity const& entity, ComponentMask new_mask) {
-	for (auto& system : m_react_systems)
-		if (new_mask.matches(system->get_signature())) system->react(entity);
-}
-
-bool World::place_entity(EntityHandle& entity, sf::Vector2f position) {
-	entity.get_component<TransformComponent>()->position = position;
+bool World::place_entity(const Entity entity, sf::Vector2f position) {
+	EntityHandle entity_handle{entity, m_game};
+	entity_handle.get_component<TransformComponent>()->position = position;
 	return true;
 }
 
-void World::exchange_impulses(Entity const& initiator, Entity const& victim) {
-	for (auto& system : m_impulse_systems) {
-		if (m_entity_masks[initiator].matches(system->get_signature()) &&
-		    m_entity_masks[victim].matches(system->get_signature_of_victim()))
-			system->exchange_impulse(initiator, victim);
+void World::init() {
+	GrassLandsTileBuilder grass_builder;
+	ZombieEntityBuilder zombie_builder;
+	auto zombie2 = m_game->create_entity();
+	zombie_builder.build_entity(zombie2);
+	zombie2.add_components(
+		std::make_unique<SolidComponent>(),
+		std::make_unique<BoundaryComponent>(
+	    get_hitbox_based_on_transform_component(*zombie2.get_component<TransformComponent>())),
+		std::make_unique<DefaultCollisionArmorComponent>(),
+		std::make_unique<TargetForDirectionComponent>(),
+		std::make_unique<HealthPointsComponent>());
+
+	m_game->world->place_entity(zombie2.entity, {32.0f, 32.0f});
+
+	for (int i = -1600; i <= 1600; i += 160) {
+		int counter = 0;
+		for (int j = 1600; j >= -1600; j -= 160) {
+			auto grass_land = m_game->create_entity();
+			grass_builder.build_entity(grass_land);
+
+			/*if (counter == 10) {
+			    auto zombie = m_world->create_entity();
+			    zombie_builder.build_entity(zombie);
+			    zombie.add_component(std::make_unique<SolidComponent>());
+			    zombie.add_component(std::make_unique<DefaultCollisionArmorComponent>());
+			    zombie.add_component(std::make_unique<HealthPointsComponent>());
+			    zombie.add_component(std::make_unique<TargetForDirectionComponent>());
+			    zombie.add_component(std::make_unique<BoundaryComponent>(
+			        get_hitbox_based_on_transform_component(*zombie.get_component<TransformComponent>())));
+			    m_world->place_entity(zombie, {(float)i, (float)j});
+			    counter = 0;
+			}
+			counter++;*/
+			place_entity(grass_land.entity, {(float)i, (float)j});
+
+			// grass_land.add_component(std::make_unique<BoundaryComponent>(
+			//     get_hitbox_based_on_transform_component(*grass_land.get_component<TransformComponent>())));
+		}
 	}
+
+	auto player = m_game->create_entity();
+	PlayerEntityBuilder{}.build_entity(player);
+	player.add_components(std::make_unique<SolidComponent>(),
+		std::make_unique<HealthPointsComponent>(),
+		std::make_unique<BoundaryComponent>(
+	    get_hitbox_based_on_transform_component(*player.get_component<TransformComponent>())),
+		std::make_unique<DefaultCollisionArmorComponent>(),
+		std::make_unique<TargetForDirectionComponent>());
+
+	m_player_sprite = &player.get_component<SpriteComponent>()->sprite;
+	m_player_sprite = m_player_sprite;
+	place_entity(player.entity, {0.0f, 0.0f});
+
+	auto mouse = m_game->create_entity();
+	mouse.add_components(
+		std::make_unique<SpriteComponent>(),
+		std::make_unique<TransformComponent>(),
+		std::make_unique<BoundaryComponent>(
+	        get_hitbox_based_on_transform_component(*mouse.get_component<TransformComponent>())),
+		std::make_unique<MouseComponent>(),
+		std::make_unique<ElevationLevelComponent>(ElevationLevel::UI));
+
+	mouse.get_component<TransformComponent>()->scale = {3, 3};
+	auto& mouse_sprite = mouse.get_component<SpriteComponent>()->sprite;
+	mouse_sprite.setTexture(*ResourceManager::get_instance()->get_texture(Textures::ID::CROSS_HAIR_DEFAULT));
+	mouse.get_component<TransformComponent>()->size = {(float)mouse_sprite.getTextureRect().width,
+	                                                   (float)mouse_sprite.getTextureRect().height};
 }

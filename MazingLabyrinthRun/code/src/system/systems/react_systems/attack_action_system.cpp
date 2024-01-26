@@ -12,7 +12,7 @@ void AttackActionSystem::react_on_entity(
 	
 	if (action_type.action_type != ActionType::attack) return;
 	
-	auto attack_box = m_parent_world->create_entity();
+	auto attack_box = m_game->entities->create_entity();
 	attack_box.add_component(std::make_unique<BasicAttackNeedleComponent>());
 	attack_box.add_component(std::make_unique<BoundaryComponent>());
 
@@ -25,7 +25,7 @@ void AttackActionSystem::react_on_entity(
 	atk_transform->size.y = transform.size.y - 10;
 
 	attack_box.add_component(std::move(atk_transform));
-	m_parent_world->add_event_component(attack_box.entity, std::make_unique<CollisionCheckComponent>());
+	m_game->add_event_component(attack_box.entity, std::make_unique<CollisionCheckComponent>());
 	attack_box.destroy();
 
 }
