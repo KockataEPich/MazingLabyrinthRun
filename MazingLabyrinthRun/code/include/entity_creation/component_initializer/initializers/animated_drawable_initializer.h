@@ -26,7 +26,7 @@ public:
 		sprite.setOrigin(sf::Vector2f(animation_player.get_current_rect().width / 2.0f, 
 									  animation_player.get_current_rect().height / 2.0f));
 		entity.get_component<TransformComponent>()->size = {(float)sprite.getTextureRect().width,
-		                                                      (float)sprite.getTextureRect().height};
+		                                                    (float)sprite.getTextureRect().height};
 	};
 private:
 	Skin m_skin;

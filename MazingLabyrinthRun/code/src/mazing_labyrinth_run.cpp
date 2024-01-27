@@ -11,6 +11,7 @@ MazingLabyrinthRun::MazingLabyrinthRun() : m_window("MazingLabyrinthRun", sf::Ve
 void MazingLabyrinthRun::initialize_game() {
 	m_game = std::make_unique<Game>(&m_window);
 	m_game->init();
+	m_camera = sf::View({0.0f, 0.0f}, sf::Vector2f(m_window.get_window_size().x, m_window.get_window_size().y));
 }
 
 void MazingLabyrinthRun::handle_input() {}

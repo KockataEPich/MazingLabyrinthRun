@@ -82,4 +82,9 @@ void Systems::init(){
 
 	add_render_systems(std::make_unique<RenderSpriteSystem>(*m_game->m_window),
 	                   std::make_unique<RenderHealthSystem>(*m_game->m_window));
+
+	for (auto& system : m_producer_system_sequence_wrapper.get_systems()) system->init();
+	for (auto& system : m_react_systems) system->init();
+	for (auto& system : m_impulse_systems) system->init();
+	for (auto& system : m_render_systems) system->init();
 };
