@@ -20,7 +20,7 @@ public:
 		world->init();
 	}
 
-	EntityHandle create_entity() { return {entities->birth_entity(), this}; }
+	EntityHandle create_entity();
 
 	void destroy_entity(const Entity entity) {
 		systems->remove_entity_from_systems(entity);
@@ -31,7 +31,7 @@ public:
 	template<class... ComponentType>
 	void add_components(const Entity& entity, std::unique_ptr<ComponentType>&&... component) {
 		( [&] { 
-			components->add_component(entity, component);
+			components->add_component(entity, std::move(component));
 			ComponentMask old_mask = entities->get_mask(entity);
 			entities->add_component_to_entity_mask<ComponentType>(entity);
 			systems->update_entity_system_subscriptions(entity, old_mask);

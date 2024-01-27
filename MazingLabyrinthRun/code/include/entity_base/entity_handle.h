@@ -5,16 +5,17 @@
 #include <component_base/component_handle.h>
 #include <game.h>
 
-class Game;
 struct EntityHandle {
 	Entity entity;
 	Game* game;
 
-	void destroy() { game->destroy_entity(entity); }
+	void destroy() {
+		game->destroy_entity(entity); 
+     }
 
 	template<class... ComponentType>
 	void add_components(std::unique_ptr<ComponentType>&&... component) {
-		game->add_components<ComponentType>(entity, std::forward<ComponentType>(component)...);
+		game->add_components(entity, std::forward <std::unique_ptr<ComponentType>>(component)...);
 	}
 
 	template<typename ComponentType>

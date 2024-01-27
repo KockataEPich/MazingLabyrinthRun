@@ -39,7 +39,7 @@ public:
 	}
 
 private:
-	std::unique_ptr<EntityManager> m_entity_manager = {};
+	std::unique_ptr<EntityManager> m_entity_manager = std::make_unique<EntityManager>();
 	std::map<Entity, ComponentMask> m_entity_masks;
 
 	Game* m_game;

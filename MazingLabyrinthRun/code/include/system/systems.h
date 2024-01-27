@@ -8,7 +8,6 @@
 #include <tuple>
 #include <functional>
 
-
 class Game;
 class Systems {
 public:

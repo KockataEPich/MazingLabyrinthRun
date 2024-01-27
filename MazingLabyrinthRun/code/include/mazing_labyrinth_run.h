@@ -28,7 +28,6 @@ private:
 	void restart_clock() { m_elapsed = m_clock.restart(); }
 	void initialize_game();
 
-	sf::Sprite* m_player_sprite;
 };
 
 #endif // !MAZING_LABYRINTH_RUN_HEADER_H

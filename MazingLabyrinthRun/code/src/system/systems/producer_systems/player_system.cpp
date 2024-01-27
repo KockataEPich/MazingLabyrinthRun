@@ -28,7 +28,7 @@ void PlayerSystem::for_every_entity(
 	target_for_direction.target_position = transform.position;
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) { 
-		auto projectile = m_game->entities->create_entity();
+		auto projectile = m_game->create_entity();
 		projectile.add_components(
 			std::make_unique<SpeedComponent>(),
 			std::make_unique<ProjectileComponent>());

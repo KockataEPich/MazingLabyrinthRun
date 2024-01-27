@@ -78,12 +78,12 @@ void World::init() {
 	m_player_sprite = m_player_sprite;
 	place_entity(player.entity, {0.0f, 0.0f});
 
+	std::unique_ptr<TransformComponent> mouse_transform = std::make_unique<TransformComponent>(); 
 	auto mouse = m_game->create_entity();
 	mouse.add_components(
 		std::make_unique<SpriteComponent>(),
-		std::make_unique<TransformComponent>(),
-		std::make_unique<BoundaryComponent>(
-	        get_hitbox_based_on_transform_component(*mouse.get_component<TransformComponent>())),
+		std::make_unique<BoundaryComponent>(get_hitbox_based_on_transform_component(*mouse_transform)),
+	    std::move(mouse_transform),
 		std::make_unique<MouseComponent>(),
 		std::make_unique<ElevationLevelComponent>(ElevationLevel::UI));
 
