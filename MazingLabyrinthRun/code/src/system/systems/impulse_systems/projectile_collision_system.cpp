@@ -7,6 +7,6 @@ void ProjectileCollisionSystem::clash_entities(
     ){
 	m_game->destroy_entity(initiator);
 	victim_health_points.health -= 1;
-	if (victim_health_points.health < 0) 
+	if (victim_health_points.health <= 0) 
 		m_game->destroy_entity(victim);
 }
