@@ -24,6 +24,6 @@ void AnimateSystem::for_every_entity(
 	                     (float)sprite.sprite.getTextureRect().height};
 
 	if (animation_player.animation_player.is_action_frame())
-		m_game->add_event_component(entity, std::make_unique<InitiateActionComponent>());
+		m_game->add_event_components<InitiateActionComponent>(entity);
 }
 

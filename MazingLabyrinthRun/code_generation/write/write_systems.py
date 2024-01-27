@@ -2,18 +2,18 @@ import os.path
 from . import write_members as wm
 from .  import write_utils as wu
 
-def transform_signature_string(component): return ".add_component<" + component.cpp_name() + ">()"
+def transform_signature_string(component): return component.cpp_name()
 
 def get_system_constructor_body(system):
     if not system.is_impulse():
-        return f'''m_signature
-            {wu.process_sequence(system.components, transform_signature_string,)};'''
+        return f'''m_signature.add_components<
+            {wu.process_sequence(system.components, transform_signature_string, ",")}>();'''
     
-    return f'''m_signature
-            {wu.process_sequence(system.initiator_components, transform_signature_string)};
+    return f'''m_signature.add_components<
+            {wu.process_sequence(system.initiator_components, transform_signature_string, ",")}>();
             
-        m_signature_of_victim
-            {wu.process_sequence(system.victim_components, transform_signature_string)};'''
+        m_signature_of_victim.add_components<
+            {wu.process_sequence(system.victim_components, transform_signature_string, ",")}>();'''
 
 def cpp_func_params(system):
     if system.is_react(): return "const Entity entity"

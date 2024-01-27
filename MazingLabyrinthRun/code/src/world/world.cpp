@@ -11,6 +11,7 @@
 #include <generated/components/data_components/transform_component.h>
 #include <generated/components/data_components/target_for_direction_component.h>
 #include <generated/components/data_components/health_points_component.h>
+#include <generated/components/data_components/elevation_level_component.h>
 
 #include <generated/components/basic_components/solid_component.h>
 #include <generated/components/basic_components/default_collision_armor_component.h>
@@ -29,13 +30,13 @@ void World::init() {
 	ZombieEntityBuilder zombie_builder;
 	auto zombie2 = m_game->create_entity();
 	zombie_builder.build_entity(zombie2);
-	zombie2.add_components(
-		std::make_unique<SolidComponent>(),
-		std::make_unique<BoundaryComponent>(
-	    get_hitbox_based_on_transform_component(*zombie2.get_component<TransformComponent>())),
-		std::make_unique<DefaultCollisionArmorComponent>(),
-		std::make_unique<TargetForDirectionComponent>(),
-		std::make_unique<HealthPointsComponent>());
+	zombie2.add_components <SolidComponent,
+							DefaultCollisionArmorComponent,
+							TargetForDirectionComponent,
+							HealthPointsComponent>();
+
+	zombie2.add_components(std::make_unique<BoundaryComponent>(
+	    get_hitbox_based_on_transform_component(*zombie2.get_component<TransformComponent>())));
 
 	m_game->world->place_entity(zombie2.entity, {32.0f, 32.0f});
 
@@ -67,12 +68,13 @@ void World::init() {
 
 	auto player = m_game->create_entity();
 	PlayerEntityBuilder{}.build_entity(player);
-	player.add_components(std::make_unique<SolidComponent>(),
-		std::make_unique<HealthPointsComponent>(),
-		std::make_unique<BoundaryComponent>(
-	    get_hitbox_based_on_transform_component(*player.get_component<TransformComponent>())),
-		std::make_unique<DefaultCollisionArmorComponent>(),
-		std::make_unique<TargetForDirectionComponent>());
+	player.add_components<SolidComponent,
+	                      HealthPointsComponent,
+	                      DefaultCollisionArmorComponent,
+	                      TargetForDirectionComponent>();
+
+	player.add_components(
+		std::make_unique<BoundaryComponent>(get_hitbox_based_on_transform_component(*player.get_component<TransformComponent>())));
 
 	m_player_sprite = &player.get_component<SpriteComponent>()->sprite;
 	m_player_sprite = m_player_sprite;
@@ -80,12 +82,10 @@ void World::init() {
 
 	std::unique_ptr<TransformComponent> mouse_transform = std::make_unique<TransformComponent>(); 
 	auto mouse = m_game->create_entity();
-	mouse.add_components(
-		std::make_unique<SpriteComponent>(),
-		std::make_unique<BoundaryComponent>(get_hitbox_based_on_transform_component(*mouse_transform)),
-	    std::move(mouse_transform),
-		std::make_unique<MouseComponent>(),
-		std::make_unique<ElevationLevelComponent>(ElevationLevel::UI));
+	mouse.add_components<SpriteComponent, MouseComponent>();
+	mouse.add_components(std::make_unique<BoundaryComponent>(get_hitbox_based_on_transform_component(*mouse_transform)),
+	                     std::move(mouse_transform),
+						 std::make_unique<ElevationLevelComponent>(ElevationLevel::UI));
 
 	mouse.get_component<TransformComponent>()->scale = {3, 3};
 	auto& mouse_sprite = mouse.get_component<SpriteComponent>()->sprite;

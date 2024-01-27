@@ -85,7 +85,7 @@ void PlayerSystem::for_every_entity(
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) target_for_direction.target_position.x -= 100000.0f;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) target_for_direction.target_position.y -= 100000.0f;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) target_for_direction.target_position.y += 100000.0f;
-	m_game->add_event_component(entity, std::make_unique<MoveComponent>());
+	m_game->add_event_components<MoveComponent>(entity);
 
 	
 }

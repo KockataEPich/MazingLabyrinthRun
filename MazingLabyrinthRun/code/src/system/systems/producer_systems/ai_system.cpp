@@ -9,6 +9,6 @@ void AISystem::for_every_entity(
     TargetForDirectionComponent& target_for_direction) {
 
 	target_for_direction.target_position = m_game->world->get_player_sprite().getPosition();
-	m_game->add_event_component(entity, std::make_unique<MoveComponent>());
+	m_game->add_event_components<MoveComponent>(entity);
 }
 

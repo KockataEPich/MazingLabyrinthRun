@@ -29,6 +29,16 @@ public:
 	}
 
 	template<class... ComponentType>
+	void add_components(const Entity& entity) {
+		( [&] {
+			    components->add_component(entity, std::make_unique<ComponentType>());
+			    ComponentMask old_mask = entities->get_mask(entity);
+			    entities->add_component_to_entity_mask<ComponentType>(entity);
+			    systems->update_entity_system_subscriptions(entity, old_mask);
+		    }(), ...);
+	}
+
+	template<class... ComponentType>
 	void add_components(const Entity& entity, std::unique_ptr<ComponentType>&&... component) {
 		( [&] { 
 			components->add_component(entity, std::move(component));
@@ -38,9 +48,13 @@ public:
 		}(), ...);
 	}
 
-	template<typename ComponentType>
-	void add_event_component(Entity const& entity, std::unique_ptr<ComponentType>&& component) {
-		systems->react_on_event(entity, entities->get_mask(entity).add_component<ComponentType>());
+	template<typename... ComponentType>
+	void add_event_components(const Entity& entity) {
+		( [&] { 
+			auto new_mask = entities->get_mask(entity);
+			new_mask.add_components<ComponentType>(); 
+			systems->react_on_event(entity, new_mask);
+		}(),...);
 	}
 
 	template<class ComponentType>

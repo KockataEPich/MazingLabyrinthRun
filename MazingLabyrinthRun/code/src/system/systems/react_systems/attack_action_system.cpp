@@ -25,7 +25,7 @@ void AttackActionSystem::react_on_entity(
 	atk_transform->size.y = transform.size.y - 10;
 
 	attack_box.add_components(std::move(atk_transform));
-	m_game->add_event_component(attack_box.entity, std::make_unique<CollisionCheckComponent>());
+	attack_box.add_event_components<CollisionCheckComponent>();
 	attack_box.destroy();
 
 }

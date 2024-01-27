@@ -6,5 +6,5 @@ void ProjectileSystem::for_every_entity(
         Entity entity,
         TargetForDirectionComponent& target_for_direction
     ){
-	m_game->add_event_component(entity, std::make_unique<MoveComponent>());
+	m_game->add_event_components<MoveComponent>(entity);
 }
