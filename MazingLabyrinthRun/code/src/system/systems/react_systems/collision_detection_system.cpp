@@ -18,8 +18,7 @@ void CollisionDetectionSystem::react_on_entity(
 
 	for (auto victim_entity : m_game->entities->get_all_entities_who_have_component<BoundaryComponent>()) {
 		if (entity == victim_entity) continue;
-		ComponentHandle<BoundaryComponent> victim_boundary;
-		m_game->components->unpack(victim_entity, victim_boundary);
+		auto [victim_boundary] = m_game->components->unpack<BoundaryComponent>(victim_entity);
 		if (boundary.hitbox.intersects(victim_boundary->hitbox))
 			m_game->systems->exchange_impulses(entity, victim_entity);
 	}

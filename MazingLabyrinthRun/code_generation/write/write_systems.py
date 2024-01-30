@@ -4,6 +4,10 @@ from .  import write_utils as wu
 
 def transform_signature_string(component): return component.cpp_name()
 
+def transform_production_components(component): 
+    if component.is_basic(): return ""
+    return component.cpp_name()
+
 def get_system_constructor_body(system):
     if not system.is_impulse():
         return f'''m_signature.add_components<
@@ -46,17 +50,15 @@ def interactive_functions_body(system):
         initiator_has_data = data_component_exists(system.initiator_components)
         victim_has_data = data_component_exists(system.victim_components)
 
-        initiator_unpack = f'''{wu.set_tab_depth(2)}{wu.process_sequence(system.initiator_components, handle_component, ";", True)}
-        m_game->components->unpack(
-            initiator_entity,
-            {wu.set_tab_depth(3)}{wu.process_sequence(system.initiator_components, transform_to_var_name, ",")}
-        );'''
+        initiator_unpack = f'''auto [ 
+            {wu.set_tab_depth(3)}{wu.process_sequence(system.initiator_components, transform_to_var_name, ",", False)}
+        ] = m_game->components->unpack<
+            {wu.process_sequence(system.initiator_components, transform_production_components, ",", False)}>(initiator_entity);'''
         
-        victim_unpack = f'''{wu.set_tab_depth(2)}{wu.process_sequence(system.victim_components, handle_component, ";", True)}
-        m_game->components->unpack(
-            victim_entity,
-            {wu.set_tab_depth(3)}{wu.process_sequence(system.victim_components, transform_to_var_name, ",")}
-        );'''
+        victim_unpack = f'''auto [ 
+            {wu.set_tab_depth(3)}{wu.process_sequence(system.victim_components, transform_to_var_name, ",", False)}
+        ] = m_game->components->unpack<
+            {wu.process_sequence(system.victim_components, transform_production_components, ",", False)}>(victim_entity);'''
         
         return f'''{wu.set_tab_depth(2)}{{{wu.optional_string(initiator_unpack, initiator_has_data)}{wu.optional_string(victim_unpack, victim_has_data, True)}
 
@@ -71,11 +73,10 @@ def interactive_functions_body(system):
         return f'''{{
         for (auto& entity : m_registered_entities) {{
             if (std::find(m_registered_entities.begin(), m_registered_entities.end(), entity) == std::end(m_registered_entities)) continue;
-            {wu.set_tab_depth(3)}{wu.process_sequence(system.components, handle_component, ";", True)}
-            m_game->components->unpack(
-                entity,
-                {wu.set_tab_depth(4)}{wu.process_sequence(system.components, transform_to_var_name, ",")}
-            );
+            auto [ 
+                {wu.set_tab_depth(4)}{wu.process_sequence(system.components, transform_to_var_name, ",", False)}
+            ] = m_game->components->unpack<
+                {wu.process_sequence(system.components, transform_production_components, ",", False)}>(entity);
         
             {system.cpp_function_name()}(
                 entity,
@@ -86,11 +87,10 @@ def interactive_functions_body(system):
 
     if system.is_react():
         return f'''{{
-        {wu.set_tab_depth(2)}{wu.process_sequence(system.components, handle_component, ";", True)}
-        m_game->components->unpack(
-            entity,
-            {wu.set_tab_depth(3)}{wu.process_sequence(system.components, transform_to_var_name, ",")}
-        );
+        auto [ 
+            {wu.set_tab_depth(3)}{wu.process_sequence(system.components, transform_to_var_name, ",", False)}
+        ] = m_game->components->unpack<
+            {wu.process_sequence(system.components, transform_production_components, ",", False)}>(entity);
         
         {system.cpp_function_name()}(
             entity,

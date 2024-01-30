@@ -26,10 +26,6 @@ struct EntityHandle {
 	void remove_component() { game->remove_component<ComponentType>(entity); }
 
 	template<typename ComponentType>
-	ComponentHandle<ComponentType> get_component() {
-		ComponentHandle<ComponentType> handle;
-		game->components->unpack(entity, handle);
-		return handle;
-	}
+	ComponentHandle<ComponentType> get_component() { return std::get<0>(game->components->unpack<ComponentType>(entity)); }
 };
 #endif

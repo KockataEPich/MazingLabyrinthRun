@@ -24,16 +24,12 @@ void RenderSpriteSystem::render() {
 }
 
 void RenderSpriteSystem::register_entity(Entity const& entity) {
-	ComponentHandle<SpriteComponent> sprite;
-	ComponentHandle<ElevationLevelComponent> elevation;
-
-	m_game->components->unpack(entity, sprite, elevation);
+	auto [sprite, elevation] = m_game->components->unpack <SpriteComponent, ElevationLevelComponent>(entity);
 	get_level_vector(elevation->level).push_back({&sprite->sprite, entity});
 }
 
 void RenderSpriteSystem::unregister_entity(Entity const& entity) {
-	ComponentHandle<ElevationLevelComponent> elevation;
-	m_game->components->unpack(entity, elevation);
+	auto [elevation] = m_game->components->unpack<ElevationLevelComponent>(entity);
 	remove_entity_if_it_exists(get_level_vector(elevation->level), entity);
 }
 
@@ -44,8 +40,7 @@ void RenderSpriteSystem::draw_level(std::vector<std::pair<sf::Sprite*, Entity>>&
 		if (!draw_hitbox) continue;
 
 		for (const auto& entity : m_game->entities->get_all_entities_who_have_component<BoundaryComponent>()) {
-			ComponentHandle<BoundaryComponent> boundary;
-			m_game->components->unpack(entity, boundary);
+			auto [boundary] =  m_game->components->unpack<BoundaryComponent>(entity);
 
 			auto box = boundary->hitbox;
 			sf::RectangleShape rectangle({box.width, box.height});

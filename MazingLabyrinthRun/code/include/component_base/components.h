@@ -28,12 +28,8 @@ public:
 	}
 
 	template<class... ComponentType>
-	void unpack(const Entity& entity, ComponentHandle<ComponentType>&... handle) {
-		( [&] {
-			typedef ComponentManager<ComponentType> ComponentManagerType;
-			auto manger = get_component_manager<ComponentType>();
-		    handle = ComponentHandle<ComponentType>(entity, manger->lookup(entity), manger);
-		}(), ...);
+	auto unpack(const Entity& entity) {
+		return std::make_tuple(get_component_handle<ComponentType>(entity)...);
 	}
 
 	template<typename ComponentType>
@@ -69,6 +65,12 @@ private:
 		}
 
 		return static_cast<ComponentManager<ComponentType>*>(m_component_managers[index].get());
+	}
+
+	template<class ComponentType>
+	ComponentHandle<ComponentType> get_component_handle(const Entity entity) {
+		auto manger = get_component_manager<ComponentType>();
+		return ComponentHandle<ComponentType>(entity, manger->lookup(entity), manger);
 	}
 
 };
