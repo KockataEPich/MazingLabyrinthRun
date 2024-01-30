@@ -3,8 +3,8 @@
 
 
 void ProjectileSystem::for_every_entity(
-        Entity entity,
+        EntityHandle entity,
         TargetForDirectionComponent& target_for_direction
     ){
-	m_game->add_event_components<MoveComponent>(entity);
+	entity.add_event_components<MoveComponent>();
 }

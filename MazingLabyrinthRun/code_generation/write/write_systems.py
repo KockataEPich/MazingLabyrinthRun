@@ -63,9 +63,9 @@ def interactive_functions_body(system):
         return f'''{wu.set_tab_depth(2)}{{{wu.optional_string(initiator_unpack, initiator_has_data)}{wu.optional_string(victim_unpack, victim_has_data, True)}
 
         {system.cpp_function_name()}(
-            initiator_entity,{wu.set_tab_depth(3)}{wu.optional_string(wu.process_sequence(system.initiator_components, transform_dereferenced_variable, ",", True))}
+            {{initiator_entity, m_game}},{wu.set_tab_depth(3)}{wu.optional_string(wu.process_sequence(system.initiator_components, transform_dereferenced_variable, ",", True))}
 
-            victim_entity{"," if victim_has_data else ""}{wu.optional_string(wu.process_sequence(system.victim_components, transform_dereferenced_variable, ","))}
+            {{victim_entity, m_game}}{"," if victim_has_data else ""}{wu.optional_string(wu.process_sequence(system.victim_components, transform_dereferenced_variable, ","))}
         );
     }}'''
 
@@ -79,7 +79,7 @@ def interactive_functions_body(system):
                 {wu.process_sequence(system.components, transform_production_components, ",", False)}>(entity);
         
             {system.cpp_function_name()}(
-                entity,
+                {{entity, m_game}},
                 {wu.process_sequence(system.components, transform_dereferenced_variable, ",")}
             );
         }}
@@ -93,7 +93,7 @@ def interactive_functions_body(system):
             {wu.process_sequence(system.components, transform_production_components, ",", False)}>(entity);
         
         {system.cpp_function_name()}(
-            entity,
+            {{entity, m_game}},
             {wu.process_sequence(system.components, transform_dereferenced_variable, ",")}
         );
     }}'''
@@ -106,15 +106,15 @@ def transform_component_with_type(component):
 def get_cpp_function_declaration(system):
     if not system.is_impulse():
         return f'''{system.cpp_function_name()}(
-        Entity entity,
+        EntityHandle entity,
         {wu.set_tab_depth(2)}{wu.process_sequence(system.components, transform_component_with_type, ",")}
     )'''
 
     initiator_has_data = data_component_exists(system.initiator_components)
     return f'''{system.cpp_function_name()}(
-        Entity initiator,
+        EntityHandle initiator,
         {wu.set_tab_depth(2)}{wu.optional_string_basic(wu.process_sequence(system.initiator_components, transform_component_with_type, ","), initiator_has_data)}{"," if initiator_has_data else ""}
-        Entity victim{"," if data_component_exists(system.victim_components) else ""}{wu.optional_string(wu.process_sequence(system.victim_components, transform_component_with_type, ","))}
+        EntityHandle victim{"," if data_component_exists(system.victim_components) else ""}{wu.optional_string(wu.process_sequence(system.victim_components, transform_component_with_type, ","))}
     )'''
 
 
@@ -127,6 +127,7 @@ def write_file_string(f, system):
 
 #include <game.h>
 #include <component_base/component_handle.h>
+#include <entity_base/entity_handle.h>
 
 {wu.process_sequence(wu.component_header_path_string(system.components), wu.transform_to_include)}{wu.optional_string(wu.process_sequence(system.includes, wu.transform_to_include), its_own_logic_block=True)}
 

@@ -1,7 +1,7 @@
 #include <generated/systems/producer_systems/animate_system.h>
 #include <generated/components/basic_components/initiate_action_component.h>
 void AnimateSystem::for_every_entity(
-	Entity entity,
+	EntityHandle entity,
 	ActionTypeComponent& action_type,
 	SkinComponent& skin,
 	FacingSideComponent& facing_side,
@@ -24,6 +24,6 @@ void AnimateSystem::for_every_entity(
 	                     (float)sprite.sprite.getTextureRect().height};
 
 	if (animation_player.animation_player.is_action_frame())
-		m_game->add_event_components<InitiateActionComponent>(entity);
+		entity.add_event_components<InitiateActionComponent>();
 }
 

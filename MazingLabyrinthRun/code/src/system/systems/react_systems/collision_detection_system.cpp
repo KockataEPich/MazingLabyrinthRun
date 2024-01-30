@@ -3,7 +3,7 @@
 
 
 void CollisionDetectionSystem::react_on_entity(
-	Entity entity,
+	EntityHandle entity,
 	BoundaryComponent& boundary,
 	TransformComponent& transform,
     TargetForDirectionComponent& target_for_direction) {
@@ -17,10 +17,10 @@ void CollisionDetectionSystem::react_on_entity(
 	//sf::Vector2f 
 
 	for (auto victim_entity : m_game->entities->get_all_entities_who_have_component<BoundaryComponent>()) {
-		if (entity == victim_entity) continue;
+		if (entity.entity == victim_entity) continue;
 		auto [victim_boundary] = m_game->components->unpack<BoundaryComponent>(victim_entity);
 		if (boundary.hitbox.intersects(victim_boundary->hitbox))
-			m_game->systems->exchange_impulses(entity, victim_entity);
+			m_game->systems->exchange_impulses(entity.entity, victim_entity);
 	}
 }
 

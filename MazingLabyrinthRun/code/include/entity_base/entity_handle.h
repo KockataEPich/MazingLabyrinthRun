@@ -23,7 +23,7 @@ struct EntityHandle {
 	void add_event_components() { game->add_event_components<ComponentType...>(entity); }
 
 	template<typename ComponentType>
-	void remove_component() { game->remove_component<ComponentType>(entity); }
+	void remove_component() { game->remove_components<ComponentType>(entity); }
 
 	template<typename ComponentType>
 	ComponentHandle<ComponentType> get_component() { return std::get<0>(game->components->unpack<ComponentType>(entity)); }

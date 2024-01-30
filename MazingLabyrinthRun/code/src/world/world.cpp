@@ -46,19 +46,20 @@ void World::init() {
 			auto grass_land = m_game->create_entity();
 			grass_builder.build_entity(grass_land);
 
-			/*if (counter == 10) {
-			    auto zombie = m_world->create_entity();
+			if (counter == 10) {
+			    auto zombie = m_game->create_entity();
 			    zombie_builder.build_entity(zombie);
-			    zombie.add_component(std::make_unique<SolidComponent>());
-			    zombie.add_component(std::make_unique<DefaultCollisionArmorComponent>());
-			    zombie.add_component(std::make_unique<HealthPointsComponent>());
-			    zombie.add_component(std::make_unique<TargetForDirectionComponent>());
-			    zombie.add_component(std::make_unique<BoundaryComponent>(
+			    zombie.add_components<SolidComponent,
+									  DefaultCollisionArmorComponent,
+									  HealthPointsComponent,
+									  TargetForDirectionComponent>();
+
+			    zombie.add_components(std::make_unique<BoundaryComponent>(
 			        get_hitbox_based_on_transform_component(*zombie.get_component<TransformComponent>())));
-			    m_world->place_entity(zombie, {(float)i, (float)j});
+			    m_game->world->place_entity(zombie.entity, {(float)i, (float)j});
 			    counter = 0;
 			}
-			counter++;*/
+			counter++;
 			place_entity(grass_land.entity, {(float)i, (float)j});
 
 			// grass_land.add_component(std::make_unique<BoundaryComponent>(

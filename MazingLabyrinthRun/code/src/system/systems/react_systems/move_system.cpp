@@ -31,13 +31,13 @@ sf::Vector2f change_transform_depending_on_target_vector(const TransformComponen
 
 
 void MoveSystem::react_on_entity(
-	Entity entity,
+	EntityHandle entity,
 	TransformComponent& transform,
 	SpeedComponent& speed,
 	TargetForDirectionComponent& target_for_direction){ 
 
 	transform.position =
 	    change_transform_depending_on_target_vector(transform, speed, target_for_direction.target_position);
-	m_game->add_event_components<CollisionCheckComponent>(entity);
+	entity.add_event_components<CollisionCheckComponent>();
 }
 

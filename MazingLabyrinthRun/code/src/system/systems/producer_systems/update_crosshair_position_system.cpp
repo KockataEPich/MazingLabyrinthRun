@@ -2,7 +2,7 @@
 #include <utils/component_utils.h>
 
 void UpdateCrosshairPositionSystem::for_every_entity(
-	Entity entity,
+	EntityHandle entity,
 	TransformComponent& transform,
 	BoundaryComponent& boundary){ 
 

@@ -30,22 +30,23 @@ public:
 
 	template<class... ComponentType>
 	void add_components(const Entity& entity) {
+		ComponentMask old_mask = entities->get_mask(entity);
 		( [&] {
 			    components->add_component(entity, std::make_unique<ComponentType>());
-			    ComponentMask old_mask = entities->get_mask(entity);
 			    entities->add_component_to_entity_mask<ComponentType>(entity);
-			    systems->update_entity_system_subscriptions(entity, old_mask);
-		    }(), ...);
+			    
+		}(), ...);
+		systems->update_entity_system_subscriptions(entity, old_mask);
 	}
 
 	template<class... ComponentType>
 	void add_components(const Entity& entity, std::unique_ptr<ComponentType>&&... component) {
+		ComponentMask old_mask = entities->get_mask(entity);
 		( [&] { 
 			components->add_component(entity, std::move(component));
-			ComponentMask old_mask = entities->get_mask(entity);
 			entities->add_component_to_entity_mask<ComponentType>(entity);
-			systems->update_entity_system_subscriptions(entity, old_mask);
 		}(), ...);
+		systems->update_entity_system_subscriptions(entity, old_mask);
 	}
 
 	template<typename... ComponentType>
@@ -57,11 +58,13 @@ public:
 		}(),...);
 	}
 
-	template<class ComponentType>
-	void remove_component(const Entity& entity) {
-		components->remove_component<ComponentType>(entity);
+	template<class... ComponentType>
+	void remove_components(const Entity& entity) {
 		ComponentMask old_mask = entities->get_mask(entity);
-		entities->remove_component_from_entity_mask<ComponentType>(entity);
+		( [&] {
+			    components->remove_component<ComponentType>(entity);
+			    entities->remove_component_from_entity_mask<ComponentType>(entity);
+		    }(), ...);
 		systems->update_entity_system_subscriptions(entity, old_mask);
 	}
 

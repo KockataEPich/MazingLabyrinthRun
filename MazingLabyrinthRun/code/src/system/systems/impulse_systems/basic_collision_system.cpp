@@ -12,13 +12,13 @@ sf::Vector2f
 }  // namespace
 
 void BasicCollisionSystem::clash_entities(
-	Entity initiator,
+	EntityHandle initiator,
 	TransformComponent& initiator_transform,
 	SpeedComponent& initiator_speed,
 	FacingSideComponent& initiator_facing_side,
 	TargetForDirectionComponent& initiator_target_for_direction,
 
-	Entity victim,
+	EntityHandle victim,
     BoundaryComponent& victim_boundary) { 
 
 	initiator_transform.position =

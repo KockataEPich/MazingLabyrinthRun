@@ -5,7 +5,7 @@
 #include <entity_base/entity_handle.h>
 
 void AttackActionSystem::react_on_entity(
-	Entity entity,
+	EntityHandle entity,
 	ActionTypeComponent& action_type,
 	FacingSideComponent& facing_side,
 	TransformComponent& transform){ 
