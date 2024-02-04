@@ -7,6 +7,7 @@
 #include <system/systems.h>
 #include <component_base/components.h>
 #include <world/world.h>
+#include <world/quad_tree.h>
 
 struct EntityHandle;
 class Game {
@@ -18,6 +19,7 @@ public:
 		systems->init();
 		components->init();
 		world->init();
+//		quad_tree->init();
 	}
 
 	EntityHandle create_entity();
@@ -72,8 +74,10 @@ public:
 	std::unique_ptr<Systems> systems = std::make_unique<Systems>(this);
 	std::unique_ptr<Components> components = std::make_unique<Components>(this);
 	std::unique_ptr<World> world = std::make_unique<World>(this);
+	
 
 	GameWindow* m_window;
+	std::unique_ptr<QuadTree> quad_tree = std::make_unique<QuadTree>(this, sf::FloatRect(-4800, -2700, m_window->get_window_size().x * 5, m_window->get_window_size().y * 5), 0);
 };
 
 

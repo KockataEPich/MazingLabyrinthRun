@@ -13,6 +13,7 @@
 
 #include <generated/systems/render_systems/render_sprite_system.h>
 #include <generated/systems/render_systems/render_health_system.h>
+#include <generated/systems/render_systems/render_quad_tree_system.h>
 
 #include <generated/systems/impulse_systems/basic_collision_system.h>
 #include <generated/systems/impulse_systems/basic_damage_system.h>
@@ -81,7 +82,8 @@ void Systems::init(){
 	    std::make_unique<UpdateCrosshairPositionSystem>(*m_game->m_window));
 
 	add_render_systems(std::make_unique<RenderSpriteSystem>(*m_game->m_window),
-	                   std::make_unique<RenderHealthSystem>(*m_game->m_window));
+	                   std::make_unique<RenderHealthSystem>(*m_game->m_window),
+	                   std::make_unique<RenderQuadTreeSystem>(*m_game->m_window));
 
 	for (auto& system : m_producer_system_sequence_wrapper.get_systems()) system->init();
 	for (auto& system : m_react_systems) system->init();

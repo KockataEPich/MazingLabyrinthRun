@@ -19,7 +19,7 @@ void RenderSpriteSystem::render() {
 	});
 
 	draw_level(m_level_one_sprites);
-	draw_level(m_level_two_sprites, false);
+	draw_level(m_level_two_sprites, true);
 	draw_level(m_level_UI_sprites, false);
 }
 

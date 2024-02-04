@@ -9,6 +9,7 @@ def transform_production_components(component):
     return component.cpp_name()
 
 def get_system_constructor_body(system):
+    if len(system.components) == 0: return f''''''
     if not system.is_impulse():
         return f'''m_signature.add_components<
             {wu.process_sequence(system.components, transform_signature_string, ",")}>();'''
@@ -104,20 +105,23 @@ def transform_component_with_type(component):
     return component.cpp_name() + "& " + component.var_name
 
 def get_cpp_function_declaration(system):
-    if not system.is_impulse():
+    if system.is_producer() or system.is_react():
         return f'''{system.cpp_function_name()}(
         EntityHandle entity,
         {wu.set_tab_depth(2)}{wu.process_sequence(system.components, transform_component_with_type, ",")}
     )'''
-
-    initiator_has_data = data_component_exists(system.initiator_components)
-    return f'''{system.cpp_function_name()}(
+    
+    if system.is_impulse():
+        initiator_has_data = data_component_exists(system.initiator_components)
+        return f'''{system.cpp_function_name()}(
         EntityHandle initiator,
         {wu.set_tab_depth(2)}{wu.optional_string_basic(wu.process_sequence(system.initiator_components, transform_component_with_type, ","), initiator_has_data)}{"," if initiator_has_data else ""}
         EntityHandle victim{"," if data_component_exists(system.victim_components) else ""}{wu.optional_string(wu.process_sequence(system.victim_components, transform_component_with_type, ","))}
     )'''
 
-
+    if system.is_render():
+        return f'''{system.cpp_function_name()}()'''
+    
 def write_file_string(f, system): 
     has_params = wm.check_parameter_exists(system.members)
     

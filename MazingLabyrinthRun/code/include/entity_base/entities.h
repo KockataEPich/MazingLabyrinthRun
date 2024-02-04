@@ -38,6 +38,8 @@ public:
 		return entity_vector;
 	}
 
+	std::vector<Entity> get_all_alive_entities() { return m_entity_manager->get_all_alive_entities(); }
+
 private:
 	std::unique_ptr<EntityManager> m_entity_manager = std::make_unique<EntityManager>();
 	std::map<Entity, ComponentMask> m_entity_masks;

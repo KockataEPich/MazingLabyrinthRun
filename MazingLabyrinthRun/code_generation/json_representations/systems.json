@@ -171,5 +171,25 @@
             }
          }
       ]
+   },
+
+   "RenderQuadTree" : 
+   {
+      "type" : "render",
+      "var_name" : "render_quad_tree",
+      "includes" : ["<window/game_window.h>"],
+
+      "private_functions" : ["void render_full_quad_tree(QuadTree& quad_tree);"],
+      "components" : [],
+      "members" : [
+         {
+            "GameWindow" :
+            {
+               "name" : "render_window",
+               "is_parameter" : true,
+               "is_reference" : true
+            }
+         }
+      ]
    }
 }

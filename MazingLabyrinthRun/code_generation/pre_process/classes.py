@@ -80,7 +80,7 @@ class System:
         if self.is_producer(): return "for_every_entity" 
         if self.is_react(): return "react_on_entity" 
         if self.is_impulse(): return "clash_entities" 
-        return "" 
+        return "render" 
     
     def interactive_function_name(self):
         if self.is_producer(): return "update" 

@@ -7,12 +7,13 @@
 #include "../../component_initializer/initializers/animated_drawable_initializer.h"
 #include "../entity_builder.h"
 
-class ZombieEntityBuilder : public EntityBuilder<3, 1> {
+class ZombieEntityBuilder : public EntityBuilder<2, 1> {
 public:
 	ZombieEntityBuilder() {
 		m_component_adders = {std::make_unique<DrawableAdder>(ElevationLevel::two),
 		                      std::make_unique<AnimatedAdder>(),
-		                      std::make_unique<AIAdder>()};
+		                      //std::make_unique<AIAdder>()
+		};
 		m_component_initializers = {std::make_unique<AnimatedDrawableInitializer>(Skin::ZOMBIE_DEFAULT_SKIN, 5.0f)};
 	}
 };

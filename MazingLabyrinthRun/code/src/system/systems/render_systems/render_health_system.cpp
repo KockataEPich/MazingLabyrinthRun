@@ -6,7 +6,8 @@ void RenderHealthSystem::render() {
 
 		sf::Text text;
 		text.setFont(m_font);
-		text.setString(std::to_string(entity) + "\n" + std::to_string(health_points->health) + "/50");
+		text.setString("Location:(" + std::to_string(transform->position.x) + "," +
+		               std::to_string(transform->position.y) + ")\n" + std::to_string(health_points->health) + "/50");
 		text.setCharacterSize(20);
 
 		auto position = transform->position;
@@ -18,6 +19,4 @@ void RenderHealthSystem::render() {
 	}
 }
 
-void RenderHealthSystem::init() {
-	if (!m_font.loadFromFile("resources/fonts/Raleway-Black.ttf")) throw;
-}
+void RenderHealthSystem::init() { if (!m_font.loadFromFile("resources/fonts/Raleway-Black.ttf")) throw; }

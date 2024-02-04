@@ -1,6 +1,8 @@
 option(CPP_BUILD "CPP_BUILD" ON)
 option(CODE_GENERATION "CODE_GENERATION" ON)
 
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /STACK:1000000000")
+
 if(CODE_GENERATION)
   execute_process (
       COMMAND python code_generation/generate.py 2> nul RESULT_VARIABLE ret
