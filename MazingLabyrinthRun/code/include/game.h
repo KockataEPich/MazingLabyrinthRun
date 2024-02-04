@@ -19,7 +19,7 @@ public:
 		systems->init();
 		components->init();
 		world->init();
-//		quad_tree->init();
+		quad_tree->init();
 	}
 
 	EntityHandle create_entity();

@@ -40,7 +40,7 @@ void MoveSystem::react_on_entity(
 	    change_transform_depending_on_target_vector(transform, speed, target_for_direction.target_position);
 	entity.add_event_components<CollisionCheckComponent>();
 
-	m_game->quad_tree->remove(entity.entity);
+    m_game->quad_tree->remove(entity.entity);
 	m_game->quad_tree->insert(entity.entity);
 }
 
