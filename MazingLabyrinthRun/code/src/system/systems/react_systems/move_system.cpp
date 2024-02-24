@@ -3,14 +3,18 @@
 #include <numbers>  // for std::numbers::pi
 #include <generated/components/basic_components/collision_check_component.h>
 
+// EXTRA INCLUDES TODO BE DELETED
+#include <generated/components/data_components/boundary_component.h>
+#include <utils/component_utils.h>
+
 namespace {
 
-sf::Vector2f change_transform_depending_on_target_vector(const TransformComponent& transform,
-                                                         const SpeedComponent& speed,
-                                                         sf::Vector2f target) {
+sf::Vector2f get_next_unobstructed_position(const sf::Vector2f& origin,
+                                            const SpeedComponent& speed,
+                                            const sf::Vector2f& target_point) {
 
-	sf::Vector2f triangle_sides = {std::abs(transform.position.x - target.x),
-	                               std::abs(transform.position.y - target.y)};
+	sf::Vector2f triangle_sides = {std::abs(origin.x - target_point.x),
+	                               std::abs(origin.y - target_point.y)};
 
 	auto atan_val = std::atan2(triangle_sides.y, triangle_sides.x);
 	auto angle = atan_val * 180 / std::numbers::pi;
@@ -18,11 +22,11 @@ sf::Vector2f change_transform_depending_on_target_vector(const TransformComponen
 	auto x_offset = speed.speed * std::cos(std::numbers::pi * 2 * angle / 360);
 	auto y_offset = speed.speed * std::sin(std::numbers::pi * 2 * angle / 360);
 
-	auto new_x = (transform.position.x < target.x) ? transform.position.x + (float)x_offset
-	                                                 : transform.position.x - (float)x_offset;
+	auto new_x = (origin.x < target_point.x) ? origin.x + (float)x_offset
+	                                                              : origin.x - (float)x_offset;
 
-	auto new_y = (transform.position.y < target.y) ? transform.position.y + (float)y_offset
-	                                                 : transform.position.y - (float)y_offset;
+	auto new_y = (origin.y < target_point.y) ? origin.y + (float)y_offset
+	                                                              : origin.y - (float)y_offset;
 
 	return {new_x, new_y};
 }
@@ -34,12 +38,20 @@ void MoveSystem::react_on_entity(
 	EntityHandle entity,
 	TransformComponent& transform,
 	SpeedComponent& speed,
-	TargetForDirectionComponent& target_for_direction){ 
+    VelocityComponent& velocity) { 
 
 	m_game->quad_tree->remove(entity.entity);
+	
+	// Clearly wrong as moving thing could not have boundary. To be cleaned up after implementation is good
+	auto boundary = entity.get_component<BoundaryComponent>();
+	//boundary->hitbox = get_hitbox_based_on_transform_component(transform);
 
-	transform.position =
-	    change_transform_depending_on_target_vector(transform, speed, target_for_direction.target_position);
+	sf::Vector2f center_boundary = boundary->hitbox.getPosition() + boundary->hitbox.getSize() * 0.5f;  
+	velocity.next_frame_location = get_next_unobstructed_position(center_boundary, speed, velocity.target_point);
+
+	//boundary->hitbox.left = velocity.next_frame_location.x - (double)boundary->hitbox.getSize().x * 0.5f;
+	//boundary->hitbox.top = velocity.next_frame_location.y - (double)boundary->hitbox.getSize().y * 0.5f;
+
 	entity.add_event_components<CollisionCheckComponent>();
 
 	m_game->quad_tree->insert(entity.entity);

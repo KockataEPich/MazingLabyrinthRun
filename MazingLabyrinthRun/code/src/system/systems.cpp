@@ -46,11 +46,11 @@ void Systems::react_on_event(const Entity entity, ComponentMask new_mask) {
 		if (new_mask.matches(system->get_signature())) system->react(entity);
 }
 
-void Systems::exchange_impulses(const Entity initiator, const Entity& victim) {
+void Systems::exchange_impulses(const Entity initiator, const Entity& victim, const CollisionInfo& collision_info) {
 	for (auto& system : m_impulse_systems) {
 		if (m_game->entities->get_mask(initiator).matches(system->get_signature()) &&
 		    m_game->entities->get_mask(victim).matches(system->get_signature_of_victim()))
-			system->exchange_impulse(initiator, victim);
+			system->exchange_impulse(initiator, victim, collision_info);
 	}
 }
 
@@ -65,7 +65,7 @@ void Systems::remove_entity_from_systems(const Entity entity) {
 void Systems::init(){
 	add_react_systems(
 		std::make_unique<MoveSystem>(),
-		std::make_unique<CollisionDetectionSystem>(),
+	    std::make_unique<CollisionDetectionSystem>(*m_game->m_window),
 	    std::make_unique<AttackActionSystem>());
 
 	add_impulse_systems(
@@ -82,8 +82,8 @@ void Systems::init(){
 	    std::make_unique<UpdateCrosshairPositionSystem>(*m_game->m_window));
 
 	add_render_systems(std::make_unique<RenderSpriteSystem>(*m_game->m_window),
-	                   std::make_unique<RenderHealthSystem>(*m_game->m_window),
-	                   std::make_unique<RenderQuadTreeSystem>(*m_game->m_window));
+	                   std::make_unique<RenderQuadTreeSystem>(*m_game->m_window),
+	                   std::make_unique<RenderHealthSystem>(*m_game->m_window));
 
 	for (auto& system : m_producer_system_sequence_wrapper.get_systems()) system->init();
 	for (auto& system : m_react_systems) system->init();

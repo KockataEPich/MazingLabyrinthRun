@@ -22,7 +22,7 @@ def get_system_constructor_body(system):
 
 def cpp_func_params(system):
     if system.is_react(): return "const Entity entity"
-    if system.is_impulse(): return "const Entity initiator_entity, const Entity victim_entity"
+    if system.is_impulse(): return "const Entity initiator_entity, const Entity victim_entity, const CollisionInfo& collision_info"
     return ""
 
 def handle_component(component):
@@ -66,7 +66,9 @@ def interactive_functions_body(system):
         {system.cpp_function_name()}(
             {{initiator_entity, m_game}},{wu.set_tab_depth(3)}{wu.optional_string(wu.process_sequence(system.initiator_components, transform_dereferenced_variable, ",", True))}
 
-            {{victim_entity, m_game}}{"," if victim_has_data else ""}{wu.optional_string(wu.process_sequence(system.victim_components, transform_dereferenced_variable, ","))}
+            {{victim_entity, m_game}}{"," if victim_has_data else ""}{wu.optional_string(wu.process_sequence(system.victim_components, transform_dereferenced_variable, ",", True))}
+
+            collision_info
         );
     }}'''
 
@@ -116,7 +118,10 @@ def get_cpp_function_declaration(system):
         return f'''{system.cpp_function_name()}(
         EntityHandle initiator,
         {wu.set_tab_depth(2)}{wu.optional_string_basic(wu.process_sequence(system.initiator_components, transform_component_with_type, ","), initiator_has_data)}{"," if initiator_has_data else ""}
-        EntityHandle victim{"," if data_component_exists(system.victim_components) else ""}{wu.optional_string(wu.process_sequence(system.victim_components, transform_component_with_type, ","))}
+
+        EntityHandle victim{"," if data_component_exists(system.victim_components) else ""}{wu.optional_string(wu.process_sequence(system.victim_components, transform_component_with_type, ",", True))}
+
+        const CollisionInfo& collision_info
     )'''
 
     if system.is_render():
@@ -132,6 +137,7 @@ def write_file_string(f, system):
 #include <game.h>
 #include <component_base/component_handle.h>
 #include <entity_base/entity_handle.h>
+#include <utils/collision_utils.h>
 
 {wu.process_sequence(wu.component_header_path_string(system.components), wu.transform_to_include)}{wu.optional_string(wu.process_sequence(system.includes, wu.transform_to_include), its_own_logic_block=True)}
 
@@ -169,7 +175,7 @@ def write_system_cpp(system):
 
     f.write(f'''#include {system.header_path}
 void {system.cpp_name()}::{get_cpp_function_declaration(system)}{{
-    bool TODO = true;
+    // TODO implementation
 }}''')
 
     f.close()

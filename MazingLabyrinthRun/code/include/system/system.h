@@ -3,7 +3,7 @@
 
 #include "../component_base/component_mask.h"
 #include "../entity_base/entity.h"
-
+#include <utils/collision_utils.h>
 
 #include <bitset>
 #include <vector>
@@ -72,7 +72,7 @@ public:
 
 class ImpulseSystem : public System {
 public:
-	virtual void exchange_impulse(const Entity initiator, const Entity victim) {}
+	virtual void exchange_impulse(const Entity initiator, const Entity victim, const CollisionInfo& collision_info) {}
 
 	ComponentMask get_signature_of_victim() { return m_signature_of_victim; }
 

@@ -9,7 +9,7 @@
 
 #include <generated/components/data_components/boundary_component.h>
 #include <generated/components/data_components/transform_component.h>
-#include <generated/components/data_components/target_for_direction_component.h>
+#include <generated/components/data_components/velocity_component.h>
 #include <generated/components/data_components/health_points_component.h>
 #include <generated/components/data_components/elevation_level_component.h>
 
@@ -32,13 +32,14 @@ void World::init() {
 	zombie_builder.build_entity(zombie2);
 	zombie2.add_components <SolidComponent,
 							DefaultCollisionArmorComponent,
-							TargetForDirectionComponent,
+							VelocityComponent,
 							HealthPointsComponent>();
 
+	m_game->world->place_entity(zombie2.entity, {100.0f, 100.0f});
 	zombie2.add_components(std::make_unique<BoundaryComponent>(
 	    get_hitbox_based_on_transform_component(*zombie2.get_component<TransformComponent>())));
 
-	m_game->world->place_entity(zombie2.entity, {32.0f, 32.0f});
+	
 
 //	for (int i = -1600; i <= 1600; i += 160) {
 //		int counter = 0;
@@ -72,7 +73,7 @@ void World::init() {
 	player.add_components<SolidComponent,
 	                      HealthPointsComponent,
 	                      DefaultCollisionArmorComponent,
-	                      TargetForDirectionComponent>();
+	                      VelocityComponent>();
 
 	player.add_components(
 		std::make_unique<BoundaryComponent>(get_hitbox_based_on_transform_component(*player.get_component<TransformComponent>())));
@@ -84,7 +85,8 @@ void World::init() {
 	std::unique_ptr<TransformComponent> mouse_transform = std::make_unique<TransformComponent>(); 
 	auto mouse = m_game->create_entity();
 	mouse.add_components<SpriteComponent, MouseComponent, HealthPointsComponent>();
-	mouse.add_components(std::make_unique<BoundaryComponent>(get_hitbox_based_on_transform_component(*mouse_transform)),
+	mouse.add_components(
+		std::make_unique<BoundaryComponent>(get_hitbox_based_on_transform_component(*mouse_transform)),
 	                     std::move(mouse_transform),
 						 std::make_unique<ElevationLevelComponent>(ElevationLevel::UI));
 

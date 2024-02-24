@@ -17,7 +17,7 @@ void PlayerSystem::for_every_entity(
 	EntityHandle entity,
 	ActionTypeComponent& action_type,
 	FacingSideComponent& facing_side,
-	TargetForDirectionComponent& target_for_direction,
+    VelocityComponent& velocity,
 	SpeedComponent& speed,
 	TransformComponent& transform){ 
 
@@ -25,7 +25,7 @@ void PlayerSystem::for_every_entity(
 	sf::Vector2f world_pos = m_game_window.as_sfml_window().mapPixelToCoords(pos);
 	facing_side.side = transform.position.x < world_pos.x ? FacingSide::right : FacingSide::left;
 
-	target_for_direction.target_position = transform.position;
+	velocity.target_point = transform.position;
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) { 
 		auto projectile = m_game->create_entity();
@@ -54,8 +54,8 @@ void PlayerSystem::for_every_entity(
 			std::move(projectile_sprite),
 			std::make_unique<ElevationLevelComponent>(ElevationLevel::two));
 
-		auto target = std::make_unique<TargetForDirectionComponent>();
-		target->target_position = world_pos;
+		auto target = std::make_unique<VelocityComponent>();
+		target->target_point = world_pos;
 		projectile.add_components(std::move(target));
 
 		return;
@@ -81,10 +81,10 @@ void PlayerSystem::for_every_entity(
 	ChangeActionTypeEvent{action_type, ActionType::move}.happen();
 	// The magic number should be changed to be the end corners of the map (when boxed)
 	// Apparently FLT_MIN == 0 ?!
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) target_for_direction.target_position.x += 100000.0f;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) target_for_direction.target_position.x -= 100000.0f;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) target_for_direction.target_position.y -= 100000.0f;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) target_for_direction.target_position.y += 100000.0f;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) velocity.target_point.x += 100000.0f;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) velocity.target_point.x -= 100000.0f;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) velocity.target_point.y -= 100000.0f;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) velocity.target_point.y += 100000.0f;
 	entity.add_event_components<MoveComponent>();
 
 	

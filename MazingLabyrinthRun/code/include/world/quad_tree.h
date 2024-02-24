@@ -22,7 +22,7 @@ public:
 	void init();
 	void insert(const Entity entity);
 	void remove(const Entity entity);
-	// void search(const Entity entity);
+	const std::vector<Entity>& get_neighbours(const Entity entity);
 
 	bool has_space() { return m_present_entities->size() <= max_entities; }
 	int number_of_present_entities() { return m_present_entities->size(); }
@@ -41,9 +41,7 @@ private:
 	sf::FloatRect m_surface;
 	Game* m_game;
 
-	int point_of_insert = 0;
-
-	int determine_child(const sf::Vector2f& entity_position);
+	int determine_child(const Entity entity);
 	void split_if_needed();
 	void merge_if_needed();
 };

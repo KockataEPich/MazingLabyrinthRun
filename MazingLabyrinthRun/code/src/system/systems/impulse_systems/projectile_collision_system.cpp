@@ -3,7 +3,9 @@ void ProjectileCollisionSystem::clash_entities(
         EntityHandle initiator,
         
         EntityHandle victim,
-		HealthPointsComponent& victim_health_points
+		HealthPointsComponent& victim_health_points,
+
+		const CollisionInfo& collision_info
     ){
 	m_game->destroy_entity(initiator.entity);
 	victim_health_points.health -= 1;

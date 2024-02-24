@@ -10,10 +10,8 @@ const int bottom_left = 3;
 
 void QuadTree::insert(const Entity entity) {
 	split_if_needed();
-	point_of_insert++;
 	if (m_children) {
-		int index = determine_child(std::get<0>(m_game->components->unpack<TransformComponent>(entity))->position);
-		m_children->at(index)->insert(entity); 
+		m_children->at(determine_child(entity))->insert(entity); 
 		return;
 	}
 
@@ -22,8 +20,7 @@ void QuadTree::insert(const Entity entity) {
 
 void QuadTree::remove(const Entity entity) {
 	if (m_children) {
-		int index = determine_child(std::get<0>(m_game->components->unpack<TransformComponent>(entity))->position);
-		m_children->at(index)->remove(entity);
+		m_children->at(determine_child(entity))->remove(entity);
 		merge_if_needed();
 		return;
 	}
@@ -47,10 +44,7 @@ void QuadTree::split_if_needed() {
 	set_rect_at_index(m_surface.left + m_surface.width * 0.5f, m_surface.top + m_surface.height * 0.5f, 2);
 	set_rect_at_index(m_surface.left, m_surface.top + m_surface.height * 0.5f, 3);
 
-	for (auto entity : *m_present_entities) {
-		int index = determine_child(std::get<0>(m_game->components->unpack<TransformComponent>(entity))->position);
-		m_children->at(index)->insert(entity);
-	}
+	for (auto entity : *m_present_entities) m_children->at(determine_child(entity))->insert(entity);
 
 	m_present_entities = std::nullopt;
 }
@@ -73,7 +67,8 @@ void QuadTree::merge_if_needed() {
 	m_children = std::nullopt;
 }
 
-int QuadTree::determine_child(const sf::Vector2f& entity_position) {
+int QuadTree::determine_child(const Entity entity) {
+	const sf::Vector2f& entity_position = std::get<0>(m_game->components->unpack<TransformComponent>(entity))->position;
 	sf::Vector2f center = {m_surface.left + m_surface.width * 0.5f, m_surface.top + m_surface.height * 0.5f};
 
 	if (entity_position.x < center.x && entity_position.y > center.y) return bottom_left;
@@ -87,6 +82,11 @@ int QuadTree::determine_child(const sf::Vector2f& entity_position) {
 	if (entity_position.x == center.x && entity_position.y > center.y) return bottom_right;
 	if (entity_position.x > center.x && entity_position.y == center.y) return top_right; 
 	if (entity_position.x == center.x && entity_position.y < center.y) return top_left;
+}
+
+const std::vector<Entity>& QuadTree::get_neighbours(const Entity entity) {
+	if (m_children) return m_children->at(determine_child(entity))->get_neighbours(entity);
+	return present_entities();
 }
 
 void QuadTree::init() { 

@@ -7,6 +7,7 @@
 #include <memory>
 #include <tuple>
 #include <functional>
+#include <utils/collision_utils.h>
 
 class Game;
 class Systems {
@@ -55,7 +56,7 @@ public:
 		}(), ...);
 	}
 
-	void exchange_impulses(const Entity initiator, const Entity& victim);
+	void exchange_impulses(const Entity initiator, const Entity& victim, const CollisionInfo& collision_info);
 
 private:
 	std::vector<std::unique_ptr<ReactSystem>> m_react_systems;

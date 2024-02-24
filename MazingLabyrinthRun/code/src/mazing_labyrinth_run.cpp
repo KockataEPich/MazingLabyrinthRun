@@ -17,6 +17,7 @@ void MazingLabyrinthRun::initialize_game() {
 void MazingLabyrinthRun::handle_input() {}
 
 void MazingLabyrinthRun::update() {
+	m_window.begin_draw();
 	m_window.update();
 	m_game->systems->update(m_delta_time);
 	// @TODO Can be used to pause the game
@@ -25,7 +26,7 @@ void MazingLabyrinthRun::update() {
 }
 
 void MazingLabyrinthRun::render() {
-	m_window.begin_draw();
+	
 	m_game->systems->render();
 	m_window.end_draw();
 }

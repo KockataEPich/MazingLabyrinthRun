@@ -4,7 +4,7 @@
 
 void ProjectileSystem::for_every_entity(
         EntityHandle entity,
-        TargetForDirectionComponent& target_for_direction
+        VelocityComponent& velocity
     ){
 	entity.add_event_components<MoveComponent>();
 }

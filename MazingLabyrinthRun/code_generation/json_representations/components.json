@@ -116,9 +116,9 @@
         ]
     },
 
-    "TargetForDirection" :
+    "Velocity" :
     {
-        "var_name" : "target_for_direction", 
+        "var_name" : "velocity", 
         "type" : "data",
         "needs_cpp" : false,
         "includes" : ["<SFML/System/Vector2.hpp>"],
@@ -127,8 +127,15 @@
                 "sf::Vector2f" : 
                 {
                     "is_parameter" : true,
-                    "name" : "target_position"
-                } 
+                    "name" : "target_point"
+                }
+            },
+            {
+                "sf::Vector2f" : 
+                {
+                    "is_parameter" : true,
+                    "name" : "next_frame_location"
+                }
             }
         ]
     },

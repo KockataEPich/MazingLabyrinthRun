@@ -6,9 +6,9 @@ void AISystem::for_every_entity(
     TransformComponent& transform,
     SpeedComponent& speed,
     FacingSideComponent& facing_side,
-    TargetForDirectionComponent& target_for_direction) {
+    VelocityComponent& velocity) {
 
-	target_for_direction.target_position = m_game->world->get_player_sprite().getPosition();
+	velocity.target_point = m_game->world->get_player_sprite().getPosition();
 	entity.add_event_components<MoveComponent>();
 }
 

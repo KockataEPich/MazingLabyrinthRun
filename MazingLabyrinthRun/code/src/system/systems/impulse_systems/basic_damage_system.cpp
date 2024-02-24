@@ -2,7 +2,9 @@
 void BasicDamageSystem::clash_entities(
 	EntityHandle initiator,
 	EntityHandle victim,
-	HealthPointsComponent& victim_health_points){ 
+	HealthPointsComponent& victim_health_points,
+	
+	const CollisionInfo& collision_info){ 
 	victim_health_points.health -= 5;
 }
 
