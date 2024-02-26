@@ -44,13 +44,9 @@ void MoveSystem::react_on_entity(
 	
 	// Clearly wrong as moving thing could not have boundary. To be cleaned up after implementation is good
 	auto boundary = entity.get_component<BoundaryComponent>();
-	//boundary->hitbox = get_hitbox_based_on_transform_component(transform);
 
 	sf::Vector2f center_boundary = boundary->hitbox.getPosition() + boundary->hitbox.getSize() * 0.5f;  
 	velocity.next_frame_location = get_next_unobstructed_position(center_boundary, speed, velocity.target_point);
-
-	//boundary->hitbox.left = velocity.next_frame_location.x - (double)boundary->hitbox.getSize().x * 0.5f;
-	//boundary->hitbox.top = velocity.next_frame_location.y - (double)boundary->hitbox.getSize().y * 0.5f;
 
 	entity.add_event_components<CollisionCheckComponent>();
 
