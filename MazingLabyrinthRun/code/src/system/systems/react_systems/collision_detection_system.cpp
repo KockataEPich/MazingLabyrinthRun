@@ -9,7 +9,7 @@ bool dynamic_ray_vs_rect(VelocityComponent& velocity,
 
 	sf::Vector2f center_initiator = initiator_boundary.hitbox.getPosition() + initiator_boundary.hitbox.getSize() / 2;  
 
-	sf::Vector2f dvec = velocity.next_frame_location - center_initiator;
+	sf::Vector2f dvec = velocity.velocity;
 	sf::Vector2f inverse_target_position = 1.0f / dvec;
 
 	sf::Vector2f t_near = (victim_boundary.getPosition() - center_initiator) * inverse_target_position;
@@ -32,15 +32,11 @@ bool dynamic_ray_vs_rect(VelocityComponent& velocity,
 	// Contact point of collision from parametric line equation
 	collision_info.contact_point = center_initiator + collision_info.contact_time * dvec;
 	 if (t_near.x > t_near.y)
-		if (inverse_target_position.x < 0)
-			collision_info.contact_normal = {1, 0};
-		else
-			collision_info.contact_normal = {-1, 0};
+		if (inverse_target_position.x < 0) collision_info.contact_normal = {1, 0};
+		else collision_info.contact_normal = {-1, 0};
 	else if (t_near.x < t_near.y)
-		if (inverse_target_position.y < 0)
-			collision_info.contact_normal = {0, 1};
-		else
-			collision_info.contact_normal = {0, -1};
+		if (inverse_target_position.y < 0) collision_info.contact_normal = {0, 1};
+		else collision_info.contact_normal = {0, -1};
    
 	return true;
 }
@@ -48,8 +44,7 @@ bool dynamic_ray_vs_rect(VelocityComponent& velocity,
 bool dynamic_rect_vs_rect(VelocityComponent& velocity,
 						 BoundaryComponent& initiator_boundary,
                          BoundaryComponent& victim_boundary,
-                         CollisionInfo& collision_info,
-						 GameWindow& render_window) {
+                         CollisionInfo& collision_info) {
 
 	// Expand target rectangle by source dimensions
 	sf::FloatRect expanded_target;
@@ -60,9 +55,7 @@ bool dynamic_rect_vs_rect(VelocityComponent& velocity,
 	expanded_target.height = victim_boundary.hitbox.getSize().y + initiator_boundary.hitbox.getSize().y;
 
 	if (dynamic_ray_vs_rect(velocity, expanded_target, initiator_boundary, collision_info)) {
-		if (collision_info.contact_time >= 0.0f && collision_info.contact_time < 1.0f) {
-			return true;
-		}
+		return collision_info.contact_time >= 0.0f && collision_info.contact_time < 1.0f;
 	} 
 	
 	return false;
@@ -73,8 +66,6 @@ void CollisionDetectionSystem::react_on_entity(
 	BoundaryComponent& boundary,
 	TransformComponent& transform,
     VelocityComponent& velocity) {
-
-	//boundary.hitbox = get_hitbox_based_on_transform_component(transform);
 
 	bool collision_happened = false;
 	auto neighbours = m_game->quad_tree->get_neighbours(entity.entity);
@@ -88,16 +79,17 @@ void CollisionDetectionSystem::react_on_entity(
 
 		auto [victim_boundary] = m_game->components->unpack<BoundaryComponent>(victim_entity);
 		CollisionInfo collision_info;
-		if (dynamic_rect_vs_rect(velocity, boundary, *victim_boundary, collision_info, m_render_window)) {
+		if (dynamic_rect_vs_rect(velocity, boundary, *victim_boundary, collision_info)) {
 		 m_game->systems->exchange_impulses(entity.entity, victim_entity, collision_info);
 		 collision_happened = true;
 		}
+	}
 
-		if (!collision_happened) { 
-			boundary.hitbox.left = velocity.next_frame_location.x - boundary.hitbox.getSize().x / 2;
-			boundary.hitbox.top = velocity.next_frame_location.y - boundary.hitbox.getSize().y / 2;
-			transform.position = get_transform_position_based_on_boundary(boundary, get_scaled_size(transform));
-		}
+	if (!collision_happened) {
+		sf::Vector2f center_initiator = boundary.hitbox.getPosition() + boundary.hitbox.getSize() / 2;
+		boundary.hitbox.left = center_initiator.x + velocity.velocity.x - boundary.hitbox.getSize().x / 2;
+		boundary.hitbox.top = center_initiator.y + velocity.velocity.y - boundary.hitbox.getSize().y / 2;
+		transform.position = get_transform_position_based_on_boundary(boundary, get_scaled_size(transform));
 	}
 
 

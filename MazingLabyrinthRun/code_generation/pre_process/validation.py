@@ -1,4 +1,4 @@
-accepted_component_keys = ["type", "needs_cpp", "includes", "members", "var_name"]
+accepted_component_keys = ["type", "needs_cpp", "includes", "members", "var_name", "functions"]
 accepted_system_keys = ["type", "var_name", "components", "includes", "public_functions", "private_functions", "members", "initiator_components", "victim_components"]
 accepted_member_keys = ["is_parameter", "is_reference", "name", "default_value", "moved"]
 

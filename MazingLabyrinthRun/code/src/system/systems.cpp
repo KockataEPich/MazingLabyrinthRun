@@ -65,7 +65,7 @@ void Systems::remove_entity_from_systems(const Entity entity) {
 void Systems::init(){
 	add_react_systems(
 		std::make_unique<MoveSystem>(),
-	    std::make_unique<CollisionDetectionSystem>(*m_game->m_window),
+	    std::make_unique<CollisionDetectionSystem>(),
 	    std::make_unique<AttackActionSystem>());
 
 	add_impulse_systems(

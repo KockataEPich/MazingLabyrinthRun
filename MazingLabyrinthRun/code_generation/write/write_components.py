@@ -12,6 +12,8 @@ def data_component_body(component):
         {wu.process_sequence(component.members, wm.initialize_member_in_constructor, ",")} {{}}
 
     {wu.set_tab_depth(1)}{wu.process_sequence(component.members, wm.initialize_member_in_body, ";", True)}
+
+    {wu.optional_string(wu.process_sequence(component.functions, lambda input: input, ";", True), len(component.functions) != 0)}
 '''
 
 def write_file(f, component): 
@@ -27,12 +29,22 @@ struct {component.cpp_name()} : public Component<{component.cpp_name()}> {{
 #endif   
 ''')
     
-def write_component(component, generation_folder):
+def write_header_component(component, generation_folder):
     f=open(get_file_name(component, generation_folder), "a+")
     write_file(f, component)
     f.close()  
+
+def write_component_cpp(component):
+    cpp_filename = os.path.join("code", "src", "component", "components", component.get_relative_path() + ".cpp")
+    if os.path.exists(cpp_filename): return
+    f = open(cpp_filename, "a+")
+
+    f.write(f'''#include {component.header_path}''')
     
 def write_components(components, generation_folder):
     for component in components:
-        write_component(component, generation_folder)
+        write_header_component(component, generation_folder)
         wu.set_tab_depth(0)
+        if component.needs_cpp:
+            write_component_cpp(component)
+            wu.tab_depth = 0

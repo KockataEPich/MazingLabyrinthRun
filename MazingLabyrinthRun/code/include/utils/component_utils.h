@@ -14,13 +14,6 @@ inline sf::Vector2f operator*(sf::Vector2f lhs, sf::Vector2f rhs) { return {lhs.
 inline sf::Vector2f operator/(float lhs, sf::Vector2f rhs) { return {lhs / rhs.x, lhs / rhs.y}; }
 inline sf::Vector2f operator/(sf::Vector2f lhs, int rhs) { return {lhs.x / rhs, lhs.y / rhs}; }
 
-inline void set_precision(sf::Vector2f& vector){
-	vector.x = (float)((int)(vector.x * 1000)) / 1000; 
-	vector.y = (float)((int)(vector.y * 1000)) / 1000;
-}
-
-
-
 inline sf::Vector2f get_scaled_size(const TransformComponent& component) {
 	return {component.size.x * std::abs(component.scale.x), component.size.y * component.scale.y};
 };

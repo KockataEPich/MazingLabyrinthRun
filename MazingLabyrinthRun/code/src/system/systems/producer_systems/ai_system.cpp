@@ -8,7 +8,7 @@ void AISystem::for_every_entity(
     FacingSideComponent& facing_side,
     VelocityComponent& velocity) {
 
-	velocity.target_point = m_game->world->get_player_sprite().getPosition();
+	velocity.final_destination = m_game->world->get_player_sprite().getPosition();
 	entity.add_event_components<MoveComponent>();
 }
 

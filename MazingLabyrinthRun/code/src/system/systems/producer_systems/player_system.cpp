@@ -25,7 +25,7 @@ void PlayerSystem::for_every_entity(
 	sf::Vector2f world_pos = m_game_window.as_sfml_window().mapPixelToCoords(pos);
 	facing_side.side = transform.position.x < world_pos.x ? FacingSide::right : FacingSide::left;
 
-	velocity.target_point = transform.position;
+	velocity.final_destination = transform.position;
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) { 
 		auto projectile = m_game->create_entity();
@@ -55,7 +55,7 @@ void PlayerSystem::for_every_entity(
 			std::make_unique<ElevationLevelComponent>(ElevationLevel::two));
 
 		auto target = std::make_unique<VelocityComponent>();
-		target->target_point = world_pos;
+		target->final_destination = world_pos;
 		projectile.add_components(std::move(target));
 
 		return;
@@ -81,12 +81,10 @@ void PlayerSystem::for_every_entity(
 	ChangeActionTypeEvent{action_type, ActionType::move}.happen();
 	// The magic number should be changed to be the end corners of the map (when boxed)
 	// Apparently FLT_MIN == 0 ?!
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) velocity.target_point.x += 100000.0f;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) velocity.target_point.x -= 100000.0f;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) velocity.target_point.y -= 100000.0f;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) velocity.target_point.y += 100000.0f;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) velocity.final_destination.x += 100000.0f;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) velocity.final_destination.x -= 100000.0f;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) velocity.final_destination.y -= 100000.0f;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) velocity.final_destination.y += 100000.0f;
 	entity.add_event_components<MoveComponent>();
-
-	
 }
 

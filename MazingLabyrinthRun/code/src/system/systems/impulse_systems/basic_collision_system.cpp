@@ -14,15 +14,18 @@ void BasicCollisionSystem::clash_entities(
 
         const CollisionInfo& collision_info
     ){
-	sf::Vector2f center_initiator = initiator_boundary.hitbox.getPosition() + initiator_boundary.hitbox.getSize() / 2;  
-	sf::Vector2f d_vel_temp = initiator_velocity.next_frame_location - center_initiator;
-	sf::Vector2f d_vel = initiator_velocity.next_frame_location - center_initiator;
 
-	d_vel += collision_info.contact_normal * sf::Vector2f(std::abs(d_vel.x), std::abs(d_vel.y)) * (1 - collision_info.contact_time);
 
-	auto next_pos_center = center_initiator + d_vel;
-	initiator_boundary.hitbox.left = next_pos_center.x - initiator_boundary.hitbox.getSize().x / 2;
-	initiator_boundary.hitbox.top = next_pos_center.y - initiator_boundary.hitbox.getSize().y / 2;
+	initiator_velocity.velocity += collision_info.contact_normal 
+											* sf::Vector2f(std::abs(initiator_velocity.velocity.x),
+	                                                       std::abs(initiator_velocity.velocity.y)) 
+											* (1 - collision_info.contact_time);
+
+	sf::Vector2f center_initiator =
+	    initiator_boundary.hitbox.getPosition() + initiator_boundary.hitbox.getSize() * 0.5f;  
+
+	auto next_pos_center = center_initiator + initiator_velocity.velocity;
+	initiator_boundary.hitbox.left = next_pos_center.x - initiator_boundary.hitbox.getSize().x * 0.5;
+	initiator_boundary.hitbox.top = next_pos_center.y - initiator_boundary.hitbox.getSize().y * 0.5;
 	initiator_transform.position = get_transform_position_based_on_boundary(initiator_boundary, get_scaled_size(initiator_transform));
-
 }

@@ -27,6 +27,7 @@ class Component:
         self.needs_cpp = False
         self.includes = []
         self.members = []
+        self.functions = []
    
     def get_var_name(self):
         return self.name.lower() if self.var_name == "" else self.var_name
