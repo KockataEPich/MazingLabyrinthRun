@@ -30,3 +30,4 @@ The weekly progress documentation is structured in the following way:
    09102022
    25102022
    07072023
+   27022024

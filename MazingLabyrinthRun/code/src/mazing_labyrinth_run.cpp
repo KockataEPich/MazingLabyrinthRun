@@ -2,7 +2,6 @@
 
 #include <chrono>
 #include <thread>
-
 MazingLabyrinthRun::MazingLabyrinthRun() : m_window("MazingLabyrinthRun", sf::Vector2u(1920, 1080)) {
 	initialize_game();
 	restart_clock();
@@ -26,18 +25,26 @@ void MazingLabyrinthRun::update() {
 }
 
 void MazingLabyrinthRun::render() {
-	
 	m_game->systems->render();
 	m_window.end_draw();
 }
 
 void MazingLabyrinthRun::start_game() {
 	while (!m_window.is_done()) {
-		//std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		// std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		sf::Event event;
+		m_window.as_sfml_window().pollEvent(event);
+
+		if (event.type == sf::Event::LostFocus) m_window.m_is_in_focus = false;
+		if (event.type == sf::Event::GainedFocus) m_window.m_is_in_focus = true;
+
 		m_delta_time = m_elapsed.asSeconds();
-		handle_input();
-		update();
-		render();
+
+		if (m_window.m_is_in_focus) {
+			handle_input();
+			update();
+			render();
+		}
 		restart_clock();
 	}
 }

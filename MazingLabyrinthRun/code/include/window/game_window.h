@@ -23,6 +23,7 @@ public:
 	void draw(sf::Drawable& drawable);
 	sf::RenderWindow& as_sfml_window() { return m_game_window; }
 
+	bool m_is_in_focus = true;  // Starts always in focus
 private:
 	sf::RenderWindow m_game_window;
 	sf::Vector2u m_window_size;
