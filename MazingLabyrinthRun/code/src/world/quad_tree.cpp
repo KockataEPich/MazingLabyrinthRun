@@ -57,7 +57,7 @@ void QuadTree::merge_if_needed() {
 	}
 
 	// As I don't really want for constant merging and unmerging near the max, there is a bit of a tolerance.
-	if (number_entities_in_children < (max_entities * 3) / 4) return;
+	if (number_entities_in_children < (max_entities * 3) * 0.25f) return;
 
 	m_present_entities = std::vector<Entity>();
 
@@ -68,29 +68,36 @@ void QuadTree::merge_if_needed() {
 }
 
 int QuadTree::determine_child(const Entity entity) {
-	const sf::Vector2f& entity_position = std::get<0>(m_game->components->unpack<TransformComponent>(entity))->position;
-	sf::Vector2f center = {m_surface.left + m_surface.width * 0.5f, m_surface.top + m_surface.height * 0.5f};
-
-	if (entity_position.x < center.x && entity_position.y > center.y) return bottom_left;
-	if (entity_position.x > center.x && entity_position.y > center.y) return bottom_right;
-	if (entity_position.x > center.x && entity_position.y < center.y) return top_right;  
-	if (entity_position.x < center.x && entity_position.y < center.y) return top_left;  
-
-	// Edge cases
-	if (entity_position.x == center.x && entity_position.y == center.y) return top_left; 
-	if (entity_position.x < center.x && entity_position.y == center.y) return bottom_left;     
-	if (entity_position.x == center.x && entity_position.y > center.y) return bottom_right;
-	if (entity_position.x > center.x && entity_position.y == center.y) return top_right; 
-	if (entity_position.x == center.x && entity_position.y < center.y) return top_left;
+	sf::Vector2f& entity_position = std::get<0>(m_game->components->unpack<TransformComponent>(entity))->position;
+	return determine_child(entity_position);
 }
 
-const std::vector<Entity>& QuadTree::get_neighbours(const Entity entity) {
-	if (m_children) return m_children->at(determine_child(entity))->get_neighbours(entity);
+int QuadTree::determine_child(const sf::Vector2f& entity_position) {
+	if (entity_position.x < m_center.x && entity_position.y > m_center.y) return bottom_left;
+	if (entity_position.x > m_center.x && entity_position.y > m_center.y) return bottom_right;
+	if (entity_position.x > m_center.x && entity_position.y < m_center.y) return top_right;  
+	if (entity_position.x < m_center.x && entity_position.y < m_center.y) return top_left;  
+
+	// Edge cases
+	if (entity_position.x == m_center.x && entity_position.y == m_center.y) return top_left; 
+	if (entity_position.x < m_center.x && entity_position.y == m_center.y) return bottom_left;     
+	if (entity_position.x == m_center.x && entity_position.y > m_center.y) return bottom_right;
+	if (entity_position.x > m_center.x && entity_position.y == m_center.y) return top_right; 
+	if (entity_position.x == m_center.x && entity_position.y < m_center.y) return top_left;
+}
+
+const std::vector<Entity>& QuadTree::get_potential_collisions(const Entity entity) {
+	if (m_children) return m_children->at(determine_child(entity))->get_potential_collisions(entity);
+	return present_entities();
+}
+
+const std::vector<Entity>& QuadTree::get_potential_collisions(const sf::Vector2f& entity_position) {
+	if (m_children) return m_children->at(determine_child(entity_position))->get_potential_collisions(entity_position);
 	return present_entities();
 }
 
 void QuadTree::init() { 
-	auto all_entities = m_game->entities->get_all_alive_entities();
-	for (int entity : all_entities)
-		insert(entity);
+	//auto all_entities = m_game->entities->get_all_alive_entities();
+	//for (int entity : all_entities)
+	//	insert(entity);
 }

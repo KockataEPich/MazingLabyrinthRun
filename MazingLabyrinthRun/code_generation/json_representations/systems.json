@@ -71,7 +71,7 @@
    "Move" : 
    {
       "type" : "react",
-      "components" : ["Transform", "Speed", "Velocity", "Move"]
+      "components" : ["Transform", "Speed", "Velocity", "Boundary", "Move"]
    },
 
    "CollisionDetection" : 

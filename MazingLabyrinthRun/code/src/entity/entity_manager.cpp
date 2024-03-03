@@ -10,7 +10,7 @@ std::vector<Entity> EntityManager::get_all_alive_entities() {
 	std::vector<Entity> alive_entities;
 
 	for (int entity = 0; entity < m_entity_list.size(); entity++)
-		if (m_entity_list[entity] == false) 
+		if (!m_entity_list[entity]) 
 			alive_entities.push_back(entity);
 
 	return alive_entities;

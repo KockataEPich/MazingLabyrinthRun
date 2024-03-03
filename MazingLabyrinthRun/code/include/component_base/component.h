@@ -18,3 +18,4 @@ static int get_component_family() {
 	return Component<typename std::remove_const<C>::type>::family();
 }
 #endif
+ 

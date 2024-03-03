@@ -12,6 +12,7 @@ public:
 	Entity create_entity();
 	void destroy(Entity entity);
 	std::vector<Entity> get_all_alive_entities();
+	bool is_alive(const Entity entity) { return !m_entity_list[entity]; } 
 
 private:
 	std::vector<bool> m_entity_list = std::vector<bool>(capacity);

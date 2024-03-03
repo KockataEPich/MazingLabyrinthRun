@@ -39,6 +39,7 @@ public:
 	}
 
 	std::vector<Entity> get_all_alive_entities() { return m_entity_manager->get_all_alive_entities(); }
+	bool is_alive(const Entity entity) { return m_entity_manager->is_alive(entity); }
 
 private:
 	std::unique_ptr<EntityManager> m_entity_manager = std::make_unique<EntityManager>();

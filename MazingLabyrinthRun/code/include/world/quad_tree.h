@@ -17,12 +17,14 @@ public:
 		m_layer{layer}
 	{
 		m_present_entities = std::vector<Entity>();
+		m_center = {m_surface.left + m_surface.width * 0.5f, m_surface.top + m_surface.height * 0.5f};
 	};
 
 	void init();
 	void insert(const Entity entity);
 	void remove(const Entity entity);
-	const std::vector<Entity>& get_neighbours(const Entity entity);
+	const std::vector<Entity>& get_potential_collisions(const Entity entity);
+	const std::vector<Entity>& get_potential_collisions(const sf::Vector2f& entity);
 
 	bool has_space() { return m_present_entities->size() <= max_entities; }
 	int number_of_present_entities() { return m_present_entities->size(); }
@@ -35,6 +37,8 @@ private:
 	const int max_layers = 5;
 	int m_layer;
 
+	sf::Vector2f m_center;
+
 	std::optional<std::array<std::unique_ptr<QuadTree>, 4>> m_children;
 	std::optional<std::vector<Entity>> m_present_entities;
 
@@ -42,6 +46,7 @@ private:
 	Game* m_game;
 
 	int determine_child(const Entity entity);
+	int determine_child(const sf::Vector2f& entity_position);
 	void split_if_needed();
 	void merge_if_needed();
 };
