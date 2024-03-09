@@ -1,7 +1,6 @@
-#include <world/quad_tree.h>
 #include <game.h>
 
-#include <generated/components/data_components/transform_component.h>
+#include <generated/components/data_components/boundary_component.h>
 
 const int top_left = 0;
 const int top_right = 1;
@@ -57,7 +56,7 @@ void QuadTree::merge_if_needed() {
 	}
 
 	// As I don't really want for constant merging and unmerging near the max, there is a bit of a tolerance.
-	if (number_entities_in_children < (max_entities * 3) * 0.25f) return;
+	if (number_entities_in_children > (max_entities * 3) * 0.25f) return;
 
 	m_present_entities = std::vector<Entity>();
 
@@ -68,7 +67,7 @@ void QuadTree::merge_if_needed() {
 }
 
 int QuadTree::determine_child(const Entity entity) {
-	sf::Vector2f& entity_position = std::get<0>(m_game->components->unpack<TransformComponent>(entity))->position;
+	const sf::Vector2f& entity_position = std::get<0>(m_game->components->unpack<BoundaryComponent>(entity))->hitbox.getPosition();
 	return determine_child(entity_position);
 }
 
@@ -86,14 +85,34 @@ int QuadTree::determine_child(const sf::Vector2f& entity_position) {
 	if (entity_position.x == m_center.x && entity_position.y < m_center.y) return top_left;
 }
 
-const std::vector<Entity>& QuadTree::get_potential_collisions(const Entity entity) {
-	if (m_children) return m_children->at(determine_child(entity))->get_potential_collisions(entity);
-	return present_entities();
+std::vector<Entity> QuadTree::get_potential_collisions(const sf::FloatRect& hitbox,
+                                                       const sf::Vector2f& velocity) {
+	sf::FloatRect expanded_hitbox{hitbox.left - std::abs(velocity.x),
+	                              hitbox.top - std::abs(velocity.y),
+	                              hitbox.width + std::abs(velocity.x) * 2,
+	                              hitbox.height + std::abs(velocity.y) * 2};
+
+	std::vector<Entity> possible_collision_entities;
+	gather_possible_collisions(possible_collision_entities, expanded_hitbox);
+
+	return possible_collision_entities;
 }
 
-const std::vector<Entity>& QuadTree::get_potential_collisions(const sf::Vector2f& entity_position) {
-	if (m_children) return m_children->at(determine_child(entity_position))->get_potential_collisions(entity_position);
-	return present_entities();
+void QuadTree::gather_possible_collisions(std::vector<Entity>& possible_collisions, sf::FloatRect& expanded_target) { 
+	if (!m_children) {
+		if (!m_surface.intersects(expanded_target)) return;
+		sf::RectangleShape rectangle(m_surface.getSize());
+		rectangle.setFillColor(sf::Color::Transparent);
+		rectangle.setOutlineThickness(8);
+		rectangle.setOutlineColor(sf::Color::Yellow);
+		rectangle.setPosition(m_surface.getPosition());
+		m_game->m_window->draw(rectangle);
+		possible_collisions.insert(possible_collisions.end(), present_entities().begin(), present_entities().end());
+		return;
+	}
+	
+	for (auto& child : *m_children) 
+		child->gather_possible_collisions(possible_collisions, expanded_target);
 }
 
 void QuadTree::init() { 

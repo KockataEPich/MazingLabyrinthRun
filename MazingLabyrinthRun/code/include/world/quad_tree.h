@@ -23,8 +23,8 @@ public:
 	void init();
 	void insert(const Entity entity);
 	void remove(const Entity entity);
-	const std::vector<Entity>& get_potential_collisions(const Entity entity);
-	const std::vector<Entity>& get_potential_collisions(const sf::Vector2f& entity);
+	std::vector<Entity> get_potential_collisions(const sf::FloatRect& hitbox, const sf::Vector2f& velocity);
+	const std::vector<Entity>& get_entities_residing_with_point(const sf::Vector2f& entity_position);
 
 	bool has_space() { return m_present_entities->size() <= max_entities; }
 	int number_of_present_entities() { return m_present_entities->size(); }
@@ -49,6 +49,9 @@ private:
 	int determine_child(const sf::Vector2f& entity_position);
 	void split_if_needed();
 	void merge_if_needed();
+
+protected:
+	void gather_possible_collisions(std::vector<Entity>& possible_collisions, sf::FloatRect& expanded_target);
 };
 
 #endif

@@ -2,7 +2,7 @@
 #define GAME_HEADER
 
 #include <window/game_window.h>
-#include <generated/components/data_components/transform_component.h>
+#include <generated/components/data_components/boundary_component.h>
 #include <entity_base/entities.h>
 #include <system/systems.h>
 #include <component_base/components.h>
@@ -90,16 +90,16 @@ private:
 	}
 
 	template<>
-	    void add_component <TransformComponent>(const Entity& entity, std::unique_ptr<TransformComponent>&& component) {
+	void add_component<BoundaryComponent>(const Entity& entity, std::unique_ptr<BoundaryComponent>&& component) {
 		components->add_component(entity, std::move(component));
-		entities->add_component_to_entity_mask<TransformComponent>(entity);
+		entities->add_component_to_entity_mask<BoundaryComponent>(entity);
 		quad_tree->insert(entity);
 	}
 
 	template<>
-	void add_component<TransformComponent>(const Entity& entity) {
-		components->add_component(entity, std::make_unique<TransformComponent>());
-		entities->add_component_to_entity_mask<TransformComponent>(entity);
+	void add_component<BoundaryComponent>(const Entity& entity) {
+		components->add_component(entity, std::make_unique<BoundaryComponent>());
+		entities->add_component_to_entity_mask<BoundaryComponent>(entity);
 		quad_tree->insert(entity);
 	}
 
@@ -110,9 +110,9 @@ private:
 	}
 
 	template<>
-	void remove_component<TransformComponent>(const Entity& entity) {
-		components->remove_component<TransformComponent>(entity);
-		entities->remove_component_from_entity_mask<TransformComponent>(entity);
+	void remove_component<BoundaryComponent>(const Entity& entity) {
+		components->remove_component<BoundaryComponent>(entity);
+		entities->remove_component_from_entity_mask<BoundaryComponent>(entity);
 		quad_tree->remove(entity);
 	}
 
