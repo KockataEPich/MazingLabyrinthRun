@@ -7,11 +7,11 @@ bool dynamic_ray_vs_rect(VelocityComponent& velocity,
                          sf::FloatRect& victim_boundary,
                          CollisionInfo& collision_info) {
 
-	sf::Vector2f inverse_target_position = 1.0f / velocity.velocity;
+	sf::Vector2f inverse_velocity = 1.0f / velocity.velocity;
 
-	sf::Vector2f t_near = (victim_boundary.getPosition() - velocity.origin) * inverse_target_position;
+	sf::Vector2f t_near = (victim_boundary.getPosition() - velocity.origin) * inverse_velocity;
 	sf::Vector2f t_far =
-	    (victim_boundary.getPosition() + victim_boundary.getSize() - velocity.origin) * inverse_target_position;
+	    (victim_boundary.getPosition() + victim_boundary.getSize() - velocity.origin) * inverse_velocity;
 
 	if (std::isnan(t_far.y) || std::isnan(t_far.x)) return false;
 	if (std::isnan(t_near.y) || std::isnan(t_near.x)) return false;
@@ -26,16 +26,17 @@ bool dynamic_ray_vs_rect(VelocityComponent& velocity,
 	if (t_hit_far < 0) return false;
 
 	collision_info.contact_time = std::max(t_near.x, t_near.y);
+	if (collision_info.contact_time < 0 && collision_info.contact_time > -0.0001f) collision_info.contact_time = 0;
 
 	// Contact point of collision from parametric line equation
 	collision_info.contact_point = velocity.origin + collision_info.contact_time * velocity.velocity;
 	if (t_near.x > t_near.y)
-		if (inverse_target_position.x < 0)
+		if (inverse_velocity.x < 0)
 			collision_info.contact_normal = {1, 0};
 		else
 			collision_info.contact_normal = {-1, 0};
 	else if (t_near.x < t_near.y)
-		if (inverse_target_position.y < 0)
+		if (inverse_velocity.y < 0)
 			collision_info.contact_normal = {0, 1};
 		else
 			collision_info.contact_normal = {0, -1};
@@ -50,14 +51,14 @@ bool dynamic_rect_vs_rect(VelocityComponent& velocity,
 
 	// Expand target rectangle by source dimensions
 	sf::FloatRect expanded_target;
-	expanded_target.left = (victim_boundary.hitbox.getPosition() - initiator_boundary.hitbox.getSize() / 2).x;
-	expanded_target.top = (victim_boundary.hitbox.getPosition() - initiator_boundary.hitbox.getSize() / 2).y;
+	expanded_target.left = (victim_boundary.hitbox.getPosition() - initiator_boundary.hitbox.getSize() * 0.5f).x;
+	expanded_target.top = (victim_boundary.hitbox.getPosition() - initiator_boundary.hitbox.getSize() * 0.5f).y;
 
 	expanded_target.width = victim_boundary.hitbox.getSize().x + initiator_boundary.hitbox.getSize().x;
 	expanded_target.height = victim_boundary.hitbox.getSize().y + initiator_boundary.hitbox.getSize().y;
 
 	if (dynamic_ray_vs_rect(velocity, expanded_target, collision_info)) {
-		return collision_info.contact_time >= 0.0f && collision_info.contact_time < 1.0f;
+		return collision_info.contact_time >= 0.0 && collision_info.contact_time < 1.0;
 	}
 
 	return false;

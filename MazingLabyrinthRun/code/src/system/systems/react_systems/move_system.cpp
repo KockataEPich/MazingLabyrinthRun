@@ -29,6 +29,10 @@ void MoveSystem::react_on_entity(
 	velocity.velocity.x = (velocity.origin.x < velocity.final_destination.x) ? (float)x_offset : (float)x_offset * -1;
 	velocity.velocity.y = (velocity.origin.y < velocity.final_destination.y) ? (float)y_offset : (float)y_offset * -1;
 
+	// Smoothing out Float conversion 
+	if (velocity.velocity.x < 0.009 && velocity.velocity.x > -0.009) velocity.velocity.x = 0;
+	if (velocity.velocity.y < 0.009 && velocity.velocity.y > -0.009) velocity.velocity.y = 0;
+
 	entity.add_event_components<CollisionCheckComponent>();
 	
 	if (!m_game->entities->is_alive(entity.entity)) return;

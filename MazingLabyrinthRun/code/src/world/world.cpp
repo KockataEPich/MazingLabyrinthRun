@@ -89,7 +89,7 @@ void World::init() {
 	auto mouse = m_game->create_entity();
 	mouse.add_components<SpriteComponent, MouseComponent, HealthPointsComponent>();
 	mouse.add_components(
-		std::make_unique<BoundaryComponent>(get_hitbox_based_on_transform_component(*mouse_transform)),
+		//std::make_unique<BoundaryComponent>(get_hitbox_based_on_transform_component(*mouse_transform)),
 	                     std::move(mouse_transform),
 						 std::make_unique<ElevationLevelComponent>(ElevationLevel::UI));
 
