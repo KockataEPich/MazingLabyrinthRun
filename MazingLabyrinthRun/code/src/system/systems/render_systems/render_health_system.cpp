@@ -6,8 +6,7 @@ void RenderHealthSystem::render() {
 
 		sf::Text text;
 		text.setFont(m_font);
-		text.setString("Location:(" + std::to_string(transform->position.x) + "," +
-		               std::to_string(transform->position.y) + ")\n" + std::to_string(health_points->health) + "/50");
+		text.setString(std::to_string(entity));
 		text.setCharacterSize(20);
 
 		auto position = transform->position;

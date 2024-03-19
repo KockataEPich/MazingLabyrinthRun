@@ -8,23 +8,37 @@ const int bottom_right = 2;
 const int bottom_left = 3;
 
 void QuadTree::insert(const Entity entity) {
-	split_if_needed();
-	if (m_children) {
-		m_children->at(determine_child(entity))->insert(entity); 
+	const sf::FloatRect& entity_position = std::get<0>(m_game->components->unpack<BoundaryComponent>(entity))->hitbox;
+	insert(entity, entity_position);
+}
+
+void QuadTree::insert(const Entity entity, const sf::FloatRect& entity_hitbox) {
+	if (!m_surface.intersects(entity_hitbox)) return;
+	
+	if (!m_children) {
+		m_present_entities->insert(entity);
+		split_if_needed();
 		return;
 	}
 
-	m_present_entities->push_back(entity);
+	for (auto& child : *m_children) child->insert(entity, entity_hitbox);
 }
 
 void QuadTree::remove(const Entity entity) {
-	if (m_children) {
-		m_children->at(determine_child(entity))->remove(entity);
-		merge_if_needed();
+	const sf::FloatRect& entity_position = std::get<0>(m_game->components->unpack<BoundaryComponent>(entity))->hitbox;
+	remove(entity, entity_position);
+}
+
+void QuadTree::remove(const Entity entity, const sf::FloatRect& entity_box) {
+	if (!m_surface.intersects(entity_box)) return;
+	
+	if (!m_children) {
+		m_present_entities->erase(entity);
 		return;
 	}
 
-	std::erase(*m_present_entities, entity); 
+	for (auto& child : *m_children) child->remove(entity, entity_box);
+	merge_if_needed();
 }
 
 void QuadTree::split_if_needed() { 
@@ -43,7 +57,7 @@ void QuadTree::split_if_needed() {
 	set_rect_at_index(m_surface.left + m_surface.width * 0.5f, m_surface.top + m_surface.height * 0.5f, 2);
 	set_rect_at_index(m_surface.left, m_surface.top + m_surface.height * 0.5f, 3);
 
-	for (auto entity : *m_present_entities) m_children->at(determine_child(entity))->insert(entity);
+	for (auto entity : *m_present_entities) insert(entity);
 
 	m_present_entities = std::nullopt;
 }
@@ -58,39 +72,20 @@ void QuadTree::merge_if_needed() {
 	// As I don't really want for constant merging and unmerging near the max, there is a bit of a tolerance.
 	if (number_entities_in_children > (max_entities * 3) * 0.25f) return;
 
-	m_present_entities = std::vector<Entity>();
+	m_present_entities = std::set<Entity>();
 
 	for (auto& child : *m_children) 
-		for (auto entity : child->present_entities()) m_present_entities->push_back(entity);
+		for (auto entity : child->present_entities()) m_present_entities->insert(entity);
 
 	m_children = std::nullopt;
 }
 
-int QuadTree::determine_child(const Entity entity) {
-	const sf::Vector2f& entity_position = std::get<0>(m_game->components->unpack<BoundaryComponent>(entity))->hitbox.getPosition();
-	return determine_child(entity_position);
-}
-
-int QuadTree::determine_child(const sf::Vector2f& entity_position) {
-	if (entity_position.x < m_center.x && entity_position.y > m_center.y) return bottom_left;
-	if (entity_position.x > m_center.x && entity_position.y > m_center.y) return bottom_right;
-	if (entity_position.x > m_center.x && entity_position.y < m_center.y) return top_right;  
-	if (entity_position.x < m_center.x && entity_position.y < m_center.y) return top_left;  
-
-	// Edge cases
-	if (entity_position.x == m_center.x && entity_position.y == m_center.y) return top_left; 
-	if (entity_position.x < m_center.x && entity_position.y == m_center.y) return bottom_left;     
-	if (entity_position.x == m_center.x && entity_position.y > m_center.y) return bottom_right;
-	if (entity_position.x > m_center.x && entity_position.y == m_center.y) return top_right; 
-	if (entity_position.x == m_center.x && entity_position.y < m_center.y) return top_left;
-}
-
 std::vector<Entity> QuadTree::get_potential_collisions(const sf::FloatRect& hitbox,
                                                        const sf::Vector2f& velocity) {
-	sf::FloatRect expanded_hitbox{hitbox.left - std::abs(velocity.x),
-	                              hitbox.top - std::abs(velocity.y),
-	                              hitbox.width + std::abs(velocity.x) * 2,
-	                              hitbox.height + std::abs(velocity.y) * 2};
+	sf::FloatRect expanded_hitbox{hitbox.left - std::abs(velocity.x) * 1.2f,
+	                              hitbox.top - std::abs(velocity.y) * 1.2f,
+	                              hitbox.width + std::abs(velocity.x) * 2.4f,
+	                              hitbox.height + std::abs(velocity.y) * 2.4f};
 
 	std::vector<Entity> possible_collision_entities;
 	gather_possible_collisions(possible_collision_entities, expanded_hitbox);

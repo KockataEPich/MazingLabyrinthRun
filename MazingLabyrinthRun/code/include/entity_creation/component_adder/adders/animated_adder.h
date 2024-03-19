@@ -8,15 +8,23 @@
 #include <generated/components/data_components/facing_side_component.h>
 #include <generated/components/data_components/skin_component.h>
 #include <generated/components/data_components/speed_component.h>
+#include <generated/components/basic_components/solid_component.h>
+#include <generated/components/basic_components/default_collision_armor_component.h>
+#include <generated/components/data_components/velocity_component.h>
+#include <generated/components/data_components/health_points_component.h>
 
 class AnimatedAdder : public ComponentAdder {
 public:
 	void attach_components(EntityHandle& entity) override {
-		entity.add_components(std::make_unique<ActionTypeComponent>(),
-			std::make_unique<SpeedComponent>(),
-			std::make_unique<FacingSideComponent>(),
-			std::make_unique<SkinComponent>(),
-			std::make_unique<AnimationPlayerComponent>());
+		entity.add_components<ActionTypeComponent,
+		                      SpeedComponent,
+		                      FacingSideComponent,
+		                      SkinComponent,
+		                      AnimationPlayerComponent,
+		                      SolidComponent,
+		                      DefaultCollisionArmorComponent,
+		                      VelocityComponent,
+		                      HealthPointsComponent>();
 	};
 };
 

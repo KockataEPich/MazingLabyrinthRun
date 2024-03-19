@@ -7,8 +7,7 @@ void AISystem::for_every_entity(
     SpeedComponent& speed,
     FacingSideComponent& facing_side,
     VelocityComponent& velocity) {
-
-	velocity.final_destination = m_game->world->get_player_sprite().getPosition();
+	velocity.final_destination = std::get<0>(m_game->components->unpack<BoundaryComponent>(0))->hitbox.getPosition() + std::get<0>(m_game->components->unpack<BoundaryComponent>(0))->hitbox.getSize() * 0.5f;
 	entity.add_event_components<MoveComponent>();
 }
 
