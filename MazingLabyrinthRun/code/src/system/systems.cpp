@@ -77,9 +77,9 @@ void Systems::init(){
 		std::make_unique<PlayerSystem>(*m_game->m_window),
 		std::make_unique<AISystem>(),
 		std::make_unique<AnimateSystem>(),
-		std::make_unique<TransformSystem>(),
 		std::make_unique<ProjectileSystem>(),
-	    std::make_unique<UpdateCrosshairPositionSystem>(*m_game->m_window));
+	    std::make_unique<UpdateCrosshairPositionSystem>(*m_game->m_window),
+	    std::make_unique<TransformSystem>());
 
 	add_render_systems(std::make_unique<RenderSpriteSystem>(*m_game->m_window),
 	                   std::make_unique<RenderQuadTreeSystem>(*m_game->m_window),

@@ -80,20 +80,20 @@ void QuadTree::merge_if_needed() {
 	m_children = std::nullopt;
 }
 
-std::vector<Entity> QuadTree::get_potential_collisions(const sf::FloatRect& hitbox,
+std::set<Entity> QuadTree::get_potential_collisions(const sf::FloatRect& hitbox,
                                                        const sf::Vector2f& velocity) {
 	sf::FloatRect expanded_hitbox{hitbox.left - std::abs(velocity.x) * 1.2f,
 	                              hitbox.top - std::abs(velocity.y) * 1.2f,
 	                              hitbox.width + std::abs(velocity.x) * 2.4f,
 	                              hitbox.height + std::abs(velocity.y) * 2.4f};
 
-	std::vector<Entity> possible_collision_entities;
+	std::set<Entity> possible_collision_entities;
 	gather_possible_collisions(possible_collision_entities, expanded_hitbox);
 
 	return possible_collision_entities;
 }
 
-void QuadTree::gather_possible_collisions(std::vector<Entity>& possible_collisions, sf::FloatRect& expanded_target) { 
+void QuadTree::gather_possible_collisions(std::set<Entity>& possible_collisions, sf::FloatRect& expanded_target) { 
 	if (!m_children) {
 		if (!m_surface.intersects(expanded_target)) return;
 		sf::RectangleShape rectangle(m_surface.getSize());
@@ -102,7 +102,7 @@ void QuadTree::gather_possible_collisions(std::vector<Entity>& possible_collisio
 		rectangle.setOutlineColor(sf::Color::Yellow);
 		rectangle.setPosition(m_surface.getPosition());
 		m_game->m_window->draw(rectangle);
-		possible_collisions.insert(possible_collisions.end(), present_entities().begin(), present_entities().end());
+		possible_collisions.insert(present_entities().begin(), present_entities().end());
 		return;
 	}
 	

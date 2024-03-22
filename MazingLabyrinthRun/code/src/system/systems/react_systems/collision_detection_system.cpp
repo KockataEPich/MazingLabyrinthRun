@@ -1,6 +1,7 @@
 #include <generated/systems/react_systems/collision_detection_system.h>
 #include <utils/component_utils.h>
 #include <utils/collision_utils.h>
+#include <algorithm>
 
 namespace {
 
@@ -20,15 +21,11 @@ void sort_near_and_far(sf::Vector2f& t_near, sf::Vector2f& t_far) {
 	if (t_near.y > t_far.y) std::swap(t_near.y, t_far.y);
 }
 
-sf::Vector2f determine_contact_normal(sf::Vector2f& t_near, sf::Vector2f& inverse_velocity) {
-	const float offset_corner = 0.01;
-	if (t_near.x == t_near.y) { 
-		float x = inverse_velocity.x < 0 ? offset_corner : offset_corner * -1;
-		float y = inverse_velocity.y < 0 ? offset_corner : offset_corner * -1;
-		return sf::Vector2f(x, y); 
-	}
-	if (t_near.x > t_near.y) return (inverse_velocity.x < 0) ? sf::Vector2f(1.02, 0) : sf::Vector2f(-1.02, 0);
-	return (inverse_velocity.y < 0) ? sf::Vector2f(0, 1.02) : sf::Vector2f(0, -1.02);
+sf::Vector2f determine_contact_normal(sf::Vector2f& t_near, sf::Vector2f& inverse_velocity, float contact_time) {
+	const float offset = std::max(1.03f, std::powf(1.03f, 15 * contact_time));
+	if (t_near.x == t_near.y) return sf::Vector2f(0, 0); 
+	if (t_near.x > t_near.y) return (inverse_velocity.x < 0) ? sf::Vector2f(offset, 0) : sf::Vector2f(-offset, 0);
+	return (inverse_velocity.y < 0) ? sf::Vector2f(0, offset) : sf::Vector2f(0, -offset);
 }
 
 bool dynamic_ray_vs_rect(VelocityComponent& velocity,
@@ -43,18 +40,48 @@ bool dynamic_ray_vs_rect(VelocityComponent& velocity,
 	if (!valid_values(t_near, t_far)) return false;
 	sort_near_and_far(t_near, t_far);
 
-	if (t_near.x > t_far.y || t_near.y > t_far.x) return false;
+	if (t_near.x > t_far.y || t_near.y > t_far.x) 
+		return false;
 
 	if (std::min(t_far.x, t_far.y) < 0) return false;
 
+	if (t_near.x < 0 && t_far.x > 0 && t_near.y < 0 && t_far.y > 0) 
+		int t = 3;
 	collision_info.contact_time = std::max(t_near.x, t_near.y);
+
 	normalize_float(collision_info.contact_time);
 
-	collision_info.contact_point = velocity.origin + collision_info.contact_time * velocity.velocity;
-	collision_info.contact_normal = determine_contact_normal(t_near, inverse_velocity);
+	if (collision_info.contact_time >= 1.0 && collision_info.contact_time < 1.02) collision_info.contact_time = 0.9999;
 
-	return collision_info.contact_time >= 0.0 && collision_info.contact_time < 1.0;
+	collision_info.contact_point = velocity.origin + collision_info.contact_time * velocity.velocity;
+	collision_info.contact_normal = determine_contact_normal(t_near, inverse_velocity, collision_info.contact_time);
+
+	bool is_hit = collision_info.contact_time >= 0.0 && collision_info.contact_time < 1.0;
+	
+	if (collision_info.contact_time > 0.98) collision_info.contact_time = 0.98;
+
+	return is_hit;
 }
+
+Entity get_closest_entity(std::set<Entity>& all_possible_collisions, Game* game, VelocityComponent& velocity, BoundaryComponent& boundary) {
+	std::vector<std::pair<Entity, float>> sorted_entities;
+	for (auto victim_entity : all_possible_collisions) {
+		auto [victim_boundary] = game->components->unpack<BoundaryComponent>(victim_entity);
+		CollisionInfo collision_info;
+		if (dynamic_ray_vs_rect(velocity,
+		                        construct_expanded_target(victim_boundary->hitbox, boundary.hitbox.getSize()),
+		                        collision_info))
+			sorted_entities.push_back({victim_entity, collision_info.contact_time});
+	}
+
+	if (sorted_entities.size() == 0) return -1;
+	auto min_element = std::min_element(sorted_entities.begin(),
+	                                    sorted_entities.end(),
+	                                    [](const auto& lhs, const auto& rhs) { return lhs.second < rhs.second; }); 
+	return min_element->first;
+}
+
+
 }  // namespace
 void CollisionDetectionSystem::react_on_entity(
 	EntityHandle entity,
@@ -62,21 +89,58 @@ void CollisionDetectionSystem::react_on_entity(
 	TransformComponent& transform,
     VelocityComponent& velocity) {
 
-	hit_count++; 
 	auto potential_collisions = m_game->quad_tree->get_potential_collisions(boundary.hitbox, velocity.velocity);
-	auto bottom_left_point = boundary.hitbox.getPosition() + boundary.hitbox.getSize();
-	Entity intersected_entity; 
-    for (auto victim_entity : potential_collisions) {
-		auto [victim_boundary] = m_game->components->unpack<BoundaryComponent>(victim_entity);
-		if (boundary.hitbox.intersects(victim_boundary->hitbox)) { 
-			intersected_entity = victim_entity;	
+	auto copy_of_velocity = velocity;
+
+
+	// To delete
+	std::vector<Entity> entities_it_will_collide_with;
+	{
+		auto total_origin = velocity.origin + velocity.velocity;
+		sf::FloatRect after_move_box = boundary.hitbox;
+		after_move_box.left = total_origin.x - after_move_box.getSize().x * 0.5f;
+		after_move_box.top = total_origin.y - after_move_box.getSize().y * 0.5f;
+
+		for (const auto& possible_collision :
+		     m_game->entities->get_all_entities_who_have_component<BoundaryComponent>()) {
+			if (possible_collision == entity.entity) continue;
+			auto [victim_pop] = m_game->components->unpack<BoundaryComponent>(possible_collision);
+			if (after_move_box.intersects(victim_pop->hitbox)) { 
+				entities_it_will_collide_with.push_back(possible_collision);
+			}
 		}
 	}
-	for (auto victim_entity : potential_collisions) {
-		auto [victim_boundary] = m_game->components->unpack<BoundaryComponent>(victim_entity);
+	
+	std::vector<CollisionInfo> collision_infos;
+	Entity closest_entity = get_closest_entity(potential_collisions, m_game, velocity, boundary);
+	while (closest_entity != -1) {
+		auto [victim_boundary] = m_game->components->unpack<BoundaryComponent>(closest_entity);
 		CollisionInfo collision_info;
-		if (dynamic_ray_vs_rect(velocity, construct_expanded_target(victim_boundary->hitbox, boundary.hitbox.getSize()), collision_info)) {
-			m_game->systems->exchange_impulses(entity.entity, victim_entity, collision_info);
+		if (dynamic_ray_vs_rect(velocity,
+			                    construct_expanded_target(victim_boundary->hitbox, boundary.hitbox.getSize()),
+			                    collision_info)) {
+			collision_infos.push_back(collision_info);
+			m_game->systems->exchange_impulses(entity.entity, closest_entity, collision_info);
+			potential_collisions.erase(closest_entity);
+			closest_entity = get_closest_entity(potential_collisions, m_game, velocity, boundary);
+		}
+	}
+
+	// To delete
+	auto total_origin = velocity.origin + velocity.velocity;
+	sf::FloatRect after_move_box = boundary.hitbox;
+	after_move_box.left = total_origin.x - after_move_box.getSize().x * 0.5f;
+	after_move_box.top = total_origin.y - after_move_box.getSize().y * 0.5f;
+
+	for (const auto& possible_collision : m_game->entities->get_all_entities_who_have_component<BoundaryComponent>()) {
+		if (possible_collision == entity.entity) continue;
+		auto [victim_pop] = m_game->components->unpack<BoundaryComponent>(possible_collision);
+		if (after_move_box.intersects(victim_pop->hitbox)) { 
+			CollisionInfo collision_info_2;
+			dynamic_ray_vs_rect(copy_of_velocity,
+			                    construct_expanded_target(victim_pop->hitbox, boundary.hitbox.getSize()),
+			                    collision_info_2);
+			int five = 5;
 		}
 	}
 

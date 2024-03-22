@@ -33,6 +33,6 @@ inline sf::Vector2f get_transform_based_on_boundary_component(BoundaryComponent&
 	return {boundary.hitbox.left + scaled_size.x * 0.275f, boundary.hitbox.top + scaled_size.y * 0.10f};
 }
 
-inline void normalize_float(float& input) { if (input < 0.001f && input > -0.001f) input = 0; }
+inline void normalize_float(float& input) { if (input < 0.009f && input > -0.009f) input = 0; }
 
 #endif
