@@ -15,17 +15,17 @@ void sort_near_and_far(float& near, float& far) { if (near > far) std::swap(near
 
 sf::Vector2f determine_contact_normal(sf::Vector2f& t_near, 
 									  sf::Vector2f& inverse_velocity, 
-									  float contact_time) {
+									  float contact_time) { 
+	if (t_near.x == t_near.y) return sf::Vector2f(0, 0); 
+
 	// The offset needed has a buffer. Ideally it would be 1,
 	// however with increasing contact time, the offset itself decreases
 	// Because of this, an exponential function is applied so that very 
 	// little velocity offsets have very high offset_scalars.
 	// This ensures that the buffer will exist
 	const float offset_scalar = std::max(1.03f, std::powf(1.03f, 15 * contact_time));
-	if (t_near.x == t_near.y) return sf::Vector2f(0, 0); 
-	if (t_near.x > t_near.y) return (inverse_velocity.x < 0) ? 
-									sf::Vector2f(offset_scalar, 0) : sf::Vector2f(-offset_scalar, 0);
-	return (inverse_velocity.y < 0) ? sf::Vector2f(0, offset_scalar) : sf::Vector2f(0, -offset_scalar);
+	if (t_near.x > t_near.y) return inverse_velocity.x < 0 ? sf::Vector2f(offset_scalar, 0) : sf::Vector2f(-offset_scalar, 0);
+	return inverse_velocity.y < 0 ? sf::Vector2f(0, offset_scalar) : sf::Vector2f(0, -offset_scalar);
 }
 
 bool dynamic_ray_vs_rect(VelocityComponent& velocity,

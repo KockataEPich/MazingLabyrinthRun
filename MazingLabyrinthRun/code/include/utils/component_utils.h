@@ -23,7 +23,7 @@ inline sf::Vector2f get_transform_based_on_boundary_component(BoundaryComponent&
 }
 
 inline void normalize_float(float& input, float range, float normalized_value) { 
-	if (input < range && input > range) input = normalized_value;
+	if (input < range && input > -range) input = normalized_value;
 }
 
 #endif
