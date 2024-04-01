@@ -1,6 +1,7 @@
 #include <game.h>
 
 #include <generated/components/data_components/boundary_component.h>
+#include <utils/sfml_rect_helpers.h>
 
 const int top_left = 0;
 const int top_right = 1;
@@ -82,12 +83,10 @@ void QuadTree::merge_if_needed() {
 
 std::set<Entity> QuadTree::get_potential_collisions(const sf::FloatRect& hitbox,
                                                        const sf::Vector2f& velocity) {
-	sf::FloatRect expanded_hitbox{hitbox.left - std::abs(velocity.x) * 1.2f,
-	                              hitbox.top - std::abs(velocity.y) * 1.2f,
-	                              hitbox.width + std::abs(velocity.x) * 2.4f,
-	                              hitbox.height + std::abs(velocity.y) * 2.4f};
 
+	sf::FloatRect expanded_hitbox = get_expanded_rectangle(hitbox, abs(velocity) * 2.4f);
 	std::set<Entity> possible_collision_entities;
+
 	gather_possible_collisions(possible_collision_entities, expanded_hitbox);
 
 	return possible_collision_entities;
@@ -96,12 +95,6 @@ std::set<Entity> QuadTree::get_potential_collisions(const sf::FloatRect& hitbox,
 void QuadTree::gather_possible_collisions(std::set<Entity>& possible_collisions, sf::FloatRect& expanded_target) { 
 	if (!m_children) {
 		if (!m_surface.intersects(expanded_target)) return;
-		sf::RectangleShape rectangle(m_surface.getSize());
-		rectangle.setFillColor(sf::Color::Transparent);
-		rectangle.setOutlineThickness(8);
-		rectangle.setOutlineColor(sf::Color::Yellow);
-		rectangle.setPosition(m_surface.getPosition());
-		m_game->m_window->draw(rectangle);
 		possible_collisions.insert(present_entities().begin(), present_entities().end());
 		return;
 	}
@@ -110,8 +103,4 @@ void QuadTree::gather_possible_collisions(std::set<Entity>& possible_collisions,
 		child->gather_possible_collisions(possible_collisions, expanded_target);
 }
 
-void QuadTree::init() { 
-	//auto all_entities = m_game->entities->get_all_alive_entities();
-	//for (int entity : all_entities)
-	//	insert(entity);
-}
+void QuadTree::init() {}

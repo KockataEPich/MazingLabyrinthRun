@@ -2,18 +2,11 @@
 #include <utils/sfml_vector_helpers.h>
 #include <utils/component_utils.h>
 #include <utils/collision_utils.h>
+#include <utils/sfml_rect_helpers.h>
+
 #include <algorithm>
 
 namespace {
-
-sf::FloatRect construct_expanded_target(const sf::FloatRect& victim_hitbox, 
-										const sf::Vector2f& initiator_size) {
-	return {victim_hitbox.getPosition().x - initiator_size.x * 0.5f,
-	        victim_hitbox.getPosition().y - initiator_size.y * 0.5f,
-	        victim_hitbox.getSize().x + initiator_size.x,
-	        victim_hitbox.getSize().y + initiator_size.y};
-}
-
 bool valid_values(sf::Vector2f& t_near, sf::Vector2f& t_far) {
 	return !(std::isnan(t_far.y) || std::isnan(t_far.x) || std::isnan(t_near.y) || std::isnan(t_near.x));
 }
@@ -71,22 +64,26 @@ bool dynamic_ray_vs_rect(VelocityComponent& velocity,
 	return is_hit;
 }
 
-Entity get_closest_entity(std::set<Entity>& all_possible_collisions, Game* game, VelocityComponent& velocity, BoundaryComponent& boundary) {
-	std::vector<std::pair<Entity, float>> sorted_entities;
+std::optional<std::pair<Entity, CollisionInfo>> get_closest_entity(std::set<Entity>& all_possible_collisions,
+                                                                   Game* game,
+                                                                   VelocityComponent& velocity,
+                                                                   BoundaryComponent& boundary) {
+	std::optional<std::pair<Entity, CollisionInfo>> closest_entity = std::nullopt;
+
+
 	for (auto victim_entity : all_possible_collisions) {
 		auto [victim_boundary] = game->components->unpack<BoundaryComponent>(victim_entity);
 		CollisionInfo collision_info;
 		if (dynamic_ray_vs_rect(velocity,
-		                        construct_expanded_target(victim_boundary->hitbox, boundary.hitbox.getSize()),
-		                        collision_info))
-			sorted_entities.push_back({victim_entity, collision_info.contact_time});
+		                        get_expanded_rectangle(victim_boundary->hitbox, boundary.hitbox.getSize()),
+		                        collision_info)) {
+			if (!closest_entity || collision_info.contact_time < closest_entity->second.contact_time)
+				closest_entity = {victim_entity, collision_info};
+		}
+
 	}
 
-	if (sorted_entities.size() == 0) return -1;
-	auto min_element = std::min_element(sorted_entities.begin(),
-	                                    sorted_entities.end(),
-	                                    [](const auto& lhs, const auto& rhs) { return lhs.second < rhs.second; }); 
-	return min_element->first;
+	return closest_entity;
 }
 
 
@@ -97,17 +94,11 @@ void CollisionDetectionSystem::react_on_entity(
     VelocityComponent& velocity) {
 
 	auto potential_collisions = m_game->quad_tree->get_potential_collisions(boundary.hitbox, velocity.velocity);
-	Entity closest_entity = get_closest_entity(potential_collisions, m_game, velocity, boundary);
-	while (closest_entity != -1) {
-		auto [victim_boundary] = m_game->components->unpack<BoundaryComponent>(closest_entity);
-		CollisionInfo collision_info;
-		if (dynamic_ray_vs_rect(velocity,
-			                    construct_expanded_target(victim_boundary->hitbox, boundary.hitbox.getSize()),
-			                    collision_info)) {
-			m_game->systems->exchange_impulses(entity.entity, closest_entity, collision_info);
-			potential_collisions.erase(closest_entity);
-			closest_entity = get_closest_entity(potential_collisions, m_game, velocity, boundary);
-		}
+	auto closest_entity = get_closest_entity(potential_collisions, m_game, velocity, boundary);
+	while (closest_entity.has_value()) {
+		m_game->systems->exchange_impulses(entity.entity, closest_entity->first, closest_entity->second);
+		potential_collisions.erase(closest_entity->first);
+		closest_entity = get_closest_entity(potential_collisions, m_game, velocity, boundary);
 	}
 
 	  // To delete
