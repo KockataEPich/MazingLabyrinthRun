@@ -66,7 +66,7 @@ def interactive_functions_body(system):
         {system.cpp_function_name()}(
             {{initiator_entity, m_game}},{wu.set_tab_depth(3)}{wu.optional_string(wu.process_sequence(system.initiator_components, transform_dereferenced_variable, ",", True))}
 
-            {{victim_entity, m_game}}{"," if victim_has_data else ""}{wu.optional_string(wu.process_sequence(system.victim_components, transform_dereferenced_variable, ",", True))}
+            {{victim_entity, m_game}},{wu.optional_string(wu.process_sequence(system.victim_components, transform_dereferenced_variable, ",", True))}
 
             collision_info
         );
@@ -119,7 +119,7 @@ def get_cpp_function_declaration(system):
         EntityHandle initiator,
         {wu.set_tab_depth(2)}{wu.optional_string_basic(wu.process_sequence(system.initiator_components, transform_component_with_type, ","), initiator_has_data)}{"," if initiator_has_data else ""}
 
-        EntityHandle victim{"," if data_component_exists(system.victim_components) else ""}{wu.optional_string(wu.process_sequence(system.victim_components, transform_component_with_type, ",", True))}
+        EntityHandle victim,{wu.optional_string(wu.process_sequence(system.victim_components, transform_component_with_type, ",", True))}
 
         const CollisionInfo& collision_info
     )'''

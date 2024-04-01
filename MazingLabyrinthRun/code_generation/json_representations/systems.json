@@ -3,7 +3,7 @@
    {
       "type" : "producer",
       "includes" : ["<window/game_window.h>"],
-      "components" : ["ActionType", "FacingSide", "Velocity", "Player", "Speed", "Transform"],
+      "components" : ["ActionType", "FacingSide", "Velocity", "Player", "Transform"],
       "public_functions" : ["void init() override { m_registered_entities.reserve(1); }  // Only one player"],
       "members" : [
          {
@@ -20,7 +20,7 @@
    "AI" : 
    {
       "type" : "producer",
-      "components" : ["Transform", "Speed", "FacingSide", "AI", "Velocity"],
+      "components" : ["AI", "Velocity"],
       "public_functions" : ["int const tick_frequency() override { return 5; }"]
    },
 
@@ -78,7 +78,7 @@
    {
       "var_name" : "collision_detection",
       "type" : "react",
-      "components" : ["Boundary", "Transform", "CollisionCheck", "Velocity"]
+      "components" : ["Boundary", "CollisionCheck", "Velocity"]
    },
 
    "BasicDamage" : 
@@ -93,8 +93,8 @@
    {
       "var_name" : "basic_collision",
       "type" : "impulse",
-      "initiator_components" : ["Transform", "Speed", "FacingSide", "Solid", "Velocity", "Boundary"],
-      "victim_components" : ["Solid", "DefaultCollisionArmor", "Boundary"]
+      "initiator_components" : ["Solid", "Velocity"],
+      "victim_components" : ["Solid", "DefaultCollisionArmor"]
    },
 
    "ProjectileCollision" : 

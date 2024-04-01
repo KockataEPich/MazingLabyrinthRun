@@ -19,10 +19,6 @@ void determine_velocity(VelocityComponent& velocity, const float speed) {
 
 	velocity.velocity.x = (velocity.origin.x < velocity.final_destination.x) ? x_offset : x_offset * -1;
 	velocity.velocity.y = (velocity.origin.y < velocity.final_destination.y) ? y_offset : y_offset * -1;
-
-	// Smoothing out Float conversion
-	normalize_float(velocity.velocity.x);
-	normalize_float(velocity.velocity.y);
 }
 }
 void MoveSystem::react_on_entity(

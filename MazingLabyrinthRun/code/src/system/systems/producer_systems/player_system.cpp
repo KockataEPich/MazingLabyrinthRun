@@ -10,6 +10,7 @@
 #include <generated/components/data_components/animation_player_component.h>
 #include <generated/components/data_components/sprite_component.h>
 #include <generated/components/data_components/elevation_level_component.h>
+#include <generated/components/data_components/speed_component.h>
 
 #include <utils/component_utils.h>
 #include <entity_base/entity_handle.h>
@@ -18,7 +19,6 @@ void PlayerSystem::for_every_entity(
 	ActionTypeComponent& action_type,
 	FacingSideComponent& facing_side,
     VelocityComponent& velocity,
-	SpeedComponent& speed,
 	TransformComponent& transform){ 
 
 	auto pos = sf::Mouse::getPosition(m_game_window.as_sfml_window());
