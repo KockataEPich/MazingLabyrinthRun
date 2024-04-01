@@ -100,25 +100,5 @@ void CollisionDetectionSystem::react_on_entity(
 		potential_collisions.erase(closest_entity->first);
 		closest_entity = get_closest_entity(potential_collisions, m_game, velocity, boundary);
 	}
-
-	  // To delete
-	 auto total_origin = velocity.origin + velocity.velocity;
-     sf::FloatRect after_move_box = boundary.hitbox;
-	 after_move_box.left = total_origin.x - after_move_box.getSize().x * 0.5f;
-	 after_move_box.top = total_origin.y - after_move_box.getSize().y * 0.5f;
-	 for (const auto& possible_collision :
-	    m_game->entities->get_all_entities_who_have_component<BoundaryComponent>()) {
-		if (possible_collision == entity.entity) continue;
-			auto [victim_pop] = m_game->components->unpack<BoundaryComponent>(possible_collision);
-		if (after_move_box.intersects(victim_pop->hitbox)) {
-			CollisionInfo collision_info_2;
-			//dynamic_ray_vs_rect(copy_of_velocity,
-			//                    construct_expanded_target(victim_pop->hitbox, boundary.hitbox.getSize()),
-			//                    collision_info_2);
-			int five = 5;
-			
-		}
-		
-	}
 }
 
