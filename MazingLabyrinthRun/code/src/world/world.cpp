@@ -87,7 +87,7 @@ void World::init() {
 	auto mouse = m_game->create_entity();
 	mouse.add_components<SpriteComponent, MouseComponent, HealthPointsComponent>();
 	mouse.add_components(
-		//std::make_unique<BoundaryComponent>(get_hitbox_based_on_transform_component(*mouse_transform)),
+		std::make_unique<BoundaryComponent>(get_hitbox_based_on_transform_component(*mouse_transform)),
 	                     std::move(mouse_transform),
 						 std::make_unique<ElevationLevelComponent>(ElevationLevel::UI));
 
@@ -96,4 +96,5 @@ void World::init() {
 	mouse_sprite.setTexture(*ResourceManager::get_instance()->get_texture(Textures::ID::CROSS_HAIR_DEFAULT));
 	mouse.get_component<TransformComponent>()->size = {(float)mouse_sprite.getTextureRect().width,
 	                                                   (float)mouse_sprite.getTextureRect().height};
+	m_game->quad_tree->remove(mouse.entity);
 }
