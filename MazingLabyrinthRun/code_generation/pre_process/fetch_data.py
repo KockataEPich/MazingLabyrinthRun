@@ -33,7 +33,7 @@ def fetch_components_from_data(data, generated_folder):
         c.needs_cpp = metadata.get("needs_cpp", False)
         c.includes = metadata.get("includes", [])
         c.members = get_member_list(metadata.get("members", []), c.name, "Component")
-        c_functions = metadata.get("functions", [])
+        c.functions = metadata.get("functions", [])
         c.set_relative_path(True)
         c.header_path = "<" + os.path.basename(os.path.basename(os.path.normpath(generated_folder))) + "/components/" + c.relative_path + ">"
         result[c.name] = c

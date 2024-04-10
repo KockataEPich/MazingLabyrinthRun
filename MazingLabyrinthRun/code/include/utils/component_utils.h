@@ -7,7 +7,7 @@
 #include <generated/components/data_components/velocity_component.h>
 
 inline sf::Vector2f get_scaled_size(const TransformComponent& component) {
-	return {component.size.x * std::abs(component.scale.x), component.size.y * component.scale.y};
+	return component.size * component.scale;
 };
 
 inline sf::FloatRect get_hitbox_based_on_transform_component(const TransformComponent& transform) {

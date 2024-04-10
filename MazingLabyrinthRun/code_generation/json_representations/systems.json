@@ -191,5 +191,25 @@
             }
          }
       ]
+   },
+
+   "UpdateTransformFromBoundary" : 
+   {
+      "type" : "react",
+      "var_name" : "update_transform_from_boundary",
+      "includes" : [],
+
+      "private_functions" : [],
+      "components" : ["UpdateTransformFromBoundary", "Transform", "Boundary", "Skin"]
+   },
+
+   "UpdateBoundaryFromTransform" : 
+   {
+      "type" : "react",
+      "var_name" : "update_boundary_from_transform",
+      "includes" : [],
+
+      "private_functions" : [],
+      "components" : ["UpdateBoundaryFromTransform", "Boundary", "Transform", "Skin"]
    }
 }

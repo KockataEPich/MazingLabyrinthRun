@@ -22,7 +22,7 @@
     {
         "type" : "data",
         "needs_cpp" : false,
-        "includes" : ["<SFML/System/Vector2.hpp>", "<cmath>"],
+        "includes" : ["<SFML/System/Vector2.hpp>", "<utils/sfml_vector_helpers.h>"],
         "members" : [
             {
                 "sf::Vector2f" : 
@@ -45,7 +45,8 @@
                     "name" : "size"
                 } 
             }
-        ]
+        ],
+        "functions" : ["sf::Vector2f get_scaled_size() {return abs(scale) * size; }"]
     },
     "ActionType" :
     {
@@ -220,33 +221,17 @@
     "Solid" : { "type" : "basic" },
     "Mouse" : { "type" : "basic" },
     "AI" : { "type" : "basic" },
+ 
+ 
+    "InitiateAction" : { "var_name" : "initiate_action","type" : "basic" },
 
-    "InitiateAction" : 
-    { 
-        "var_name" : "initiate_action",
-        "type" : "basic"
-    },
+    "BasicAttackNeedle" : { "var_name" : "basic_attack_needle", "type" : "basic"},
+    "DefaultCollisionArmor" : {  "var_name" : "default_collision_armor", "type" : "basic" },
 
-    "BasicAttackNeedle" :
-    {
-        "var_name" : "basic_attack_needle",
-        "type" : "basic"
-    },
-
-    "DefaultCollisionArmor" :
-    {
-        "var_name" : "default_collision_armor",
-        "type" : "basic"
-    },
-
-    
-    "CollisionCheck" :
-    {
-        "var_name" : "collision_check",
-        "type" : "basic"
-    },
-
+    "CollisionCheck" : {"var_name" : "collision_check",  "type" : "basic"},
     "Move" : { "type" : "basic" },
-    "Projectile" : { "type" : "basic" }
+    "Projectile" : { "type" : "basic" },
 
+    "UpdateTransformFromBoundary" : { "var_name" : "update_transform_from_boundary", "type" : "basic" },
+    "UpdateBoundaryFromTransform" : { "var_name" : "update_boundary_from_transform", "type" : "basic" }
 }

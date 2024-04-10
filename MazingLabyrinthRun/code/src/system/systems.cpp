@@ -10,6 +10,8 @@
 #include <generated/systems/react_systems/collision_detection_system.h>
 #include <generated/systems/react_systems/move_system.h>
 #include <generated/systems/react_systems/attack_action_system.h>
+#include <generated/systems/react_systems/update_boundary_from_transform_system.h>
+#include <generated/systems/react_systems/update_transform_from_boundary_system.h>
 
 #include <generated/systems/render_systems/render_sprite_system.h>
 #include <generated/systems/render_systems/render_health_system.h>
@@ -66,7 +68,9 @@ void Systems::init(){
 	add_react_systems(
 		std::make_unique<MoveSystem>(),
 	    std::make_unique<CollisionDetectionSystem>(),
-	    std::make_unique<AttackActionSystem>());
+	    std::make_unique<AttackActionSystem>(),
+		std::make_unique<UpdateBoundaryFromTransformSystem>(),
+	    std::make_unique<UpdateTransformFromBoundarySystem>());
 
 	add_impulse_systems(
 		std::make_unique<BasicCollisionSystem>(),

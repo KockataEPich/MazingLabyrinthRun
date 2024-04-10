@@ -13,6 +13,10 @@ bool valid_values(sf::Vector2f& t_near, sf::Vector2f& t_far) {
 
 void sort_near_and_far(float& near, float& far) { if (near > far) std::swap(near, far);}
 
+bool entities_overlap(sf::Vector2f& t_near, sf::Vector2f& t_far) {
+	return t_near.x < 0 && t_far.x > 0 && t_near.y < 0 && t_far.y > 0;
+}
+
 sf::Vector2f determine_contact_normal(sf::Vector2f& t_near, 
 									  sf::Vector2f& inverse_velocity, 
 									  float contact_time) { 
@@ -42,6 +46,8 @@ bool dynamic_ray_vs_rect(VelocityComponent& velocity,
 	do_on_x_and_y(t_near, t_far, {sort_near_and_far});
 
 	if (t_near.x > t_far.y || t_near.y > t_far.x) return false;
+
+	if (entities_overlap(t_near, t_far)) return false;
 
 	if (std::min(t_far.x, t_far.y) < 0) return false;
 

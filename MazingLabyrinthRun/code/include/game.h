@@ -3,6 +3,7 @@
 
 #include <window/game_window.h>
 #include <generated/components/data_components/boundary_component.h>
+#include <generated/components/basic_components/update_boundary_from_transform_component.h>
 #include <entity_base/entities.h>
 #include <system/systems.h>
 #include <component_base/components.h>
@@ -34,18 +35,14 @@ public:
 	template<class... ComponentType>
 	void add_components(const Entity& entity) {
 		ComponentMask old_mask = entities->get_mask(entity);
-		( [&] {
-			    add_component<ComponentType>(entity);
-		}(), ...);
+		( [&] { add_component<ComponentType>(entity); }(), ...);
 		systems->update_entity_system_subscriptions(entity, old_mask);
 	}
 
 	template<class... ComponentType>
 	void add_components(const Entity& entity, std::unique_ptr<ComponentType>&&... component) {
 		ComponentMask old_mask = entities->get_mask(entity);
-		( [&] { 
-			add_component(entity, std::move(component));
-		}(), ...);
+		( [&] { add_component(entity, std::move(component)); }(), ...);
 		systems->update_entity_system_subscriptions(entity, old_mask);
 	}
 
@@ -90,16 +87,10 @@ private:
 	}
 
 	template<>
-	void add_component<BoundaryComponent>(const Entity& entity, std::unique_ptr<BoundaryComponent>&& component) {
-		components->add_component(entity, std::move(component));
-		entities->add_component_to_entity_mask<BoundaryComponent>(entity);
-		quad_tree->insert(entity);
-	}
-
-	template<>
 	void add_component<BoundaryComponent>(const Entity& entity) {
 		components->add_component(entity, std::make_unique<BoundaryComponent>());
 		entities->add_component_to_entity_mask<BoundaryComponent>(entity);
+		add_event_components<UpdateBoundaryFromTransformComponent>(entity);
 		quad_tree->insert(entity);
 	}
 

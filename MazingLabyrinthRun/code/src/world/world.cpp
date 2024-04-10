@@ -28,73 +28,61 @@ bool World::place_entity(const Entity entity, sf::Vector2f position) {
 void World::init() {
 	auto player = m_game->create_entity();
 	PlayerEntityBuilder{}.build_entity(player);
-	player.add_components<SolidComponent, HealthPointsComponent, DefaultCollisionArmorComponent, VelocityComponent>();
-
-	player.add_components(std::make_unique<BoundaryComponent>(
-	    get_hitbox_based_on_transform_component(*player.get_component<TransformComponent>())));
-
+	player.add_components<SolidComponent,
+	                      HealthPointsComponent,
+	                      DefaultCollisionArmorComponent,
+	                      VelocityComponent,
+	                      BoundaryComponent>();
 	m_player_sprite = &player.get_component<SpriteComponent>()->sprite;
 	m_player_sprite = m_player_sprite;
 	place_entity(player.entity, {0.0f, 0.0f});
-
+	player.add_event_components<UpdateBoundaryFromTransformComponent>();
+	
 	GrassLandsTileBuilder grass_builder;
 	ZombieEntityBuilder zombie_builder;
 
 	auto zombie = m_game->create_entity();
 	zombie_builder.build_entity(zombie);
 	m_game->world->place_entity(zombie.entity, {100.0f, 100.0f});
-	zombie.add_components(std::make_unique<BoundaryComponent>(
-	    get_hitbox_based_on_transform_component(*zombie.get_component<TransformComponent>())));
+	zombie.add_components<BoundaryComponent>();
 
-	auto zombie2 = m_game->create_entity();
-	zombie_builder.build_entity(zombie2);
-	m_game->world->place_entity(zombie2.entity, {200.0f, 200.0f});
-	zombie2.add_components(std::make_unique<BoundaryComponent>(
-	    get_hitbox_based_on_transform_component(*zombie2.get_component<TransformComponent>())));
+	for (int i = -1600; i <= 1600; i += 160) {
+		 int counter = 0;
+		 for (int j = 1600; j >= -1600; j -= 160) {
+			 auto grass_land = m_game->create_entity();
+			 grass_builder.build_entity(grass_land);
+			 place_entity(grass_land.entity, {(float)i, (float)j});
+			 grass_land.add_components(std::make_unique<SkinComponent>(Skin::GRASS_LANDS_1));
+			 grass_land.add_components<BoundaryComponent>();
 
-	auto zombie3 = m_game->create_entity();
-	zombie_builder.build_entity(zombie3);
-	m_game->world->place_entity(zombie3.entity, {0.0f, 100.0f});
-	zombie3.add_components(std::make_unique<BoundaryComponent>(
-	    get_hitbox_based_on_transform_component(*zombie3.get_component<TransformComponent>())));
-	
-	
-	 for (int i = -1600; i <= 1600; i += 160) {
-		int counter = 0;
-		for (int j = 1600; j >= -1600; j -= 160) {
-			// auto grass_land = m_game->create_entity();
-			// grass_builder.build_entity(grass_land);
-			if (i == 0 && j == 0) continue;
-			if (counter == 20) {
-				
-			    auto zombie = m_game->create_entity();
-			    zombie_builder.build_entity(zombie);
+			 if (i == 0 && j == 0) continue;
+			 if (counter == 20) {
 
-			    m_game->world->place_entity(zombie.entity, {(float)i, (float)j});
-				zombie.add_components(std::make_unique<BoundaryComponent>(
-				    get_hitbox_based_on_transform_component(*zombie.get_component<TransformComponent>())));
-			    counter = 0;
-			}
-			counter++;
-			// place_entity(grass_land.entity, {(float)i, (float)j});
+				 auto zombie = m_game->create_entity();
+				 zombie_builder.build_entity(zombie);
 
-			// grass_land.add_component(std::make_unique<BoundaryComponent>(
-			//     get_hitbox_based_on_transform_component(*grass_land.get_component<TransformComponent>())));
-		}
+				 m_game->world->place_entity(zombie.entity, {(float)i, (float)j});
+				 zombie.add_components<BoundaryComponent>();
+				 counter = 0;
+			 }
+			 counter++;
+		 }
 	}
 
 	std::unique_ptr<TransformComponent> mouse_transform = std::make_unique<TransformComponent>(); 
 	auto mouse = m_game->create_entity();
-	mouse.add_components<SpriteComponent, MouseComponent, HealthPointsComponent>();
-	mouse.add_components(
-		std::make_unique<BoundaryComponent>(get_hitbox_based_on_transform_component(*mouse_transform)),
-	                     std::move(mouse_transform),
-						 std::make_unique<ElevationLevelComponent>(ElevationLevel::UI));
-
+	mouse.add_components<SpriteComponent, MouseComponent>();
+	mouse.add_components(std::move(mouse_transform),
+						 std::make_unique<ElevationLevelComponent>(ElevationLevel::UI),
+	                     std::make_unique<SkinComponent>(Skin::CROSSHAIR_DEFAULT_SKIN));
+	
 	mouse.get_component<TransformComponent>()->scale = {3, 3};
 	auto& mouse_sprite = mouse.get_component<SpriteComponent>()->sprite;
 	mouse_sprite.setTexture(*ResourceManager::get_instance()->get_texture(Textures::ID::CROSS_HAIR_DEFAULT));
 	mouse.get_component<TransformComponent>()->size = {(float)mouse_sprite.getTextureRect().width,
 	                                                   (float)mouse_sprite.getTextureRect().height};
+	mouse_sprite.setOrigin(
+	    {(float)mouse_sprite.getTextureRect().width / 2.0f, (float)mouse_sprite.getTextureRect().height / 2.0f});
+	mouse.add_components<BoundaryComponent>();
 	m_game->quad_tree->remove(mouse.entity);
 }

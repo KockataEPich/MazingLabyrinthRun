@@ -1,10 +1,9 @@
 #include <generated/systems/react_systems/move_system.h>
 
-#include <numbers>  // for std::numbers::pi
 #include <generated/components/basic_components/collision_check_component.h>
+#include <generated/components/basic_components/update_transform_from_boundary_component.h>
 
-// EXTRA INCLUDES TODO BE DELETED
-#include <generated/components/data_components/boundary_component.h>
+#include <numbers>  // for std::numbers::pi
 #include <utils/component_utils.h>
 
 namespace {
@@ -28,10 +27,13 @@ void MoveSystem::react_on_entity(
     VelocityComponent& velocity,
 	BoundaryComponent& boundary) { 
 
+//	entity.add_event_components<UpdateTransformFromBoundaryComponent>();
+//	entity.add_event_components<UpdateBoundaryFromTransformComponent>();
+
 	m_game->quad_tree->remove(entity.entity);
 
-	velocity.origin = boundary.hitbox.getPosition() + boundary.hitbox.getSize() * 0.5f;  
-
+	velocity.origin = boundary.hitbox.getPosition() + boundary.hitbox.getSize() * 0.5f; 
+	
 	determine_velocity(velocity, speed.speed);
 	entity.add_event_components<CollisionCheckComponent>();
 	
@@ -42,7 +44,7 @@ void MoveSystem::react_on_entity(
 	boundary.hitbox.left = velocity.origin.x - boundary.hitbox.getSize().x * 0.5f;
 	boundary.hitbox.top = velocity.origin.y - boundary.hitbox.getSize().y * 0.5f;
 
-	transform.position = get_transform_based_on_boundary_component(boundary, get_scaled_size(transform));
+	entity.add_event_components<UpdateTransformFromBoundaryComponent>();
 	m_game->quad_tree->insert(entity.entity);
 }
 

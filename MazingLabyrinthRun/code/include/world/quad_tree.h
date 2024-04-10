@@ -36,7 +36,7 @@ public:
 	const sf::FloatRect& get_surface() { return m_surface; }
 
 private: 
-	const int max_entities = 12;
+	const int max_entities = 16;
 	const int max_layers = 5;
 	int m_layer;
 

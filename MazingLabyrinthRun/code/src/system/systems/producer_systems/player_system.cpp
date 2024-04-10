@@ -11,6 +11,7 @@
 #include <generated/components/data_components/sprite_component.h>
 #include <generated/components/data_components/elevation_level_component.h>
 #include <generated/components/data_components/speed_component.h>
+#include <generated/components/data_components/skin_component.h>
 
 #include <utils/component_utils.h>
 #include <entity_base/entity_handle.h>
@@ -42,17 +43,21 @@ void PlayerSystem::for_every_entity(
 		atk_transform->size.y = transform.size.y - 10;
 
 		projectile.get_component<SpeedComponent>()->speed = 50.0f;
-		projectile.add_components(
-		    std::make_unique<BoundaryComponent>(get_hitbox_based_on_transform_component(*atk_transform)));
-
 		projectile.add_components(std::move(atk_transform));
 		
 		auto projectile_sprite = std::make_unique<SpriteComponent>();
 		projectile_sprite->sprite.setTexture(*ResourceManager::get_instance()->get_texture(Textures::ID::FIREBALL_1));
+		projectile_sprite->sprite.setOrigin({projectile_sprite->sprite.getTextureRect().width / 2.0f,
+		                                     projectile_sprite->sprite.getTextureRect().height / 2.0f});
 
 		projectile.add_components(
 			std::move(projectile_sprite),
-			std::make_unique<ElevationLevelComponent>(ElevationLevel::two));
+			std::make_unique<ElevationLevelComponent>(ElevationLevel::two),
+			std::make_unique<SkinComponent>(Skin::FIREBALL_1));
+
+		
+
+		projectile.add_components<BoundaryComponent>();
 
 		auto target = std::make_unique<VelocityComponent>();
 		target->final_destination = world_pos;
