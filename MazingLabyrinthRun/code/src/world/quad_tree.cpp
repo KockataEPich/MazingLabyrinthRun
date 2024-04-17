@@ -71,12 +71,12 @@ void QuadTree::merge_if_needed() {
 	}
 
 	// As I don't really want for constant merging and unmerging near the max, there is a bit of a tolerance.
-	if (number_entities_in_children > (max_entities * 3) * 0.25f) return;
+	if (number_entities_in_children > max_entities * 0.75) return;
 
 	m_present_entities = std::set<Entity>();
 
 	for (auto& child : *m_children) 
-		for (auto entity : child->present_entities()) m_present_entities->insert(entity);
+		m_present_entities->insert(child->present_entities().begin(), child->present_entities().end());
 
 	m_children = std::nullopt;
 }
