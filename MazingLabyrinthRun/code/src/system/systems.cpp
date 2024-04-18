@@ -23,23 +23,33 @@
 #include <generated/systems/impulse_systems/projectile_collision_system.h>
 
 #include <game.h>
-#include <system/system_utils.h>
+
+namespace {
+void update_mask_in_systems(const Entity entity,
+                            ComponentMask new_mask,
+                            ComponentMask old_mask,
+                            EntityTrackerSystem* system) {
+	ComponentMask systemSignature = system->get_signature();
+	if (new_mask.is_new_match(old_mask, systemSignature))
+		system->register_entity(entity);
+	else if (new_mask.is_no_longer_matched(old_mask, systemSignature))
+		system->unregister_entity(entity);
+}
+}  // namespace
 
 void Systems::update_entity_system_subscriptions(const Entity entity, ComponentMask old_mask) {
-	auto new_mask = m_game->entities->get_mask(entity);
-
-	m_producer_system_sequence_wrapper.update_systems_registrations(entity, new_mask,old_mask);
-	for (auto& system : m_render_systems) update_system_registration(entity, new_mask, old_mask, system.get());
+	for (auto& system : m_producer_system_sequence_wrapper.get_systems())
+		update_mask_in_systems(entity, m_game->entities->get_mask(entity), old_mask, system.get());
+	for (auto& system : m_render_systems)
+		update_mask_in_systems(entity, m_game->entities->get_mask(entity), old_mask, system.get());
 }
 
 void Systems::react_on_event(const Entity entity, ComponentMask new_mask) {
-	for (auto& system : m_react_systems) 
+	for (auto& system : m_react_systems)
 		if (new_mask.matches(system->get_signature())) system->react(entity);
 }
 
-void Systems::exchange_impulses(const Entity initiator, 
-								const Entity& victim, 
-								const CollisionInfo& collision_info) {
+void Systems::exchange_impulses(const Entity initiator, const Entity& victim, const CollisionInfo& collision_info) {
 	for (auto& system : m_impulse_systems) {
 		if (m_game->entities->get_mask(initiator).matches(system->get_signature()) &&
 		    m_game->entities->get_mask(victim).matches(system->get_signature_of_victim()))
@@ -48,12 +58,11 @@ void Systems::exchange_impulses(const Entity initiator,
 }
 
 void Systems::remove_entity_from_systems(const Entity entity) {
-	auto mask = m_game->entities->get_mask(entity);
-
-	m_producer_system_sequence_wrapper.remove_entity_from_systems(entity, mask);
+	for (auto& system : m_producer_system_sequence_wrapper.get_systems())
+		if (m_game->entities->get_mask(entity).matches(system->get_signature())) system->unregister_entity(entity);
 
 	for (auto& system : m_render_systems)
-		if (mask.matches(system->get_signature())) system->unregister_entity(entity);
+		if (m_game->entities->get_mask(entity).matches(system->get_signature())) system->unregister_entity(entity);
 }
 
 void Systems::init(){
@@ -75,16 +84,14 @@ void Systems::init(){
 		std::make_unique<AISystem>(),
 		std::make_unique<AnimateSystem>(),
 		std::make_unique<ProjectileSystem>(),
+	    std::make_unique<CheckCrosshairCollisionSystem>(),
 	    std::make_unique<TransformSystem>());
-
-	add_non_tick_dependent_producer_system(
-		std::make_unique<CheckCrosshairCollisionSystem>());
 
 	add_render_systems(std::make_unique<RenderSpriteSystem>(*m_game->m_window),
 	                   std::make_unique<RenderQuadTreeSystem>(*m_game->m_window),
 	                   std::make_unique<RenderHealthSystem>(*m_game->m_window));
 
-	m_producer_system_sequence_wrapper.init();
+	for (auto& system : m_producer_system_sequence_wrapper.get_systems()) system->init();
 	for (auto& system : m_react_systems) system->init();
 	for (auto& system : m_impulse_systems) system->init();
 	for (auto& system : m_render_systems) system->init();
