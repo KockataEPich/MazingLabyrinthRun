@@ -12,9 +12,10 @@ void determine_velocity(VelocityComponent& velocity, const float speed) {
 	                               std::abs(velocity.origin.y - velocity.final_destination.y)};
 
 	float angle = std::atan2(triangle_sides.y, triangle_sides.x) * 180 / std::numbers::pi;
+	float angle_end_point = std::numbers::pi * 2 * angle / 360;
 
-	float x_offset = speed * std::cos(std::numbers::pi * 2 * angle / 360);
-	float y_offset = speed * std::sin(std::numbers::pi * 2 * angle / 360);
+	float x_offset = speed * std::cos(angle_end_point);
+	float y_offset = speed * std::sin(angle_end_point);
 
 	velocity.velocity.x = (velocity.origin.x < velocity.final_destination.x) ? x_offset : x_offset * -1;
 	velocity.velocity.y = (velocity.origin.y < velocity.final_destination.y) ? y_offset : y_offset * -1;
@@ -26,9 +27,6 @@ void MoveSystem::react_on_entity(
 	SpeedComponent& speed,
     VelocityComponent& velocity,
 	BoundaryComponent& boundary) { 
-
-//	entity.add_event_components<UpdateTransformFromBoundaryComponent>();
-//	entity.add_event_components<UpdateBoundaryFromTransformComponent>();
 
 	m_game->quad_tree->remove(entity.entity);
 
