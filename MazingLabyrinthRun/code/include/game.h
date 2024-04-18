@@ -4,6 +4,7 @@
 #include <window/game_window.h>
 #include <generated/components/data_components/boundary_component.h>
 #include <generated/components/basic_components/update_boundary_from_transform_component.h>
+#include <generated/components/basic_components/update_mouse_position_component.h>
 #include <entity_base/entities.h>
 #include <system/systems.h>
 #include <component_base/components.h>
@@ -76,11 +77,14 @@ public:
 		systems->update_entity_system_subscriptions(entity, old_mask);
 	}
 
+	void update_mouse_position() { 
+		add_event_components<UpdateMousePositionComponent>(m_mouse_entity); 
+	}
+
 	std::unique_ptr<Entities> entities = std::make_unique<Entities>(this);
 	std::unique_ptr<Systems> systems = std::make_unique<Systems>(this);
 	std::unique_ptr<Components> components = std::make_unique<Components>(this);
 	std::unique_ptr<World> world = std::make_unique<World>(this);
-	
 
 	GameWindow* m_window;
 	std::unique_ptr<QuadTree> quad_tree = std::make_unique<QuadTree>(
@@ -88,6 +92,8 @@ public:
 		sf::FloatRect(-4800, -2700, m_window->get_window_size().x * 5,
 		m_window->get_window_size().y * 5), 
 		0);
+
+	Entity m_mouse_entity;
 };
 
 

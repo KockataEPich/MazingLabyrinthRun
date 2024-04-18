@@ -85,4 +85,5 @@ void World::init() {
 	    {(float)mouse_sprite.getTextureRect().width / 2.0f, (float)mouse_sprite.getTextureRect().height / 2.0f});
 	mouse.add_components<BoundaryComponent>();
 	m_game->quad_tree->remove(mouse.entity);
+	m_game->m_mouse_entity = mouse.entity;
 }

@@ -30,22 +30,11 @@
       "components" : ["ActionType", "Skin", "FacingSide", "AnimationPlayer", "Transform", "Sprite"]
    },
    
-   "UpdateCrosshairPosition" : 
+   "CheckCrosshairCollision" : 
    {
       "type" : "producer",
-      "var_name" : "update_crosshair_position",
-      "includes" : ["<window/game_window.h>"],
-      "components" : ["Transform", "Mouse", "Boundary"],
-      "members" : [
-         {
-            "GameWindow" :
-            {
-               "name" : "game_window",
-               "is_parameter": true,
-               "is_reference" : true
-            }
-         }
-      ]
+      "var_name" : "check_crosshair_collision",
+      "components" : ["Mouse", "Boundary"]
    },
 
    "Transform" : 
@@ -211,5 +200,12 @@
 
       "private_functions" : [],
       "components" : ["UpdateBoundaryFromTransform", "Boundary", "Transform", "Skin"]
+   },
+
+   "UpdateCrosshairPosition" : 
+   {
+      "type" : "react",
+      "var_name" : "update_crosshair_position",
+      "components" : ["UpdateMousePosition", "Transform", "Mouse", "Boundary", "Sprite"]
    }
 }

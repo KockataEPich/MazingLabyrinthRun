@@ -22,6 +22,7 @@ void MazingLabyrinthRun::update() {
 	// @TODO Can be used to pause the game
 	m_camera.setCenter(m_game->world->get_player_sprite().getPosition());
 	m_window.setView(m_camera);
+	m_game->update_mouse_position();
 }
 
 void MazingLabyrinthRun::render() {

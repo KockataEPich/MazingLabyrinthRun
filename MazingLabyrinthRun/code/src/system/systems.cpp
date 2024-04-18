@@ -4,7 +4,7 @@
 #include <generated/systems/producer_systems/animate_system.h>
 #include <generated/systems/producer_systems/player_system.h>
 #include <generated/systems/producer_systems/transform_system.h>
-#include <generated/systems/producer_systems/update_crosshair_position_system.h>
+#include <generated/systems/producer_systems/check_crosshair_collision_system.h>
 #include <generated/systems/producer_systems/projectile_system.h>
 
 #include <generated/systems/react_systems/collision_detection_system.h>
@@ -12,6 +12,7 @@
 #include <generated/systems/react_systems/attack_action_system.h>
 #include <generated/systems/react_systems/update_boundary_from_transform_system.h>
 #include <generated/systems/react_systems/update_transform_from_boundary_system.h>
+#include <generated/systems/react_systems/update_crosshair_position_system.h>
 
 #include <generated/systems/render_systems/render_sprite_system.h>
 #include <generated/systems/render_systems/render_health_system.h>
@@ -61,7 +62,8 @@ void Systems::init(){
 	    std::make_unique<CollisionDetectionSystem>(),
 	    std::make_unique<AttackActionSystem>(),
 		std::make_unique<UpdateBoundaryFromTransformSystem>(),
-	    std::make_unique<UpdateTransformFromBoundarySystem>());
+	    std::make_unique<UpdateTransformFromBoundarySystem>(),
+	    std::make_unique<UpdateCrosshairPositionSystem>());
 
 	add_impulse_systems(
 		std::make_unique<BasicCollisionSystem>(),
@@ -76,7 +78,7 @@ void Systems::init(){
 	    std::make_unique<TransformSystem>());
 
 	add_non_tick_dependent_producer_system(
-		std::make_unique<UpdateCrosshairPositionSystem>(*m_game->m_window));
+		std::make_unique<CheckCrosshairCollisionSystem>());
 
 	add_render_systems(std::make_unique<RenderSpriteSystem>(*m_game->m_window),
 	                   std::make_unique<RenderQuadTreeSystem>(*m_game->m_window),
