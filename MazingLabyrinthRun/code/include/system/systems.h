@@ -32,6 +32,14 @@ public:
 		}(),...);
 	}
 
+	template<class... ProducerSystem>
+	void add_non_tick_dependent_producer_system(std::unique_ptr<ProducerSystem>&&... system) {
+		([&] {
+			system->register_game(this->m_game);
+		    m_producer_system_sequence_wrapper.add_non_tick_system(std::move(system));
+		    }(),...);
+	}
+
 	template<class... ReactSystem>
 	void add_react_systems(std::unique_ptr<ReactSystem>&&... system) {
 		([&] {
@@ -56,7 +64,9 @@ public:
 		}(), ...);
 	}
 
-	void exchange_impulses(const Entity initiator, const Entity& victim, const CollisionInfo& collision_info);
+	void exchange_impulses(const Entity initiator, 
+						   const Entity& victim, 
+						   const CollisionInfo& collision_info);
 
 private:
 	std::vector<std::unique_ptr<ReactSystem>> m_react_systems;

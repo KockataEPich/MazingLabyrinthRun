@@ -83,7 +83,11 @@ public:
 	
 
 	GameWindow* m_window;
-	std::unique_ptr<QuadTree> quad_tree = std::make_unique<QuadTree>(this, sf::FloatRect(-4800, -2700, m_window->get_window_size().x * 5, m_window->get_window_size().y * 5), 0);
+	std::unique_ptr<QuadTree> quad_tree = std::make_unique<QuadTree>(
+		this, 
+		sf::FloatRect(-4800, -2700, m_window->get_window_size().x * 5,
+		m_window->get_window_size().y * 5), 
+		0);
 };
 
 
