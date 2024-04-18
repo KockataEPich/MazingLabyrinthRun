@@ -35,14 +35,24 @@ public:
 	template<class... ComponentType>
 	void add_components(const Entity& entity) {
 		ComponentMask old_mask = entities->get_mask(entity);
-		( [&] { add_component<ComponentType>(entity); }(), ...);
+		( [&] {
+			    components->add_component(entity, std::make_unique<ComponentType>());
+			    entities->add_component_to_entity_mask<ComponentType>(entity);
+			    if constexpr (std::is_same_v<ComponentType, BoundaryComponent>) {
+				    add_event_components<UpdateBoundaryFromTransformComponent>(entity);
+				    quad_tree->insert(entity);
+			    }
+			}(), ...);
 		systems->update_entity_system_subscriptions(entity, old_mask);
 	}
 
 	template<class... ComponentType>
 	void add_components(const Entity& entity, std::unique_ptr<ComponentType>&&... component) {
 		ComponentMask old_mask = entities->get_mask(entity);
-		( [&] { add_component(entity, std::move(component)); }(), ...);
+		( [&] {
+			    components->add_component(entity, std::move(component));
+			    entities->add_component_to_entity_mask<ComponentType>(entity);
+	    }(),...);
 		systems->update_entity_system_subscriptions(entity, old_mask);
 	}
 
@@ -59,7 +69,9 @@ public:
 	void remove_components(const Entity& entity) {
 		ComponentMask old_mask = entities->get_mask(entity);
 		( [&] {
-			    remove_component<ComponentType>(entity);
+			    components->remove_component<ComponentType>(entity);
+			    entities->remove_component_from_entity_mask<ComponentType>(entity);
+			    if constexpr (std::is_same_v<ComponentType, BoundaryComponent>) { quad_tree->remove(entity);}
 		 }(), ...);
 		systems->update_entity_system_subscriptions(entity, old_mask);
 	}
@@ -72,41 +84,6 @@ public:
 
 	GameWindow* m_window;
 	std::unique_ptr<QuadTree> quad_tree = std::make_unique<QuadTree>(this, sf::FloatRect(-4800, -2700, m_window->get_window_size().x * 5, m_window->get_window_size().y * 5), 0);
-
-private:
-	template <class ComponentType>
-	void add_component(const Entity& entity, std::unique_ptr<ComponentType>&& component) {
-		components->add_component(entity, std::move(component));
-		entities->add_component_to_entity_mask<ComponentType>(entity);
-	}
-
-	template<class ComponentType>
-	void add_component(const Entity& entity) {
-		components->add_component(entity, std::make_unique<ComponentType>());
-		entities->add_component_to_entity_mask<ComponentType>(entity);
-	}
-
-	template<>
-	void add_component<BoundaryComponent>(const Entity& entity) {
-		components->add_component(entity, std::make_unique<BoundaryComponent>());
-		entities->add_component_to_entity_mask<BoundaryComponent>(entity);
-		add_event_components<UpdateBoundaryFromTransformComponent>(entity);
-		quad_tree->insert(entity);
-	}
-
-	template<class ComponentType>
-	void remove_component(const Entity& entity) {
-		components->remove_component<ComponentType>(entity);
-		entities->remove_component_from_entity_mask<ComponentType>(entity);
-	}
-
-	template<>
-	void remove_component<BoundaryComponent>(const Entity& entity) {
-		components->remove_component<BoundaryComponent>(entity);
-		entities->remove_component_from_entity_mask<BoundaryComponent>(entity);
-		quad_tree->remove(entity);
-	}
-
 };
 
 
