@@ -38,7 +38,7 @@ void update_mask_in_systems(const Entity entity,
 }  // namespace
 
 void Systems::update_entity_system_subscriptions(const Entity entity, ComponentMask old_mask) {
-	for (auto& system : m_producer_system_sequence_wrapper.get_systems())
+	for (auto& system : m_producer_systems.get_systems())
 		update_mask_in_systems(entity, m_game->entities->get_mask(entity), old_mask, system.get());
 	for (auto& system : m_render_systems)
 		update_mask_in_systems(entity, m_game->entities->get_mask(entity), old_mask, system.get());
@@ -58,7 +58,7 @@ void Systems::exchange_impulses(const Entity initiator, const Entity& victim, co
 }
 
 void Systems::remove_entity_from_systems(const Entity entity) {
-	for (auto& system : m_producer_system_sequence_wrapper.get_systems())
+	for (auto& system : m_producer_systems.get_systems())
 		if (m_game->entities->get_mask(entity).matches(system->get_signature())) system->unregister_entity(entity);
 
 	for (auto& system : m_render_systems)
@@ -66,32 +66,30 @@ void Systems::remove_entity_from_systems(const Entity entity) {
 }
 
 void Systems::init(){
-	add_react_systems(
+	add_systems(
 		std::make_unique<MoveSystem>(),
 	    std::make_unique<CollisionDetectionSystem>(),
 	    std::make_unique<AttackActionSystem>(),
 		std::make_unique<UpdateBoundaryFromTransformSystem>(),
 	    std::make_unique<UpdateTransformFromBoundarySystem>(),
-	    std::make_unique<UpdateCrosshairPositionSystem>());
+	    std::make_unique<UpdateCrosshairPositionSystem>(),
 
-	add_impulse_systems(
 		std::make_unique<BasicCollisionSystem>(),
 		std::make_unique<BasicDamageSystem>(),
-		std::make_unique<ProjectileCollisionSystem>());
+		std::make_unique<ProjectileCollisionSystem>(),
 
-	add_producer_systems(
 		std::make_unique<PlayerSystem>(*m_game->m_window),
 		std::make_unique<AISystem>(),
 		std::make_unique<AnimateSystem>(),
 		std::make_unique<ProjectileSystem>(),
 	    std::make_unique<CheckCrosshairCollisionSystem>(),
-	    std::make_unique<TransformSystem>());
+	    std::make_unique<TransformSystem>(),
 
-	add_render_systems(std::make_unique<RenderSpriteSystem>(*m_game->m_window),
-	                   std::make_unique<RenderQuadTreeSystem>(*m_game->m_window),
-	                   std::make_unique<RenderHealthSystem>(*m_game->m_window));
+		std::make_unique<RenderSpriteSystem>(*m_game->m_window),
+	    std::make_unique<RenderQuadTreeSystem>(*m_game->m_window),
+	    std::make_unique<RenderHealthSystem>(*m_game->m_window));
 
-	for (auto& system : m_producer_system_sequence_wrapper.get_systems()) system->init();
+	for (auto& system : m_producer_systems.get_systems()) system->init();
 	for (auto& system : m_react_systems) system->init();
 	for (auto& system : m_impulse_systems) system->init();
 	for (auto& system : m_render_systems) system->init();
