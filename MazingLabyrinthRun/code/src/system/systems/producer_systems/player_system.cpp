@@ -22,8 +22,8 @@ void PlayerSystem::for_every_entity(
     VelocityComponent& velocity,
 	TransformComponent& transform){ 
 
-	auto pos = sf::Mouse::getPosition(m_game_window.as_sfml_window());
-	sf::Vector2f world_pos = m_game_window.as_sfml_window().mapPixelToCoords(pos);
+	auto pos = sf::Mouse::getPosition(m_game->window->as_sfml_window());
+	sf::Vector2f world_pos = m_game->window->as_sfml_window().mapPixelToCoords(pos);
 	facing_side.side = transform.position.x < world_pos.x ? FacingSide::right : FacingSide::left;
 
 	velocity.final_destination = transform.position;

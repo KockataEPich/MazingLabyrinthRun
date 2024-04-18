@@ -14,7 +14,7 @@ void RenderHealthSystem::render() {
 		position.y -= 100;
 		position.x -= 20;
 		text.setPosition(position);
-		m_render_window.draw(text);
+		m_game->window->draw(text);
 	}
 }
 

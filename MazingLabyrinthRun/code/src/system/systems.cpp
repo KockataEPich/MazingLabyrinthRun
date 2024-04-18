@@ -78,16 +78,16 @@ void Systems::init(){
 		std::make_unique<BasicDamageSystem>(),
 		std::make_unique<ProjectileCollisionSystem>(),
 
-		std::make_unique<PlayerSystem>(*m_game->m_window),
+		std::make_unique<PlayerSystem>(),
 		std::make_unique<AISystem>(),
 		std::make_unique<AnimateSystem>(),
 		std::make_unique<ProjectileSystem>(),
 	    std::make_unique<CheckCrosshairCollisionSystem>(),
 	    std::make_unique<TransformSystem>(),
 
-		std::make_unique<RenderSpriteSystem>(*m_game->m_window),
-	    std::make_unique<RenderQuadTreeSystem>(*m_game->m_window),
-	    std::make_unique<RenderHealthSystem>(*m_game->m_window));
+		std::make_unique<RenderSpriteSystem>(),
+	    std::make_unique<RenderQuadTreeSystem>(),
+	    std::make_unique<RenderHealthSystem>());
 
 	for (auto& system : m_producer_systems.get_systems()) system->init();
 	for (auto& system : m_react_systems) system->init();

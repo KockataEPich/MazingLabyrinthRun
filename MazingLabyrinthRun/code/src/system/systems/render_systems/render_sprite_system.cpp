@@ -36,7 +36,7 @@ void RenderSpriteSystem::unregister_entity(Entity const& entity) {
 void RenderSpriteSystem::draw_level(std::vector<std::pair<sf::Sprite*, Entity>>& sprites_and_entities,
                                     bool draw_hitbox) {
 	for (auto& sprite_and_entity : sprites_and_entities) {
-		m_render_window.draw(*sprite_and_entity.first);
+		m_game->window->draw(*sprite_and_entity.first);
 		if (!draw_hitbox) continue;
 
 		for (const auto& entity : m_game->entities->get_all_entities_who_have_component<BoundaryComponent>()) {
@@ -48,7 +48,7 @@ void RenderSpriteSystem::draw_level(std::vector<std::pair<sf::Sprite*, Entity>>&
 			rectangle.setOutlineThickness(1);
 			rectangle.setOutlineColor(sf::Color::Magenta);
 			rectangle.setPosition({boundary->hitbox.left, boundary->hitbox.top});
-			m_render_window.draw(rectangle);
+			m_game->window->draw(rectangle);
 		}
 	}
 }

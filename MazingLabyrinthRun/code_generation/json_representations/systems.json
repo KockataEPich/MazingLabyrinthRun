@@ -2,19 +2,9 @@
    "Player" : 
    {
       "type" : "producer",
-      "includes" : ["<window/game_window.h>"],
+      "includes" : [],
       "components" : ["ActionType", "FacingSide", "Velocity", "Player", "Transform"],
-      "public_functions" : ["void init() override { m_registered_entities.reserve(1); }  // Only one player"],
-      "members" : [
-         {
-            "GameWindow" :
-            {
-               "name" : "game_window",
-               "is_parameter" : true,
-               "is_reference" : true
-            }
-         }
-      ]
+      "public_functions" : ["void init() override { m_registered_entities.reserve(1); }  // Only one player"]
    },
 
    "AI" : 
@@ -98,18 +88,10 @@
    {
       "type" : "render",
       "var_name" : "render_health",
-      "includes" : ["<window/game_window.h>"],
+      "includes" : [],
       "public_functions" : ["void init() override;"],
       "components" : ["Transform", "HealthPoints"],
       "members" : [
-         {
-            "GameWindow" :
-            {
-               "name" : "render_window",
-               "is_parameter" : true,
-               "is_reference" : true
-            }
-         },
          {
             "sf::Font" :
             {
@@ -123,7 +105,7 @@
    {
       "type" : "render",
       "var_name" : "render_sprite",
-      "includes" : ["<window/game_window.h>"],
+      "includes" : [],
 
       "public_functions" : ["void register_entity(Entity const& entity) override;",
                             "void unregister_entity(Entity const& entity) override;"],
@@ -133,14 +115,6 @@
 
       "components" : ["Sprite", "ElevationLevel"],
       "members" : [
-         {
-            "GameWindow" :
-            {
-               "name" : "render_window",
-               "is_parameter" : true,
-               "is_reference" : true
-            }
-         },
          {
             "std::vector<std::pair<sf::Sprite*, Entity>>" :
             {
@@ -166,20 +140,10 @@
    {
       "type" : "render",
       "var_name" : "render_quad_tree",
-      "includes" : ["<window/game_window.h>"],
+      "includes" : [],
 
       "private_functions" : ["void render_full_quad_tree(QuadTree& quad_tree);"],
-      "components" : [],
-      "members" : [
-         {
-            "GameWindow" :
-            {
-               "name" : "render_window",
-               "is_parameter" : true,
-               "is_reference" : true
-            }
-         }
-      ]
+      "components" : []
    },
 
    "UpdateTransformFromBoundary" : 

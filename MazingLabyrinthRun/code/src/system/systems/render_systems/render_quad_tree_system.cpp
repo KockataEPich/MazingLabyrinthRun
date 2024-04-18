@@ -11,7 +11,7 @@ void RenderQuadTreeSystem::render_full_quad_tree(QuadTree& quad_tree) {
 	rectangle.setOutlineThickness(6);
 	rectangle.setOutlineColor(sf::Color::Blue);
 	rectangle.setPosition({quad_tree.get_surface().left, quad_tree.get_surface().top});
-	m_render_window.draw(rectangle);
+	m_game->window->draw(rectangle);
 
 	if (quad_tree.get_children())
 		for (auto& child : quad_tree.get_children().value()) render_full_quad_tree(*child);

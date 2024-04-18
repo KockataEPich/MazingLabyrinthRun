@@ -14,7 +14,7 @@
 struct EntityHandle;
 class Game {
 public:
-	Game(GameWindow* window) : m_window{window} {}
+	Game(GameWindow* window) : window{window} {}
 
 	void init() { 
 		entities->init();
@@ -86,11 +86,11 @@ public:
 	std::unique_ptr<Components> components = std::make_unique<Components>(this);
 	std::unique_ptr<World> world = std::make_unique<World>(this);
 
-	GameWindow* m_window;
+	GameWindow* window;
 	std::unique_ptr<QuadTree> quad_tree = std::make_unique<QuadTree>(
 		this, 
-		sf::FloatRect(-4800, -2700, m_window->get_window_size().x * 5,
-		m_window->get_window_size().y * 5), 
+		sf::FloatRect(-4800, -2700, window->get_window_size().x * 5,
+		window->get_window_size().y * 5), 
 		0);
 
 	Entity m_mouse_entity;
