@@ -22,3 +22,16 @@ void ResourceManager::insert_texture(const Textures::ID& texture_id) {
 
 	m_textures.insert(std::make_pair(texture_id, std::move(texture)));
 }
+
+sf::Font* ResourceManager::get_font(const std::string font_name) {
+	if (!m_fonts.contains(font_name)) insert_font(font_name);
+	return m_fonts.at(font_name).get();
+}
+
+void ResourceManager::insert_font(const std::string font_name) {
+	auto font = std::make_unique<sf::Font>();
+	if (!font->loadFromFile(font_name))
+		throw std::runtime_error("Font name: " + font_name + " could not be loaded");
+
+	m_fonts.insert(std::make_pair(font_name, std::move(font)));
+}

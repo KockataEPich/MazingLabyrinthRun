@@ -36,4 +36,12 @@ inline void do_on_x_and_y(sf::Vector2f& input,
 	function(input.y, input2.y, args...);
 }
 
+template<typename... Args>
+inline sf::Vector2f produce_x_and_y(const sf::Vector2f& input,
+                            const sf::Vector2f& input2,
+                            std::function<float(const float, const float, Args...)> function,
+                            Args... args) {
+	return {function(input.x, input2.x, args...), function(input.y, input2.y, args...)};
+}
+
 #endif

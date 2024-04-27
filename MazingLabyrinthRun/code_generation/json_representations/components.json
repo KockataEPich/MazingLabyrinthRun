@@ -171,13 +171,21 @@
         "var_name" : "health_points", 
         "type" : "data",
         "needs_cpp" : false,
-        "includes" : ["<attribute/elevation_level.h>"],
         "members" : [
             {
                 "int" : 
                 {
                     "is_parameter" : true,
                     "name" : "health",
+                    "default_value" : "50"
+                } 
+            },
+
+            {
+                "int" : 
+                {
+                    "is_parameter" : true,
+                    "name" : "max_health",
                     "default_value" : "50"
                 } 
             }
