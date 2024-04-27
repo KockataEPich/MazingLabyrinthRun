@@ -18,15 +18,15 @@ void MazingLabyrinthRun::handle_input() {}
 void MazingLabyrinthRun::update() {
 	m_window.begin_draw();
 	m_window.update();
-	m_game->systems->update(m_delta_time);
+	m_game->update(m_delta_time);
 	// @TODO Can be used to pause the game
 	m_camera.setCenter(m_game->world->get_player_sprite().getPosition());
 	m_window.setView(m_camera);
-	m_game->update_mouse_position();
+	m_game->update_ui();
 }
 
 void MazingLabyrinthRun::render() {
-	m_game->systems->render();
+	m_game->render();
 	m_window.end_draw();
 }
 

@@ -16,6 +16,7 @@
 #include <generated/components/basic_components/solid_component.h>
 #include <generated/components/basic_components/default_collision_armor_component.h>
 #include <generated/components/basic_components/mouse_component.h>
+#include <generated/components/basic_components/basic_attack_needle_component.h>
 
 #include <utils/component_utils.h>
 
@@ -37,6 +38,8 @@ void World::init() {
 	m_player_sprite = m_player_sprite;
 	place_entity(player.entity, {0.0f, 0.0f});
 	player.add_event_components<UpdateBoundaryFromTransformComponent>();
+
+	m_game->player = player.entity;
 	
 	GrassLandsTileBuilder grass_builder;
 	ZombieEntityBuilder zombie_builder;
@@ -45,29 +48,30 @@ void World::init() {
 	zombie_builder.build_entity(zombie);
 	m_game->world->place_entity(zombie.entity, {100.0f, 100.0f});
 	zombie.add_components<BoundaryComponent>();
+	zombie.add_components<BasicAttackNeedleComponent>();
 
-	for (int i = -1600; i <= 1600; i += 160) {
-		 int counter = 0;
-		 for (int j = 1600; j >= -1600; j -= 160) {
-			 auto grass_land = m_game->create_entity();
-			 grass_builder.build_entity(grass_land);
-			 place_entity(grass_land.entity, {(float)i, (float)j});
-			 grass_land.add_components(std::make_unique<SkinComponent>(Skin::GRASS_LANDS_1));
-			 grass_land.add_components<BoundaryComponent>();
+	//for (int i = -1600; i <= 1600; i += 160) {
+	//	 int counter = 0;
+	//	 for (int j = 1600; j >= -1600; j -= 160) {
+	//		 auto grass_land = m_game->create_entity();
+	//		 grass_builder.build_entity(grass_land);
+	//		 place_entity(grass_land.entity, {(float)i, (float)j});
+	//		 grass_land.add_components(std::make_unique<SkinComponent>(Skin::GRASS_LANDS_1));
+	//		 grass_land.add_components<BoundaryComponent>();
 
-			 if (i == 0 && j == 0) continue;
-			 if (counter == 20) {
+	//		 if (i == 0 && j == 0) continue;
+	//		 if (counter == 20) {
 
-				 auto zombie = m_game->create_entity();
-				 zombie_builder.build_entity(zombie);
+	//			 auto zombie = m_game->create_entity();
+	//			 zombie_builder.build_entity(zombie);
 
-				 m_game->world->place_entity(zombie.entity, {(float)i, (float)j});
-				 zombie.add_components<BoundaryComponent>();
-				 counter = 0;
-			 }
-			 counter++;
-		 }
-	}
+	//			 m_game->world->place_entity(zombie.entity, {(float)i, (float)j});
+	//			 zombie.add_components<BoundaryComponent>();
+	//			 counter = 0;
+	//		 }
+	//		 counter++;
+	//	 }
+	//}
 
 	std::unique_ptr<TransformComponent> mouse_transform = std::make_unique<TransformComponent>(); 
 	auto mouse = m_game->create_entity();
@@ -85,5 +89,5 @@ void World::init() {
 	    {(float)mouse_sprite.getTextureRect().width / 2.0f, (float)mouse_sprite.getTextureRect().height / 2.0f});
 	mouse.add_components<BoundaryComponent>();
 	m_game->quad_tree->remove(mouse.entity);
-	m_game->m_mouse_entity = mouse.entity;
+	m_game->mouse = mouse.entity;
 }

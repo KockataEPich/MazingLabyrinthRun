@@ -16,10 +16,12 @@ enum class ID {
 	GRASS_LANDS_1,
 
 	CROSS_HAIR_DEFAULT,
+    EMPTY_ABILITY_BLOCK,
+    ABILITY_BLOCK,
 
     ZOMBIE_DEFAULT,
 
-    FIREBALL_1
+    FIREBALL_1,
 };
 
 struct TextureMetadata {
@@ -41,6 +43,8 @@ const static std::unordered_map<ID, std::string> texture_id_to_file_map{
     {ID::GRASS_LANDS_1, "resources/tile/grass.png"},
 
     {ID::CROSS_HAIR_DEFAULT, "resources/ui/crosshair.png"},
+    {ID::EMPTY_ABILITY_BLOCK, "resources/ui/empty_ability_block.png"},
+    {ID::ABILITY_BLOCK, "resources/ui/ability_block.png"},
 
     {ID::ZOMBIE_DEFAULT, "resources/character/zombie_left_idle.png"},
     

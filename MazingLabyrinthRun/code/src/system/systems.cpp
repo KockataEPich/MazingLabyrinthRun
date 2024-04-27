@@ -86,7 +86,7 @@ void Systems::init(){
 	    std::make_unique<TransformSystem>(),
 
 		std::make_unique<RenderSpriteSystem>(),
-	    std::make_unique<RenderQuadTreeSystem>(),
+//	    std::make_unique<RenderQuadTreeSystem>(),
 	    std::make_unique<RenderHealthSystem>());
 
 	for (auto& system : m_producer_systems.get_systems()) system->init();

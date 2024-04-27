@@ -2,6 +2,7 @@
 
 void RenderHealthSystem::render() {
 	for (auto& entity : m_registered_entities) {
+		if (entity == m_game->player) continue; // Player has UI for this
 		auto [transform, health_points] = m_game->components->unpack<TransformComponent, HealthPointsComponent>(entity);
 
 		sf::Text text;

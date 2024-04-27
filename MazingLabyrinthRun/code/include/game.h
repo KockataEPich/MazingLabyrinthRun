@@ -10,6 +10,7 @@
 #include <component_base/components.h>
 #include <world/world.h>
 #include <world/quad_tree.h>
+#include <ui/ui_manager.h>
 
 struct EntityHandle;
 class Game {
@@ -22,6 +23,7 @@ public:
 		components->init();
 		world->init();
 		quad_tree->init();
+		ui_manager->init();
 	}
 
 	EntityHandle create_entity();
@@ -76,15 +78,21 @@ public:
 		 }(), ...);
 		systems->update_entity_system_subscriptions(entity, old_mask);
 	}
+	
+	void update(float dt) { systems->update(dt);}
 
-	void update_mouse_position() { 
-		add_event_components<UpdateMousePositionComponent>(m_mouse_entity); 
+	void render() { 
+		systems->render();
+		ui_manager->render_ui();
 	}
+
+	void update_ui();
 
 	std::unique_ptr<Entities> entities = std::make_unique<Entities>(this);
 	std::unique_ptr<Systems> systems = std::make_unique<Systems>(this);
 	std::unique_ptr<Components> components = std::make_unique<Components>(this);
 	std::unique_ptr<World> world = std::make_unique<World>(this);
+	std::unique_ptr<UIManager> ui_manager = std::make_unique<UIManager>(this);
 
 	GameWindow* window;
 	std::unique_ptr<QuadTree> quad_tree = std::make_unique<QuadTree>(
@@ -93,7 +101,8 @@ public:
 		window->get_window_size().y * 5), 
 		0);
 
-	Entity m_mouse_entity;
+	Entity mouse;
+	Entity player;
 };
 
 

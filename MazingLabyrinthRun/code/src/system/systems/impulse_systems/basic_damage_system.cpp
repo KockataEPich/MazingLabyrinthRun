@@ -5,7 +5,8 @@ void BasicDamageSystem::clash_entities(
 	HealthPointsComponent& victim_health_points,
 	
 	const CollisionInfo& collision_info){ 
-	victim_health_points.health -= 5;
+	victim_health_points.health -= 1;
+	if (victim_health_points.health < 0) victim_health_points.health = 0;
 }
 
 
