@@ -47,8 +47,8 @@ void PlayerSystem::for_every_entity(
 		
 		auto projectile_sprite = std::make_unique<SpriteComponent>();
 		projectile_sprite->sprite.setTexture(*ResourceManager::get_instance()->get_texture(Textures::ID::FIREBALL_1));
-		projectile_sprite->sprite.setOrigin({projectile_sprite->sprite.getTextureRect().width / 2.0f,
-		                                     projectile_sprite->sprite.getTextureRect().height / 2.0f});
+		projectile_sprite->sprite.setOrigin({projectile_sprite->sprite.getTextureRect().width * 0.5f,
+		                                     projectile_sprite->sprite.getTextureRect().height * 0.5f});
 
 		projectile.add_components(
 			std::move(projectile_sprite),
@@ -60,7 +60,7 @@ void PlayerSystem::for_every_entity(
 		projectile.add_components<BoundaryComponent>();
 
 		auto target = std::make_unique<VelocityComponent>();
-		target->final_destination = world_pos;
+		target->final_destination = transform.position + (world_pos - transform.position) * 100.0f;
 		projectile.add_components(std::move(target));
 
 		return;
