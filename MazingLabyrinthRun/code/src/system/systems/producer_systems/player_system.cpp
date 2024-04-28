@@ -13,6 +13,8 @@
 #include <generated/components/data_components/speed_component.h>
 #include <generated/components/data_components/skin_component.h>
 
+#include <numbers>  
+
 #include <utils/component_utils.h>
 #include <entity_base/entity_handle.h>
 void PlayerSystem::for_every_entity(
@@ -42,7 +44,7 @@ void PlayerSystem::for_every_entity(
 		atk_transform->size.x = transform.size.x - 5;
 		atk_transform->size.y = transform.size.y - 10;
 
-		projectile.get_component<SpeedComponent>()->speed = 50.0f;
+		projectile.get_component<SpeedComponent>()->speed = 40.0f;
 		projectile.add_components(std::move(atk_transform));
 		
 		auto projectile_sprite = std::make_unique<SpriteComponent>();
@@ -51,17 +53,24 @@ void PlayerSystem::for_every_entity(
 		                                     projectile_sprite->sprite.getTextureRect().height * 0.5f});
 
 		projectile.add_components(
-			std::move(projectile_sprite),
 			std::make_unique<ElevationLevelComponent>(ElevationLevel::two),
 			std::make_unique<SkinComponent>(Skin::FIREBALL_1));
 
 		
-
+		//projectile_sprite->sprite.setRotation
 		projectile.add_components<BoundaryComponent>();
 
 		auto target = std::make_unique<VelocityComponent>();
-		target->final_destination = transform.position + (world_pos - transform.position) * 100.0f;
-		projectile.add_components(std::move(target));
+
+		
+		target->final_destination = transform.position + (world_pos - transform.position) * 100.0f; // Enough to hit the end of the map
+
+		sf::Vector2f triangle_sides = {transform.position.x - target->final_destination.x,
+		                               transform.position.y - target->final_destination.y};
+		float angle = (std::atan2f(triangle_sides.y, triangle_sides.x) * 180 / std::numbers::pi);
+		projectile_sprite->sprite.setRotation(angle);
+		if (angle > 89.99 || angle < -89.99) projectile_sprite->sprite.rotate(180);
+		projectile.add_components(std::move(projectile_sprite), std::move(target));
 
 		return;
 	}
