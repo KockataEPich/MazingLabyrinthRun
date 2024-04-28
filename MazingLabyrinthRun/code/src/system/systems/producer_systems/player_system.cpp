@@ -72,7 +72,7 @@ void PlayerSystem::for_every_entity(
 			if (angle > 89.99 || angle < -89.99) projectile_sprite->sprite.rotate(180);
 			projectile.add_components(std::move(projectile_sprite), std::move(target));
 
-			TimeManager::get_instance()->track_job("Fireball Attack", 1.0f);
+			TimeManager::get_instance()->track_job("Fireball Attack", 3.0f);
 			return;
 		}
 	}

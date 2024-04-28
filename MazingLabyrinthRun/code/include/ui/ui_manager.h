@@ -2,6 +2,7 @@
 #define UI_MANAGER_HEADER
 
 #include <ui/health_bar.h>
+#include <ui/ability_list.h>
 class Game;
 class UIManager {
 public:
@@ -13,7 +14,8 @@ public:
 
 private:
 	Game* m_game;
-	HealthBar m_player_health_bar;
+	HealthBar m_health_bar;
+	AbilityList m_ability_list;
 };
 
 #endif  // ! UI_MANAGER_HEADER

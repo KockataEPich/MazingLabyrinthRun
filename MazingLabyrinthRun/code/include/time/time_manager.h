@@ -27,16 +27,11 @@ public:
 		m_job_names_to_records.insert({job_name, TimeJobRecord(total_time, total_time)});
 	}
 
-	float get_percentage_of_job_done(const std::string job_name) {
+	float get_time_left(const std::string job_name) {
+		if (!m_job_names_to_records.contains(job_name)) return 0;
 		auto record = m_job_names_to_records.at(job_name);
 		if (record.current_time == 0) m_job_names_to_records.erase(job_name);
-		return record.total_time - (record.current_time / record.total_time);
-	}
-
-	float get_percentage_of_job(const std::string job_name) {
-		auto record = m_job_names_to_records.at(job_name);
-		if (record.current_time == 0) m_job_names_to_records.erase(job_name);
-		return record.current_time / record.total_time;
+		return record.current_time;
 	}
 
 	bool is_job_done(const std::string job_name) {
