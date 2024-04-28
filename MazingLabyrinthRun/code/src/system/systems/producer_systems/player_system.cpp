@@ -4,6 +4,8 @@
 #include <event/events/event_types/change_action_type_event.h>
 
 #include <SFML/Window/Keyboard.hpp>
+#include <time/time_manager.h>
+
 #include <generated/components/basic_components/basic_attack_needle_component.h>
 #include <generated/components/data_components/boundary_component.h>
 #include <generated/components/basic_components/projectile_component.h>
@@ -31,48 +33,48 @@ void PlayerSystem::for_every_entity(
 	velocity.final_destination = transform.position;
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) { 
-		auto projectile = m_game->create_entity();
-		projectile.add_components(
-			std::make_unique<SpeedComponent>(),
-			std::make_unique<ProjectileComponent>());
+		if (TimeManager::get_instance()->is_job_done("Fireball Attack")) {
+			auto projectile = m_game->create_entity();
+			projectile.add_components(std::make_unique<SpeedComponent>(), std::make_unique<ProjectileComponent>());
 
-		auto atk_transform = std::make_unique<TransformComponent>();
+			auto atk_transform = std::make_unique<TransformComponent>();
 
-		atk_transform->position.x = transform.position.x;
-		atk_transform->position.y = transform.position.y;
-		atk_transform->scale = transform.scale;
-		atk_transform->size.x = transform.size.x - 5;
-		atk_transform->size.y = transform.size.y - 10;
+			atk_transform->position.x = transform.position.x;
+			atk_transform->position.y = transform.position.y;
+			atk_transform->scale = transform.scale;
+			atk_transform->size.x = transform.size.x - 5;
+			atk_transform->size.y = transform.size.y - 10;
 
-		projectile.get_component<SpeedComponent>()->speed = 40.0f;
-		projectile.add_components(std::move(atk_transform));
-		
-		auto projectile_sprite = std::make_unique<SpriteComponent>();
-		projectile_sprite->sprite.setTexture(*ResourceManager::get_instance()->get_texture(Textures::ID::FIREBALL_1));
-		projectile_sprite->sprite.setOrigin({projectile_sprite->sprite.getTextureRect().width * 0.5f,
-		                                     projectile_sprite->sprite.getTextureRect().height * 0.5f});
+			projectile.get_component<SpeedComponent>()->speed = 40.0f;
+			projectile.add_components(std::move(atk_transform));
 
-		projectile.add_components(
-			std::make_unique<ElevationLevelComponent>(ElevationLevel::two),
-			std::make_unique<SkinComponent>(Skin::FIREBALL_1));
+			auto projectile_sprite = std::make_unique<SpriteComponent>();
+			projectile_sprite->sprite.setTexture(
+			    *ResourceManager::get_instance()->get_texture(Textures::ID::FIREBALL_1));
+			projectile_sprite->sprite.setOrigin({projectile_sprite->sprite.getTextureRect().width * 0.5f,
+			                                     projectile_sprite->sprite.getTextureRect().height * 0.5f});
 
-		
-		//projectile_sprite->sprite.setRotation
-		projectile.add_components<BoundaryComponent>();
+			projectile.add_components(std::make_unique<ElevationLevelComponent>(ElevationLevel::two),
+			                          std::make_unique<SkinComponent>(Skin::FIREBALL_1));
 
-		auto target = std::make_unique<VelocityComponent>();
+			// projectile_sprite->sprite.setRotation
+			projectile.add_components<BoundaryComponent>();
 
-		
-		target->final_destination = transform.position + (world_pos - transform.position) * 100.0f; // Enough to hit the end of the map
+			auto target = std::make_unique<VelocityComponent>();
 
-		sf::Vector2f triangle_sides = {transform.position.x - target->final_destination.x,
-		                               transform.position.y - target->final_destination.y};
-		float angle = (std::atan2f(triangle_sides.y, triangle_sides.x) * 180 / std::numbers::pi);
-		projectile_sprite->sprite.setRotation(angle);
-		if (angle > 89.99 || angle < -89.99) projectile_sprite->sprite.rotate(180);
-		projectile.add_components(std::move(projectile_sprite), std::move(target));
+			target->final_destination =
+			    transform.position + (world_pos - transform.position) * 100.0f;  // Enough to hit the end of the map
 
-		return;
+			sf::Vector2f triangle_sides = {transform.position.x - target->final_destination.x,
+			                               transform.position.y - target->final_destination.y};
+			float angle = (std::atan2f(triangle_sides.y, triangle_sides.x) * 180 / std::numbers::pi);
+			projectile_sprite->sprite.setRotation(angle);
+			if (angle > 89.99 || angle < -89.99) projectile_sprite->sprite.rotate(180);
+			projectile.add_components(std::move(projectile_sprite), std::move(target));
+
+			TimeManager::get_instance()->track_job("Fireball Attack", 1.0f);
+			return;
+		}
 	}
 
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) &&

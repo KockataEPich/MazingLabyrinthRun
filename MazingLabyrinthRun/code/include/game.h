@@ -11,6 +11,7 @@
 #include <world/world.h>
 #include <world/quad_tree.h>
 #include <ui/ui_manager.h>
+#include <time/time_manager.h>
 
 struct EntityHandle;
 class Game {
@@ -79,7 +80,10 @@ public:
 		systems->update_entity_system_subscriptions(entity, old_mask);
 	}
 	
-	void update(float dt) { systems->update(dt);}
+	void update(float dt) { 
+		TimeManager::get_instance()->update_tracks(dt);
+		systems->update(dt);
+	}
 
 	void render() { 
 		systems->render();

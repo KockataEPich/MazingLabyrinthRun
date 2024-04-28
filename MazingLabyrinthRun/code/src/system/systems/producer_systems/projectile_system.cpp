@@ -3,8 +3,7 @@
 
 void ProjectileSystem::for_every_entity(
         EntityHandle entity,
-        VelocityComponent& velocity,
-        SpriteComponent& sprite
+        VelocityComponent& velocity
     ){
 	entity.add_event_components<MoveComponent>();
 }
