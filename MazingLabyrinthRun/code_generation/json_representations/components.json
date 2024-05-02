@@ -242,6 +242,7 @@
 
     "UpdateTransformFromBoundary" : { "var_name" : "update_transform_from_boundary", "type" : "basic" },
     "UpdateBoundaryFromTransform" : { "var_name" : "update_boundary_from_transform", "type" : "basic" },
-    "UpdateMousePosition" : { "var_name" : "update_mouse_position", "type" : "basic" }
+    "UpdateMousePosition" : { "var_name" : "update_mouse_position", "type" : "basic" },
+    "FlashWhite" : { "var_name" : "flash_white", "type" : "basic" }
 
 }

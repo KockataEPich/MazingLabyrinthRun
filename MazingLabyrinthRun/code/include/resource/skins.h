@@ -11,12 +11,16 @@
 enum class Skin { 
 	DEFAULT_PLACEHOLDER_SKIN, 
 	MAIN_CHARACTER_START_SKIN, 
+
+	PLAIN_WHITE_ZOMBIE_1,
 	ZOMBIE_DEFAULT_SKIN, 
+
 	CROSSHAIR_DEFAULT_SKIN, 
 	EMPTY_ABILITY_BLOCK,
 	ABILITY_BLOCK,
 	FIREBALL_1,
-	GRASS_LANDS_1,
+	GRASS_LANDS_1
+
 };
 
 // clang-format off
@@ -32,6 +36,11 @@ const static std::unordered_map<Skin, std::unordered_map<ActionType, Textures::I
 				{ActionType::move, Textures::ID::ZOMBIE_DEFAULT},
 				{ActionType::attack, Textures::ID::ZOMBIE_DEFAULT}}
 		},
+		{Skin::PLAIN_WHITE_ZOMBIE_1, {
+				{ActionType::idle, Textures::ID::ZOMBIE_FLASHED},
+				{ActionType::move, Textures::ID::ZOMBIE_FLASHED},
+				{ActionType::attack, Textures::ID::ZOMBIE_FLASHED}}
+		},
 };
 // clang-format on
 
@@ -42,9 +51,20 @@ const static Textures::ID get_idle_animation(Skin skin) {
 	return skin_animation_side_map.at(skin).at(ActionType::idle);
 }
 
+inline Skin get_flashing_skin(Skin skin) {
+	if (skin == Skin::ZOMBIE_DEFAULT_SKIN) return Skin::PLAIN_WHITE_ZOMBIE_1;
+}
+
+inline Skin get_unflashed_skin(Skin flashed_skin) {
+	if (flashed_skin == Skin::PLAIN_WHITE_ZOMBIE_1) return Skin::ZOMBIE_DEFAULT_SKIN;
+}
+
 const static std::unordered_map<Skin, sf::FloatRect> get_boundary_side_offsets_of_skin = {
     {Skin::MAIN_CHARACTER_START_SKIN, {0.73f, 0.63f, 0.73f, 0.88f}},
+
     {Skin::ZOMBIE_DEFAULT_SKIN, {0.8, 0.65, 0.8, 0.95}},
+    {Skin::PLAIN_WHITE_ZOMBIE_1, {0.8, 0.65, 0.8, 0.95}},
+
     {Skin::CROSSHAIR_DEFAULT_SKIN, {0.9, 0.9, 0.9, 0.9}},
     {Skin::FIREBALL_1, {0.9, 0.7, 1.0, 0.8}},
     {Skin::GRASS_LANDS_1, {0.8, 0.8, 0.8, 0.8}},

@@ -20,14 +20,20 @@ public:
 	Animation& get_current_animation() { return m_current_animation; };
 	sf::IntRect& get_current_rect(){ return m_current_animation.get_current_rect(); }
 	sf::Texture& get_current_texture() { return *m_current_animation.get_texture(); };
+
 	Skin& get_skin() { return m_skin; };
+	void flash_white();
 
 	bool is_action_frame() { return m_current_animation.is_action_frame(); }
-
+	bool is_flashed() { return m_flash_white; }
+	
 private:
 	float m_total_time = 0.0f;
 	Skin m_skin = Skin::DEFAULT_PLACEHOLDER_SKIN;
 	Animation m_current_animation;
+	bool m_flash_white = false;
+
+	void remove_flashing_if_finished();
 };
 
 #endif

@@ -171,5 +171,12 @@
       "type" : "react",
       "var_name" : "update_crosshair_position",
       "components" : ["UpdateMousePosition", "Transform", "Mouse", "Boundary", "Sprite"]
+   },
+
+   "FlashWhite" : 
+   {
+      "type" : "react",
+      "var_name" : "flash_white",
+      "components" : ["FlashWhite", "AnimationPlayer", "Skin"]
    }
 }

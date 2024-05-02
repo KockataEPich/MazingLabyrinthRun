@@ -13,6 +13,7 @@
 #include <generated/systems/react_systems/update_boundary_from_transform_system.h>
 #include <generated/systems/react_systems/update_transform_from_boundary_system.h>
 #include <generated/systems/react_systems/update_crosshair_position_system.h>
+#include <generated/systems/react_systems/flash_white_system.h>
 
 #include <generated/systems/render_systems/render_sprite_system.h>
 #include <generated/systems/render_systems/render_health_system.h>
@@ -73,6 +74,7 @@ void Systems::init(){
 		std::make_unique<UpdateBoundaryFromTransformSystem>(),
 	    std::make_unique<UpdateTransformFromBoundarySystem>(),
 	    std::make_unique<UpdateCrosshairPositionSystem>(),
+	    std::make_unique<FlashWhiteSystem>(),
 
 		std::make_unique<BasicCollisionSystem>(),
 		std::make_unique<BasicDamageSystem>(),

@@ -9,6 +9,7 @@ void AnimateSystem::for_every_entity(
 	TransformComponent& transform,
 	SpriteComponent& sprite){ 
 
+	animation_player.animation_player.set_skin(skin.skin);
 	auto texture_id = get_id_of_rotating_texture(skin.skin, action_type.action_type);
 	if (texture_id != animation_player.animation_player.get_current_animation().get_texture_id()) {
 		animation_player.animation_player.play_animation(Animation(texture_id));
@@ -23,6 +24,7 @@ void AnimateSystem::for_every_entity(
 	transform.size = {(float)sprite.sprite.getTextureRect().width,
 	                     (float)sprite.sprite.getTextureRect().height};
 
+	skin.skin = animation_player.animation_player.get_skin();
 	if (animation_player.animation_player.is_action_frame())
 		entity.add_event_components<InitiateActionComponent>();
 }
