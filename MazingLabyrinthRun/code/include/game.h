@@ -5,12 +5,15 @@
 #include <generated/components/data_components/boundary_component.h>
 #include <generated/components/basic_components/update_boundary_from_transform_component.h>
 #include <generated/components/basic_components/update_mouse_position_component.h>
+
 #include <entity_base/entities.h>
 #include <system/systems.h>
 #include <component_base/components.h>
 #include <world/world.h>
 #include <world/quad_tree.h>
 #include <ui/ui_manager.h>
+#include <event/event_bus.h>
+
 #include <time/time_manager.h>
 
 struct EntityHandle;
@@ -97,6 +100,7 @@ public:
 	std::unique_ptr<Components> components = std::make_unique<Components>(this);
 	std::unique_ptr<World> world = std::make_unique<World>(this);
 	std::unique_ptr<UIManager> ui_manager = std::make_unique<UIManager>(this);
+	std::unique_ptr<EventBus> event_bus = std::make_unique<EventBus>();
 
 	GameWindow* window;
 	std::unique_ptr<QuadTree> quad_tree = std::make_unique<QuadTree>(

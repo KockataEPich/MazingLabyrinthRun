@@ -1,7 +1,6 @@
 #include <generated/systems/producer_systems/player_system.h>
 
 #include <generated/components/basic_components/move_component.h>
-#include <event/events/event_types/change_action_type_event.h>
 
 #include <SFML/Window/Keyboard.hpp>
 #include <time/time_manager.h>
@@ -14,6 +13,8 @@
 #include <generated/components/data_components/elevation_level_component.h>
 #include <generated/components/data_components/speed_component.h>
 #include <generated/components/data_components/skin_component.h>
+
+#include <event/event_types/move_event.h>
 
 #include <numbers>  
 
@@ -80,27 +81,27 @@ void PlayerSystem::for_every_entity(
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) &&
 	    !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A) &&
 	    !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X)) {
-		ChangeActionTypeEvent{action_type, ActionType::idle}.happen();
+		action_type.action_type = ActionType::idle;
 		return;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {
-		ChangeActionTypeEvent{action_type, ActionType::jump}.happen();
+		action_type.action_type = ActionType::jump;
 		return;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X)) {
-		ChangeActionTypeEvent{action_type, ActionType::attack}.happen();
+		action_type.action_type = ActionType::attack;
 		return;
 	}
 
-	ChangeActionTypeEvent{action_type, ActionType::move}.happen();
+	action_type.action_type = ActionType::move;
 	// The magic number should be changed to be the end corners of the map (when boxed)
 	// Apparently FLT_MIN == 0 ?!
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) velocity.final_destination.x += 100000.0f;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) velocity.final_destination.x -= 100000.0f;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) velocity.final_destination.y -= 100000.0f;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) velocity.final_destination.y += 100000.0f;
-	entity.add_event_components<MoveComponent>();
+	m_game->event_bus->publish(MoveEvent(entity.entity));
 }
 
