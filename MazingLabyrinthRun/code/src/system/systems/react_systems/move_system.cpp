@@ -1,7 +1,7 @@
 #include <generated/systems/react_systems/move_system.h>
 
-#include <generated/components/basic_components/collision_check_component.h>
-#include <generated/components/basic_components/update_transform_from_boundary_component.h>
+#include <generated/events/possibly_coliding_event.h>
+#include <generated/events/update_transform_from_boundary_event.h>
 
 #include <numbers>  // for std::numbers::pi
 #include <utils/component_utils.h>
@@ -33,7 +33,7 @@ void MoveSystem::react_on_entity(
 	velocity.origin = boundary.hitbox.getPosition() + boundary.hitbox.getSize() * 0.5f; 
 	
 	determine_velocity(velocity, speed.speed);
-	entity.add_event_components<CollisionCheckComponent>();
+	entity.receive_event(PossiblyColidingEvent());
 	
 	if (!m_game->entities->is_alive(entity.entity)) return;
 
@@ -42,7 +42,7 @@ void MoveSystem::react_on_entity(
 	boundary.hitbox.left = velocity.origin.x - boundary.hitbox.getSize().x * 0.5f;
 	boundary.hitbox.top = velocity.origin.y - boundary.hitbox.getSize().y * 0.5f;
 
-	entity.add_event_components<UpdateTransformFromBoundaryComponent>();
+	entity.receive_event(UpdateTransformFromBoundaryEvent());
 	m_game->quad_tree->insert(entity.entity);
 }
 

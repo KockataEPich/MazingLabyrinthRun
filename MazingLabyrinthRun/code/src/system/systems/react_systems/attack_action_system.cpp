@@ -1,7 +1,6 @@
 #include <generated/systems/react_systems/attack_action_system.h>
 #include <generated/components/basic_components/basic_attack_needle_component.h>
 #include <generated/components/data_components/boundary_component.h>
-#include <generated/components/basic_components/collision_check_component.h>
 #include <entity_base/entity_handle.h>
 
 void AttackActionSystem::react_on_entity(

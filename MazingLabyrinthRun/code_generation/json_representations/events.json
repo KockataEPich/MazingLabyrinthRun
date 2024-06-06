@@ -1,0 +1,36 @@
+{
+    "Move" :
+    {
+        "var_name" : "move"
+    },
+
+    "InitiateAttack" :
+    {
+        "var_name" : "initiate_attack"
+    },
+
+    "PossiblyColiding" :
+    {
+        "var_name" : "possibly_coliding"
+    },
+
+    "UpdateTransformFromBoundary" :
+    {
+        "var_name" : "update_transform_from_boundary"
+    },
+
+    "UpdateBoundaryFromTransform" :
+    {
+        "var_name" : "update_boundary_from_transform"
+    },
+
+    "UpdateMousePosition" :
+    {
+        "var_name" : "update_mouse_position"
+    },
+
+    "FlashWhite" :
+    {
+        "var_name" : "flash_white"
+    }
+}

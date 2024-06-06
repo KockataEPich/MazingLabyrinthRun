@@ -41,7 +41,7 @@ def fetch_components_from_data(data, generated_folder):
     return result
 
 
-def fetch_systems_from_data(data, components, generated_folder):
+def fetch_systems_from_data(data, components, events, generated_folder):
     result = {}
     for system, metadata in data.items():
         s = classes.System()
@@ -52,6 +52,9 @@ def fetch_systems_from_data(data, components, generated_folder):
         s.members = get_member_list(metadata.get("members", []), s.name, "System")
         s.public_functions = metadata.get("public_functions", [])
         s.private_functions = metadata.get("private_functions", [])
+
+        if s.is_react():
+            s.subscribed_event = copy(events[metadata.get("subscribed_event")])
 
         if s.type == "impulse":
             for component in metadata.get("initiator_components"):
@@ -73,6 +76,22 @@ def fetch_systems_from_data(data, components, generated_folder):
         s.header_path = "<" + os.path.basename(os.path.basename(os.path.normpath(generated_folder))) + "/systems/" + s.get_relative_path(True) + ".h>"
         result[s.name] = s
     return result
+
+
+def fetch_events_from_data(data, generated_folder):
+    result = {}
+    for event, metadata in data.items():
+        e = classes.Event()
+        e.name = event
+        e.var_name = metadata.get("var_name", e.name.lower())
+        e.includes = metadata.get("includes", [])
+        e.members = get_member_list(metadata.get("members", []), e.name, "Event")
+        e.functions = metadata.get("functions", [])
+        e.header_path = "<" + os.path.basename(os.path.basename(os.path.normpath(generated_folder))) + "/events/" + e.get_file_name() + ">"
+        result[e.name] = e
+
+    return result
+
 
 def fetch_data(component_data, system_data, generated_folder):
     components = fetch_components_from_data(component_data, generated_folder)

@@ -3,8 +3,7 @@
 
 #include <window/game_window.h>
 #include <generated/components/data_components/boundary_component.h>
-#include <generated/components/basic_components/update_boundary_from_transform_component.h>
-#include <generated/components/basic_components/update_mouse_position_component.h>
+#include <generated/events/update_boundary_from_transform_event.h>
 
 #include <entity_base/entities.h>
 #include <system/systems.h>
@@ -46,7 +45,7 @@ public:
 			    components->add_component(entity, std::make_unique<ComponentType>());
 			    entities->add_component_to_entity_mask<ComponentType>(entity);
 			    if constexpr (std::is_same_v<ComponentType, BoundaryComponent>) {
-				    add_event_components<UpdateBoundaryFromTransformComponent>(entity);
+				    event_bus->publish(entity, UpdateBoundaryFromTransformEvent());
 				    quad_tree->insert(entity);
 			    }
 			}(), ...);
@@ -61,15 +60,6 @@ public:
 			    entities->add_component_to_entity_mask<ComponentType>(entity);
 	    }(),...);
 		systems->update_entity_system_subscriptions(entity, old_mask);
-	}
-
-	template<typename... ComponentType>
-	void add_event_components(const Entity& entity) {
-		( [&] { 
-			auto new_mask = entities->get_mask(entity);
-			new_mask.add_components<ComponentType>(); 
-			systems->react_on_event(entity, new_mask);
-		}(),...);
 	}
 
 	template<class... ComponentType>

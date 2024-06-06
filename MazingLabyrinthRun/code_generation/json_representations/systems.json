@@ -44,20 +44,23 @@
    {
       "var_name" : "attack_action",
       "type" : "react",
-      "components" : ["ActionType", "FacingSide", "InitiateAction", "Transform"]
+      "subscribed_event" : "InitiateAttack",
+      "components" : ["ActionType", "FacingSide", "Transform"]
    },
 
    "Move" : 
    {
       "type" : "react",
-      "components" : ["Transform", "Speed", "Velocity", "Boundary", "Move"]
+      "subscribed_event" : "Move",
+      "components" : ["Transform", "Speed", "Velocity", "Boundary"]
    },
 
    "CollisionDetection" : 
    {
       "var_name" : "collision_detection",
+      "subscribed_event" : "PossiblyColiding",
       "type" : "react",
-      "components" : ["Boundary", "CollisionCheck", "Velocity"]
+      "components" : ["Boundary", "Velocity"]
    },
 
    "BasicDamage" : 
@@ -150,33 +153,39 @@
    {
       "type" : "react",
       "var_name" : "update_transform_from_boundary",
+      "subscribed_event" : "UpdateTransformFromBoundary",
+
       "includes" : [],
 
       "private_functions" : [],
-      "components" : ["UpdateTransformFromBoundary", "Transform", "Boundary", "Skin"]
+      "components" : ["Transform", "Boundary", "Skin"]
    },
 
    "UpdateBoundaryFromTransform" : 
    {
       "type" : "react",
       "var_name" : "update_boundary_from_transform",
+      "subscribed_event" : "UpdateBoundaryFromTransform",
+
       "includes" : [],
 
       "private_functions" : [],
-      "components" : ["UpdateBoundaryFromTransform", "Boundary", "Transform", "Skin"]
+      "components" : ["Boundary", "Transform", "Skin"]
    },
 
    "UpdateCrosshairPosition" : 
    {
       "type" : "react",
       "var_name" : "update_crosshair_position",
-      "components" : ["UpdateMousePosition", "Transform", "Mouse", "Boundary", "Sprite"]
+      "subscribed_event" : "UpdateMousePosition",
+      "components" : ["Transform", "Mouse", "Boundary", "Sprite"]
    },
 
    "FlashWhite" : 
    {
       "type" : "react",
       "var_name" : "flash_white",
-      "components" : ["FlashWhite", "AnimationPlayer", "Skin"]
+      "subscribed_event" : "FlashWhite",
+      "components" : ["AnimationPlayer", "Skin"]
    }
 }

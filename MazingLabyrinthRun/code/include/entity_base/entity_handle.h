@@ -3,6 +3,7 @@
 
 #include <entity_base/entity.h>
 #include <component_base/component_handle.h>
+#include <event/event.h>
 #include <game.h>
 
 struct EntityHandle {
@@ -19,8 +20,8 @@ struct EntityHandle {
 	template<class... ComponentType>
 	void add_components() { game->add_components<ComponentType...>(entity);}
 
-	template<class... ComponentType>
-	void add_event_components() { game->add_event_components<ComponentType...>(entity); }
+	template<class... ComponentType, class EventType>
+	void receive_event(EventType&& event) { game->event_bus->publish(entity, std::move(event)); }
 
 	template<typename ComponentType>
 	void remove_component() { game->remove_components<ComponentType>(entity); }

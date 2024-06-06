@@ -5,23 +5,23 @@
 
 class HandlerFunctionBase {
 public:
-	void exec(Event&& event) { call(std::move(event)); }
+	void exec(const Entity entity, Event&& event) { call(entity, std::move(event)); }
 
 private:
-	virtual void call(Event&& event) = 0;
+	virtual void call(const Entity entity, Event&& event) = 0;
 };
 
 template<class T, class EventType>
 class MemberFunctionHandler : public HandlerFunctionBase {
 public:
-	typedef void (T::*MemberFunction)(EventType&&);
+	typedef void (T::*MemberFunction)(const Entity, EventType&&);
 
 	MemberFunctionHandler(T* instance, MemberFunction memberFunction)
 	    : instance{instance}
 	    , memberFunction{memberFunction} {};
 
-	void call(Event&& event) override{ 
-		(instance->*memberFunction)((static_cast<EventType&&>(event)));
+	void call(const Entity entity, Event&& event) override { 
+		(instance->*memberFunction)(entity, (static_cast<EventType&&>(event)));
 	}
 
 private:

@@ -18,6 +18,8 @@
 #include <generated/components/basic_components/mouse_component.h>
 #include <generated/components/basic_components/basic_attack_needle_component.h>
 
+#include <generated/events/update_boundary_from_transform_event.h>
+
 #include <utils/component_utils.h>
 
 bool World::place_entity(const Entity entity, sf::Vector2f position) {
@@ -37,7 +39,7 @@ void World::init() {
 	m_player_sprite = &player.get_component<SpriteComponent>()->sprite;
 	m_player_sprite = m_player_sprite;
 	place_entity(player.entity, {0.0f, 0.0f});
-	player.add_event_components<UpdateBoundaryFromTransformComponent>();
+	player.receive_event(UpdateBoundaryFromTransformEvent());
 
 	m_game->player = player.entity;
 	

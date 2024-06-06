@@ -59,10 +59,7 @@ protected:
 	virtual const int tick_frequency() { return 1; };
 };
 
-class ReactSystem : public System {
-public:
-	virtual void react(Entity const entity) {}
-};
+class ReactSystem : public System {};
 
 class RenderSystem : public EntityTrackerSystem {
 public:

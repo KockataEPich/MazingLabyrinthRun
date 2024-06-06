@@ -45,11 +45,6 @@ void Systems::update_entity_system_subscriptions(const Entity entity, ComponentM
 		update_mask_in_systems(entity, m_game->entities->get_mask(entity), old_mask, system.get());
 }
 
-void Systems::react_on_event(const Entity entity, ComponentMask new_mask) {
-	for (auto& system : m_react_systems)
-		if (new_mask.matches(system->get_signature())) system->react(entity);
-}
-
 void Systems::exchange_impulses(const Entity initiator, const Entity& victim, const CollisionInfo& collision_info) {
 	for (auto& system : m_impulse_systems) {
 		if (m_game->entities->get_mask(initiator).matches(system->get_signature()) &&

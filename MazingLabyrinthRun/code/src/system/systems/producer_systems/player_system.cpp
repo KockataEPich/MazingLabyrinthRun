@@ -1,7 +1,5 @@
 #include <generated/systems/producer_systems/player_system.h>
 
-#include <generated/components/basic_components/move_component.h>
-
 #include <SFML/Window/Keyboard.hpp>
 #include <time/time_manager.h>
 
@@ -14,7 +12,7 @@
 #include <generated/components/data_components/speed_component.h>
 #include <generated/components/data_components/skin_component.h>
 
-#include <event/event_types/move_event.h>
+#include <generated/events/move_event.h>
 
 #include <numbers>  
 
@@ -102,6 +100,6 @@ void PlayerSystem::for_every_entity(
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) velocity.final_destination.x -= 100000.0f;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) velocity.final_destination.y -= 100000.0f;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) velocity.final_destination.y += 100000.0f;
-	m_game->event_bus->publish(MoveEvent(entity.entity));
+	entity.receive_event(MoveEvent());
 }
 

@@ -1,5 +1,4 @@
 #include <generated/systems/producer_systems/animate_system.h>
-#include <generated/components/basic_components/initiate_action_component.h>
 void AnimateSystem::for_every_entity(
 	EntityHandle entity,
 	ActionTypeComponent& action_type,
@@ -25,7 +24,7 @@ void AnimateSystem::for_every_entity(
 	                     (float)sprite.sprite.getTextureRect().height};
 
 	skin.skin = animation_player.animation_player.get_skin();
-	if (animation_player.animation_player.is_action_frame())
-		entity.add_event_components<InitiateActionComponent>();
+	//if (animation_player.animation_player.is_action_frame())
+		//entity.add_event_components<InitiateActionComponent>();
 }
 

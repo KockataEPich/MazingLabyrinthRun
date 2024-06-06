@@ -1,4 +1,21 @@
 import os.path
+class Event:
+    def __init__(self):
+        self.name = ""
+        self.var_name = ""
+        self.header_path = ""
+        self.relative_path = ""
+        self.includes = []
+        self.members = []
+   
+    def get_var_name(self):
+        return self.name.lower() if self.var_name == "" else self.var_name
+    
+    def get_file_name(self):
+        return self.get_var_name() + "_event.h"
+    
+    def cpp_name(self): return self.name + "Event"
+    
 class Member:
     def __init__(self):
         self.owner = ""
@@ -56,7 +73,7 @@ class System:
         self.victim_components = []
         self.includes = []
         self.members = []
-        
+        self.subscribed_event = Event()
    
     def get_var_name(self):
         if self.var_name == "":

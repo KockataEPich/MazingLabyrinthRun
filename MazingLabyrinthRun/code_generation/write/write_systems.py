@@ -12,7 +12,7 @@ def get_system_constructor_body(system):
     if len(system.components) == 0: return f''''''
     if not system.is_impulse():
         return f'''m_signature.add_components<
-            {wu.process_sequence(system.components, transform_signature_string, ",")}>();'''
+            {wu.process_sequence(system.components, transform_signature_string, ",")}>();{wu.set_tab_depth(2)}'''
     
     return f'''m_signature.add_components<
             {wu.process_sequence(system.initiator_components, transform_signature_string, ",")}>();
@@ -21,7 +21,7 @@ def get_system_constructor_body(system):
             {wu.process_sequence(system.victim_components, transform_signature_string, ",")}>();'''
 
 def cpp_func_params(system):
-    if system.is_react(): return "const Entity entity"
+    if system.is_react(): return "const Entity entity, " + system.subscribed_event.cpp_name() +  "&& " + system.subscribed_event.get_var_name()
     if system.is_impulse(): return "const Entity initiator_entity, const Entity victim_entity, const CollisionInfo& collision_info"
     return ""
 
@@ -90,6 +90,7 @@ def interactive_functions_body(system):
 
     if system.is_react():
         return f'''{{
+        if (!m_game->entities->get_mask(entity).matches(m_signature)) return;
         auto [ 
             {wu.set_tab_depth(3)}{wu.process_sequence(system.components, transform_to_var_name, ",", False)}
         ] = m_game->components->unpack<
@@ -139,6 +140,8 @@ def write_file_string(f, system):
 #include <entity_base/entity_handle.h>
 #include <utils/collision_utils.h>
 
+{wu.optional_string("#include " + system.subscribed_event.header_path, system.is_react())}
+
 {wu.process_sequence(wu.component_header_path_string(system.components), wu.transform_to_include)}{wu.optional_string(wu.process_sequence(system.includes, wu.transform_to_include), its_own_logic_block=True)}
 
 class {system.cpp_name()}: public {system.type.capitalize()}System {{
@@ -147,10 +150,11 @@ public:
         {wu.set_tab_depth(3)}{get_system_constructor_body(system)}
     }}{wu.set_tab_depth(1)}{wu.optional_string(wu.process_sequence(system.public_functions, lambda input: input), its_own_logic_block=True)}
 
-    void {system.interactive_function_name()}({cpp_func_params(system)}) override{wu.optional_string_basic(";", system.is_render())} {interactive_functions_body(system)}
+    void {system.interactive_function_name()}({cpp_func_params(system)}) {wu.optional_string_basic(";", system.is_render())} {interactive_functions_body(system)}
         
 private:{wu.set_tab_depth(1)}{wu.optional_string(wu.process_sequence(system.members, wm.initialize_member_in_body, ";", True))}
-    {"" if system.type == "render" else "void " + get_cpp_function_declaration(system) + ";"}{wu.optional_string(wu.process_sequence(system.private_functions,  lambda input: input))}
+    {"" if system.type == "render" else "void " + get_cpp_function_declaration(system) + ";"}{wu.optional_string(wu.process_sequence(system.private_functions,  lambda input: input))} 
+    {"" if system.type != "react" else "void init() override { m_game->event_bus->subscribe(this, &" + system.cpp_name() + "::react); }" }
 }};
 #endif
 ''')
