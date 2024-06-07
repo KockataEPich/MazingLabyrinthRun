@@ -1,4 +1,4 @@
-#include <generated/systems/react_systems/collision_detection_system.h>
+#include <generated/systems/event_systems/collision_detection_system.h>
 #include <utils/sfml_vector_helpers.h>
 #include <utils/component_utils.h>
 #include <utils/collision_utils.h>
@@ -94,11 +94,11 @@ std::optional<std::pair<Entity, CollisionInfo>> get_closest_entity(std::set<Enti
 
 
 }  // namespace
-void CollisionDetectionSystem::react_on_entity(
+void CollisionDetectionSystem::p_handle_event(
 	EntityHandle entity,
 	BoundaryComponent& boundary,
-    VelocityComponent& velocity) {
-
+    VelocityComponent& velocity,
+	PossiblyColidingEvent& possibly_coliding) {
 	auto potential_collisions = m_game->quad_tree->get_potential_collisions(boundary.hitbox, velocity.velocity);
 	auto closest_entity = get_closest_entity(potential_collisions, m_game, velocity, boundary);
 	while (closest_entity.has_value()) {

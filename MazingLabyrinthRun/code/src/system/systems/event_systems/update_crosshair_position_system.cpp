@@ -1,11 +1,13 @@
-#include <generated/systems/react_systems/update_crosshair_position_system.h>
+#include <generated/systems/event_systems/update_crosshair_position_system.h>
 #include <generated/events/update_boundary_from_transform_event.h>
-void UpdateCrosshairPositionSystem::react_on_entity(
+void UpdateCrosshairPositionSystem::p_handle_event(
         EntityHandle entity,
         TransformComponent& transform,
 		BoundaryComponent& boundary,
-		SpriteComponent& sprite
-    ){
+		SpriteComponent& sprite,
+
+        UpdateMousePositionEvent& update_mouse_position) 
+{
 	auto pos = sf::Mouse::getPosition(m_game->window->as_sfml_window());
 	sf::Vector2f worldPos = m_game->window->as_sfml_window().mapPixelToCoords(pos);
 	transform.position = {worldPos.x, worldPos.y};

@@ -1,4 +1,4 @@
-#include <generated/systems/react_systems/move_system.h>
+#include <generated/systems/event_systems/move_system.h>
 
 #include <generated/events/possibly_coliding_event.h>
 #include <generated/events/update_transform_from_boundary_event.h>
@@ -20,13 +20,14 @@ void determine_velocity(VelocityComponent& velocity, const float speed) {
 	velocity.velocity.x = (velocity.origin.x < velocity.final_destination.x) ? x_offset : x_offset * -1;
 	velocity.velocity.y = (velocity.origin.y < velocity.final_destination.y) ? y_offset : y_offset * -1;
 }
-}
-void MoveSystem::react_on_entity(
+}  // namespace
+void MoveSystem::p_handle_event(
 	EntityHandle entity,
 	TransformComponent& transform,
 	SpeedComponent& speed,
     VelocityComponent& velocity,
-	BoundaryComponent& boundary) { 
+	BoundaryComponent& boundary,
+    MoveEvent& move) { 
 
 	m_game->quad_tree->remove(entity.entity);
 

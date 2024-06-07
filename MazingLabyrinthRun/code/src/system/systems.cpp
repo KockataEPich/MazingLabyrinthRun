@@ -7,13 +7,13 @@
 #include <generated/systems/producer_systems/check_crosshair_collision_system.h>
 #include <generated/systems/producer_systems/projectile_system.h>
 
-#include <generated/systems/react_systems/collision_detection_system.h>
-#include <generated/systems/react_systems/move_system.h>
-#include <generated/systems/react_systems/attack_action_system.h>
-#include <generated/systems/react_systems/update_boundary_from_transform_system.h>
-#include <generated/systems/react_systems/update_transform_from_boundary_system.h>
-#include <generated/systems/react_systems/update_crosshair_position_system.h>
-#include <generated/systems/react_systems/flash_white_system.h>
+#include <generated/systems/event_systems/collision_detection_system.h>
+#include <generated/systems/event_systems/move_system.h>
+#include <generated/systems/event_systems/attack_action_system.h>
+#include <generated/systems/event_systems/update_boundary_from_transform_system.h>
+#include <generated/systems/event_systems/update_transform_from_boundary_system.h>
+#include <generated/systems/event_systems/update_crosshair_position_system.h>
+#include <generated/systems/event_systems/flash_white_system.h>
 
 #include <generated/systems/render_systems/render_sprite_system.h>
 #include <generated/systems/render_systems/render_health_system.h>
@@ -26,6 +26,12 @@
 #include <game.h>
 
 namespace {
+
+template<class... Systems>
+void initialize_systems(Systems&... systems) { 
+	([&] { for (auto& system : systems) system->init();}(), ...);
+}
+
 void update_mask_in_systems(const Entity entity,
                             ComponentMask new_mask,
                             ComponentMask old_mask,
@@ -86,8 +92,8 @@ void Systems::init(){
 //	    std::make_unique<RenderQuadTreeSystem>(),
 	    std::make_unique<RenderHealthSystem>());
 
-	for (auto& system : m_producer_systems.get_systems()) system->init();
-	for (auto& system : m_react_systems) system->init();
-	for (auto& system : m_impulse_systems) system->init();
-	for (auto& system : m_render_systems) system->init();
+	initialize_systems(m_producer_systems.get_systems(),
+					   m_event_systems,
+					   m_impulse_systems,
+					   m_render_systems);
 };

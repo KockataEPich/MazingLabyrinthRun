@@ -53,7 +53,7 @@ def fetch_systems_from_data(data, components, events, generated_folder):
         s.public_functions = metadata.get("public_functions", [])
         s.private_functions = metadata.get("private_functions", [])
 
-        if s.is_react():
+        if s.is_event():
             s.subscribed_event = copy(events[metadata.get("subscribed_event")])
 
         if s.type == "impulse":

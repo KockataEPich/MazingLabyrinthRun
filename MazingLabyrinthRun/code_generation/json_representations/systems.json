@@ -43,14 +43,14 @@
    "AttackAction" : 
    {
       "var_name" : "attack_action",
-      "type" : "react",
+      "type" : "event",
       "subscribed_event" : "InitiateAttack",
       "components" : ["ActionType", "FacingSide", "Transform"]
    },
 
    "Move" : 
    {
-      "type" : "react",
+      "type" : "event",
       "subscribed_event" : "Move",
       "components" : ["Transform", "Speed", "Velocity", "Boundary"]
    },
@@ -59,7 +59,7 @@
    {
       "var_name" : "collision_detection",
       "subscribed_event" : "PossiblyColiding",
-      "type" : "react",
+      "type" : "event",
       "components" : ["Boundary", "Velocity"]
    },
 
@@ -151,7 +151,7 @@
 
    "UpdateTransformFromBoundary" : 
    {
-      "type" : "react",
+      "type" : "event",
       "var_name" : "update_transform_from_boundary",
       "subscribed_event" : "UpdateTransformFromBoundary",
 
@@ -163,7 +163,7 @@
 
    "UpdateBoundaryFromTransform" : 
    {
-      "type" : "react",
+      "type" : "event",
       "var_name" : "update_boundary_from_transform",
       "subscribed_event" : "UpdateBoundaryFromTransform",
 
@@ -175,7 +175,7 @@
 
    "UpdateCrosshairPosition" : 
    {
-      "type" : "react",
+      "type" : "event",
       "var_name" : "update_crosshair_position",
       "subscribed_event" : "UpdateMousePosition",
       "components" : ["Transform", "Mouse", "Boundary", "Sprite"]
@@ -183,7 +183,7 @@
 
    "FlashWhite" : 
    {
-      "type" : "react",
+      "type" : "event",
       "var_name" : "flash_white",
       "subscribed_event" : "FlashWhite",
       "components" : ["AnimationPlayer", "Skin"]

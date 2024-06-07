@@ -1,10 +1,11 @@
-#include <generated/systems/react_systems/update_boundary_from_transform_system.h>
+#include <generated/systems/event_systems/update_boundary_from_transform_system.h>
 #include <utils/sfml_vector_helpers.h>
-void UpdateBoundaryFromTransformSystem::react_on_entity(
+void UpdateBoundaryFromTransformSystem::p_handle_event(
         EntityHandle entity,
         BoundaryComponent& boundary,
 		TransformComponent& transform,
-		SkinComponent& skin
+		SkinComponent& skin,
+        UpdateBoundaryFromTransformEvent& update_boundary_from_transform
     ){
 	auto& offsets = get_boundary_side_offsets_of_skin.at(skin.skin);
 	auto scaled_size = transform.get_scaled_size();

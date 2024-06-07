@@ -21,7 +21,7 @@ def get_system_constructor_body(system):
             {wu.process_sequence(system.victim_components, transform_signature_string, ",")}>();'''
 
 def cpp_func_params(system):
-    if system.is_react(): return "const Entity entity, " + system.subscribed_event.cpp_name() +  "&& " + system.subscribed_event.get_var_name()
+    if system.is_event(): return "const Entity entity, " + system.subscribed_event.cpp_name() +  "&& " + system.subscribed_event.get_var_name()
     if system.is_impulse(): return "const Entity initiator_entity, const Entity victim_entity, const CollisionInfo& collision_info"
     return ""
 
@@ -88,17 +88,18 @@ def interactive_functions_body(system):
         }}
     }}'''
 
-    if system.is_react():
+    if system.is_event():
         return f'''{{
         if (!m_game->entities->get_mask(entity).matches(m_signature)) return;
         auto [ 
             {wu.set_tab_depth(3)}{wu.process_sequence(system.components, transform_to_var_name, ",", False)}
         ] = m_game->components->unpack<
-            {wu.process_sequence(system.components, transform_production_components, ",", False)}>(entity);
+            {wu.process_sequence(system.components, transform_production_components, ",")}>(entity);
         
         {system.cpp_function_name()}(
             {{entity, m_game}},
-            {wu.process_sequence(system.components, transform_dereferenced_variable, ",")}
+            {wu.process_sequence(system.components, transform_dereferenced_variable, ",", True)}
+            {system.subscribed_event.get_var_name()}
         );
     }}'''
 
@@ -108,10 +109,17 @@ def transform_component_with_type(component):
     return component.cpp_name() + "& " + component.var_name
 
 def get_cpp_function_declaration(system):
-    if system.is_producer() or system.is_react():
+    if system.is_producer():
         return f'''{system.cpp_function_name()}(
         EntityHandle entity,
         {wu.set_tab_depth(2)}{wu.process_sequence(system.components, transform_component_with_type, ",")}
+    )'''
+
+    if system.is_event():
+        return f'''{system.cpp_function_name()}(
+        EntityHandle entity,
+        {wu.set_tab_depth(2)}{wu.process_sequence(system.components, transform_component_with_type, ",", True)}
+        {system.subscribed_event.cpp_name() +  "& " + system.subscribed_event.get_var_name()}
     )'''
     
     if system.is_impulse():
@@ -140,11 +148,11 @@ def write_file_string(f, system):
 #include <entity_base/entity_handle.h>
 #include <utils/collision_utils.h>
 
-{wu.optional_string("#include " + system.subscribed_event.header_path, system.is_react())}
+{wu.optional_string("#include " + system.subscribed_event.header_path, system.is_event())}
 
 {wu.process_sequence(wu.component_header_path_string(system.components), wu.transform_to_include)}{wu.optional_string(wu.process_sequence(system.includes, wu.transform_to_include), its_own_logic_block=True)}
 
-class {system.cpp_name()}: public {system.type.capitalize()}System {{
+class {system.cpp_name()}: public {system.get_base_system_type()} {{
 public:
     {system.cpp_name()}({wu.set_tab_depth(2)}{wu.optional_string(wu.process_sequence(system.members, wm.declare_member_in_constructor, ","))}){wu.optional_string_basic(":", has_params)}{wu.set_tab_depth(1)}{wu.optional_string(wu.process_sequence(system.members, wm.initialize_member_in_constructor, ","), has_params)}{{
         {wu.set_tab_depth(3)}{get_system_constructor_body(system)}
@@ -154,7 +162,7 @@ public:
         
 private:{wu.set_tab_depth(1)}{wu.optional_string(wu.process_sequence(system.members, wm.initialize_member_in_body, ";", True))}
     {"" if system.type == "render" else "void " + get_cpp_function_declaration(system) + ";"}{wu.optional_string(wu.process_sequence(system.private_functions,  lambda input: input))} 
-    {"" if system.type != "react" else "void init() override { m_game->event_bus->subscribe(this, &" + system.cpp_name() + "::react); }" }
+    {"" if system.type != "event" else "void init() override { m_game->event_bus->subscribe(this, &" + system.cpp_name() + "::handle_event); }" }
 }};
 #endif
 ''')

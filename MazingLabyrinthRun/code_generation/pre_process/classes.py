@@ -75,6 +75,11 @@ class System:
         self.members = []
         self.subscribed_event = Event()
    
+    def get_base_system_type(self):
+        if self.type == "event":
+            return "System"
+        return self.type.capitalize() + "System"
+
     def get_var_name(self):
         if self.var_name == "":
             return self.name.lower()
@@ -90,18 +95,18 @@ class System:
     
     def cpp_name(self): return self.name + "System"
     def is_producer(self): return self.type == "producer"
-    def is_react(self): return self.type == "react"
+    def is_event(self): return self.type == "event"
     def is_impulse(self): return self.type == "impulse"
     def is_render(self): return self.type == "render"
     
     def cpp_function_name(self):
         if self.is_producer(): return "for_every_entity" 
-        if self.is_react(): return "react_on_entity" 
+        if self.is_event(): return "p_handle_event" 
         if self.is_impulse(): return "clash_entities" 
         return "render" 
     
     def interactive_function_name(self):
         if self.is_producer(): return "update" 
-        if self.is_react(): return "react" 
+        if self.is_event(): return "handle_event" 
         if self.is_impulse(): return "exchange_impulse" 
         return "render" 

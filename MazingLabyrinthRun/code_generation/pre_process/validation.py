@@ -5,7 +5,7 @@ accepted_system_keys = ["type", "var_name", "components", "includes", "public_fu
 
 
 component_types = ["data", "basic"]
-system_types = ["producer", "react", "impulse", "render"]
+system_types = ["producer", "event", "impulse", "render"]
 
 def check_exists(name, metadata, mandatory = False):
     if metadata is None:
@@ -109,7 +109,7 @@ def validate_system_attributes(system, system_metadata, component_list, event_li
         validate_members(system_metadata.get("members"))
         if system_metadata.get("type") == "impulse":
             validate_impulse_system_specifics(system_metadata, component_list)
-        if system_metadata.get("type") == "react":
+        if system_metadata.get("type") == "event":
             validate("subscribed_event", system_metadata.get("subscribed_event"), event_list, True)
 
     except Exception as e:

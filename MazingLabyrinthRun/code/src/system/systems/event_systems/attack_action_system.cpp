@@ -1,13 +1,14 @@
-#include <generated/systems/react_systems/attack_action_system.h>
+#include <generated/systems/event_systems/attack_action_system.h>
 #include <generated/components/basic_components/basic_attack_needle_component.h>
 #include <generated/components/data_components/boundary_component.h>
 #include <entity_base/entity_handle.h>
 
-void AttackActionSystem::react_on_entity(
+void AttackActionSystem::p_handle_event(
 	EntityHandle entity,
 	ActionTypeComponent& action_type,
 	FacingSideComponent& facing_side,
-	TransformComponent& transform){ 
+	TransformComponent& transform,
+	InitiateAttackEvent& initiate_attack) { 
 	
 	//if (action_type.action_type != ActionType::attack) return;
 	//

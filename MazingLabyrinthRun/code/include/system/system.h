@@ -40,7 +40,6 @@ protected:
 	std::vector<Entity> m_registered_entities;
 };
 
-
 class ProducerSystem : public EntityTrackerSystem {
 public:
 	void update_in_ticks() {
@@ -53,24 +52,19 @@ public:
 
 	virtual void update(){};
 
-protected:
-	
+protected:	
 	float m_tick_accumulator = 0;
 	virtual const int tick_frequency() { return 1; };
 };
-
-class ReactSystem : public System {};
 
 class RenderSystem : public EntityTrackerSystem {
 public:
 	virtual void render() {}
 };
 
-
 class ImpulseSystem : public System {
 public:
 	virtual void exchange_impulse(const Entity initiator, const Entity victim, const CollisionInfo& collision_info) {}
-
 	ComponentMask get_signature_of_victim() { return m_signature_of_victim; }
 
 protected:
