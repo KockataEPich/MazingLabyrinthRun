@@ -5,6 +5,22 @@ from . import write_members as wm
 def get_file_name(component, generation_folder):
     return os.path.join(generation_folder, "components", component.relative_path)
 
+def initial_constructor(component):
+    reference_members = []
+    for member in component.members:
+        if member.is_reference:
+            reference_members.append(member)
+
+    if len(reference_members) == 0 or component.is_basic():
+        return f'''{component.cpp_name()}() = default;'''
+    
+    return f'''{component.cpp_name()}(
+        {wu.process_sequence(reference_members, wm.declare_member_in_constructor, ",")}
+    ) : 
+        {wu.process_sequence(reference_members, wm.initialize_member_in_constructor, ",")} {{}}
+
+    '''
+
 def data_component_body(component):
     return f'''{wu.set_tab_depth(2)}{component.cpp_name()}(
         {wu.process_sequence(component.members, wm.declare_member_in_constructor, ",")}
@@ -24,7 +40,7 @@ def write_file(f, component):
 #include <component_base/component.h> {wu.optional_string(wu.process_sequence(component.includes, wu.transform_to_include), its_own_logic_block=True)}
 
 struct {component.cpp_name()} : public Component<{component.cpp_name()}> {{
-    {component.cpp_name()}() = default; {wu.optional_string(data_component_body(component), component.is_data())}
+    {initial_constructor(component)}{wu.optional_string(data_component_body(component), component.is_data())} 
 }};
 #endif   
 ''')

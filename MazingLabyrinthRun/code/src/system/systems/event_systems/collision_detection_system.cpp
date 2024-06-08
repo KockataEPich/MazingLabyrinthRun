@@ -98,7 +98,7 @@ void CollisionDetectionSystem::p_handle_event(
 	EntityHandle entity,
 	BoundaryComponent& boundary,
     VelocityComponent& velocity,
-	PossiblyColidingEvent& possibly_coliding) {
+    PossiblyColidingWithSomethingEvent& possibly_coliding) {
 	auto potential_collisions = m_game->quad_tree->get_potential_collisions(boundary.hitbox, velocity.velocity);
 	auto closest_entity = get_closest_entity(potential_collisions, m_game, velocity, boundary);
 	while (closest_entity.has_value()) {

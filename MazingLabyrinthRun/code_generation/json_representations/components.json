@@ -144,6 +144,13 @@
                     "is_parameter" : true,
                     "name" : "origin"
                 }
+            },
+            {
+                "std::function<sf::Vector2f(const sf::Vector2f&, const sf::Vector2f&, const float)>" :
+                {
+                    "is_parameter" : true,
+                    "name" : "calculate_velocity_function"
+                }
             }
         ]
     },

@@ -19,7 +19,6 @@ void BasicCollisionSystem::clash_entities(
 	do_per_x_and_y(offset, initiator_velocity.velocity, {[](float& in, float reference) {
 		if (std::abs(reference) - std::abs(in) < 0) in = reference * -1;
 	}});
-
 	initiator_velocity.velocity += offset;
 	
 	do_for_x_and_y(initiator_velocity.velocity, std::function(normalize_float), 0.009f, 0.0f);

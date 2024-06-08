@@ -1,6 +1,6 @@
 #include <generated/systems/event_systems/move_system.h>
 
-#include <generated/events/possibly_coliding_event.h>
+#include <generated/events/possibly_coliding_with_something_event.h>
 #include <generated/events/update_transform_from_boundary_event.h>
 
 #include <numbers>  // for std::numbers::pi
@@ -27,14 +27,15 @@ void MoveSystem::p_handle_event(
 	SpeedComponent& speed,
     VelocityComponent& velocity,
 	BoundaryComponent& boundary,
+
     MoveEvent& move) { 
 
 	m_game->quad_tree->remove(entity.entity);
 
 	velocity.origin = boundary.hitbox.getPosition() + boundary.hitbox.getSize() * 0.5f; 
 	
-	determine_velocity(velocity, speed.speed);
-	entity.receive_event(PossiblyColidingEvent());
+	velocity.velocity = velocity.calculate_velocity_function(velocity.origin, velocity.final_destination, speed.speed);
+	entity.receive_event(PossiblyColidingWithSomethingEvent());
 	
 	if (!m_game->entities->is_alive(entity.entity)) return;
 

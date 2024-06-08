@@ -58,7 +58,7 @@
    "CollisionDetection" : 
    {
       "var_name" : "collision_detection",
-      "subscribed_event" : "PossiblyColiding",
+      "subscribed_event" : "PossiblyColidingWithSomething",
       "type" : "event",
       "components" : ["Boundary", "Velocity"]
    },

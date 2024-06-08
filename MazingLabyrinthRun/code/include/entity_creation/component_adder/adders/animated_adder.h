@@ -23,7 +23,6 @@ public:
 		                      AnimationPlayerComponent,
 		                      SolidComponent,
 		                      DefaultCollisionArmorComponent,
-		                      VelocityComponent,
 		                      HealthPointsComponent>();
 	};
 };

@@ -9,9 +9,9 @@
         "var_name" : "initiate_attack"
     },
 
-    "PossiblyColiding" :
+    "PossiblyColidingWithSomething" :
     {
-        "var_name" : "possibly_coliding"
+        "var_name" : "possibly_coliding_with_something"
     },
 
     "UpdateTransformFromBoundary" :

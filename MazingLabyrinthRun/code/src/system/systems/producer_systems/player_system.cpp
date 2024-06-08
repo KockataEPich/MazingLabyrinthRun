@@ -17,7 +17,9 @@
 #include <numbers>  
 
 #include <utils/component_utils.h>
+#include <utils/move_functions/linear_move_function.h>
 #include <entity_base/entity_handle.h>
+
 void PlayerSystem::for_every_entity(
 	EntityHandle entity,
 	ActionTypeComponent& action_type,
@@ -60,6 +62,7 @@ void PlayerSystem::for_every_entity(
 			projectile.add_components<BoundaryComponent>();
 
 			auto target = std::make_unique<VelocityComponent>();
+			target->calculate_velocity_function = std::function(calculate_linear_velocity);
 
 			target->final_destination =
 			    transform.position + (world_pos - transform.position) * 100.0f;  // Enough to hit the end of the map

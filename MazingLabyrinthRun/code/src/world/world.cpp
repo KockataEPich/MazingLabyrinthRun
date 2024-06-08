@@ -21,6 +21,7 @@
 #include <generated/events/update_boundary_from_transform_event.h>
 
 #include <utils/component_utils.h>
+#include <utils/move_functions/linear_move_function.h>
 
 bool World::place_entity(const Entity entity, sf::Vector2f position) {
 	EntityHandle entity_handle{entity, m_game};
@@ -34,8 +35,10 @@ void World::init() {
 	player.add_components<SolidComponent,
 	                      HealthPointsComponent,
 	                      DefaultCollisionArmorComponent,
-	                      VelocityComponent,
 	                      BoundaryComponent>();
+	auto velocity_player = std::make_unique<VelocityComponent>();
+	velocity_player->calculate_velocity_function = std::function(calculate_linear_velocity);
+	player.add_components(std::move(velocity_player));
 	m_player_sprite = &player.get_component<SpriteComponent>()->sprite;
 	m_player_sprite = m_player_sprite;
 	place_entity(player.entity, {0.0f, 0.0f});
@@ -50,6 +53,9 @@ void World::init() {
 	zombie_builder.build_entity(zombie);
 	m_game->world->place_entity(zombie.entity, {100.0f, 100.0f});
 	zombie.add_components<BoundaryComponent>();
+	auto velocity_comp_zombie = std::make_unique<VelocityComponent>(); 
+	velocity_comp_zombie->calculate_velocity_function = std::function(calculate_linear_velocity);
+	zombie.add_components(std::move(velocity_comp_zombie));
 	zombie.add_components<BasicAttackNeedleComponent>();
 
 	for (int i = -1600; i <= 1600; i += 160) {
@@ -69,6 +75,9 @@ void World::init() {
 
 				 m_game->world->place_entity(zombie.entity, {(float)i, (float)j});
 				 zombie.add_components<BoundaryComponent>();
+				 auto velocity_comp_zombie_loop = std::make_unique<VelocityComponent>();
+				 velocity_comp_zombie_loop->calculate_velocity_function = std::function(calculate_linear_velocity);
+				 zombie.add_components(std::move(velocity_comp_zombie_loop));
 				 counter = 0;
 			 }
 			 counter++;
