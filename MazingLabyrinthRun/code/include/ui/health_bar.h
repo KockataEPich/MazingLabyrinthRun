@@ -30,7 +30,7 @@ public:
 		update_healt_bar_damage_offset();
 
 		m_text.setFont(*ResourceManager::get_instance()->get_font("resources/fonts/Raleway-Black.ttf"));
-		m_text.setString(std::to_string(m_current_health) + "/" + std::to_string(m_max_health));
+		m_text.setString(("{}/{}", std::to_string(m_current_health), std::to_string(m_max_health)));
 		m_text.setCharacterSize(30);
 		m_text.setOrigin(m_text.getLocalBounds().width * 0.5f, m_text.getLocalBounds().height * 0.5f);
 		m_text.setPosition(m_health_bar.getPosition() + m_health_bar.getSize() * 0.5f);
