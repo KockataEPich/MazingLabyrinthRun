@@ -1,0 +1,48 @@
+.. _07072023:
+
+07/July/2023
+==============================================
+
+
+Retrospect
+------------------------
+- Another big jump. Tbh, the progress for this was done in April. I had a break from the project for around 2 months to focus on other parts of my life.
+- I also had to reevalute what I want to do for the future (in my free time). I got a bit demotivated. 
+- Lets look at what was done since the past update
+    - Hitboxes are implemented in a generic way and collision system is added. There are now solid objects that on collision detect each other.
+    - Different type of systems allowing diversified usage. Namely *React Systems* and *Impulse Systems* 
+    - React systems are those that have to be executed immediately. This is a way to prevent the code from being placed in a single production system 
+		- In order to keep logic separated, there had to be a way to communicate between systems. I didn't want to have the communication happen at a later stage.
+	- Impulse systems are a bit more complicated
+		- The reason for them is to handle collision resolutions, because I expect that there will be many different types of interactions when objects collide.
+		- Impulse systems have "perpetrator" entity and "victim" entity (Should probably think about other names)
+		- When a collision happens between two objects, each object has "neddle" and "armor" components. 
+		- Each impulse system ensures that there is an appropriate "armor" component to "needle" component. 
+		- This allows for immense flexibility when choosing interaction.
+		- For example, The "ground" has no "solid armor" component. This means that collision between an entity having "solid needle" and the ground will be detected, but nothing will happen.
+		- This is actually what I am mostly proud of. The fact that the system actually works now.
+	- Lets see when you include everything what can be done in the game:
+		- Zombies have hitpoints.
+		- Player can attack.
+		- Hitboxes are calculated from sprite.
+		- Attacking creates a small "box" next to player.
+		- Everything that has "health armor" has their health reduced by 5hp on contact with the small box.
+		- Small box dissappears after collision has occured.
+		- Health bar is displayed
+		- Best part is, all of this is done in a generic way.
+	- Entity removal actually works. It was empty before.
+- I didn't exactly follow the restrospect from last time. I didn't do the different movement speeds and the "dying" part, but those could honestly be easily implemented and thus currently not exciting.
+- I had a lot to think about on how the game should go. I have really reached a point in which these decisions are starting to have an impact. I will talk about it in the plan.
+
+Plans for next update:
+------------------------
+What functionality would I like to have?
+
+- Player has actually decent animations 
+- 1 Enemy type which has decent animations
+- Player can fire a projectile towards where the mouse is pointing
+- Projectile damages the said enemy type
+- Lots of game juice. This loop of attacking and running away from this 1 enemy type MUST BE FUN.
+- Its time to make an actual game loop.
+- Decided to drop the 4 direction plan. It looks like it is going to be immense work to make this happen. Everything will be just going in either 1 side (front) or 2 (left and right).
+- The implication for this that there will be one sprite for everything, which will be mirrored or rotated depending on where it is going.

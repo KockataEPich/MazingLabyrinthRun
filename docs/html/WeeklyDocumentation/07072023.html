@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>25/October/2022 &mdash; MazingLabyrinthRun 0.0.1 documentation</title>
+  <title>07/July/2023 &mdash; MazingLabyrinthRun 0.0.1 documentation</title>
   
 
   
@@ -30,8 +30,8 @@
   <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="07/July/2023" href="07072023.html" />
-    <link rel="prev" title="09/October/2022" href="09102022.html" /> 
+    <link rel="next" title="27/February/2024" href="27022024.html" />
+    <link rel="prev" title="25/October/2022" href="25102022.html" /> 
 
 </head>
 
@@ -72,13 +72,13 @@
         
           <li><a href="WeeklyDocumentation.html">Weekly Progress Documentation for MazingLabyrinthRun</a></li>
         
-      <li>25/October/2022</li>
+      <li>07/July/2023</li>
     
     
       <li class="breadcrumbs-aside">
         
             
-            <a href="../_sources/WeeklyDocumentation/25102022.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/WeeklyDocumentation/07072023.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -126,8 +126,8 @@
 <li class="toctree-l2"><a class="reference internal" href="Week14.html">Week 14</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Week15.html">Week 15</a></li>
 <li class="toctree-l2"><a class="reference internal" href="09102022.html">09/October/2022</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">25/October/2022</a></li>
-<li class="toctree-l2"><a class="reference internal" href="07072023.html">07/July/2023</a></li>
+<li class="toctree-l2"><a class="reference internal" href="25102022.html">25/October/2022</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">07/July/2023</a></li>
 <li class="toctree-l2"><a class="reference internal" href="27022024.html">27/February/2024</a></li>
 <li class="toctree-l2"><a class="reference internal" href="21032023.html">21/March/2023</a></li>
 <li class="toctree-l2"><a class="reference internal" href="27022024.html">27/February/2024</a></li>
@@ -147,27 +147,76 @@
                     <div class="document">
                         
                             
-  <section id="october-2022">
-<span id="id1"></span><h1>25/October/2022<a class="headerlink" href="#october-2022" title="Permalink to this heading">¶</a></h1>
+  <section id="july-2023">
+<span id="id1"></span><h1>07/July/2023<a class="headerlink" href="#july-2023" title="Permalink to this heading">¶</a></h1>
 <section id="retrospect">
 <h2>Retrospect<a class="headerlink" href="#retrospect" title="Permalink to this heading">¶</a></h2>
+<ul>
+<li><p>Another big jump. Tbh, the progress for this was done in April. I had a break from the project for around 2 months to focus on other parts of my life.</p></li>
+<li><p>I also had to reevalute what I want to do for the future (in my free time). I got a bit demotivated.</p></li>
+<li><dl>
+<dt>Lets look at what was done since the past update</dt><dd><ul>
+<li><p>Hitboxes are implemented in a generic way and collision system is added. There are now solid objects that on collision detect each other.</p></li>
+<li><p>Different type of systems allowing diversified usage. Namely <em>React Systems</em> and <em>Impulse Systems</em></p></li>
+<li><dl>
+<dt>React systems are those that have to be executed immediately. This is a way to prevent the code from being placed in a single production system</dt><dd><blockquote>
+<div><ul class="simple">
+<li><p>In order to keep logic separated, there had to be a way to communicate between systems. I didn’t want to have the communication happen at a later stage.</p></li>
+</ul>
+</div></blockquote>
 <ul class="simple">
-<li><p>While I was looking for ways to solve one of the problems coming ( how to sync animation and event ) I found that these types of games are actually better done in something called ECS ( Entity Component System ).  While reading it, I was slowly accepting the fact that I had to rewrite big portions of the code. Yea, it didn’t feel nice, considering that I came up with the code I had myself. However, I could really see the benefits of the new system and how much easier it will be to code. I after reading some guides, I followed one of the blog posts and its github and wrote the base for the ECS. I have modified it to suit my needs quite a bit, but the implementation still stands.</p></li>
-<li><p>Right now, I managed to rewrite most of the functionality I had befire the switch. Honestly, it was not that hard to rewrite it back. Maybe I just knew what I wanted. Also, not everything went to waste. Most of the animation system I had in place didn’t change and I could easily reuse it. There are a few things left to bring back from the old style, mainly the event system. This is why the ECS code is still in a separate branch as I still haven’t fully reached the state I was in. When that happens, I will merge the branch into master and continue from there again.</p></li>
-<li><p>Ironically, my problem with syncing events and animations still stands, but right now I need to do some code cleanup. This system, while it reduces massively the number of files, is a bit ugly to set up code wise without some infrastructure. I can clearly see I need some factories and all that cool abstraction jazz which I am pretty hyped up for.</p></li>
-<li><p>I really need a project goal list!</p></li>
+<li><dl class="simple">
+<dt>Impulse systems are a bit more complicated</dt><dd><ul>
+<li><p>The reason for them is to handle collision resolutions, because I expect that there will be many different types of interactions when objects collide.</p></li>
+<li><p>Impulse systems have “perpetrator” entity and “victim” entity (Should probably think about other names)</p></li>
+<li><p>When a collision happens between two objects, each object has “neddle” and “armor” components.</p></li>
+<li><p>Each impulse system ensures that there is an appropriate “armor” component to “needle” component.</p></li>
+<li><p>This allows for immense flexibility when choosing interaction.</p></li>
+<li><p>For example, The “ground” has no “solid armor” component. This means that collision between an entity having “solid needle” and the ground will be detected, but nothing will happen.</p></li>
+<li><p>This is actually what I am mostly proud of. The fact that the system actually works now.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Lets see when you include everything what can be done in the game:</dt><dd><ul>
+<li><p>Zombies have hitpoints.</p></li>
+<li><p>Player can attack.</p></li>
+<li><p>Hitboxes are calculated from sprite.</p></li>
+<li><p>Attacking creates a small “box” next to player.</p></li>
+<li><p>Everything that has “health armor” has their health reduced by 5hp on contact with the small box.</p></li>
+<li><p>Small box dissappears after collision has occured.</p></li>
+<li><p>Health bar is displayed</p></li>
+<li><p>Best part is, all of this is done in a generic way.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Entity removal actually works. It was empty before.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>I didn’t exactly follow the restrospect from last time. I didn’t do the different movement speeds and the “dying” part, but those could honestly be easily implemented and thus currently not exciting.</p></li>
+<li><p>I had a lot to think about on how the game should go. I have really reached a point in which these decisions are starting to have an impact. I will talk about it in the plan.</p></li>
 </ul>
 </section>
-<section id="todos-for-next-update">
-<h2>TODOs For Next Update<a class="headerlink" href="#todos-for-next-update" title="Permalink to this heading">¶</a></h2>
+<section id="plans-for-next-update">
+<h2>Plans for next update:<a class="headerlink" href="#plans-for-next-update" title="Permalink to this heading">¶</a></h2>
+<p>What functionality would I like to have?</p>
 <ul class="simple">
-<li><p>For the love of God, comment the code or explain it somewhere so I can understand it if I forget what was I doing!!!</p></li>
-<li><p>Create some code abstractions to better facilitate future development.</p></li>
-<li><p>Log my work better on GitHub with issues</p></li>
-<li><p>Separate Action from States</p></li>
-<li><p>Create path finding system (Probably A*). Test it with a mod as well</p></li>
-<li><p>Create blocking and sequential animations (animations which must be performed before you can move, have to be done in a specific sequence)</p></li>
-<li><p>Make the main character go where the mouse clicks.</p></li>
+<li><p>Player has actually decent animations</p></li>
+<li><p>1 Enemy type which has decent animations</p></li>
+<li><p>Player can fire a projectile towards where the mouse is pointing</p></li>
+<li><p>Projectile damages the said enemy type</p></li>
+<li><p>Lots of game juice. This loop of attacking and running away from this 1 enemy type MUST BE FUN.</p></li>
+<li><p>Its time to make an actual game loop.</p></li>
+<li><p>Decided to drop the 4 direction plan. It looks like it is going to be immense work to make this happen. Everything will be just going in either 1 side (front) or 2 (left and right).</p></li>
+<li><p>The implication for this that there will be one sprite for everything, which will be mirrored or rotated depending on where it is going.</p></li>
 </ul>
 </section>
 </section>

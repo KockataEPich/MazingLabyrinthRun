@@ -1,0 +1,37 @@
+.. _21032023:
+
+21/March/2023
+==============================================
+
+
+Retrospect
+------------------------
+- It has been quite the jump again. Many things happened again... Good thing I stopped calling these "Weekly updates"
+- What are the neews though?
+    - Framerate independent systems using ticks. The system runner "accumulates" ticks depending on the delta timer. Then each systems decides on how many ticks it is being executed (default being on every tick). This was one of the hardest things to implement so far.
+    - Events are now a lot cleaner in their implementation
+    - Speend now is not tied to delta time but rather than on ticks. 
+    - Animations work differently. At this point I am reconsidering deleting the animation_player class.
+    - I found that having goals such as "Create this system" are just not useful. I am starting a different approach.
+- Got a new cooler laptop. Before, I had this gaming one which was painfully heavy and not portable at all. Now I got the XPS13-PLUS and it is awesome. Now on the train to work I can work and it is a very nice experience. 
+- I am again excited about this project. This hype has come and gone in waves but tbh I think now it is here to stay. I am kind of too deep into it and right now I have many things I need to do.  
+
+Plans for next update:
+------------------------
+What functionality would I like to have?
+
+- 1 Player and Zombie have to be able to attack
+- 2 Both should not be able to do other actions while attacking animation/action is displayed
+- 3 Both have a healthbar and damage values
+- 4 On being damaged, both parties will loose the corresponding amount of hitpoints
+- 5 On dying, the zombie makes a dissapearing animation and stops existing
+- 6 On dying, the player crashes the game.
+- 7 Zombie is to follow the player properly (no obstacles yet)
+- 8 Zombies cannot clump into eachother nor can they clump into the player
+- 9 Zombies will have different movement speeds chosen at random
+
+The Main focuses of this jump would be:
+- Collision detection (Detecting attacks, No clumping)
+- AI movement (path finding to player)
+- Event sequence (No other action can be performed while attacking)
+- Entity removal (Zombies dying)

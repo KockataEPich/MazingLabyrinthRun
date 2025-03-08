@@ -1,9 +1,7 @@
 .. _week-11:
 
-Week 11
+09/March/2022
 ==============================================
-
-Date: 09/March/2022
 
 Retrospect
 ------------------------
@@ -12,8 +10,6 @@ Retrospect
 - I am now back to SFML. Unfortunatelly every other game engine is just way too unfun to start with. I have to fight with layers and layers of complexity and I realised that if I am to do that, I will never actually work on the project, since it is very important that I am enjoying the work.
 
 - I have managed to setup SFML with CMake. Although it is very low level, it really fits my desires very well. 
-
-- Even though I am inconsistent, I would still like to keep these updates as "weekly". The reason is because it is still forcing me to a certain degree to think about the project. 
 
 Week Plan
 ------------------------

@@ -1,0 +1,39 @@
+.. _27022024:
+
+27/February/2024
+==============================================
+
+
+Retrospect
+-----------------------
+- From last Update:
+	- Player has actually decent animations - NO
+	- 1 Enemy type which has decent animations - NO
+	- Player can fire a projectile towards where the mouse is pointing - DONE
+	- Projectile damages the said enemy type - DONE
+	- Lots of game juice. This loop of attacking and running away from this 1 enemy type MUST BE FUN. - NO
+	- Its time to make an actual game loop. - NO
+	- Decided to drop the 4 direction plan. It looks like it is going to be immense work to make this happen. Everything will be just going in either 1 side (front) or 2 (left and right). -DONE
+	- The implication for this that there will be one sprite for everything, which will be mirrored or rotated depending on where it is going. - DONE
+
+- It has been a huuuge update again. Got extra motivated recently. Things added:
+	- Player can shoot fireballs from themselves and they go where the mouse is
+	- Comprehensive collision detection and resolution. This is not fully done yet as I have to do a few fixes still. However, it is in a working state and is colliding very smooth.
+	- QuadTree spacial dividing that is used for the collision detection to narrow the search of potential hits 
+	- Generated code. This is a big one. I saw that there will be a component / system explosion in the future. I also saw that I did numerous copy-paste sections for both components and systems. So, why not generate it? The generator is written in python. The generator can be ran using ccmake command. It generates the header files of components and systems (and also creates a template cpp file for systems if it doesn't exists yet) based on a .json file.
+	- Game code was overhauled. It is now divided in big sections with their responsibility. This also means that almost every objecty has a global access to everything. While it could be dangerous, since there aren't 100 developers working on this, it will be good :). This allows me to create functionality inside the systems.
+    - Apart from the split of code sections, the code has been massively overhauled to reduce redundant code with the use of templates. 
+	- Clicking outside the game window now pauses the game.
+
+- Trials:
+	- I tried to add logging, however found it underwhelming. Putting logs on something which is ran repeatedly in CPU cycles makes the logs massive in size. This means that 99.999% of logs are useless and I would want to see a few of them in any case. The solutions to this problem was also underwhelming considering that a simple breakpoint would serve the same purpose. Thanks to the generators, logging isn't really hard to implement so if it is ever needed it can be added. But for now, standard tools are enough.
+
+- Animations are going to wait. Seeing how crazy AI is getting, it is highly likely that in 1 year or so I could actually get my pixel animations through AI instead of spending effort myself. This means it is a work gap to spend effort on it right now.
+
+Plans for next update:
+------------------------
+From last update:
+- Lots of game juice. This loop of attacking and running away from this 1 enemy type MUST BE FUN.
+- Finalize collision detection
+- Hitbox is manually given for each sprite
+- Prepare further the codebase for the massive explosion in functionality soon.

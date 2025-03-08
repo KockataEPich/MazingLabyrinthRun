@@ -29,7 +29,6 @@ The weekly progress documentation is structured in the following way:
    Week15
    09102022
    25102022
-   07072023
-   27022024
    21032023
+   07072023
    27022024
